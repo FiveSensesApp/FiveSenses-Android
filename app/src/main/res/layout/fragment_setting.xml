@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginHorizontal="20dp"
+    tools:context=".view.SettingFragment">
+
+    <ImageView
+        android:id="@+id/setting_back_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_setting_back_38"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/setting_setting_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="@string/title_setting"
+        android:textAppearance="@style/Head_B_26"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setting_back_iv" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setting_setting_tv">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="52dp">
+
+            <View
+                android:id="@+id/setting_alarm_view"
+                android:layout_width="match_parent"
+                android:layout_height="134dp"
+                android:background="@drawable/bg_gy01_12"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/setting_alarm_setting_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="9dp"
+                android:paddingHorizontal="17dp"
+                android:paddingVertical="13dp"
+                android:text="@string/title_alarm_setting"
+                android:textAppearance="@style/Sub_Head_B_18"
+                app:layout_constraintEnd_toEndOf="@+id/setting_alarm_view"
+                app:layout_constraintStart_toStartOf="@+id/setting_alarm_view"
+                app:layout_constraintTop_toTopOf="@+id/setting_alarm_view" />
+
+            <com.kyleduo.switchbutton.SwitchButton
+                android:id="@+id/setting_alarm_setting_sb"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="9dp"
+                app:kswBackDrawable="@drawable/selector_setting_sb_alarm_setting"
+                app:kswThumbColor="@color/WH"
+                app:layout_constraintBottom_toBottomOf="@+id/setting_alarm_setting_tv"
+                app:layout_constraintEnd_toEndOf="@+id/setting_alarm_setting_tv"
+                app:layout_constraintTop_toTopOf="@+id/setting_alarm_setting_tv" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginVertical="9dp"
+                android:background="@color/GY_02"
+                app:layout_constraintBottom_toTopOf="@+id/setting_alarm_time_setting_tv"
+                app:layout_constraintEnd_toEndOf="@+id/setting_alarm_view"
+                app:layout_constraintStart_toStartOf="@+id/setting_alarm_view"
+                app:layout_constraintTop_toBottomOf="@+id/setting_alarm_setting_tv" />
+
+            <TextView
+                android:id="@+id/setting_alarm_time_setting_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="9dp"
+                android:paddingHorizontal="17dp"
+                android:paddingVertical="13dp"
+                android:text="@string/title_alarm_time_setting"
+                android:textAppearance="@style/Sub_Head_B_18"
+                android:textColor="@color/GY_04"
+                app:layout_constraintBottom_toBottomOf="@+id/setting_alarm_view"
+                app:layout_constraintEnd_toEndOf="@+id/setting_alarm_view"
+                app:layout_constraintStart_toStartOf="@+id/setting_alarm_view" />
+
+            <TextView
+                android:id="@+id/setting_alarm_time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="9dp"
+                android:background="@drawable/selector_setting_tv_alarm_time"
+                android:gravity="center"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="6dp"
+                android:text="오후 10:00"
+                android:textAppearance="@style/Sub_Head_B_18"
+                android:textColor="@color/WH"
+                app:layout_constraintBottom_toBottomOf="@+id/setting_alarm_time_setting_tv"
+                app:layout_constraintEnd_toEndOf="@+id/setting_alarm_time_setting_tv"
+                app:layout_constraintTop_toTopOf="@+id/setting_alarm_time_setting_tv" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/setting_pw_resetting_btn"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/bg_gy01_12"
+                android:drawableEnd="@drawable/ic_ingress_30"
+                android:gravity="center_vertical"
+                android:paddingStart="26dp"
+                android:paddingEnd="17dp"
+                android:stateListAnimator="@null"
+                android:text="@string/title_pw_resetting"
+                android:textAppearance="@style/Sub_Head_B_18"
+                app:layout_constraintTop_toBottomOf="@+id/setting_alarm_view" />
+
+            <View
+                android:id="@+id/setting_info_view"
+                android:layout_width="match_parent"
+                android:layout_height="245dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/bg_gy01_12"
+                app:layout_constraintTop_toBottomOf="@+id/setting_pw_resetting_btn" />
+
+            <TextView
+                android:id="@+id/setting_notice_tv"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_margin="9dp"
+                android:drawableEnd="@drawable/ic_movement_web_30"
+                android:gravity="center_vertical"
+                android:paddingStart="17dp"
+                android:paddingEnd="9dp"
+                android:text="@string/title_notice"
+                android:textAppearance="@style/Sub_Head_B_18"
+                app:layout_constraintEnd_toEndOf="@+id/setting_info_view"
+                app:layout_constraintStart_toStartOf="@+id/setting_info_view"
+                app:layout_constraintTop_toTopOf="@+id/setting_info_view" />
+
+            <TextView
+                android:id="@+id/setting_terms_tv"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_margin="9dp"
+                android:drawableEnd="@drawable/ic_ingress_30"
+                android:gravity="center_vertical"
+                android:paddingStart="17dp"
+                android:paddingEnd="9dp"
+                android:text="@string/title_terms"
+                android:textAppearance="@style/Sub_Head_B_18"
+                app:layout_constraintEnd_toEndOf="@+id/setting_info_view"
+                app:layout_constraintStart_toStartOf="@+id/setting_info_view"
+                app:layout_constraintTop_toBottomOf="@+id/setting_notice_tv" />
+
+            <TextView
+                android:id="@+id/setting_opensource_tv"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_margin="9dp"
+                android:drawableEnd="@drawable/ic_ingress_30"
+                android:gravity="center_vertical"
+                android:paddingStart="17dp"
+                android:paddingEnd="9dp"
+                android:text="@string/title_opensource_license"
+                android:textAppearance="@style/Sub_Head_B_18"
+                app:layout_constraintEnd_toEndOf="@+id/setting_info_view"
+                app:layout_constraintStart_toStartOf="@+id/setting_info_view"
+                app:layout_constraintTop_toBottomOf="@+id/setting_terms_tv" />
+
+            <TextView
+                android:id="@+id/setting_version_tv"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_margin="9dp"
+                android:gravity="center_vertical"
+                android:paddingStart="17dp"
+                android:paddingEnd="9dp"
+                android:text="@string/title_app_version"
+                android:textAppearance="@style/Sub_Head_B_18"
+                app:layout_constraintBottom_toBottomOf="@+id/setting_info_view"
+                app:layout_constraintEnd_toEndOf="@+id/setting_info_view"
+                app:layout_constraintStart_toStartOf="@+id/setting_info_view" />
+
+            <View
+                android:id="@+id/setting_communication_view"
+                android:layout_width="match_parent"
+                android:layout_height="186dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/bg_gy01_12"
+                app:layout_constraintTop_toBottomOf="@+id/setting_info_view" />
+
+            <TextView
+                android:id="@+id/setting_review_tv"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_margin="9dp"
+                android:drawableEnd="@drawable/ic_movement_web_30"
+                android:gravity="center_vertical"
+                android:paddingStart="17dp"
+                android:paddingEnd="9dp"
+                android:text="@string/title_leave_app_review"
+                android:textAppearance="@style/Sub_Head_B_18"
+                app:layout_constraintEnd_toEndOf="@+id/setting_info_view"
+                app:layout_constraintStart_toStartOf="@+id/setting_info_view"
+                app:layout_constraintTop_toTopOf="@+id/setting_communication_view" />
+
+            <TextView
+                android:id="@+id/setting_sns_tv"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_margin="9dp"
+                android:drawableEnd="@drawable/ic_movement_web_30"
+                android:gravity="center_vertical"
+                android:paddingStart="17dp"
+                android:paddingEnd="9dp"
+                android:text="@string/title_go_social_media"
+                android:textAppearance="@style/Sub_Head_B_18"
+                app:layout_constraintEnd_toEndOf="@+id/setting_info_view"
+                app:layout_constraintStart_toStartOf="@+id/setting_info_view"
+                app:layout_constraintTop_toBottomOf="@+id/setting_review_tv" />
+
+            <TextView
+                android:id="@+id/setting_inquiry_request_tv"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_margin="9dp"
+                android:drawableEnd="@drawable/ic_movement_web_30"
+                android:gravity="center_vertical"
+                android:paddingStart="17dp"
+                android:paddingEnd="9dp"
+                android:text="@string/title_inquiry_request"
+                android:textAppearance="@style/Sub_Head_B_18"
+                app:layout_constraintBottom_toBottomOf="@+id/setting_communication_view"
+                app:layout_constraintEnd_toEndOf="@+id/setting_info_view"
+                app:layout_constraintStart_toStartOf="@+id/setting_info_view" />
+
+            <TextView
+                android:id="@+id/setting_logout_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:paddingVertical="13dp"
+                android:text="@string/action_logout"
+                android:textAppearance="@style/Body1_M_16"
+                app:layout_constraintTop_toBottomOf="@+id/setting_communication_view" />
+
+            <TextView
+                android:id="@+id/setting_withdrawal_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:paddingVertical="13dp"
+                android:text="@string/action_withdrawal"
+                android:textAppearance="@style/Body1_M_16"
+                android:textColor="@color/GY_02"
+                app:layout_constraintTop_toBottomOf="@+id/setting_logout_tv" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

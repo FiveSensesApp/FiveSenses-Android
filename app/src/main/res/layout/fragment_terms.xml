@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.TermsFragment">
+
+    <ImageView
+        android:id="@+id/terms_back_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="21dp"
+        android:src="@drawable/ic_setting_back_38"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/terms_terms_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="25dp"
+        android:text="@string/title_terms"
+        android:textAppearance="@style/Head_B_26"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/terms_back_iv" />
+
+    <TextView
+        android:id="@+id/terms_terms_of_service_tv"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="29dp"
+        android:layout_marginTop="33dp"
+        android:drawableEnd="@drawable/ic_ingress_30"
+        android:gravity="center_vertical"
+        android:paddingStart="17dp"
+        android:paddingEnd="10dp"
+        android:text="@string/title_terms_of_service"
+        android:textAppearance="@style/Sub_Head_B_18"
+        app:layout_constraintTop_toBottomOf="@+id/terms_terms_tv" />
+
+    <View
+        android:id="@+id/terms_line_view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="9dp"
+        android:background="@color/GY_02"
+        app:layout_constraintTop_toBottomOf="@+id/terms_terms_of_service_tv" />
+
+    <TextView
+        android:id="@+id/terms_privacy_policy_tv"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="29dp"
+        android:layout_marginTop="9dp"
+        android:drawableEnd="@drawable/ic_ingress_30"
+        android:gravity="center_vertical"
+        android:paddingStart="17dp"
+        android:paddingEnd="10dp"
+        android:text="@string/title_privacy_policy"
+        android:textAppearance="@style/Sub_Head_B_18"
+        app:layout_constraintTop_toBottomOf="@+id/terms_line_view" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

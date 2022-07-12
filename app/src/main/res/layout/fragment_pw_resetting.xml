@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.PwResettingFragment">
+
+    <ImageView
+        android:id="@+id/pw_resetting_back_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="21dp"
+        android:src="@drawable/ic_setting_back_38"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/pw_resetting_complete_btn"
+        android:layout_width="74dp"
+        android:layout_height="38dp"
+        android:layout_margin="21dp"
+        android:background="@drawable/selector_pwresetting_btn_complete"
+        android:enabled="false"
+        android:text="@string/action_complete"
+        android:textAppearance="@style/Sub_Head_B_18"
+        android:textColor="@color/WH"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/pw_resetting_pw_resetting_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="25dp"
+        android:text="@string/title_pw_resetting"
+        android:textAppearance="@style/Head_B_26"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pw_resetting_back_iv" />
+
+    <EditText
+        android:id="@+id/pw_resetting_old_pw_et"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/bg_gy04_12"
+        android:hint="@string/title_old_pw"
+        android:inputType="textPassword"
+        android:paddingHorizontal="22dp"
+        android:textAppearance="@style/Sub_Head_B_16"
+        android:textColor="@color/GY_01"
+        android:textColorHint="@color/GY_01"
+        app:layout_constraintTop_toBottomOf="@+id/pw_resetting_pw_resetting_tv" />
+
+    <TextView
+        android:id="@+id/pw_resetting_check_old_pw_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:gravity="center"
+        android:text="@string/error_check_old_pw"
+        android:textAppearance="@style/Body2_R_12"
+        android:textColor="@color/RD_2"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@+id/pw_resetting_old_pw_et" />
+
+    <EditText
+        android:id="@+id/pw_resetting_new_pw_et"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="7dp"
+        android:background="@drawable/bg_gy01_12"
+        android:hint="@string/title_new_pw"
+        android:inputType="textPassword"
+        android:paddingHorizontal="22dp"
+        android:textAppearance="@style/Sub_Head_B_16"
+        android:textColor="@color/GY_03"
+        android:textColorHint="@color/GY_03"
+        app:layout_constraintTop_toBottomOf="@+id/pw_resetting_check_old_pw_tv" />
+
+    <EditText
+        android:id="@+id/pw_resetting_reenter_new_pw_et"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="9dp"
+        android:background="@drawable/bg_gy01_12"
+        android:hint="@string/title_reenter_new_pw"
+        android:inputType="textPassword"
+        android:paddingHorizontal="22dp"
+        android:textAppearance="@style/Sub_Head_B_16"
+        android:textColor="@color/GY_03"
+        android:textColorHint="@color/GY_03"
+        app:layout_constraintTop_toBottomOf="@+id/pw_resetting_new_pw_et" />
+
+    <TextView
+        android:id="@+id/pw_resetting_pw_conditions_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:gravity="center"
+        android:text="@string/msg_pw_conditions"
+        android:textAppearance="@style/Body2_R_12"
+        android:textColor="@color/GY_04"
+        app:layout_constraintTop_toBottomOf="@+id/pw_resetting_reenter_new_pw_et" />
+
+    <TextView
+        android:id="@+id/pw_resetting_pw_not_match_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:gravity="center"
+        android:text="@string/error_not_match_pw"
+        android:textAppearance="@style/Body2_R_12"
+        android:textColor="@color/RD_2"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@+id/pw_resetting_reenter_new_pw_et" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

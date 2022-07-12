@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">taste</string>
+
+    <string name="title_app_version">ver 1.0.0</string>
+    <string name="title_setting">설정</string>
+    <string name="title_alarm_setting">알림 설정</string>
+    <string name="title_alarm_time_setting">시간 설정</string>
+    <string name="title_pw_resetting">비밀번호 재설정</string>
+    <string name="title_notice">공지사항</string>
+    <string name="title_terms">이용약관</string>
+    <string name="title_opensource_license">오픈소스 라이선스</string>
+    <string name="title_leave_app_review">앱 리뷰 남기기</string>
+    <string name="title_go_social_media">공식 SNS이동</string>
+    <string name="title_inquiry_request">1:1 문의 / 요청</string>
+    <string name="title_old_pw">기존 비밀번호</string>
+    <string name="title_new_pw">새로운 비밀번호</string>
+    <string name="title_reenter_new_pw">새로운 비밀번호 재입력</string>
+    <string name="title_terms_of_service">서비스 이용약관</string>
+    <string name="title_privacy_policy">개인정보 처리 방침</string>
+    <string name="title_pw_resetting_complete">비밀번호 재설정 완료</string>
+    <string name="title_my_taste">나의 취향</string>
+    <string name="title_timeline">\t| 타임라인</string>
+    <string name="title_by_sense">\t| 감각별</string>
+    <string name="title_by_score">\t| 점수별</string>
+    <string name="title_by_calendar">\t| 달력별</string>
+
+    <string name="action_logout">로그아웃</string>
+    <string name="action_withdrawal">계정 탈퇴</string>
+    <string name="action_no">아니요</string>
+    <string name="action_yes">예</string>
+    <string name="action_complete">완료</string>
+    <string name="action_cancel">취소</string>
+    <string name="action_see_you_again">또 만나요!</string>
+
+    <string name="msg_logout">정말 로그아웃 하시겠습니까?</string>
+    <string name="msg_really_withdrawal">정말 탈퇴하실 건가요?</string>
+    <string name="msg_all_records_lost">그동안의 기록들이 모두 사라져요.</string>
+    <string name="msg_pw_conditions">(영문, 숫자, 특수문자 중 2개 조합 10자 이상)</string>
+    <string name="msg_when_to_go">언제로 이동할까요?</string>
+    <string name="msg_go_to_login">로그인 화면으로 이동합니다.</string>
+
+    <string name="error_check_old_pw">기존 비밀번호를 확인해주세요.</string>
+    <string name="error_not_match_pw">비밀번호가 일치하지 않습니다!</string>
+</resources>
