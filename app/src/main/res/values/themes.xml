@@ -1,0 +1,15 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Taste" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryDark">@color/purple_700</item>
+        <!--<item name="colorAccent">@color/teal_200</item>-->
+        <item name="colorAccent">@color/WH</item>
+
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@color/WH</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/WH</item>
+        <item name="android:textColor">@color/BK</item>
+    </style>
+</resources>

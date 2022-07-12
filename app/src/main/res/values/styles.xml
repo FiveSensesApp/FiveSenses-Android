@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Body2_R_12" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:textSize">12dp</item>
+    </style>
+    <style name="Body2_R_14" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:textSize">14dp</item>
+    </style>
+
+    <style name="Body1_M_16" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <style name="Sub_Head_B_18" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/pretendard_bold</item>
+        <item name="android:textSize">18dp</item>
+    </style>
+    <style name="Sub_Head_B_16" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/pretendard_bold</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <style name="Head_B_20" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/pretendard_bold</item>
+        <item name="android:textSize">20dp</item>
+    </style>
+    <style name="Head_B_26" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/pretendard_bold</item>
+        <item name="android:textSize">26dp</item>
+    </style>
+
+    <style name="BottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="bottomSheetStyle">@style/bottomSheetStyleWrapper</item>
+    </style>
+
+    <style name="bottomSheetStyleWrapper" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_wh_top30</item>
+    </style>
+
+    <style name="AppTheme.Picker" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorControlNormal">@android:color/transparent</item>
+        <item name="android:textAppearance">@style/Head_B_20</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColorPrimary">@color/WH</item>
+        <!--<item name="android:textColorPrimary">@color/WH</item>
+        <item name="android:textColorHint">@color/GY_02</item>
+        <item name="android:textColorHighlight">@color/black</item>
+        <item name="android:editTextColor">@color/WH</item>-->
+    </style>
+</resources>
