@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_setting"
+    app:startDestination="@id/settingFragment">
+
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.mangpo.taste.view.LoginActivity"
+        tools:layout="@layout/activity_login"
+        android:label="activity_login" />
+    <dialog
+        android:id="@+id/termsBottomSheetFragment"
+        android:name="com.mangpo.taste.view.TermsBottomSheetFragment"
+        tools:layout="@layout/fragment_terms_bottom_sheet"
+        android:label="fragment_terms_bottom_sheet">
+        <argument
+            android:name="type"
+            app:argType="integer" />
+    </dialog>
+    <fragment
+        android:id="@+id/termsFragment"
+        android:name="com.mangpo.taste.view.TermsFragment"
+        tools:layout="@layout/fragment_terms"
+        android:label="fragment_terms">
+        <action
+            android:id="@+id/action_termsFragment_to_termsBottomSheetFragment"
+            app:destination="@id/termsBottomSheetFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/pwResettingDialogFragment"
+        android:name="com.mangpo.taste.view.PwResettingDialogFragment"
+        tools:layout="@layout/fragment_pw_resetting_dialog"
+        android:label="fragment_pw_resetting_dialog">
+        <action
+            android:id="@+id/action_pwResettingDialogFragment_to_loginActivity"
+            app:destination="@id/loginActivity" />
+    </dialog>
+    <dialog
+        android:id="@+id/withdrawalDialogFragment"
+        android:name="com.mangpo.taste.view.WithdrawalDialogFragment"
+        tools:layout="@layout/fragment_withdrawal_dialog"
+        android:label="fragment_withdrawal_dialog">
+        <action
+            android:id="@+id/action_withdrawalDialogFragment_to_loginActivity"
+            app:destination="@id/loginActivity" />
+    </dialog>
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.mangpo.taste.view.SettingFragment"
+        tools:layout="@layout/fragment_setting"
+        android:label="fragment_setting">
+        <action
+            android:id="@+id/action_settingFragment_to_pwResettingFragment"
+            app:destination="@id/pwResettingFragment" />
+        <action
+            android:id="@+id/action_settingFragment_to_logoutDialogFragment"
+            app:destination="@id/logoutDialogFragment" />
+        <action
+            android:id="@+id/action_settingFragment_to_withdrawalDialogFragment"
+            app:destination="@id/withdrawalDialogFragment" />
+        <action
+            android:id="@+id/action_settingFragment_to_termsFragment"
+            app:destination="@id/termsFragment" />
+        <action
+            android:id="@+id/action_settingFragment_to_openSourceFragment"
+            app:destination="@id/openSourceFragment" />
+        <action
+            android:id="@+id/action_settingFragment_to_alarmTimeDialogFragment"
+            app:destination="@id/alarmTimeDialogFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/alarmTimeDialogFragment"
+        android:name="com.mangpo.taste.view.AlarmTimeDialogFragment"
+        tools:layout="@layout/fragment_alarm_time_dialog"
+        android:label="fragment_alarm_time_dialog">
+        <argument
+            android:name="time"
+            app:argType="string" />
+    </dialog>
+    <fragment
+        android:id="@+id/pwResettingFragment"
+        android:name="com.mangpo.taste.view.PwResettingFragment"
+        tools:layout="@layout/fragment_pw_resetting"
+        android:label="fragment_pw_resetting">
+        <action
+            android:id="@+id/action_pwResettingFragment_to_pwResettingDialogFragment"
+            app:destination="@id/pwResettingDialogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/openSourceFragment"
+        android:name="com.mangpo.taste.view.OpenSourceFragment"
+        tools:layout="@layout/fragment_open_source"
+        android:label="fragment_open_source" />
+    <dialog
+        android:id="@+id/logoutDialogFragment"
+        android:name="com.mangpo.taste.view.LogoutDialogFragment"
+        tools:layout="@layout/fragment_logout_dialog"
+        android:label="fragment_logout_dialog">
+        <action
+            android:id="@+id/action_logoutDialogFragment_to_loginActivity"
+            app:destination="@id/loginActivity" />
+    </dialog>
+</navigation>

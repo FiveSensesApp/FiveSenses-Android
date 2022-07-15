@@ -1,10 +1,5 @@
 package com.mangpo.taste.view
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
@@ -20,7 +15,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
     private fun setMyEventListener() {
         //뒤로가기 이미지뷰 클릭 리스너
         binding.settingBackIv.setOnClickListener {
-            findNavController().popBackStack()
+            requireActivity().onBackPressed()
         }
 
         //알람 설정 스위치버튼 체크리스너

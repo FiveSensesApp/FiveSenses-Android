@@ -1,10 +1,5 @@
 package com.mangpo.taste.view
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
@@ -16,8 +11,9 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
     }
 
     private fun setMyEventListener() {
+        //설정 아이콘 클릭 리스너
         binding.analysisSettingIv.setOnClickListener {
-            findNavController().navigate(R.id.action_analysisFragment_to_settingFragment)
+            findNavController().navigate(R.id.action_analysisFragment_to_settingActivity)
         }
     }
 }
