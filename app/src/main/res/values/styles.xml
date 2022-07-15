@@ -9,6 +9,10 @@
         <item name="android:textSize">14dp</item>
     </style>
 
+    <style name="Body1_M_14" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">14dp</item>
+    </style>
     <style name="Body1_M_16" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/pretendard_medium</item>
         <item name="android:textSize">16dp</item>
@@ -47,9 +51,5 @@
         <item name="android:fontFamily">@font/pretendard_bold</item>
         <item name="android:textSize">20dp</item>
         <item name="android:textColorPrimary">@color/WH</item>
-        <!--<item name="android:textColorPrimary">@color/WH</item>
-        <item name="android:textColorHint">@color/GY_02</item>
-        <item name="android:textColorHighlight">@color/black</item>
-        <item name="android:editTextColor">@color/WH</item>-->
     </style>
 </resources>

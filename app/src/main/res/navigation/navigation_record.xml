@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_record"
+    app:startDestination="@id/ogamSelectFragment">
+
+    <fragment
+        android:id="@+id/ogamSelectFragment"
+        android:name="com.mangpo.taste.view.OgamSelectFragment"
+        android:label="fragment_ogam_select"
+        tools:layout="@layout/fragment_ogam_select" >
+        <action
+            android:id="@+id/action_ogamSelectFragment_to_tasteRecordFragment"
+            app:destination="@id/tasteRecordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tasteRecordFragment"
+        android:name="com.mangpo.taste.view.TasteRecordFragment"
+        android:label="fragment_taste_record"
+        tools:layout="@layout/fragment_taste_record" />
+</navigation>

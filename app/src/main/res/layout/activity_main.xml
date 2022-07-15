@@ -11,15 +11,35 @@
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="82dp"
         app:defaultNavHost="true"
         app:navGraph="@navigation/navigation_main" />
 
     <View
+        android:id="@+id/main_transparent_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/WH_80"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/main_cl"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/main_record_fcv"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="123dp"
+        android:background="@drawable/bg_wh_top30"
+        android:elevation="250dp"
+        android:visibility="invisible"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/navigation_record" />
+
+    <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/GY_02"
         android:layout_marginBottom="82dp"
+        android:background="@color/GY_02"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -48,15 +68,18 @@
         </com.google.android.material.bottomappbar.BottomAppBar>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/addButton"
+            android:id="@+id/main_fab"
             android:layout_width="67dp"
             android:layout_height="67dp"
             android:clickable="true"
-            app:backgroundTint="@color/GY_03"
+            android:src="@drawable/ic_plus_24"
+            app:backgroundTint="@color/BK"
             app:borderWidth="0dp"
             app:elevation="0dp"
+            app:fabCustomSize="67dp"
             app:layout_anchor="@id/main_bap"
-            app:rippleColor="@android:color/transparent" />
+            app:rippleColor="@android:color/transparent"
+            app:tint="@color/WH" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

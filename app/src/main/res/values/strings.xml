@@ -23,6 +23,7 @@
     <string name="title_by_sense">\t| 감각별</string>
     <string name="title_by_score">\t| 점수별</string>
     <string name="title_by_calendar">\t| 달력별</string>
+    <string name="title_record_complete">기록 완료</string>
 
     <string name="action_logout">로그아웃</string>
     <string name="action_withdrawal">계정 탈퇴</string>
@@ -31,6 +32,9 @@
     <string name="action_complete">완료</string>
     <string name="action_cancel">취소</string>
     <string name="action_see_you_again">또 만나요!</string>
+    <string name="action_keep_writing">계속 쓰기</string>
+    <string name="action_go_locker">보관함 가기</string>
+    <string name="action_go_back">뒤로 가기</string>
 
     <string name="msg_logout">정말 로그아웃 하시겠습니까?</string>
     <string name="msg_really_withdrawal">정말 탈퇴하실 건가요?</string>
@@ -38,7 +42,14 @@
     <string name="msg_pw_conditions">(영문, 숫자, 특수문자 중 2개 조합 10자 이상)</string>
     <string name="msg_when_to_go">언제로 이동할까요?</string>
     <string name="msg_go_to_login">로그인 화면으로 이동합니다.</string>
+    <string name="msg_taste_input_complete">취향 입력이 완료되었어요.</string>
+    <string name="msg_select_again">다시 선택하시겠습니까?</string>
+    <string name="msg_not_save">작성한 글은 저장되지 않아요.</string>
+    <string name="msg_taste_record_hint">함께 기억하고 싶은 이야기가 있다면\n기록해주세요. (선택 / 최대 100자)</string>
+    <string name="msg_taste_keyword_hint">취향키워드를 입력하세요. (최대 15자)</string>
+    <string name="msg_indicate_taste_preference">취향을 얼마나 좋아하는지 표시해주세요!</string>
 
     <string name="error_check_old_pw">기존 비밀번호를 확인해주세요.</string>
     <string name="error_not_match_pw">비밀번호가 일치하지 않습니다!</string>
+    <string name="error_keyword_start_essential">키워드와 별점은 필수입니다!</string>
 </resources>
