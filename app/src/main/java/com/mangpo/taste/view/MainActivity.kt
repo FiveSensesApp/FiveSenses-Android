@@ -3,8 +3,8 @@ package com.mangpo.taste.view
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -12,8 +12,13 @@ import androidx.navigation.ui.setupWithNavController
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseActivity
 import com.mangpo.taste.databinding.ActivityMainBinding
+import com.mangpo.taste.viewmodel.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
+    private val mainViewModel: MainViewModel by viewModels()
+
     private lateinit var mainNavHostFragment: NavHostFragment
     private lateinit var translateUp: Animation
     private lateinit var translateDown: Animation
@@ -47,6 +52,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     private fun showBottomSheet() {
+        mainViewModel.setRandomSloganIdx()  //OgamSelectFragment 의 슬로건 idx 를 랜덤하게 뽑기 위해 라이브데이터 사용
+
         binding.mainRecordFcv.visibility = View.VISIBLE //recordFcv VISIBLE
         binding.mainRecordFcv.startAnimation(translateUp)   //아래 -> 위로 올라오는 애니메이션
         binding.mainTransparentView.visibility = View.VISIBLE   //투명배경 VISIBLE
@@ -58,10 +65,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         binding.mainRecordFcv.startAnimation(translateDown) //위 -> 아래로 내려가는 애니메이션
         binding.mainTransparentView.visibility = View.INVISIBLE   //투명배경 INVISIBLE
         transparentStatusBar()  //상태바 투명하게
-    }
-
-    fun changeFABIcon(icon: Int) {
-        binding.mainFab.setImageDrawable(ContextCompat.getDrawable(applicationContext, icon)) //FAB 아이콘 변경
     }
 
     fun setRecordFcvTopMargin(margin: Int) {

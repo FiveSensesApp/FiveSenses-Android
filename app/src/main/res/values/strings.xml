@@ -24,6 +24,21 @@
     <string name="title_by_score">\t| 점수별</string>
     <string name="title_by_calendar">\t| 달력별</string>
     <string name="title_record_complete">기록 완료</string>
+    <string name="title_slogan1">감각을 통해 취향을 쌓는 즐거움!</string>
+    <string name="title_slogan2">당신은 무엇을 감각할 때 행복한가요?</string>
+    <string name="title_slogan3">내가 보고 듣고 느끼는 나만의 취향</string>
+    <string name="title_slogan4">감각하며 수집하는 일상 속 취향</string>
+    <string name="title_slogan5">오감으로 찾는 나만의 취향</string>
+    <string name="title_slogan6">지극히 나다운 취향수집함</string>
+    <string name="title_sense">감각</string>
+    <string name="title_sight">시각</string>
+    <string name="title_ear">청각</string>
+    <string name="title_smell">후각</string>
+    <string name="title_taste">미각</string>
+    <string name="title_touch">촉각</string>
+    <string name="title_question">모르겠어요</string>
+    <string name="title_taste_record_title">으로 감각한\n오늘의 취향 기록,</string>
+    <string name="title_taste_record_title_before">이 정해지기 전인\n오늘의 취향 기록,</string>
 
     <string name="action_logout">로그아웃</string>
     <string name="action_withdrawal">계정 탈퇴</string>
@@ -48,6 +63,7 @@
     <string name="msg_taste_record_hint">함께 기억하고 싶은 이야기가 있다면\n기록해주세요. (선택 / 최대 100자)</string>
     <string name="msg_taste_keyword_hint">취향키워드를 입력하세요. (최대 15자)</string>
     <string name="msg_indicate_taste_preference">취향을 얼마나 좋아하는지 표시해주세요!</string>
+    <string name="msg_hello">님의 취향,\n어떤 감각으로 기록할까요?</string>
 
     <string name="error_check_old_pw">기존 비밀번호를 확인해주세요.</string>
     <string name="error_not_match_pw">비밀번호가 일치하지 않습니다!</string>

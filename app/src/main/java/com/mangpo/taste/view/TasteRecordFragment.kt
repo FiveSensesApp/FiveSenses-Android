@@ -1,11 +1,16 @@
 package com.mangpo.taste.view
 
 import android.text.Editable
+import android.text.Spannable
+import android.text.SpannableStringBuilder
 import android.text.TextWatcher
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentTasteRecordBinding
@@ -20,6 +25,8 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
     private lateinit var recordCompleteDialogFragment: RecordCompleteDialogFragment
     private lateinit var onBackPressedCallback: OnBackPressedCallback
 
+    private val navArgs: TasteRecordFragmentArgs by navArgs()
+
     override fun initAfterBinding() {
         initDialog()
         setMyEventListener()
@@ -31,14 +38,7 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
                 selectAgainDialogFragment.show(requireActivity().supportFragmentManager, null)  //다시 선택하시겠습니까? 다이얼로그 띄우기
             }
         }
-
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)
-
-        //date 텍스트뷰에 오늘 날짜 보여주기
-        val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
-        val formatted = current.format(formatter)
-        binding.tasteRecordDateTv.text = formatted
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)    //뒤로가기 콜백 리스너 등록
 
         //키보드 감지해서 뷰 바꾸기
         setEventListener(requireActivity(), viewLifecycleOwner, KeyboardVisibilityEventListener {
@@ -51,7 +51,16 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
                 setRecordClMargin(convertDpToPx(requireContext(), 172)) //기록하기 topMargin 변경
                 binding.tasteRecordTitleTv.visibility = View.VISIBLE    //타이틀 VISIBLE
             }
-       })
+        })
+
+        //date 텍스트뷰에 오늘 날짜 보여주기
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+        val formatted = current.format(formatter)
+        binding.tasteRecordDateTv.text = formatted
+
+        setUIBySense(navArgs.sense) //감각별로 UI 변경해서 보여주기
+
     }
 
     override fun onDetach() {
@@ -126,4 +135,86 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
     }
 
     private fun validate(): Boolean = !(binding.tasteRecordKeywordEt.text.isBlank() || binding.tasteRecordSrb.rating == 0f)
+
+    private fun setUIBySense(sense: Int) {
+        when (sense) {
+            R.string.title_sight -> {
+                binding.tasteRecordTasteCharacterIv.setImageResource(R.drawable.ic_sight_character_40)
+
+                val ssb: SpannableStringBuilder = SpannableStringBuilder("${getString(sense)}${getString(R.string.title_taste_record_title)}")
+                ssb.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.RD_2)), 0, getString(sense).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                binding.tasteRecordTitleTv.text = ssb
+
+                binding.tasteRecordSrb.setEmptyDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_sight_empty_23)!!)
+                binding.tasteRecordSrb.setFilledDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_sight_fill_23)!!)
+
+                binding.tasteRecordSrbMsgTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.RD_2))
+            }
+
+            R.string.title_ear -> {
+                binding.tasteRecordTasteCharacterIv.setImageResource(R.drawable.ic_ear_character_40)
+
+                val ssb: SpannableStringBuilder = SpannableStringBuilder("${getString(sense)}${getString(R.string.title_taste_record_title)}")
+                ssb.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.BU_2)), 0, getString(sense).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                binding.tasteRecordTitleTv.text = ssb
+
+                binding.tasteRecordSrb.setEmptyDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_ear_empty_23)!!)
+                binding.tasteRecordSrb.setFilledDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_ear_fill_23)!!)
+
+                binding.tasteRecordSrbMsgTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.BU_2))
+            }
+
+            R.string.title_smell -> {
+                binding.tasteRecordTasteCharacterIv.setImageResource(R.drawable.ic_smell_character_40)
+
+                val ssb: SpannableStringBuilder = SpannableStringBuilder("${getString(sense)}${getString(R.string.title_taste_record_title)}")
+                ssb.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.GN_2)), 0, getString(sense).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                binding.tasteRecordTitleTv.text = ssb
+
+                binding.tasteRecordSrb.setEmptyDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_smell_empty_23)!!)
+                binding.tasteRecordSrb.setFilledDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_smell_fill_23)!!)
+
+                binding.tasteRecordSrbMsgTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.GN_3))
+            }
+
+            R.string.title_taste -> {
+                binding.tasteRecordTasteCharacterIv.setImageResource(R.drawable.ic_taste_character_40)
+
+                val ssb: SpannableStringBuilder = SpannableStringBuilder("${getString(sense)}${getString(R.string.title_taste_record_title)}")
+                ssb.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.YE_2)), 0, getString(sense).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                binding.tasteRecordTitleTv.text = ssb
+
+                binding.tasteRecordSrb.setEmptyDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_taste_empty_23)!!)
+                binding.tasteRecordSrb.setFilledDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_taste_fill_23)!!)
+
+                binding.tasteRecordSrbMsgTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.YE_2))
+            }
+
+            R.string.title_touch -> {
+                binding.tasteRecordTasteCharacterIv.setImageResource(R.drawable.ic_touch_character_40)
+
+                val ssb: SpannableStringBuilder = SpannableStringBuilder("${getString(sense)}${getString(R.string.title_taste_record_title)}")
+                ssb.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.PU_2)), 0, getString(sense).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                binding.tasteRecordTitleTv.text = ssb
+
+                binding.tasteRecordSrb.setEmptyDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_touch_empty_23)!!)
+                binding.tasteRecordSrb.setFilledDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_touch_fill_23)!!)
+
+                binding.tasteRecordSrbMsgTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.PU_2))
+            }
+
+            R.string.title_sense -> {
+                binding.tasteRecordTasteCharacterIv.setImageResource(R.drawable.ic_question_character_40)
+
+                val ssb: SpannableStringBuilder = SpannableStringBuilder("${getString(sense)}${getString(R.string.title_taste_record_title_before)}")
+                ssb.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.GY_04)), 0, getString(sense).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                binding.tasteRecordTitleTv.text = ssb
+
+                binding.tasteRecordSrb.setEmptyDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_empty_23)!!)
+                binding.tasteRecordSrb.setFilledDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_fill_23)!!)
+
+                binding.tasteRecordSrbMsgTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.GY_04))
+            }
+        }
+    }
 }

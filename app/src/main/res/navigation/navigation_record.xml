@@ -18,5 +18,9 @@
         android:id="@+id/tasteRecordFragment"
         android:name="com.mangpo.taste.view.TasteRecordFragment"
         android:label="fragment_taste_record"
-        tools:layout="@layout/fragment_taste_record" />
+        tools:layout="@layout/fragment_taste_record" >
+        <argument
+            android:name="sense"
+            app:argType="integer" />
+    </fragment>
 </navigation>

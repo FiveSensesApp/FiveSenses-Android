@@ -33,7 +33,6 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:gravity="center_vertical"
-        android:text="후각으로 감각한\n오늘의 취향 기록,"
         android:textAppearance="@style/Head_B_26"
         app:layout_constraintTop_toBottomOf="@+id/taste_record_back_iv" />
 
@@ -70,8 +69,6 @@
             app:layout_constraintVertical_chainStyle="packed"
             app:srb_clearRatingEnabled="true"
             app:srb_clickable="true"
-            app:srb_drawableEmpty="@drawable/ic_sight_empty_23"
-            app:srb_drawableFilled="@drawable/ic_sight_fill_23"
             app:srb_isIndicator="false"
             app:srb_minimumStars="0"
             app:srb_numStars="5"
