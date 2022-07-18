@@ -2,8 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/feedFragment"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_locker_44"
         android:enabled="true"
+        android:visible="true"
         android:title="feed"/>
 
     <item
@@ -12,7 +13,8 @@
 
     <item
         android:id="@+id/analysisFragment"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_analysis_44"
+        android:visible="true"
         android:enabled="true"
         android:title="analysis"/>
 </menu>

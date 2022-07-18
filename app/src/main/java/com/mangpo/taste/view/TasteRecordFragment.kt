@@ -95,6 +95,7 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
         recordCompleteDialogFragment.setMyCallback(object: RecordCompleteDialogFragment.MyCallback {
             override fun keep() {   //계속 쓰기
                 binding.tasteRecordBlurredView.visibility = View.INVISIBLE  //투명뷰 INVISIBLE
+                clear() //입력했던 내용 모두 초기화
             }
 
             override fun complete() {   //보관함 가기
@@ -216,5 +217,12 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
                 binding.tasteRecordSrbMsgTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.GY_04))
             }
         }
+    }
+
+    //작성했던 내용 모두 초기화하는 함수
+    private fun clear() {
+        binding.tasteRecordKeywordEt.text.clear()
+        binding.tasteRecordSrb.rating = 0.0f
+        binding.tasteRecordContentEt.text.clear()
     }
 }
