@@ -14,6 +14,9 @@ class MainViewModel @Inject constructor(private val getBooksByNameUseCase: GetBo
     private val _randomSloganIdx: MutableLiveData<Int> = MutableLiveData()
     val randomSloganIdx: LiveData<Int> = _randomSloganIdx
 
+    private val _feedType: MutableLiveData<String> = MutableLiveData()
+    val feedType: LiveData<String> = _feedType
+
     private val _books: MutableLiveData<List<KakaoBookEntiity>> = MutableLiveData()
     val books: LiveData<List<KakaoBookEntiity>> = _books
 
@@ -23,5 +26,9 @@ class MainViewModel @Inject constructor(private val getBooksByNameUseCase: GetBo
 
     fun setRandomSloganIdx() {
         _randomSloganIdx.value = Random().nextInt(6)
+    }
+
+    fun setFeedType(feedType: String) {
+        _feedType.value = feedType
     }
 }

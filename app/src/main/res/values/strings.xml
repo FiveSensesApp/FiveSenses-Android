@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">taste</string>
+    <string name="app_name">5gaam</string>
 
     <string name="title_app_version">ver 1.0.0</string>
     <string name="title_setting">설정</string>
@@ -39,6 +39,20 @@
     <string name="title_question">모르겠어요</string>
     <string name="title_taste_record_title">으로 감각한\n오늘의 취향 기록,</string>
     <string name="title_taste_record_title_before">이 정해지기 전인\n오늘의 취향 기록,</string>
+    <string name="title_latest_order">최신순</string>
+    <string name="title_old_fashioned">오래된순</string>
+    <string name="title_5_score">5점</string>
+    <string name="title_4_score">4점</string>
+    <string name="title_3_score">3점</string>
+    <string name="title_2_score">2점</string>
+    <string name="title_1_score">1점</string>
+    <string name="title_sunday">일</string>
+    <string name="title_monday">월</string>
+    <string name="title_tuesday">화</string>
+    <string name="title_wednesday">수</string>
+    <string name="title_thursday">목</string>
+    <string name="title_friday">금</string>
+    <string name="title_saturday">토</string>
 
     <string name="action_logout">로그아웃</string>
     <string name="action_withdrawal">계정 탈퇴</string>
@@ -64,6 +78,7 @@
     <string name="msg_taste_keyword_hint">취향키워드를 입력하세요. (최대 15자)</string>
     <string name="msg_indicate_taste_preference">취향을 얼마나 좋아하는지 표시해주세요!</string>
     <string name="msg_hello">님의 취향,\n어떤 감각으로 기록할까요?</string>
+    <string name="msg_how_to_use">어떻게 쓰는지 모르겠다면?</string>
 
     <string name="error_check_old_pw">기존 비밀번호를 확인해주세요.</string>
     <string name="error_not_match_pw">비밀번호가 일치하지 않습니다!</string>

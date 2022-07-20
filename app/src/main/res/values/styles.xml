@@ -18,6 +18,11 @@
         <item name="android:textSize">16dp</item>
     </style>
 
+    <style name="Body0_SB_16" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+
     <style name="Sub_Head_B_18" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/pretendard_bold</item>
         <item name="android:textSize">18dp</item>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_feed"
+    app:startDestination="@id/noTasteFragment">
+
+    <fragment
+        android:id="@+id/noTasteFragment"
+        android:name="com.mangpo.taste.view.NoTasteFragment"
+        android:label="fragment_no_taste"
+        tools:layout="@layout/fragment_no_taste" />
+</navigation>

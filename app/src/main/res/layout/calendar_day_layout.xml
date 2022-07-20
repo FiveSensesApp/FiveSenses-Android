@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/calendar_day_cl"
+    android:layout_width="44dp"
+    android:layout_height="44dp">
+
+    <View
+        android:id="@+id/calendar_day_oval_view"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/bg_gy04_oval"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/calendar_day_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textAppearance="@style/Body0_SB_16"
+        app:layout_constraintBottom_toBottomOf="@+id/calendar_day_oval_view"
+        app:layout_constraintEnd_toEndOf="@+id/calendar_day_oval_view"
+        app:layout_constraintStart_toStartOf="@+id/calendar_day_oval_view"
+        app:layout_constraintTop_toTopOf="@+id/calendar_day_oval_view" />
+
+    <View
+        android:id="@+id/calendar_day_small_oval_view"
+        android:layout_width="6dp"
+        android:layout_height="6dp"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/bg_gy03_oval"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/calendar_day_oval_view"
+        app:layout_constraintStart_toStartOf="@+id/calendar_day_oval_view"
+        app:layout_constraintTop_toBottomOf="@+id/calendar_day_oval_view" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

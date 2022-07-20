@@ -28,7 +28,7 @@
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="123dp"
+        android:layout_marginTop="136dp"
         android:background="@drawable/bg_wh_top30"
         android:elevation="250dp"
         android:visibility="invisible"

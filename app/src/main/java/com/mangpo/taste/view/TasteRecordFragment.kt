@@ -47,7 +47,7 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
                 setRecordClMargin(convertDpToPx(requireContext(), 80))  //기록하기 topMargin 변경
                 binding.tasteRecordTitleTv.visibility = View.GONE   //타이틀 GONE
             } else {    //키보드 내려와 있을 때
-                (requireActivity() as MainActivity).setRecordFcvTopMargin(convertDpToPx(requireContext(), 123)) //높이 낮게
+                (requireActivity() as MainActivity).setRecordFcvTopMargin(convertDpToPx(requireContext(), 136)) //높이 낮게
                 setRecordClMargin(convertDpToPx(requireContext(), 172)) //기록하기 topMargin 변경
                 binding.tasteRecordTitleTv.visibility = View.VISIBLE    //타이틀 VISIBLE
             }
