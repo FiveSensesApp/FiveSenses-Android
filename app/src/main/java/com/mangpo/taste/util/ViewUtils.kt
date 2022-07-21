@@ -1,6 +1,7 @@
 package com.mangpo.taste.util
 
 import android.content.Context
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import kotlin.math.roundToInt
@@ -11,3 +12,5 @@ fun convertDpToPx(context: Context, dp: Int): Int {
     val density = context.resources.displayMetrics.density
     return (dp * density).roundToInt()
 }
+
+fun getDeviceWidth(): Int = Resources.getSystem().displayMetrics.widthPixels

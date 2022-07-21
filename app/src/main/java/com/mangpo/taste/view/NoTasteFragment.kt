@@ -10,14 +10,14 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import com.kizitonwose.calendarview.model.CalendarDay
-import com.kizitonwose.calendarview.model.DayOwner
+import com.kizitonwose.calendarview.model.CalendarMonth
 import com.kizitonwose.calendarview.model.InDateStyle
-import com.kizitonwose.calendarview.ui.DayBinder
+import com.kizitonwose.calendarview.ui.MonthHeaderFooterBinder
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentNoTasteBinding
 import com.mangpo.taste.util.convertDpToPx
+import com.mangpo.taste.view.calendar.CalendarHeaderViewContainer
 import com.mangpo.taste.view.calendar.DayViewContainer
 import com.mangpo.taste.viewmodel.MainViewModel
 import java.time.DayOfWeek
@@ -28,10 +28,13 @@ class NoTasteFragment : BaseFragment<FragmentNoTasteBinding>(FragmentNoTasteBind
     private val mainViewModel: MainViewModel by activityViewModels()
 
     private lateinit var sp: SharedPreferences
+    private lateinit var dayViewContainer: DayViewContainer
 
     override fun initAfterBinding() {
         sp = requireActivity().getSharedPreferences(getString(R.string.app_name), Application.MODE_PRIVATE)
 
+        initDayViewContainer()
+        initCalendarHeader()
         setMyEventListener()
         observe()
 
@@ -48,7 +51,61 @@ class NoTasteFragment : BaseFragment<FragmentNoTasteBinding>(FragmentNoTasteBind
             binding.noTasteHowToUseBtn.visibility = View.VISIBLE
     }
 
-    private fun initCalendarView(yearMonth: YearMonth) {
+    private fun initDayViewContainer() {
+        dayViewContainer = DayViewContainer()
+        dayViewContainer.setOnDayClickListener(object : DayViewContainer.OnDayClickListener {
+            override fun onClick(oldDate: LocalDate, selectedDate: LocalDate) {
+                binding.noTasteCv.notifyDateChanged(selectedDate)   //현재 선택한 날짜 선택된 UI 로 변경
+                oldDate?.let { binding.noTasteCv.notifyDateChanged(oldDate) }   //이전에 선택한 날짜 선택하지 않은 UI 로 변경
+            }
+        })
+        binding.noTasteCv.dayBinder = dayViewContainer
+    }
+
+    private fun initCalendarHeader() {
+        binding.noTasteCv.monthHeaderBinder = object : MonthHeaderFooterBinder<CalendarHeaderViewContainer> {
+            override fun bind(container: CalendarHeaderViewContainer, month: CalendarMonth) {
+                if (binding.noTasteCv.maxRowCount==1)
+                    container.monthTv.text = "${month.weekDays[0][0].date.year}년 ${month.weekDays[0][0].date.monthValue}월"
+                else
+                    container.monthTv.text = "${month.year}년 ${month.month}월"
+
+                container.leftIv.setOnClickListener {
+                    if (binding.noTasteCv.maxRowCount==1)
+                        binding.noTasteCv.scrollToDate(month.weekDays[0][0].date.minusDays(7L))
+                    else
+                        binding.noTasteCv.scrollToMonth(month.yearMonth.minusMonths(1L))
+                }
+
+                container.rightIv.setOnClickListener {
+                    if (binding.noTasteCv.maxRowCount==1)
+                        binding.noTasteCv.scrollToDate(month.weekDays[0][0].date.plusDays(7L))
+                    else
+                        binding.noTasteCv.scrollToMonth(month.yearMonth.plusMonths(1L))
+                }
+            }
+
+            override fun create(view: View): CalendarHeaderViewContainer = CalendarHeaderViewContainer(view)
+        }
+    }
+
+    private fun initWeekCalendarView(yearMonth: YearMonth, selectedDate: LocalDate) {
+        val firstMonth = yearMonth.minusMonths(10)
+        val lastMonth = yearMonth.plusMonths(10)
+        val daysOfWeek = arrayOf(
+            DayOfWeek.SUNDAY,
+            DayOfWeek.MONDAY,
+            DayOfWeek.TUESDAY,
+            DayOfWeek.WEDNESDAY,
+            DayOfWeek.THURSDAY,
+            DayOfWeek.FRIDAY,
+            DayOfWeek.SATURDAY
+        )
+        binding.noTasteCv.setup(firstMonth, lastMonth, daysOfWeek.first())
+        binding.noTasteCv.scrollToDate(selectedDate)
+    }
+
+    private fun initMonthCalendarView(yearMonth: YearMonth) {
         val firstMonth = yearMonth.minusMonths(10)
         val lastMonth = yearMonth.plusMonths(10)
         val daysOfWeek = arrayOf(
@@ -62,50 +119,6 @@ class NoTasteFragment : BaseFragment<FragmentNoTasteBinding>(FragmentNoTasteBind
         )
         binding.noTasteCv.setup(firstMonth, lastMonth, daysOfWeek.first())
         binding.noTasteCv.scrollToMonth(yearMonth)
-//        binding.noTasteCv.scrollToDate(LocalDate.now())
-    }
-
-    private fun setCalendarViewClass() {
-        binding.noTasteCv.dayBinder = object : DayBinder<DayViewContainer> {
-            var selectedDate: LocalDate = LocalDate.now()
-
-            override fun bind(container: DayViewContainer, day: CalendarDay) {
-                container.dayTv.text = day.date.dayOfMonth.toString()   //날짜 보여주기
-
-                if (day.owner == DayOwner.THIS_MONTH) { //이번달
-                    binding.noTasteYearMonthTv.text = "${day.date.year}년 ${day.date.month}월"
-
-                    container.root.visibility = View.VISIBLE
-
-                    if (selectedDate==day.date) {   //선택된 날짜
-                        container.ovalView.visibility = View.VISIBLE    //전체 동그라미 뷰 VISIBLE
-
-                        if (day.date == LocalDate.now())    //오늘 날짜면
-                            container.dayTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.RD_2))    //텍스트 색상 빨간색으로
-                        else    //오늘 날짜가 아니면
-                            container.dayTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.WH))  //텍스트 색상 하얀색으로
-                    } else {    //선택되지 않은 날짜
-                        container.ovalView.visibility = View.INVISIBLE  //전체 동그라미 뷰 INVISIBLE
-
-                        if (day.date== LocalDate.now()) //오늘 날짜면
-                            container.dayTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.RD_2))    //텍스트 색상 빨간색으로
-                        else    //오늘 날짜가 아니면
-                            container.dayTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.BK))  //텍스트 색상 검정색으로
-                    }
-
-                    //날짜 선택했을 때
-                    container.root.setOnClickListener {
-                        val oldDate = selectedDate  //이전에 선택했던 날짜
-                        selectedDate = day.date //현재 선택한 날짜
-                        binding.noTasteCv.notifyDateChanged(day.date)   //현재 선택한 날짜 선택된 UI 로 변경
-                        oldDate?.let { binding.noTasteCv.notifyDateChanged(oldDate) }   //이전에 선택한 날짜 선택하지 않은 UI 로 변경
-                    }
-                } else  //이전달 or 다음달
-                    container.root.visibility = View.INVISIBLE
-            }
-
-            override fun create(view: View): DayViewContainer = DayViewContainer(view)
-        }
     }
 
     private fun setMyEventListener() {
@@ -129,8 +142,6 @@ class NoTasteFragment : BaseFragment<FragmentNoTasteBinding>(FragmentNoTasteBind
                 setExpandCalendarUI()
                 setTryClMargin(convertDpToPx(requireContext(), 419))    //취향을 감각해보세요! 레이아웃 topMarin 419dp
             }
-
-            initCalendarView(YearMonth.now())
         }
     }
 
@@ -160,6 +171,9 @@ class NoTasteFragment : BaseFragment<FragmentNoTasteBinding>(FragmentNoTasteBind
             maxRowCount = 1,
             hasBoundaries = false
         )
+
+        val selectedDate = dayViewContainer.getSelectedDate()
+        initWeekCalendarView(YearMonth.of(selectedDate.year, selectedDate.monthValue), selectedDate) //선택된 날짜가 포함된 주의 달력을 보여주기
     }
 
     //펼쳐져있는 캘린더뷰 UI 화면 함수
@@ -174,13 +188,14 @@ class NoTasteFragment : BaseFragment<FragmentNoTasteBinding>(FragmentNoTasteBind
             maxRowCount = 6,
             hasBoundaries = true
         )
+
+        val selectedDate = dayViewContainer.getSelectedDate()
+        initMonthCalendarView(YearMonth.of(selectedDate.year, selectedDate.monthValue)) //선택된 날짜가 포함된 월의 달력을 보여주기
     }
 
     private fun observe() {
         //피드 타입 LiveDate Observer
         mainViewModel.feedType.observe(viewLifecycleOwner, Observer {
-            setFoldCalendarUI()
-
             when (it) {
                 getString(R.string.title_timeline) -> {
                     setTryClMargin(convertDpToPx(requireContext(), 9))  //취향을 감각해보세요! 레이아웃 topMarin 9dp
@@ -208,8 +223,10 @@ class NoTasteFragment : BaseFragment<FragmentNoTasteBinding>(FragmentNoTasteBind
                 }
                 getString(R.string.title_by_calendar) -> {
                     setTryClMargin(convertDpToPx(requireContext(), 136))    //취향을 감각해보세요! 레이아웃 topMarin 136dp
-                    initCalendarView(YearMonth.now())
-                    setCalendarViewClass()
+
+                    setFoldCalendarUI() //주별 달력이 보이도록 설정하기
+                    dayViewContainer.setSelectedDate(LocalDate.now())   //현재 날짜로 변경
+                    initWeekCalendarView(YearMonth.now(), LocalDate.now())  //주별 달력이 현재 날짜로 보이도록 설정
 
                     binding.noTasteCalendarCl.visibility = View.VISIBLE //캘린더 레이아웃 VISIBLE
                     binding.noTasteTimelineFilterRg.visibility = View.INVISIBLE
