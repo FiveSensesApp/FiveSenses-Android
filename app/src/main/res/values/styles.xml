@@ -23,13 +23,17 @@
         <item name="android:textSize">16dp</item>
     </style>
 
-    <style name="Sub_Head_B_18" parent="TextAppearance.AppCompat">
+    <style name="Sub_Head_B_12" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/pretendard_bold</item>
-        <item name="android:textSize">18dp</item>
+        <item name="android:textSize">12dp</item>
     </style>
     <style name="Sub_Head_B_16" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/pretendard_bold</item>
         <item name="android:textSize">16dp</item>
+    </style>
+    <style name="Sub_Head_B_18" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/pretendard_bold</item>
+        <item name="android:textSize">18dp</item>
     </style>
 
     <style name="Head_B_20" parent="TextAppearance.AppCompat">

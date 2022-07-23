@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_gy01_12">
+
+        <ImageView
+            android:id="@+id/record_detail_close_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="14dp"
+            android:visibility="invisible"
+            android:src="@drawable/ic_close_30"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/record_detail_more_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/record_detail_character_iv"
+            android:layout_width="66dp"
+            android:layout_height="66dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="54dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/record_detail_keyword_tv"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="14dp"
+            android:background="@drawable/ic_keyword_speech_bubble"
+            android:gravity="center"
+            android:text="모르겠어요 감각 좋아하는 거"
+            android:textAppearance="@style/Sub_Head_B_16"
+            app:layout_constraintBottom_toBottomOf="@+id/record_detail_character_iv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/record_detail_character_iv"
+            app:layout_constraintTop_toTopOf="@+id/record_detail_character_iv" />
+
+        <TextView
+            android:id="@+id/record_detail_content_tv"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_wh_10"
+            android:lineSpacingExtra="4sp"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="13.52dp"
+            android:text="50자는 너무 짧은 것 같아~ 아무래도 좋아하는 것에 대해 이야기하는 건 하루종일 할 수 있는데 50자는 하다가 끊기는 느낌? 사실 쓰면서 100자도 짧다고 그건 쩔수 아닐까 싶어"
+            android:textAppearance="@style/Body1_M_14"
+            android:textColor="@color/GY_04"
+            app:layout_constraintBottom_toTopOf="@+id/record_detail_srb"
+            app:layout_constraintTop_toBottomOf="@+id/record_detail_character_iv" />
+
+        <TextView
+            android:id="@+id/record_detail_date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:text="2022.12.23"
+            android:textAppearance="@style/Body1_M_14"
+            app:layout_constraintBottom_toBottomOf="@+id/record_detail_srb"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/record_detail_srb" />
+
+        <com.willy.ratingbar.BaseRatingBar
+            android:id="@+id/record_detail_srb"
+            android:layout_width="157dp"
+            android:layout_height="34dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/record_detail_content_tv"
+            app:srb_clearRatingEnabled="true"
+            app:srb_clickable="true"
+            app:srb_isIndicator="false"
+            app:srb_minimumStars="0"
+            app:srb_numStars="5"
+            app:srb_scrollable="true"
+            app:srb_starPadding="7dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
