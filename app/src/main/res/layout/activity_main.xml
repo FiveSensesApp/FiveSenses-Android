@@ -11,6 +11,7 @@
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="74dp"
         app:defaultNavHost="true"
         app:navGraph="@navigation/navigation_main" />
 

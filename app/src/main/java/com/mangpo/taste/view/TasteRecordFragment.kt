@@ -146,8 +146,8 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
                 ssb.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.RD_2)), 0, getString(sense).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                 binding.tasteRecordTitleTv.text = ssb
 
-                binding.tasteRecordSrb.setEmptyDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_sight_empty_23)!!)
-                binding.tasteRecordSrb.setFilledDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_sight_fill_23)!!)
+                binding.tasteRecordSrb.setEmptyDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_blurred_rd_23)!!)
+                binding.tasteRecordSrb.setFilledDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_fill_rd2_23)!!)
 
                 binding.tasteRecordSrbMsgTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.RD_2))
             }
@@ -159,8 +159,8 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
                 ssb.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.BU_2)), 0, getString(sense).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                 binding.tasteRecordTitleTv.text = ssb
 
-                binding.tasteRecordSrb.setEmptyDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_ear_empty_23)!!)
-                binding.tasteRecordSrb.setFilledDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_ear_fill_23)!!)
+                binding.tasteRecordSrb.setEmptyDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_blurred_bu_23)!!)
+                binding.tasteRecordSrb.setFilledDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_fill_bu2_23)!!)
 
                 binding.tasteRecordSrbMsgTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.BU_2))
             }
@@ -172,8 +172,8 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
                 ssb.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.GN_2)), 0, getString(sense).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                 binding.tasteRecordTitleTv.text = ssb
 
-                binding.tasteRecordSrb.setEmptyDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_smell_empty_23)!!)
-                binding.tasteRecordSrb.setFilledDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_smell_fill_23)!!)
+                binding.tasteRecordSrb.setEmptyDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_blurred_gn_23)!!)
+                binding.tasteRecordSrb.setFilledDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_fill_gn2_23)!!)
 
                 binding.tasteRecordSrbMsgTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.GN_3))
             }
@@ -185,8 +185,8 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
                 ssb.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.YE_2)), 0, getString(sense).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                 binding.tasteRecordTitleTv.text = ssb
 
-                binding.tasteRecordSrb.setEmptyDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_taste_empty_23)!!)
-                binding.tasteRecordSrb.setFilledDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_taste_fill_23)!!)
+                binding.tasteRecordSrb.setEmptyDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_blurred_ye_23)!!)
+                binding.tasteRecordSrb.setFilledDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_fill_ye2_23)!!)
 
                 binding.tasteRecordSrbMsgTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.YE_2))
             }
@@ -198,8 +198,8 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
                 ssb.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.PU_2)), 0, getString(sense).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                 binding.tasteRecordTitleTv.text = ssb
 
-                binding.tasteRecordSrb.setEmptyDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_touch_empty_23)!!)
-                binding.tasteRecordSrb.setFilledDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_touch_fill_23)!!)
+                binding.tasteRecordSrb.setEmptyDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_blurred_pu_23)!!)
+                binding.tasteRecordSrb.setFilledDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_fill_pu2_23)!!)
 
                 binding.tasteRecordSrbMsgTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.PU_2))
             }
@@ -211,8 +211,8 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
                 ssb.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.GY_04)), 0, getString(sense).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                 binding.tasteRecordTitleTv.text = ssb
 
-                binding.tasteRecordSrb.setEmptyDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_empty_23)!!)
-                binding.tasteRecordSrb.setFilledDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_fill_23)!!)
+                binding.tasteRecordSrb.setEmptyDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_blurred_gy_23)!!)
+                binding.tasteRecordSrb.setFilledDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_fill_gy04_23)!!)
 
                 binding.tasteRecordSrbMsgTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.GY_04))
             }

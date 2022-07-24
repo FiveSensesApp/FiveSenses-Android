@@ -1,76 +1,164 @@
 package com.mangpo.taste.view.adpater
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mangpo.domain.model.RecordEntity
 import com.mangpo.taste.R
+import com.mangpo.taste.databinding.ItemRecordCntBinding
 import com.mangpo.taste.databinding.ItemRecordDetailBinding
+import com.mangpo.taste.util.convertDpToPx
+import com.mangpo.taste.view.model.Record
+import com.willy.ratingbar.BaseRatingBar
 
-class RecordDetailAdapter(): RecyclerView.Adapter<RecordDetailAdapter.RecordDetailViewHolder>() {
-    private lateinit var binding: ItemRecordDetailBinding
-    private lateinit var records: List<RecordEntity>
+class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private lateinit var headerBinding: ItemRecordCntBinding
+    private lateinit var contentBinding: ItemRecordDetailBinding
+    private lateinit var records: List<Record>
+    private lateinit var fadeInAnim: Animation
+    private lateinit var fadeOutAnim: Animation
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): RecordDetailAdapter.RecordDetailViewHolder {
-        binding = ItemRecordDetailBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    ): RecyclerView.ViewHolder {
+        fadeInAnim = AnimationUtils.loadAnimation(parent.context, R.anim.fade_in)
+        fadeOutAnim = AnimationUtils.loadAnimation(parent.context, R.anim.fade_out)
 
-        return RecordDetailViewHolder(binding)
+        return when (viewType) {
+            ContentViewType.HEADER.num -> {
+                headerBinding = ItemRecordCntBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                RecordCntViewHolder(headerBinding)
+            }
+            else -> {
+                contentBinding = ItemRecordDetailBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                RecordDetailViewHolder(contentBinding)
+            }
+        }
     }
 
-    override fun onBindViewHolder(
-        holder: RecordDetailAdapter.RecordDetailViewHolder,
-        position: Int
-    ) {
-        holder.bind(records[position])
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (records[position].viewType) {
+            ContentViewType.HEADER.num -> (holder as RecordCntViewHolder).bind()
+            else -> (holder as RecordDetailViewHolder).bind(records[position].record!!, position)
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return when (position) {
+            0 -> ContentViewType.HEADER.num
+            else -> ContentViewType.CONTENT.num
+        }
     }
 
     override fun getItemCount(): Int = records.size
 
     inner class RecordDetailViewHolder(binding: ItemRecordDetailBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(record: RecordEntity) {
-            binding.recordDetailKeywordTv.text = record.keyword
+        private val root: ConstraintLayout = binding.root
+        private val moreIv: ImageView = binding.recordDetailMoreIv
+        private val characterIv: ImageView = binding.recordDetailCharacterIv
+        private val keywordTv: TextView = binding.recordDetailKeywordTv
+        private val contentTv: TextView = binding.recordDetailContentTv
+        private val dateTv: TextView = binding.recordDetailDateTv
+        private val starSrb: BaseRatingBar = binding.recordDetailSrb
+        private val menuCl: ConstraintLayout = binding.recordDetailMenuCl
 
-            if (record.content==null) {
-                Log.d("RecordDetailViewHolder", "NULL")
-                binding.recordDetailContentTv.visibility = View.GONE
-            }else {
-                Log.d("RecordDetailViewHolder", "NOT NULL")
-                binding.recordDetailContentTv.visibility = View.VISIBLE
-                binding.recordDetailContentTv.text = record.content
+        fun bind(record: RecordEntity, position: Int) {
+            keywordTv.text = record.keyword
+
+            if (record.content==null)
+                contentTv.visibility = View.GONE
+            else {
+                contentTv.visibility = View.VISIBLE
+                contentTv.text = record.content
             }
 
-            binding.recordDetailDateTv.text = record.date
+            dateTv.text = record.date
+
+            starSrb.rating = record.star
 
             when (record.taste) {
                 0 -> {  //시각
-                    binding.recordDetailDateTv.setTextColor(ContextCompat.getColor(binding.root.context, R.color.RD_2))
+                    dateTv.setTextColor(ContextCompat.getColor(root.context, R.color.RD_2))
+                    moreIv.setImageResource(R.drawable.ic_more_rd2_44)
+                    characterIv.setImageResource(R.drawable.ic_sight_character_72)
+                    starSrb.setFilledDrawableRes(R.drawable.ic_star_fill_rd2_23)
+                    starSrb.setEmptyDrawableRes(R.drawable.ic_star_empty_rd2_23)
                 }
                 1 -> {  //청각
-                    binding.recordDetailDateTv.setTextColor(ContextCompat.getColor(binding.root.context, R.color.BU_2))
+                    dateTv.setTextColor(ContextCompat.getColor(root.context, R.color.BU_2))
+                    moreIv.setImageResource(R.drawable.ic_more_bu2_44)
+                    characterIv.setImageResource(R.drawable.ic_ear_character_72)
+                    starSrb.setFilledDrawableRes(R.drawable.ic_star_fill_bu2_23)
+                    starSrb.setEmptyDrawableRes(R.drawable.ic_star_empty_bu2_23)
                 }
                 2 -> {  //후각
-                    binding.recordDetailDateTv.setTextColor(ContextCompat.getColor(binding.root.context, R.color.GN_3))
+                    dateTv.setTextColor(ContextCompat.getColor(root.context, R.color.GN_3))
+                    moreIv.setImageResource(R.drawable.ic_more_gn3_44)
+                    characterIv.setImageResource(R.drawable.ic_smell_character_72)
+                    starSrb.setFilledDrawableRes(R.drawable.ic_star_fill_gn2_23)
+                    starSrb.setEmptyDrawableRes(R.drawable.ic_star_empty_gn2_23)
                 }
                 3 -> {  //미각
-                    binding.recordDetailDateTv.setTextColor(ContextCompat.getColor(binding.root.context, R.color.YE_2))
+                    dateTv.setTextColor(ContextCompat.getColor(root.context, R.color.YE_2))
+                    moreIv.setImageResource(R.drawable.ic_more_ye2_44)
+                    characterIv.setImageResource(R.drawable.ic_taste_character_72)
+                    starSrb.setFilledDrawableRes(R.drawable.ic_star_fill_ye2_23)
+                    starSrb.setEmptyDrawableRes(R.drawable.ic_star_empty_ye2_23)
                 }
                 4 -> {  //촉각
-                    binding.recordDetailDateTv.setTextColor(ContextCompat.getColor(binding.root.context, R.color.PU_2))
+                    dateTv.setTextColor(ContextCompat.getColor(root.context, R.color.PU_2))
+                    moreIv.setImageResource(R.drawable.ic_more_pu2_44)
+                    characterIv.setImageResource(R.drawable.ic_touch_character_72)
+                    starSrb.setFilledDrawableRes(R.drawable.ic_star_fill_pu2_23)
+                    starSrb.setEmptyDrawableRes(R.drawable.ic_star_empty_pu2_23)
                 }
                 else -> {   //모르겠어요
-                    binding.recordDetailDateTv.setTextColor(ContextCompat.getColor(binding.root.context, R.color.GY_04))
+                    dateTv.setTextColor(ContextCompat.getColor(root.context, R.color.GY_04))
+                    moreIv.setImageResource(R.drawable.ic_more_gy04_44)
+                    characterIv.setImageResource(R.drawable.ic_question_character_72)
+                    starSrb.setFilledDrawableRes(R.drawable.ic_star_fill_gy04_23)
+                    starSrb.setEmptyDrawableRes(R.drawable.ic_star_empty_gy04_23)
+                }
+            }
+
+            if (position == records.size-1)
+                root.setPadding(convertDpToPx(root.context, 20), 0, convertDpToPx(root.context, 20), convertDpToPx(root.context, 62))
+            else
+                root.setPadding(convertDpToPx(root.context, 20), 0, convertDpToPx(root.context, 20), convertDpToPx(root.context, 16))
+
+            moreIv.setOnClickListener {
+                if (menuCl.visibility==View.VISIBLE) {
+                    menuCl.startAnimation(fadeOutAnim)
+                    menuCl.visibility = View.INVISIBLE
+                } else {
+                    menuCl.startAnimation(fadeInAnim)
+                    menuCl.visibility = View.VISIBLE
                 }
             }
         }
     }
 
-    fun setData(records: List<RecordEntity>) {
+    inner class RecordCntViewHolder(binding: ItemRecordCntBinding): RecyclerView.ViewHolder(binding.root) {
+        private val cntTv: TextView = binding.root
+
+        fun bind() {
+            cntTv.text = "총 ${records.size-1}개"
+        }
+    }
+
+    enum class ContentViewType(val num: Int) {
+        HEADER(0), CONTENT(1)
+    }
+
+    fun setData(records: List<Record>) {
         this.records = records
         notifyDataSetChanged()
     }

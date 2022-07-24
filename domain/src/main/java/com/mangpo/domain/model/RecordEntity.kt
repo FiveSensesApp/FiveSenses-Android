@@ -5,5 +5,5 @@ data class RecordEntity(
     val keyword: String,
     val content: String? = null,
     val date: String,
-    val star: Double
+    val star: Float
 )

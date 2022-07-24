@@ -10,4 +10,9 @@
         android:name="com.mangpo.taste.view.NoTasteFragment"
         android:label="fragment_no_taste"
         tools:layout="@layout/fragment_no_taste" />
+    <fragment
+        android:id="@+id/timelineFragment"
+        android:name="com.mangpo.taste.view.TimelineFragment"
+        android:label="fragment_timeline"
+        tools:layout="@layout/fragment_timeline" />
 </navigation>

@@ -76,4 +76,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     fun changeMenu(menu: Int) {
         binding.mainBnv.selectedItemId = menu
     }
+
+    //기록하기 BottomSheet 의 visibility 를 확인하는 함수
+    fun checkRecordFcvVisibility(): Int = binding.mainRecordFcv.visibility
 }

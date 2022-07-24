@@ -5,6 +5,7 @@ import android.view.ViewTreeObserver
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentFeedBinding
@@ -12,8 +13,11 @@ import com.mangpo.taste.viewmodel.MainViewModel
 
 class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::inflate) {
     private val mainViewModel: MainViewModel by activityViewModels()
+    private val startDestinationTest: Boolean = true
 
     override fun initAfterBinding() {
+        setStartDestination()   //기록이 있으면 timelineFragment, 없으면 noTasteFragment 로 startDestination 지정하기
+
         //나의 취향 정렬 타입 선택하는 화면에서 paddingLift 설정하기
         binding.feedMyTasteTv.viewTreeObserver.addOnGlobalLayoutListener(object: ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
@@ -28,15 +32,32 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
         setMyEventListener()
     }
 
+    //기록이 있을 때/없을 때 각각 다른 StartDestination 을 가짐
+    private fun setStartDestination() {
+        if (startDestinationTest) { //기록이 있을 때
+            val navController = binding.feedFcv.findNavController()
+            val navGraph = navController.navInflater.inflate(R.navigation.navigation_feed)
+            navGraph.setStartDestination(R.id.timelineFragment)
+            navController.graph = navGraph
+        } else {    //기록이 없을 때
+            val navController = binding.feedFcv.findNavController()
+            val navGraph = navController.navInflater.inflate(R.navigation.navigation_feed)
+            navGraph.setStartDestination(R.id.noTasteFragment)
+            navController.graph = navGraph
+        }
+    }
+
     private fun setMyEventListener() {
         //나의 취향 터치뷰 클릭 리스너
         binding.feedTypeSelectTouchView.setOnClickListener {
-            if (binding.feedTypeSelectLayout.visibility == View.GONE) { //나의 취향 정렬 타입 선택하는 화면이 안보이고 있으면 보여주기
-                binding.feedBlurredView.visibility = View.VISIBLE   //투명 배경 VISIBLE
-                binding.feedTypeSelectLayout.visibility = View.VISIBLE
-                binding.feedTopLayout.background = ContextCompat.getDrawable(requireContext(), R.drawable.bg_wh_bottom30)
-            } else    //나의 취향 정렬 타입 선택하는 화면이 보이고 있으면 숨겨주기
-                hideTypeSelectLayout()
+            if ((requireActivity() as MainActivity).checkRecordFcvVisibility()==View.INVISIBLE) {   //MainActivity 의 recordFcv 가 INVISIBLE 일 때만 활성화
+                if (binding.feedTypeSelectLayout.visibility == View.GONE) { //나의 취향 정렬 타입 선택하는 화면이 안보이고 있으면 보여주기
+                    binding.feedBlurredView.visibility = View.VISIBLE   //투명 배경 VISIBLE
+                    binding.feedTypeSelectLayout.visibility = View.VISIBLE
+                    binding.feedTopLayout.background = ContextCompat.getDrawable(requireContext(), R.drawable.bg_wh_bottom30)
+                } else    //나의 취향 정렬 타입 선택하는 화면이 보이고 있으면 숨겨주기
+                    hideTypeSelectLayout()
+            }
         }
 
         //취향 정렬 타입 텍스트뷰 클릭 리스너
