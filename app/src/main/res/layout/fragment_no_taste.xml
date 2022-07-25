@@ -10,7 +10,7 @@
         android:id="@+id/no_taste_filter_fl"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:paddingStart="21dp"
+        android:paddingStart="20dp"
         app:layout_constraintTop_toTopOf="parent">
 
         <RadioGroup

@@ -19,17 +19,22 @@
     <color name="GY_03">#BBBDB6</color>
     <color name="GY_04">#82857A</color>
 
+    <color name="RD_1">#FFDAE2</color>
     <color name="RD_2">#FF6E83</color>
     <color name="RD_3">#974650</color>
 
+    <color name="BU_1">#DCF5FF</color>
     <color name="BU_2">#3AC5FF</color>
     <color name="BU_3">#3B749F</color>
 
+    <color name="GN_1">#E1FED2</color>
     <color name="GN_2">#A4E33D</color>
     <color name="GN_3">#6A8B37</color>
 
+    <color name="YE_1">#FEF6CD</color>
     <color name="YE_2">#998537</color>
 
+    <color name="PU_1">#E8E0FF</color>
     <color name="PU_2">#A586FF</color>
     <color name="PU_3">#60509E</color>
 </resources>

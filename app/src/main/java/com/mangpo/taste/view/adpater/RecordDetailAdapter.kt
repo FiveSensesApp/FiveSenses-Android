@@ -3,8 +3,6 @@ package com.mangpo.taste.view.adpater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -16,6 +14,8 @@ import com.mangpo.taste.databinding.ItemByTimelineFilterBinding
 import com.mangpo.taste.databinding.ItemRecordCntBinding
 import com.mangpo.taste.databinding.ItemRecordDetailBinding
 import com.mangpo.taste.util.convertDpToPx
+import com.mangpo.taste.util.fadeIn
+import com.mangpo.taste.util.fadeOut
 import com.mangpo.taste.view.model.Record
 import com.willy.ratingbar.BaseRatingBar
 
@@ -24,16 +24,11 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private lateinit var recordCntBinding: ItemRecordCntBinding
     private lateinit var contentBinding: ItemRecordDetailBinding
     private lateinit var records: List<Record>
-    private lateinit var fadeInAnim: Animation
-    private lateinit var fadeOutAnim: Animation
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): RecyclerView.ViewHolder {
-        fadeInAnim = AnimationUtils.loadAnimation(parent.context, R.anim.fade_in)
-        fadeOutAnim = AnimationUtils.loadAnimation(parent.context, R.anim.fade_out)
-
         return when (viewType) {
             ContentViewType.BY_TIMELINE_FILTER.num -> {
                 byTimelineFilterBinding = ItemByTimelineFilterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -155,13 +150,10 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 root.setPadding(convertDpToPx(root.context, 20), 0, convertDpToPx(root.context, 20), convertDpToPx(root.context, 16))
 
             moreIv.setOnClickListener {
-                if (menuCl.visibility==View.VISIBLE) {
-                    menuCl.startAnimation(fadeOutAnim)
-                    menuCl.visibility = View.INVISIBLE
-                } else {
-                    menuCl.startAnimation(fadeInAnim)
-                    menuCl.visibility = View.VISIBLE
-                }
+                if (menuCl.visibility==View.VISIBLE)
+                    fadeOut(root.context, menuCl)
+                else
+                    fadeIn(root.context, menuCl)
             }
         }
     }

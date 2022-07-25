@@ -5,6 +5,7 @@ import android.view.ViewTreeObserver
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
@@ -30,21 +31,13 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
         })
 
         setMyEventListener()
+        observe()
     }
 
     //기록이 있을 때/없을 때 각각 다른 StartDestination 을 가짐
     private fun setStartDestination() {
-        if (startDestinationTest) { //기록이 있을 때
-            val navController = binding.feedFcv.findNavController()
-            val navGraph = navController.navInflater.inflate(R.navigation.navigation_feed)
-            navGraph.setStartDestination(R.id.timelineFragment)
-            navController.graph = navGraph
-        } else {    //기록이 없을 때
-            val navController = binding.feedFcv.findNavController()
-            val navGraph = navController.navInflater.inflate(R.navigation.navigation_feed)
-            navGraph.setStartDestination(R.id.noTasteFragment)
-            navController.graph = navGraph
-        }
+        if (startDestinationTest)   //기록이 있을 때 -> TimeLineFragment 로 이동하기
+            binding.feedFcv.findNavController().navigate(R.id.action_global_timelineFragment)
     }
 
     private fun setMyEventListener() {
@@ -71,6 +64,20 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
         binding.feedBlurredView.visibility = View.INVISIBLE //투명 배경 INVISIBLE
         binding.feedTypeSelectLayout.visibility = View.GONE
         binding.feedTopLayout.background = null
+    }
+
+    private fun observe() {
+        //피드 필터 타입 Observe
+        mainViewModel.feedType.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                getString(R.string.title_timeline) -> binding.feedFcv.findNavController().navigate(R.id.action_global_timelineFragment)
+                getString(R.string.title_by_sense) -> binding.feedFcv.findNavController().navigate(R.id.action_global_bySenseFragment)
+                getString(R.string.title_by_score) -> {
+                }
+                getString(R.string.title_by_calendar) -> {
+                }
+            }
+        })
     }
 
     //터치뷰 클릭리스너 이너 클래스

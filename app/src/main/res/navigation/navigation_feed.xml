@@ -15,4 +15,26 @@
         android:name="com.mangpo.taste.view.TimelineFragment"
         android:label="fragment_timeline"
         tools:layout="@layout/fragment_timeline" />
+    <fragment
+        android:id="@+id/bySenseFragment"
+        android:name="com.mangpo.taste.view.BySenseFragment"
+        android:label="fragment_by_sense"
+        tools:layout="@layout/fragment_by_sense" />
+    <action
+        android:id="@+id/action_global_bySenseFragment"
+        app:destination="@id/bySenseFragment" />
+    <action
+        android:id="@+id/action_global_timelineFragment"
+        app:destination="@id/timelineFragment" />
+    <dialog
+        android:id="@+id/recordDialogFragment"
+        android:name="com.mangpo.taste.view.RecordDialogFragment"
+        android:label="RecordDialogFragment">
+        <argument
+            android:name="record"
+            app:argType="com.mangpo.taste.view.model.Record" />
+    </dialog>
+    <action
+        android:id="@+id/action_global_recordDialogFragment"
+        app:destination="@id/recordDialogFragment" />
 </navigation>
