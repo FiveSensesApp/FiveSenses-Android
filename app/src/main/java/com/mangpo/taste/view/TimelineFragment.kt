@@ -58,7 +58,7 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
     }
 
     private fun initAdapter() {
-        val records: ArrayList<Record> = arrayListOf(Record(0, null), Record(1, recordEntities[0]), Record(1, recordEntities[1]), Record(1, recordEntities[2]), Record(1, recordEntities[3]), Record(1, recordEntities[4]), Record(1, recordEntities[5]), Record(1, recordEntities[6]), Record(1, recordEntities[7]), Record(1, recordEntities[8]), Record(1, recordEntities[9]), Record(1, recordEntities[10]))
+        val records: ArrayList<Record> = arrayListOf(Record(0, null), Record(1, null), Record(2, recordEntities[0]), Record(2, recordEntities[1]), Record(2, recordEntities[2]), Record(2, recordEntities[3]), Record(2, recordEntities[4]), Record(2, recordEntities[5]), Record(2, recordEntities[6]), Record(2, recordEntities[7]), Record(2, recordEntities[8]), Record(2, recordEntities[9]), Record(2, recordEntities[10]))
         recordDetailAdapter = RecordDetailAdapter()
         recordDetailAdapter.setData(records)
         binding.timelineRecordRv.adapter = recordDetailAdapter

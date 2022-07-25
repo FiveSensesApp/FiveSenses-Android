@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mangpo.domain.model.RecordEntity
 import com.mangpo.taste.R
+import com.mangpo.taste.databinding.ItemByTimelineFilterBinding
 import com.mangpo.taste.databinding.ItemRecordCntBinding
 import com.mangpo.taste.databinding.ItemRecordDetailBinding
 import com.mangpo.taste.util.convertDpToPx
@@ -19,7 +20,8 @@ import com.mangpo.taste.view.model.Record
 import com.willy.ratingbar.BaseRatingBar
 
 class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private lateinit var headerBinding: ItemRecordCntBinding
+    private lateinit var byTimelineFilterBinding: ItemByTimelineFilterBinding
+    private lateinit var recordCntBinding: ItemRecordCntBinding
     private lateinit var contentBinding: ItemRecordDetailBinding
     private lateinit var records: List<Record>
     private lateinit var fadeInAnim: Animation
@@ -33,9 +35,13 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fadeOutAnim = AnimationUtils.loadAnimation(parent.context, R.anim.fade_out)
 
         return when (viewType) {
-            ContentViewType.HEADER.num -> {
-                headerBinding = ItemRecordCntBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                RecordCntViewHolder(headerBinding)
+            ContentViewType.BY_TIMELINE_FILTER.num -> {
+                byTimelineFilterBinding = ItemByTimelineFilterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                ByTimelineFilterViewHolder(byTimelineFilterBinding)
+            }
+            ContentViewType.RECORD_CNT.num -> {
+                recordCntBinding = ItemRecordCntBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                RecordCntViewHolder(recordCntBinding)
             }
             else -> {
                 contentBinding = ItemRecordDetailBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -46,19 +52,33 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (records[position].viewType) {
-            ContentViewType.HEADER.num -> (holder as RecordCntViewHolder).bind()
+            ContentViewType.BY_TIMELINE_FILTER.num -> holder as ByTimelineFilterViewHolder
+            ContentViewType.RECORD_CNT.num -> (holder as RecordCntViewHolder).bind()
             else -> (holder as RecordDetailViewHolder).bind(records[position].record!!, position)
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (position) {
-            0 -> ContentViewType.HEADER.num
+        return when (records[position].viewType) {
+            0 -> ContentViewType.BY_TIMELINE_FILTER.num
+            1 -> ContentViewType.RECORD_CNT.num
             else -> ContentViewType.CONTENT.num
         }
     }
 
     override fun getItemCount(): Int = records.size
+
+    inner class ByTimelineFilterViewHolder(binding: ItemByTimelineFilterBinding): RecyclerView.ViewHolder(binding.root) {
+
+    }
+
+    inner class RecordCntViewHolder(binding: ItemRecordCntBinding): RecyclerView.ViewHolder(binding.root) {
+        private val cntTv: TextView = binding.root
+
+        fun bind() {
+            cntTv.text = "총 ${records.size-2}개"
+        }
+    }
 
     inner class RecordDetailViewHolder(binding: ItemRecordDetailBinding): RecyclerView.ViewHolder(binding.root) {
         private val root: ConstraintLayout = binding.root
@@ -146,16 +166,8 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    inner class RecordCntViewHolder(binding: ItemRecordCntBinding): RecyclerView.ViewHolder(binding.root) {
-        private val cntTv: TextView = binding.root
-
-        fun bind() {
-            cntTv.text = "총 ${records.size-1}개"
-        }
-    }
-
     enum class ContentViewType(val num: Int) {
-        HEADER(0), CONTENT(1)
+        BY_TIMELINE_FILTER(0), RECORD_CNT(1), CONTENT(2)
     }
 
     fun setData(records: List<Record>) {
