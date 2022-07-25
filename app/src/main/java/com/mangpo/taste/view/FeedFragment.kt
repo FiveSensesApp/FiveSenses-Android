@@ -41,6 +41,13 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
     }
 
     private fun setMyEventListener() {
+        //오른쪽 검색 아이콘 클릭 리스너
+        binding.feedSearchRightIv.setOnClickListener {
+            it.visibility = View.INVISIBLE  //INVISIBLE
+            binding.feedSearchLeftIv.visibility = View.VISIBLE  //왼쪽 검색 아이콘 VISIBLE
+            binding.feedSearchEt.visibility = View.VISIBLE  //검색 EditText VISIBLE
+        }
+
         //나의 취향 터치뷰 클릭 리스너
         binding.feedTypeSelectTouchView.setOnClickListener {
             if ((requireActivity() as MainActivity).checkRecordFcvVisibility()==View.INVISIBLE) {   //MainActivity 의 recordFcv 가 INVISIBLE 일 때만 활성화

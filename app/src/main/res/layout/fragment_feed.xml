@@ -14,7 +14,39 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/feed_search_iv"
+            android:id="@+id/feed_search_left_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="46dp"
+            android:src="@drawable/ic_magnifying_glass_44"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/feed_search_et"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="@color/GY_03"
+            android:gravity="center_vertical"
+            android:hint="@string/msg_input_keyword"
+            android:inputType="text"
+            android:lines="1"
+            android:paddingStart="8dp"
+            android:paddingBottom="6dp"
+            android:textAppearance="@style/Body0_SB_16"
+            android:textColor="@color/GY_03"
+            android:textColorHint="@color/GY_03"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/feed_search_left_iv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/feed_search_left_iv"
+            app:layout_constraintTop_toTopOf="@+id/feed_search_left_iv" />
+
+        <ImageView
+            android:id="@+id/feed_search_right_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="46dp"

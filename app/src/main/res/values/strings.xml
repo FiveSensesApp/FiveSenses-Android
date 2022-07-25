@@ -82,6 +82,7 @@
     <string name="msg_indicate_taste_preference">취향을 얼마나 좋아하는지 표시해주세요!</string>
     <string name="msg_hello">님의 취향,\n어떤 감각으로 기록할까요?</string>
     <string name="msg_how_to_use">어떻게 쓰는지 모르겠다면?</string>
+    <string name="msg_input_keyword">검색할 키워드를 입력해주세요.</string>
 
     <string name="error_check_old_pw">기존 비밀번호를 확인해주세요.</string>
     <string name="error_not_match_pw">비밀번호가 일치하지 않습니다!</string>
