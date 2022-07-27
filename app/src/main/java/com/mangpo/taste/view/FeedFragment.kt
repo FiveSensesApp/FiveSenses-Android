@@ -14,7 +14,7 @@ import com.mangpo.taste.viewmodel.MainViewModel
 
 class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::inflate) {
     private val mainViewModel: MainViewModel by activityViewModels()
-    private val startDestinationTest: Boolean = true
+    private val hasRecord: Boolean = true
 
     override fun initAfterBinding() {
         setStartDestination()   //기록이 있으면 timelineFragment, 없으면 noTasteFragment 로 startDestination 지정하기
@@ -36,7 +36,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
 
     //기록이 있을 때/없을 때 각각 다른 StartDestination 을 가짐
     private fun setStartDestination() {
-        if (startDestinationTest)   //기록이 있을 때 -> TimeLineFragment 로 이동하기
+        if (hasRecord)   //기록이 있을 때 -> TimeLineFragment 로 이동하기
             binding.feedFcv.findNavController().navigate(R.id.action_global_timelineFragment)
     }
 
@@ -76,11 +76,12 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
     private fun observe() {
         //피드 필터 타입 Observe
         mainViewModel.feedType.observe(viewLifecycleOwner, Observer {
-            when (it) {
-                getString(R.string.title_timeline) -> binding.feedFcv.findNavController().navigate(R.id.action_global_timelineFragment)
-                getString(R.string.title_by_sense) -> binding.feedFcv.findNavController().navigate(R.id.action_global_bySenseFragment)
-                getString(R.string.title_by_score) -> binding.feedFcv.findNavController().navigate(R.id.action_global_byScoreFragment)
-                getString(R.string.title_by_calendar) -> {
+            if (hasRecord) { //기록이 있을 때만
+                when (it) {
+                    getString(R.string.title_timeline) -> binding.feedFcv.findNavController().navigate(R.id.action_global_timelineFragment)
+                    getString(R.string.title_by_sense) -> binding.feedFcv.findNavController().navigate(R.id.action_global_bySenseFragment)
+                    getString(R.string.title_by_score) -> binding.feedFcv.findNavController().navigate(R.id.action_global_byScoreFragment)
+                    getString(R.string.title_by_calendar) -> binding.feedFcv.findNavController().navigate(R.id.action_global_byCalendarFragment)
                 }
             }
         })
