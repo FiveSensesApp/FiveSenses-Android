@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.RecyclerView
 import com.mangpo.taste.R
+import com.mangpo.taste.databinding.ItemByScoreFilterBinding
 import com.mangpo.taste.databinding.ItemBySenseFilterBinding
 import com.mangpo.taste.databinding.ItemRecordCntBinding
 import com.mangpo.taste.databinding.ItemRecordShortBinding
@@ -18,6 +19,7 @@ class RecordShortAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     private lateinit var bySenseFilterBinding: ItemBySenseFilterBinding
+    private lateinit var byScoreFilterBinding: ItemByScoreFilterBinding
     private lateinit var recordCntBinding: ItemRecordCntBinding
     private lateinit var contentBinding: ItemRecordShortBinding
     private lateinit var baseRecords: List<Record>
@@ -33,6 +35,10 @@ class RecordShortAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 bySenseFilterBinding = ItemBySenseFilterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 BySenseFilterViewHolder(bySenseFilterBinding)
             }
+            ContentViewType.BY_SCORE_FILTER.num -> {
+                byScoreFilterBinding = ItemByScoreFilterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                ByScoreFilterViewHolder(byScoreFilterBinding)
+            }
             ContentViewType.RECORD_CNT.num -> {
                 recordCntBinding = ItemRecordCntBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 RecordCntViewHolder(recordCntBinding)
@@ -47,6 +53,7 @@ class RecordShortAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (records[position].viewType) {
             ContentViewType.BY_SENSE_FILTER.num -> (holder as BySenseFilterViewHolder).bind()
+            ContentViewType.BY_SCORE_FILTER.num -> (holder as ByScoreFilterViewHolder).bind()
             ContentViewType.RECORD_CNT.num -> (holder as RecordCntViewHolder).bind()
             ContentViewType.CONTENT.num -> (holder as RecordShortViewHolder).bind(records[position])
             else -> return
@@ -113,13 +120,35 @@ class RecordShortAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
+    inner class ByScoreFilterViewHolder(binding: ItemByScoreFilterBinding): RecyclerView.ViewHolder(binding.root) {
+        private val filterRg: RadioGroup = binding.root
+
+        fun bind() {
+            filterRg.setOnCheckedChangeListener { radioGroup, i ->
+                when (i) {
+                    R.id.by_score_1score_rb -> records = baseRecords.filter { it.record==null || it.record?.star==1f }
+                    R.id.by_score_2score_rb -> records = baseRecords.filter { it.record==null || it.record?.star==2f }
+                    R.id.by_score_3score_rb -> records = baseRecords.filter { it.record==null || it.record?.star==3f }
+                    R.id.by_score_4score_rb -> records = baseRecords.filter { it.record==null || it.record?.star==4f }
+                    R.id.by_score_5score_rb -> records = baseRecords.filter { it.record==null || it.record?.star==5f }
+                }
+
+                notifyDataSetChanged()
+            }
+        }
+    }
+
     enum class ContentViewType(val num: Int) {
         BY_SENSE_FILTER(0), BY_SCORE_FILTER(1), RECORD_CNT(2), CONTENT(3)
     }
 
-    fun setData(records: List<Record>) {
+    fun setData(records: List<Record>, viewType: Int) {
         this.baseRecords = records
-        this.records = baseRecords.filter { it.record==null || it.record?.taste==0 }    //디폴트는 시각만 보이도록
+
+        if (viewType==ContentViewType.BY_SENSE_FILTER.num)  //감각별 보관함일 때
+            this.records = baseRecords.filter { it.record==null || it.record?.taste==0 }    //디폴트는 시각만 보이도록
+        else if (viewType==ContentViewType.BY_SCORE_FILTER.num) //점수별 보관함일 때
+            this.records = baseRecords.filter { it.record==null || it.record?.star==5f }    //디폴트는 5점만 보이도록
 
         notifyDataSetChanged()
     }

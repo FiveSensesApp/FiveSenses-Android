@@ -37,4 +37,12 @@
     <action
         android:id="@+id/action_global_recordDialogFragment"
         app:destination="@id/recordDialogFragment" />
+    <fragment
+        android:id="@+id/byScoreFragment"
+        android:name="com.mangpo.taste.view.ByScoreFragment"
+        android:label="fragment_by_score"
+        tools:layout="@layout/fragment_by_score" />
+    <action
+        android:id="@+id/action_global_byScoreFragment"
+        app:destination="@id/byScoreFragment" />
 </navigation>

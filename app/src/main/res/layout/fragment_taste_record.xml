@@ -73,7 +73,8 @@
             app:srb_minimumStars="0"
             app:srb_numStars="5"
             app:srb_scrollable="true"
-            app:srb_starPadding="7dp"></com.willy.ratingbar.BaseRatingBar>
+            app:srb_starPadding="7dp"
+            app:srb_stepSize="1.0" />
 
         <TextView
             android:id="@+id/taste_record_srb_msg_tv"

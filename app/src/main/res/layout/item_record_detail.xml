@@ -94,7 +94,8 @@
             app:srb_minimumStars="0"
             app:srb_numStars="5"
             app:srb_scrollable="false"
-            app:srb_starPadding="7dp" />
+            app:srb_starPadding="7dp"
+            app:srb_stepSize="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
