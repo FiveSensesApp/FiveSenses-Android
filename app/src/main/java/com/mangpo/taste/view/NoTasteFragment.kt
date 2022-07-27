@@ -48,7 +48,7 @@ class NoTasteFragment : BaseFragment<FragmentNoTasteBinding>(FragmentNoTasteBind
     }
 
     private fun initDayViewContainer() {
-        dayViewContainer = DayViewContainer(binding.noTasteCv)
+        dayViewContainer = DayViewContainer(binding.noTasteCv, listOf())
         dayViewContainer.setOnDayClickListener(object : DayViewContainer.OnDayClickListener {
             override fun onClick(oldDate: LocalDate, selectedDate: LocalDate) {
                 binding.noTasteCv.notifyDateChanged(selectedDate)   //현재 선택한 날짜 선택된 UI 로 변경

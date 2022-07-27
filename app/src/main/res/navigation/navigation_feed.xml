@@ -45,4 +45,11 @@
     <action
         android:id="@+id/action_global_byScoreFragment"
         app:destination="@id/byScoreFragment" />
+    <fragment
+        android:id="@+id/byCalendarFragment"
+        android:name="com.mangpo.taste.view.ByCalendarFragment"
+        android:label="ByCalendarFragment" />
+    <action
+        android:id="@+id/action_global_byCalendarFragment"
+        app:destination="@id/byCalendarFragment" />
 </navigation>

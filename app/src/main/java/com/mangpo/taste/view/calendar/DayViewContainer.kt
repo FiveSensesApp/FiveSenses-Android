@@ -16,8 +16,9 @@ import com.mangpo.taste.util.getDeviceWidth
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
+import java.time.format.DateTimeFormatter
 
-class DayViewContainer(calendarView: CalendarView): DayBinder<DayViewContainer.DayViewContainer> {
+class DayViewContainer(calendarView: CalendarView, recordedDate: List<String>): DayBinder<DayViewContainer.DayViewContainer> {
     interface OnDayClickListener {
         fun onClick(oldDate: LocalDate, selectedDate: LocalDate)
     }
@@ -34,6 +35,7 @@ class DayViewContainer(calendarView: CalendarView): DayBinder<DayViewContainer.D
 
     private var calendarView: CalendarView = calendarView
     private var selectedDate: LocalDate = LocalDate.now()
+    private var recordedDate: List<String> = recordedDate
 
     private lateinit var onDayClickListener: OnDayClickListener
 
@@ -105,6 +107,12 @@ class DayViewContainer(calendarView: CalendarView): DayBinder<DayViewContainer.D
                 params.marginEnd = convertDpToPx(view.context, 14)
             params.width = (getDeviceWidth() - convertDpToPx(view.context, 28))/7
             binding.root.layoutParams = params
+
+            //해당 날짜에 기록이 있으면 조그만 동그라미 보여주기
+            if (recordedDate.contains(day.date.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"))))
+                binding.calendarDaySmallOvalView.visibility = View.VISIBLE
+            else
+                binding.calendarDaySmallOvalView.visibility = View.INVISIBLE
 
             if (day.owner == DayOwner.THIS_MONTH) { //이번달
                 binding.root.visibility = View.VISIBLE    //날짜뷰 VISIBLE

@@ -96,7 +96,7 @@ class RecordShortAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private val cntTv: TextView = binding.root
 
         fun bind() {
-            cntTv.text = "총 ${records.size-2}개"
+            cntTv.text = "총 ${records.filter { it.viewType==ContentViewType.CONTENT.num }.size}개"
         }
     }
 
@@ -149,6 +149,13 @@ class RecordShortAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             this.records = baseRecords.filter { it.record==null || it.record?.taste==0 }    //디폴트는 시각만 보이도록
         else if (viewType==ContentViewType.BY_SCORE_FILTER.num) //점수별 보관함일 때
             this.records = baseRecords.filter { it.record==null || it.record?.star==5f }    //디폴트는 5점만 보이도록
+
+        notifyDataSetChanged()
+    }
+
+    fun setData(records: List<Record>) {
+        this.baseRecords = records
+        this.records = baseRecords
 
         notifyDataSetChanged()
     }
