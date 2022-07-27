@@ -10,9 +10,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import com.kizitonwose.calendarview.model.CalendarMonth
-import com.kizitonwose.calendarview.model.InDateStyle
-import com.kizitonwose.calendarview.ui.MonthHeaderFooterBinder
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentNoTasteBinding
@@ -20,15 +17,14 @@ import com.mangpo.taste.util.convertDpToPx
 import com.mangpo.taste.view.calendar.CalendarHeaderViewContainer
 import com.mangpo.taste.view.calendar.DayViewContainer
 import com.mangpo.taste.viewmodel.MainViewModel
-import java.time.DayOfWeek
 import java.time.LocalDate
-import java.time.YearMonth
 
 class NoTasteFragment : BaseFragment<FragmentNoTasteBinding>(FragmentNoTasteBinding::inflate) {
     private val mainViewModel: MainViewModel by activityViewModels()
 
     private lateinit var sp: SharedPreferences
     private lateinit var dayViewContainer: DayViewContainer
+    private lateinit var headerViewContainer: CalendarHeaderViewContainer
 
     override fun initAfterBinding() {
         sp = requireActivity().getSharedPreferences(getString(R.string.app_name), Application.MODE_PRIVATE)
@@ -52,7 +48,7 @@ class NoTasteFragment : BaseFragment<FragmentNoTasteBinding>(FragmentNoTasteBind
     }
 
     private fun initDayViewContainer() {
-        dayViewContainer = DayViewContainer()
+        dayViewContainer = DayViewContainer(binding.noTasteCv)
         dayViewContainer.setOnDayClickListener(object : DayViewContainer.OnDayClickListener {
             override fun onClick(oldDate: LocalDate, selectedDate: LocalDate) {
                 binding.noTasteCv.notifyDateChanged(selectedDate)   //현재 선택한 날짜 선택된 UI 로 변경
@@ -63,62 +59,8 @@ class NoTasteFragment : BaseFragment<FragmentNoTasteBinding>(FragmentNoTasteBind
     }
 
     private fun initCalendarHeader() {
-        binding.noTasteCv.monthHeaderBinder = object : MonthHeaderFooterBinder<CalendarHeaderViewContainer> {
-            override fun bind(container: CalendarHeaderViewContainer, month: CalendarMonth) {
-                if (binding.noTasteCv.maxRowCount==1)
-                    container.monthTv.text = "${month.weekDays[0][0].date.year}년 ${month.weekDays[0][0].date.monthValue}월"
-                else
-                    container.monthTv.text = "${month.year}년 ${month.month}월"
-
-                container.leftIv.setOnClickListener {
-                    if (binding.noTasteCv.maxRowCount==1)
-                        binding.noTasteCv.scrollToDate(month.weekDays[0][0].date.minusDays(7L))
-                    else
-                        binding.noTasteCv.scrollToMonth(month.yearMonth.minusMonths(1L))
-                }
-
-                container.rightIv.setOnClickListener {
-                    if (binding.noTasteCv.maxRowCount==1)
-                        binding.noTasteCv.scrollToDate(month.weekDays[0][0].date.plusDays(7L))
-                    else
-                        binding.noTasteCv.scrollToMonth(month.yearMonth.plusMonths(1L))
-                }
-            }
-
-            override fun create(view: View): CalendarHeaderViewContainer = CalendarHeaderViewContainer(view)
-        }
-    }
-
-    private fun initWeekCalendarView(yearMonth: YearMonth, selectedDate: LocalDate) {
-        val firstMonth = yearMonth.minusMonths(10)
-        val lastMonth = yearMonth.plusMonths(10)
-        val daysOfWeek = arrayOf(
-            DayOfWeek.SUNDAY,
-            DayOfWeek.MONDAY,
-            DayOfWeek.TUESDAY,
-            DayOfWeek.WEDNESDAY,
-            DayOfWeek.THURSDAY,
-            DayOfWeek.FRIDAY,
-            DayOfWeek.SATURDAY
-        )
-        binding.noTasteCv.setup(firstMonth, lastMonth, daysOfWeek.first())
-        binding.noTasteCv.scrollToDate(selectedDate)
-    }
-
-    private fun initMonthCalendarView(yearMonth: YearMonth) {
-        val firstMonth = yearMonth.minusMonths(10)
-        val lastMonth = yearMonth.plusMonths(10)
-        val daysOfWeek = arrayOf(
-            DayOfWeek.SUNDAY,
-            DayOfWeek.MONDAY,
-            DayOfWeek.TUESDAY,
-            DayOfWeek.WEDNESDAY,
-            DayOfWeek.THURSDAY,
-            DayOfWeek.FRIDAY,
-            DayOfWeek.SATURDAY
-        )
-        binding.noTasteCv.setup(firstMonth, lastMonth, daysOfWeek.first())
-        binding.noTasteCv.scrollToMonth(yearMonth)
+        headerViewContainer = CalendarHeaderViewContainer(binding.noTasteCv)
+        binding.noTasteCv.monthHeaderBinder = headerViewContainer
     }
 
     private fun setMyEventListener() {
@@ -165,15 +107,7 @@ class NoTasteFragment : BaseFragment<FragmentNoTasteBinding>(FragmentNoTasteBind
         binding.noTasteArrowIv.setImageResource(R.drawable.ic_expand_46)    //펼치기 아이콘으로 변경
         binding.noTasteArrowIv.tag = "expand"   //이미지뷰 태그를 expand 로
 
-        //접혀있을 땐 한줄만 보여주기
-        binding.noTasteCv.updateMonthConfiguration(
-            inDateStyle = InDateStyle.ALL_MONTHS,
-            maxRowCount = 1,
-            hasBoundaries = false
-        )
-
-        val selectedDate = dayViewContainer.getSelectedDate()
-        initWeekCalendarView(YearMonth.of(selectedDate.year, selectedDate.monthValue), selectedDate) //선택된 날짜가 포함된 주의 달력을 보여주기
+        dayViewContainer.updateMonthConfiguration(1, null)    //접혀있을 땐 한줄만 보여주기
     }
 
     //펼쳐져있는 캘린더뷰 UI 화면 함수
@@ -182,15 +116,7 @@ class NoTasteFragment : BaseFragment<FragmentNoTasteBinding>(FragmentNoTasteBind
         binding.noTasteArrowIv.setImageResource(R.drawable.ic_fold_44)  //접기 아이콘으로 변경
         binding.noTasteArrowIv.tag = "fold" //이미지뷰 태그를 fold 로
 
-        //펼쳐져 있을 땐 6줄 보여주기
-        binding.noTasteCv.updateMonthConfiguration(
-            inDateStyle = InDateStyle.ALL_MONTHS,
-            maxRowCount = 6,
-            hasBoundaries = true
-        )
-
-        val selectedDate = dayViewContainer.getSelectedDate()
-        initMonthCalendarView(YearMonth.of(selectedDate.year, selectedDate.monthValue)) //선택된 날짜가 포함된 월의 달력을 보여주기
+        dayViewContainer.updateMonthConfiguration(6, headerViewContainer.getYearMonth())    //펼쳐져 있을 땐 6줄 보여주기
     }
 
     private fun observe() {
@@ -226,7 +152,7 @@ class NoTasteFragment : BaseFragment<FragmentNoTasteBinding>(FragmentNoTasteBind
 
                     setFoldCalendarUI() //주별 달력이 보이도록 설정하기
                     dayViewContainer.setSelectedDate(LocalDate.now())   //현재 날짜로 변경
-                    initWeekCalendarView(YearMonth.now(), LocalDate.now())  //주별 달력이 현재 날짜로 보이도록 설정
+                    dayViewContainer.updateMonthConfiguration(1, null)
 
                     binding.noTasteCalendarCl.visibility = View.VISIBLE //캘린더 레이아웃 VISIBLE
                     binding.noTasteTimelineFilterRg.visibility = View.INVISIBLE
