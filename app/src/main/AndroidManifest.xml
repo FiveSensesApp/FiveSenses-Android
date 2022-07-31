@@ -14,13 +14,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Taste">
         <activity
-            android:name=".view.SettingActivity"
+            android:name=".view.RecordUpdateActivity"
             android:exported="false"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".view.SettingActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".view.MainActivity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.LoginActivity"
             android:exported="true"

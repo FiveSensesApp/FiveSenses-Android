@@ -20,10 +20,16 @@ import com.mangpo.taste.view.model.Record
 import com.willy.ratingbar.BaseRatingBar
 
 class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    interface MyClickListener {
+        fun update(record: RecordEntity)
+        fun delete(recordId: Int)
+    }
+
     private lateinit var byTimelineFilterBinding: ItemByTimelineFilterBinding
     private lateinit var recordCntBinding: ItemRecordCntBinding
     private lateinit var contentBinding: ItemRecordDetailBinding
     private lateinit var records: List<Record>
+    private lateinit var myClickListener: MyClickListener
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -84,6 +90,7 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private val dateTv: TextView = binding.recordDetailDateTv
         private val starSrb: BaseRatingBar = binding.recordDetailSrb
         private val menuCl: ConstraintLayout = binding.recordDetailMenuCl
+        private val updateClickView: View = binding.recordDetailUpdateClickView
 
         fun bind(record: RecordEntity, position: Int) {
             keywordTv.text = record.keyword
@@ -155,6 +162,10 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 else
                     fadeIn(root.context, menuCl)
             }
+
+            updateClickView.setOnClickListener {    //수정 클릭뷰 클릭 리스너
+                myClickListener.update(record)
+            }
         }
     }
 
@@ -165,5 +176,9 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     fun setData(records: List<Record>) {
         this.records = records
         notifyDataSetChanged()
+    }
+
+    fun setMyClickListener(myClickListener: MyClickListener) {
+        this.myClickListener = myClickListener
     }
 }
