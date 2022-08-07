@@ -4,32 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/WH"
-    tools:context=".view.RecordCompleteDialogFragment">
+    tools:context=".view.TwoBtnDialogFragment">
 
     <TextView
-        android:id="@+id/record_complete_title_tv"
-        android:layout_width="match_parent"
+        android:id="@+id/two_btn_title_tv"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
-        android:gravity="center"
-        android:text="@string/title_record_complete"
         android:textAppearance="@style/Head_B_20"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/record_complete_msg_tv"
-        android:layout_width="match_parent"
+        android:id="@+id/two_btn_msg_tv"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
-        android:gravity="center"
-        android:text="@string/msg_taste_input_complete"
         android:textAppearance="@style/Body1_M_16"
         android:textColor="@color/GY_04"
-        app:layout_constraintTop_toBottomOf="@+id/record_complete_title_tv" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/two_btn_title_tv" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/record_complete_keep_writing_btn"
+        android:id="@+id/two_btn_left_btn"
         android:layout_width="0dp"
         android:layout_height="44dp"
         android:layout_marginStart="24dp"
@@ -37,31 +36,39 @@
         android:layout_marginEnd="7dp"
         android:layout_marginBottom="22dp"
         android:background="@drawable/bg_gy03_22p5"
-        android:gravity="center"
         android:stateListAnimator="@null"
-        android:text="@string/action_keep_writing"
-        android:textAppearance="@style/Sub_Head_B_16"
+        android:textAppearance="@style/Sub_Head_B_18"
         android:textColor="@color/WH"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/record_complete_go_locker_btn"
+        app:layout_constraintEnd_toStartOf="@+id/two_btn_right_btn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/record_complete_msg_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/two_btn_msg_tv" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/record_complete_go_locker_btn"
+        android:id="@+id/two_btn_right_btn"
         android:layout_width="0dp"
         android:layout_height="44dp"
         android:layout_marginStart="7dp"
         android:layout_marginEnd="24dp"
         android:background="@drawable/bg_gy04_22p5"
-        android:gravity="center"
         android:stateListAnimator="@null"
-        android:text="@string/action_go_locker"
-        android:textAppearance="@style/Sub_Head_B_16"
+        android:textAppearance="@style/Sub_Head_B_18"
         android:textColor="@color/WH"
-        app:layout_constraintBottom_toBottomOf="@+id/record_complete_keep_writing_btn"
+        app:layout_constraintBottom_toBottomOf="@+id/two_btn_left_btn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/record_complete_keep_writing_btn"
-        app:layout_constraintTop_toTopOf="@+id/record_complete_keep_writing_btn" />
+        app:layout_constraintStart_toEndOf="@+id/two_btn_left_btn"
+        app:layout_constraintTop_toTopOf="@+id/two_btn_left_btn" />
+
+    <View
+        android:id="@+id/two_btn_blurred_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0"
+        android:visibility="invisible"
+        android:background="@drawable/bg_gy01_12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,10 +1,8 @@
 package com.mangpo.taste.view
 
+import android.os.Bundle
 import android.text.Editable
-import android.text.Spannable
-import android.text.SpannableStringBuilder
 import android.text.TextWatcher
-import android.text.style.ForegroundColorSpan
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -15,17 +13,21 @@ import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentTasteRecordBinding
 import com.mangpo.taste.util.convertDpToPx
+import com.mangpo.taste.util.setSpannableText
+import com.mangpo.taste.util.setting
+import com.mangpo.taste.view.model.TwoBtnDialog
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent.setEventListener
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTasteRecordBinding::inflate), TextWatcher {
-    private lateinit var selectAgainDialogFragment: SelectAgainDialogFragment
-    private lateinit var recordCompleteDialogFragment: RecordCompleteDialogFragment
+    private lateinit var twoBtnDialogFragment: TwoBtnDialogFragment
     private lateinit var onBackPressedCallback: OnBackPressedCallback
 
     private val navArgs: TasteRecordFragmentArgs by navArgs()
+
+    private var isComplete: Boolean = false
 
     override fun initAfterBinding() {
         initDialog()
@@ -35,7 +37,13 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
         onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 binding.tasteRecordBlurredView.visibility = View.VISIBLE    //투명뷰 VISIBLE
-                selectAgainDialogFragment.show(requireActivity().supportFragmentManager, null)  //다시 선택하시겠습니까? 다이얼로그 띄우기
+
+                //다시 선택하시겠습니까? TwoBtnDialog 띄우기
+                val bundle: Bundle = Bundle()
+                bundle.putParcelable("data", TwoBtnDialog(getString(R.string.msg_select_again), getString(R.string.msg_not_save), getString(R.string.action_keep_writing), getString(R.string.action_go_back), true))
+
+                twoBtnDialogFragment.arguments = bundle
+                twoBtnDialogFragment.show(requireActivity().supportFragmentManager, null)
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)    //뒤로가기 콜백 리스너 등록
@@ -79,29 +87,29 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
     }
 
     private fun initDialog() {
-        selectAgainDialogFragment = SelectAgainDialogFragment()
-        selectAgainDialogFragment.setMyClickCallback(object : SelectAgainDialogFragment.MyClickCallback {
-            override fun keep() {   //계속 쓰기
-                binding.tasteRecordBlurredView.visibility = View.INVISIBLE    //투명뷰 INVISIBLE
+        twoBtnDialogFragment = TwoBtnDialogFragment()
+        twoBtnDialogFragment.setMyCallback(object : TwoBtnDialogFragment.MyCallback {
+            override fun leftAction() {
+                if (isComplete) {   //기록 완료 -> 계속 쓰기
+                    binding.tasteRecordBlurredView.visibility = View.INVISIBLE  //투명뷰 INVISIBLE
+                    clear() //입력했던 내용 모두 초기화
+                } else {    //다시 선택하시겠습니까? -> 계속 쓰기
+                    binding.tasteRecordBlurredView.visibility = View.INVISIBLE    //투명뷰 INVISIBLE
+                }
+
+                isComplete = false
             }
 
-            override fun back() {   //뒤로 가기
-                findNavController().popBackStack()
-            }
-        })
+            override fun rightAction() {
+                if (isComplete) {   //기록 완료 -> 보관함 가기
+                    findNavController().popBackStack()  //뒤로 가기 -> OgamSelectFragment
+                    requireActivity().onBackPressed()   //뒤로 가기 -> MainActivity
+                    (requireActivity() as MainActivity).changeMenu(R.id.feedFragment)   //보관함 화면으로 이동 -> FeedFragment
+                } else {    //다시 선택하시겠습니까? -> 뒤로 가기
+                    findNavController().popBackStack()  //뒤로 가기
+                }
 
-        //기록 완료 다이얼로그
-        recordCompleteDialogFragment = RecordCompleteDialogFragment()
-        recordCompleteDialogFragment.setMyCallback(object: RecordCompleteDialogFragment.MyCallback {
-            override fun keep() {   //계속 쓰기
-                binding.tasteRecordBlurredView.visibility = View.INVISIBLE  //투명뷰 INVISIBLE
-                clear() //입력했던 내용 모두 초기화
-            }
-
-            override fun complete() {   //보관함 가기
-                findNavController().popBackStack()  //뒤로 가기 -> OgamSelectFragment
-                requireActivity().onBackPressed()   //뒤로 가기 -> MainActivity
-                (requireActivity() as MainActivity).changeMenu(R.id.feedFragment)   //보관함 화면으로 이동 -> FeedFragment
+                isComplete = false
             }
         })
     }
@@ -113,7 +121,13 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
         //뒤로가기 아이콘 이미지뷰 클릭 리스너
         binding.tasteRecordBackIv.setOnClickListener {
             binding.tasteRecordBlurredView.visibility = View.VISIBLE    //투명뷰 VISIBLE
-            selectAgainDialogFragment.show(requireActivity().supportFragmentManager, null)  //다시 선택하시겠습니까? 다이얼로그 띄우기
+
+            //다시 선택하시겠습니까? TwoBtnDialog 띄우기
+            val bundle: Bundle = Bundle()
+            bundle.putParcelable("data", TwoBtnDialog(getString(R.string.msg_select_again), getString(R.string.msg_not_save), getString(R.string.action_keep_writing), getString(R.string.action_go_back), true))
+
+            twoBtnDialogFragment.arguments = bundle
+            twoBtnDialogFragment.show(requireActivity().supportFragmentManager, null)
         }
 
         //FloatingActionButton 클릭 리스너
@@ -121,7 +135,15 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
             if (validate()) {   //유효성 검사 통과
                 binding.tasteRecordEssentialErrTv.visibility = View.INVISIBLE   //에러 메시지 텍스트뷰 INVISIBLE
                 binding.tasteRecordBlurredView.visibility = View.VISIBLE    //투명뷰 VISIBLE
-                recordCompleteDialogFragment.show(requireActivity().supportFragmentManager, null)  //기록 완료 다이얼로그 띄우기
+
+                isComplete = true
+
+                //기록 완료 TwoBtnDialog 띄우기
+                val bundle: Bundle = Bundle()
+                bundle.putParcelable("data", TwoBtnDialog(getString(R.string.title_record_complete), getString(R.string.msg_taste_input_complete), getString(R.string.action_keep_writing), getString(R.string.action_go_locker), true))
+
+                twoBtnDialogFragment.arguments = bundle
+                twoBtnDialogFragment.show(requireActivity().supportFragmentManager, null)
             } else {    //유효성 검사 실패
                 binding.tasteRecordEssentialErrTv.visibility = View.VISIBLE //에러 메시지 텍스트뷰 VISIBLE
                 binding.tasteRecordBlurredView.visibility = View.INVISIBLE  //투명뷰 INVISIBLE
@@ -141,79 +163,43 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
         when (sense) {
             R.string.title_sight -> {
                 binding.tasteRecordTasteCharacterIv.setImageResource(R.drawable.ic_sight_character_40)
-
-                val ssb: SpannableStringBuilder = SpannableStringBuilder("${getString(sense)}${getString(R.string.title_taste_record_title)}")
-                ssb.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.RD_2)), 0, getString(sense).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                binding.tasteRecordTitleTv.text = ssb
-
-                binding.tasteRecordSrb.setEmptyDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_blurred_rd_23)!!)
-                binding.tasteRecordSrb.setFilledDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_fill_rd2_23)!!)
-
+                setSpannableText("${getString(sense)}${getString(R.string.title_taste_record_title)}", requireContext(), R.color.RD_2, 0, getString(sense).length, binding.tasteRecordTitleTv)
+                binding.tasteRecordSrb.setting(R.drawable.ic_star_blurred_rd_23, R.drawable.ic_star_fill_rd2_23, 0f)
                 binding.tasteRecordSrbMsgTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.RD_2))
             }
 
             R.string.title_ear -> {
                 binding.tasteRecordTasteCharacterIv.setImageResource(R.drawable.ic_ear_character_40)
-
-                val ssb: SpannableStringBuilder = SpannableStringBuilder("${getString(sense)}${getString(R.string.title_taste_record_title)}")
-                ssb.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.BU_2)), 0, getString(sense).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                binding.tasteRecordTitleTv.text = ssb
-
-                binding.tasteRecordSrb.setEmptyDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_blurred_bu_23)!!)
-                binding.tasteRecordSrb.setFilledDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_fill_bu2_23)!!)
-
+                setSpannableText("${getString(sense)}${getString(R.string.title_taste_record_title)}", requireContext(), R.color.BU_2, 0, getString(sense).length, binding.tasteRecordTitleTv)
+                binding.tasteRecordSrb.setting(R.drawable.ic_star_blurred_bu_23, R.drawable.ic_star_fill_bu2_23, 0f)
                 binding.tasteRecordSrbMsgTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.BU_2))
             }
 
             R.string.title_smell -> {
                 binding.tasteRecordTasteCharacterIv.setImageResource(R.drawable.ic_smell_character_40)
-
-                val ssb: SpannableStringBuilder = SpannableStringBuilder("${getString(sense)}${getString(R.string.title_taste_record_title)}")
-                ssb.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.GN_2)), 0, getString(sense).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                binding.tasteRecordTitleTv.text = ssb
-
-                binding.tasteRecordSrb.setEmptyDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_blurred_gn_23)!!)
-                binding.tasteRecordSrb.setFilledDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_fill_gn2_23)!!)
-
+                setSpannableText("${getString(sense)}${getString(R.string.title_taste_record_title)}", requireContext(), R.color.GN_2, 0, getString(sense).length, binding.tasteRecordTitleTv)
+                binding.tasteRecordSrb.setting(R.drawable.ic_star_blurred_gn_23, R.drawable.ic_star_fill_gn2_23, 0f)
                 binding.tasteRecordSrbMsgTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.GN_3))
             }
 
             R.string.title_taste -> {
                 binding.tasteRecordTasteCharacterIv.setImageResource(R.drawable.ic_taste_character_40)
-
-                val ssb: SpannableStringBuilder = SpannableStringBuilder("${getString(sense)}${getString(R.string.title_taste_record_title)}")
-                ssb.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.YE_2)), 0, getString(sense).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                binding.tasteRecordTitleTv.text = ssb
-
-                binding.tasteRecordSrb.setEmptyDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_blurred_ye_23)!!)
-                binding.tasteRecordSrb.setFilledDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_fill_ye2_23)!!)
-
+                setSpannableText("${getString(sense)}${getString(R.string.title_taste_record_title)}", requireContext(), R.color.YE_2, 0, getString(sense).length, binding.tasteRecordTitleTv)
+                binding.tasteRecordSrb.setting(R.drawable.ic_star_blurred_ye_23, R.drawable.ic_star_fill_ye2_23, 0f)
                 binding.tasteRecordSrbMsgTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.YE_2))
             }
 
             R.string.title_touch -> {
                 binding.tasteRecordTasteCharacterIv.setImageResource(R.drawable.ic_touch_character_40)
-
-                val ssb: SpannableStringBuilder = SpannableStringBuilder("${getString(sense)}${getString(R.string.title_taste_record_title)}")
-                ssb.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.PU_2)), 0, getString(sense).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                binding.tasteRecordTitleTv.text = ssb
-
-                binding.tasteRecordSrb.setEmptyDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_blurred_pu_23)!!)
-                binding.tasteRecordSrb.setFilledDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_fill_pu2_23)!!)
-
+                setSpannableText("${getString(sense)}${getString(R.string.title_taste_record_title)}", requireContext(), R.color.PU_2, 0, getString(sense).length, binding.tasteRecordTitleTv)
+                binding.tasteRecordSrb.setting(R.drawable.ic_star_blurred_pu_23, R.drawable.ic_star_fill_pu2_23, 0f)
                 binding.tasteRecordSrbMsgTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.PU_2))
             }
 
             R.string.title_sense -> {
                 binding.tasteRecordTasteCharacterIv.setImageResource(R.drawable.ic_question_character_40)
-
-                val ssb: SpannableStringBuilder = SpannableStringBuilder("${getString(sense)}${getString(R.string.title_taste_record_title_before)}")
-                ssb.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.GY_04)), 0, getString(sense).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                binding.tasteRecordTitleTv.text = ssb
-
-                binding.tasteRecordSrb.setEmptyDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_blurred_gy_23)!!)
-                binding.tasteRecordSrb.setFilledDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_fill_gy04_23)!!)
-
+                setSpannableText("${getString(sense)}${getString(R.string.title_taste_record_title_before)}", requireContext(), R.color.GY_04, 0, getString(sense).length, binding.tasteRecordTitleTv)
+                binding.tasteRecordSrb.setting(R.drawable.ic_star_blurred_gy_23, R.drawable.ic_star_fill_gy04_23, 0f)
                 binding.tasteRecordSrbMsgTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.GY_04))
             }
         }

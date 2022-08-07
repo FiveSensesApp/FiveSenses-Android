@@ -36,8 +36,8 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
 
     //기록이 있을 때/없을 때 각각 다른 StartDestination 을 가짐
     private fun setStartDestination() {
-        if (hasRecord)   //기록이 있을 때 -> TimeLineFragment 로 이동하기
-            binding.feedFcv.findNavController().navigate(R.id.action_global_timelineFragment)
+        if (!hasRecord)   //기록이 없을 때 -> NoTasteFragment 로 이동하기
+            binding.feedFcv.findNavController().navigate(R.id.action_global_noTasteFragment)
     }
 
     private fun setMyEventListener() {

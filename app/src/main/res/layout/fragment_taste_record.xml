@@ -169,7 +169,7 @@
         android:id="@+id/taste_record_blurred_view"
         android:layout_width="match_parent"
         android:layout_height="340dp"
-        android:background="@color/WH_90"
+        android:background="@color/WH"
         android:visibility="invisible"
         app:layout_constraintTop_toTopOf="@+id/taste_record_record_cl" />
 

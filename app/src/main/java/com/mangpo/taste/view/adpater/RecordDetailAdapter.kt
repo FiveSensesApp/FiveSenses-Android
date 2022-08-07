@@ -16,6 +16,7 @@ import com.mangpo.taste.databinding.ItemRecordDetailBinding
 import com.mangpo.taste.util.convertDpToPx
 import com.mangpo.taste.util.fadeIn
 import com.mangpo.taste.util.fadeOut
+import com.mangpo.taste.util.setting
 import com.mangpo.taste.view.model.Record
 import com.willy.ratingbar.BaseRatingBar
 
@@ -24,6 +25,8 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun update(record: RecordEntity)
         fun delete(recordId: Int)
     }
+
+    private var selectedPosition: Int = 0
 
     private lateinit var byTimelineFilterBinding: ItemByTimelineFilterBinding
     private lateinit var recordCntBinding: ItemRecordCntBinding
@@ -91,6 +94,7 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private val starSrb: BaseRatingBar = binding.recordDetailSrb
         private val menuCl: ConstraintLayout = binding.recordDetailMenuCl
         private val updateClickView: View = binding.recordDetailUpdateClickView
+        private val deleteClickView: View = binding.recordDetailDeleteClickView
 
         fun bind(record: RecordEntity, position: Int) {
             keywordTv.text = record.keyword
@@ -104,50 +108,42 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
             dateTv.text = record.date
 
-            starSrb.rating = record.star
-
             when (record.taste) {
                 0 -> {  //시각
                     dateTv.setTextColor(ContextCompat.getColor(root.context, R.color.RD_2))
                     moreIv.setImageResource(R.drawable.ic_more_rd2_44)
                     characterIv.setImageResource(R.drawable.ic_sight_character_72)
-                    starSrb.setFilledDrawableRes(R.drawable.ic_star_fill_rd2_23)
-                    starSrb.setEmptyDrawableRes(R.drawable.ic_star_empty_rd2_23)
+                    starSrb.setting(R.drawable.ic_star_empty_rd2_23, R.drawable.ic_star_fill_rd2_23, record.star)
                 }
                 1 -> {  //청각
                     dateTv.setTextColor(ContextCompat.getColor(root.context, R.color.BU_2))
                     moreIv.setImageResource(R.drawable.ic_more_bu2_44)
                     characterIv.setImageResource(R.drawable.ic_ear_character_72)
-                    starSrb.setFilledDrawableRes(R.drawable.ic_star_fill_bu2_23)
-                    starSrb.setEmptyDrawableRes(R.drawable.ic_star_empty_bu2_23)
+                    starSrb.setting(R.drawable.ic_star_empty_bu2_23, R.drawable.ic_star_fill_bu2_23, record.star)
                 }
                 2 -> {  //후각
                     dateTv.setTextColor(ContextCompat.getColor(root.context, R.color.GN_3))
                     moreIv.setImageResource(R.drawable.ic_more_gn3_44)
                     characterIv.setImageResource(R.drawable.ic_smell_character_72)
-                    starSrb.setFilledDrawableRes(R.drawable.ic_star_fill_gn2_23)
-                    starSrb.setEmptyDrawableRes(R.drawable.ic_star_empty_gn2_23)
+                    starSrb.setting(R.drawable.ic_star_empty_gn2_23, R.drawable.ic_star_fill_gn2_23, record.star)
                 }
                 3 -> {  //미각
                     dateTv.setTextColor(ContextCompat.getColor(root.context, R.color.YE_2))
                     moreIv.setImageResource(R.drawable.ic_more_ye2_44)
                     characterIv.setImageResource(R.drawable.ic_taste_character_72)
-                    starSrb.setFilledDrawableRes(R.drawable.ic_star_fill_ye2_23)
-                    starSrb.setEmptyDrawableRes(R.drawable.ic_star_empty_ye2_23)
+                    starSrb.setting(R.drawable.ic_star_empty_ye2_23, R.drawable.ic_star_fill_ye2_23, record.star)
                 }
                 4 -> {  //촉각
                     dateTv.setTextColor(ContextCompat.getColor(root.context, R.color.PU_2))
                     moreIv.setImageResource(R.drawable.ic_more_pu2_44)
                     characterIv.setImageResource(R.drawable.ic_touch_character_72)
-                    starSrb.setFilledDrawableRes(R.drawable.ic_star_fill_pu2_23)
-                    starSrb.setEmptyDrawableRes(R.drawable.ic_star_empty_pu2_23)
+                    starSrb.setting(R.drawable.ic_star_empty_pu2_23, R.drawable.ic_star_fill_pu2_23, record.star)
                 }
                 else -> {   //모르겠어요
                     dateTv.setTextColor(ContextCompat.getColor(root.context, R.color.GY_04))
                     moreIv.setImageResource(R.drawable.ic_more_gy04_44)
                     characterIv.setImageResource(R.drawable.ic_question_character_72)
-                    starSrb.setFilledDrawableRes(R.drawable.ic_star_fill_gy04_23)
-                    starSrb.setEmptyDrawableRes(R.drawable.ic_star_empty_gy04_23)
+                    starSrb.setting(R.drawable.ic_star_empty_gy04_23, R.drawable.ic_star_fill_gy04_23, record.star)
                 }
             }
 
@@ -164,7 +160,15 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
 
             updateClickView.setOnClickListener {    //수정 클릭뷰 클릭 리스너
+                fadeOut(root.context, menuCl)
+                selectedPosition = position
                 myClickListener.update(record)
+            }
+
+            deleteClickView.setOnClickListener {    //삭제 클릭뷰 클릭 리스너
+                fadeOut(root.context, menuCl)
+                selectedPosition = position
+                myClickListener.delete(record.recordId)
             }
         }
     }
@@ -181,4 +185,6 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     fun setMyClickListener(myClickListener: MyClickListener) {
         this.myClickListener = myClickListener
     }
+
+    fun getSelectedPosition(): Int = selectedPosition
 }

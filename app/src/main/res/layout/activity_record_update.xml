@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="47dp"
+        android:layout_marginTop="134dp"
         android:background="@drawable/bg_gy01_10"
         android:hint="@string/msg_taste_keyword_hint"
         android:inputType="text"
@@ -53,7 +53,7 @@
         android:paddingHorizontal="14dp"
         android:textAppearance="@style/Sub_Head_B_18"
         android:textColorHint="@color/GY_03"
-        app:layout_constraintTop_toBottomOf="@+id/record_update_title_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/record_update_complete_btn" />
 
     <com.willy.ratingbar.BaseRatingBar
         android:id="@+id/record_update_srb"

@@ -1,5 +1,6 @@
 package com.mangpo.taste.view
 
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -7,12 +8,15 @@ import androidx.navigation.fragment.findNavController
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentPwResettingBinding
+import com.mangpo.taste.view.model.OneBtnDialog
 import java.util.regex.Pattern
 
-class PwResettingFragment :
-    BaseFragment<FragmentPwResettingBinding>(FragmentPwResettingBinding::inflate), TextWatcher {
+class PwResettingFragment : BaseFragment<FragmentPwResettingBinding>(FragmentPwResettingBinding::inflate), TextWatcher {
+    private lateinit var oneBtnDialogFragment: OneBtnDialogFragment
+
     override fun initAfterBinding() {
         setMyEventListener()
+        setOneBtnDialogFragment()
     }
 
     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -41,13 +45,26 @@ class PwResettingFragment :
 
         //완료 텍스트뷰 클릭 리스너
         binding.pwResettingCompleteBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_pwResettingFragment_to_pwResettingDialogFragment)
+            val bundle: Bundle = Bundle()
+            bundle.putParcelable("data", OneBtnDialog(getString(R.string.title_pw_resetting_complete), getString(R.string.msg_go_to_login), getString(R.string.action_see_you_again), listOf(26, 10, 26, 12)))
+
+            oneBtnDialogFragment.arguments = bundle
+            oneBtnDialogFragment.show(requireActivity().supportFragmentManager, null)
         }
 
         //뒤로가기 이미지뷰 클릭 리스너
         binding.pwResettingBackIv.setOnClickListener {
             findNavController().popBackStack()
         }
+    }
+
+    private fun setOneBtnDialogFragment() {
+        oneBtnDialogFragment = OneBtnDialogFragment()
+        oneBtnDialogFragment.setMyCallback(object : OneBtnDialogFragment.MyCallback {
+            override fun end() {
+                (requireActivity() as SettingActivity).startActivityWithClear(LoginActivity::class.java)
+            }
+        })
     }
 
     //비밀번호 유효성 검사(영문, 숫자, 특수문자 중복 2개 이상 && 10~20자)

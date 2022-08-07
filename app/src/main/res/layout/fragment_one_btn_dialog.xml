@@ -5,45 +5,41 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_gy01_12"
-    tools:context=".view.PwResettingDialogFragment">
+    tools:context=".view.OneBtnDialogFragment">
 
     <TextView
-        android:id="@+id/pw_resetting_dialog_title_tv"
+        android:id="@+id/one_btn_title_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:gravity="center"
-        android:text="@string/title_pw_resetting_complete"
         android:textAppearance="@style/Head_B_20"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/pw_resetting_dialog_msg_tv"
+        android:id="@+id/one_btn_msg_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
         android:gravity="center"
-        android:text="@string/msg_go_to_login"
         android:textAppearance="@style/Body1_M_16"
         android:textColor="@color/GY_04"
-        app:layout_constraintTop_toBottomOf="@+id/pw_resetting_dialog_title_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/one_btn_title_tv" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/pw_resetting_dialog_see_you_again_btn"
-        android:layout_width="0dp"
-        android:layout_height="44dp"
-        android:layout_marginHorizontal="93dp"
+        android:id="@+id/one_btn_action_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="22dp"
         android:background="@drawable/bg_gy04_22p5"
         android:gravity="center"
         android:stateListAnimator="@null"
-        android:text="@string/action_see_you_again"
-        android:textAppearance="@style/Sub_Head_B_16"
+        android:textAppearance="@style/Sub_Head_B_18"
         android:textColor="@color/WH"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pw_resetting_dialog_msg_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/one_btn_msg_tv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

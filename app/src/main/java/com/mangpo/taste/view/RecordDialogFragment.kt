@@ -1,5 +1,6 @@
 package com.mangpo.taste.view
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -16,11 +17,14 @@ import com.mangpo.taste.databinding.ItemRecordDetailBinding
 import com.mangpo.taste.util.DialogFragmentUtils
 import com.mangpo.taste.util.fadeIn
 import com.mangpo.taste.util.fadeOut
+import com.mangpo.taste.view.model.TwoBtnDialog
 
 class RecordDialogFragment : DialogFragment() {
     private val args: RecordDialogFragmentArgs by navArgs()
 
     private lateinit var binding: ItemRecordDetailBinding
+    private lateinit var twoBtnDialogFragment: TwoBtnDialogFragment
+    private lateinit var recordEntity: RecordEntity
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,10 +39,13 @@ class RecordDialogFragment : DialogFragment() {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
 
+        recordEntity = args.record.record!!
+
         binding.recordDetailCloseIv.visibility = View.VISIBLE   //닫기 아이콘 VISIBLE
 
+        initTwoBtnDialog()
         setMyEventListener()
-        bind(args.record.record!!)
+        bind()
 
         return binding.root
     }
@@ -54,6 +61,17 @@ class RecordDialogFragment : DialogFragment() {
         )
     }
 
+    private fun initTwoBtnDialog() {
+        twoBtnDialogFragment = TwoBtnDialogFragment()
+        twoBtnDialogFragment.setMyCallback(object : TwoBtnDialogFragment.MyCallback {
+            override fun leftAction() {
+            }
+
+            override fun rightAction() {
+            }
+        })
+    }
+
     private fun setMyEventListener() {
         //닫기 이미지뷰 클릭 리스너 -> 다이얼로그 닫기
         binding.recordDetailCloseIv.setOnClickListener {
@@ -67,20 +85,43 @@ class RecordDialogFragment : DialogFragment() {
             else    //더보기 이미지뷰 INVISIBLE 이면
                 fadeIn(requireContext(), binding.recordDetailMenuCl)    //메뉴 레이아웃 fadeIn
         }
+
+        //수정 클릭뷰 클릭 리스너
+        binding.recordDetailUpdateClickView.setOnClickListener {
+            fadeOut(requireContext(), binding.recordDetailMenuCl)   //메뉴 레이아웃 fadeOut
+
+            //RecordUpdateActivity 로 이동
+            val intent: Intent = Intent(requireContext(), RecordUpdateActivity::class.java)
+            intent.putExtra("record", args.record.record!!)
+            startActivity(intent)
+        }
+
+        //삭제 클릭뷰 클릭 리스너
+        binding.recordDetailDeleteClickView.setOnClickListener {
+            fadeOut(requireContext(), binding.recordDetailMenuCl)   //메뉴 레이아웃 fadeOut
+            binding.recordDetailBlurredView.visibility = View.VISIBLE   //블러처리 화면 VISIBLE
+
+            //삭제 관련 TwoBtnDialog 띄우기
+            val bundle: Bundle = Bundle()
+            bundle.putParcelable("data", TwoBtnDialog(getString(R.string.msg_really_delete), getString(R.string.msg_cannot_recover), getString(R.string.action_delete_long), getString(R.string.action_go_back), true))
+
+            twoBtnDialogFragment.arguments = bundle
+            twoBtnDialogFragment.show(requireActivity().supportFragmentManager, null)
+        }
     }
 
-    private fun bind(record: RecordEntity) {
-        binding.recordDetailKeywordTv.text = record.keyword
-        if (record.content==null)
+    private fun bind() {
+        binding.recordDetailKeywordTv.text = recordEntity.keyword
+        if (recordEntity.content==null)
             binding.recordDetailContentTv.visibility = View.GONE
         else {
             binding.recordDetailContentTv.visibility = View.VISIBLE
-            binding.recordDetailContentTv.text = record.content
+            binding.recordDetailContentTv.text = recordEntity.content
         }
-        binding.recordDetailDateTv.text = record.date
-        binding.recordDetailSrb.rating = record.star
+        binding.recordDetailDateTv.text = recordEntity.date
+        binding.recordDetailSrb.rating = recordEntity.star
 
-        when (record.taste) {
+        when (recordEntity.taste) {
             0 -> {
                 binding.recordDetailMoreIv.setImageResource(R.drawable.ic_more_rd2_44)
                 binding.recordDetailCharacterIv.setImageResource(R.drawable.ic_sight_character_72)

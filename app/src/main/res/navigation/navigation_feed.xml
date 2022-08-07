@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_feed"
-    app:startDestination="@id/noTasteFragment">
+    app:startDestination="@id/timelineFragment">
 
     <fragment
         android:id="@+id/noTasteFragment"
@@ -22,10 +22,8 @@
         tools:layout="@layout/fragment_by_sense" />
     <action
         android:id="@+id/action_global_bySenseFragment"
-        app:destination="@id/bySenseFragment" />
-    <action
-        android:id="@+id/action_global_timelineFragment"
-        app:destination="@id/timelineFragment" />
+        app:destination="@id/bySenseFragment"
+        app:launchSingleTop="true" />
     <dialog
         android:id="@+id/recordDialogFragment"
         android:name="com.mangpo.taste.view.RecordDialogFragment"
@@ -36,7 +34,8 @@
     </dialog>
     <action
         android:id="@+id/action_global_recordDialogFragment"
-        app:destination="@id/recordDialogFragment" />
+        app:destination="@id/recordDialogFragment"
+        app:launchSingleTop="true" />
     <fragment
         android:id="@+id/byScoreFragment"
         android:name="com.mangpo.taste.view.ByScoreFragment"
@@ -44,12 +43,22 @@
         tools:layout="@layout/fragment_by_score" />
     <action
         android:id="@+id/action_global_byScoreFragment"
-        app:destination="@id/byScoreFragment" />
+        app:destination="@id/byScoreFragment"
+        app:launchSingleTop="true" />
     <fragment
         android:id="@+id/byCalendarFragment"
         android:name="com.mangpo.taste.view.ByCalendarFragment"
         android:label="ByCalendarFragment" />
     <action
         android:id="@+id/action_global_byCalendarFragment"
-        app:destination="@id/byCalendarFragment" />
+        app:destination="@id/byCalendarFragment"
+        app:launchSingleTop="true" />
+    <action
+        android:id="@+id/action_global_timelineFragment"
+        app:destination="@id/timelineFragment"
+        app:launchSingleTop="true" />
+    <action
+        android:id="@+id/action_global_noTasteFragment"
+        app:destination="@id/noTasteFragment"
+        app:launchSingleTop="true" />
 </navigation>

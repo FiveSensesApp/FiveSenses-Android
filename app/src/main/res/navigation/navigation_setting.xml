@@ -29,15 +29,6 @@
             app:destination="@id/termsBottomSheetFragment" />
     </fragment>
     <dialog
-        android:id="@+id/pwResettingDialogFragment"
-        android:name="com.mangpo.taste.view.PwResettingDialogFragment"
-        tools:layout="@layout/fragment_pw_resetting_dialog"
-        android:label="fragment_pw_resetting_dialog">
-        <action
-            android:id="@+id/action_pwResettingDialogFragment_to_loginActivity"
-            app:destination="@id/loginActivity" />
-    </dialog>
-    <dialog
         android:id="@+id/withdrawalDialogFragment"
         android:name="com.mangpo.taste.view.WithdrawalDialogFragment"
         tools:layout="@layout/fragment_withdrawal_dialog"
@@ -83,11 +74,7 @@
         android:id="@+id/pwResettingFragment"
         android:name="com.mangpo.taste.view.PwResettingFragment"
         tools:layout="@layout/fragment_pw_resetting"
-        android:label="fragment_pw_resetting">
-        <action
-            android:id="@+id/action_pwResettingFragment_to_pwResettingDialogFragment"
-            app:destination="@id/pwResettingDialogFragment" />
-    </fragment>
+        android:label="fragment_pw_resetting"/>
     <fragment
         android:id="@+id/openSourceFragment"
         android:name="com.mangpo.taste.view.OpenSourceFragment"
