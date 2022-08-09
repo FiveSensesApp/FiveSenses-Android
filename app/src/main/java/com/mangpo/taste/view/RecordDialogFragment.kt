@@ -103,7 +103,7 @@ class RecordDialogFragment : DialogFragment() {
 
             //삭제 관련 TwoBtnDialog 띄우기
             val bundle: Bundle = Bundle()
-            bundle.putParcelable("data", TwoBtnDialog(getString(R.string.msg_really_delete), getString(R.string.msg_cannot_recover), getString(R.string.action_delete_long), getString(R.string.action_go_back), true))
+            bundle.putParcelable("data", TwoBtnDialog(getString(R.string.msg_really_delete), getString(R.string.msg_cannot_recover), getString(R.string.action_delete_long), getString(R.string.action_go_back), null))
 
             twoBtnDialogFragment.arguments = bundle
             twoBtnDialogFragment.show(requireActivity().supportFragmentManager, null)

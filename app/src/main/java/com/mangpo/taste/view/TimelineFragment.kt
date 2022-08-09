@@ -112,7 +112,7 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
 
             override fun delete(recordId: Int) {
                 val bundle: Bundle = Bundle()
-                bundle.putParcelable("data", TwoBtnDialog(getString(R.string.msg_really_delete), getString(R.string.msg_cannot_recover), getString(R.string.action_delete_long), getString(R.string.action_go_back), false))
+                bundle.putParcelable("data", TwoBtnDialog(getString(R.string.msg_really_delete), getString(R.string.msg_cannot_recover), getString(R.string.action_delete_long), getString(R.string.action_go_back), R.drawable.bg_gy01_12))
 
                 twoBtnDialogFragment.arguments = bundle
                 twoBtnDialogFragment.show(requireActivity().supportFragmentManager, null)

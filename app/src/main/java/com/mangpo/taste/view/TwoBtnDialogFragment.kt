@@ -59,17 +59,20 @@ class TwoBtnDialogFragment : DialogFragment() {
     }
 
     private fun bind(data: TwoBtnDialog) {
-        if (data.isBlurred) {   //투명 처리 -> 뒷배경 하얀색, 블러뷰 VISIBLE
-            dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-            dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        when (val background = data.background) {
+            R.drawable.bg_gy01_12 -> {  //투명 처리 x -> 뒷배경 검정, 전체 background bg_gy01_12, 블러뷰 INVISIBLE
+                dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
 
-            binding.twoBtnBlurredView.visibility = View.VISIBLE
-        } else {    //투명 처리 x -> 뒷배경 검정, 전체 background bg_gy01_12, 블러뷰 INVISIBLE
-            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
+                binding.root.background = ContextCompat.getDrawable(requireContext(), background)
+                binding.twoBtnBlurredView.visibility = View.INVISIBLE
+            }
+            else -> {   //null
+                dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+                dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
-            binding.root.background = ContextCompat.getDrawable(requireContext(), R.drawable.bg_gy01_12)
-            binding.twoBtnBlurredView.visibility = View.INVISIBLE
+                binding.twoBtnBlurredView.visibility = View.VISIBLE
+            }
         }
 
         binding.twoBtnTitleTv.text = data.title
