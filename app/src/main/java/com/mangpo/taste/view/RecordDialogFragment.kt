@@ -17,6 +17,7 @@ import com.mangpo.taste.databinding.ItemRecordDetailBinding
 import com.mangpo.taste.util.DialogFragmentUtils
 import com.mangpo.taste.util.fadeIn
 import com.mangpo.taste.util.fadeOut
+import com.mangpo.taste.util.setNavigationResult
 import com.mangpo.taste.view.model.TwoBtnDialog
 
 class RecordDialogFragment : DialogFragment() {
@@ -64,10 +65,15 @@ class RecordDialogFragment : DialogFragment() {
     private fun initTwoBtnDialog() {
         twoBtnDialogFragment = TwoBtnDialogFragment()
         twoBtnDialogFragment.setMyCallback(object : TwoBtnDialogFragment.MyCallback {
-            override fun leftAction() {
+            override fun leftAction() { //삭제하기
+                binding.recordDetailBlurredView.visibility = View.INVISIBLE
+
+                this@RecordDialogFragment.setNavigationResult("removedPosition", args.position)    //이전 프래그먼트한테 recordId 넘겨주기
+                dismiss()   //프래그먼트 종료
             }
 
-            override fun rightAction() {
+            override fun rightAction() {    //뒤로가기
+                binding.recordDetailBlurredView.visibility = View.INVISIBLE
             }
         })
     }

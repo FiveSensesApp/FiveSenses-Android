@@ -10,7 +10,7 @@ import com.mangpo.taste.view.model.Record
 class ByScoreFragment : BaseFragment<FragmentByScoreBinding>(FragmentByScoreBinding::inflate) {
     private lateinit var recordShortAdapter: RecordShortAdapter
 
-    private val recordEntities: ArrayList<RecordEntity> = arrayListOf<RecordEntity>(
+    private val recordEntities: MutableList<RecordEntity> = mutableListOf<RecordEntity>(
         RecordEntity(
             0,
             0,
@@ -58,17 +58,22 @@ class ByScoreFragment : BaseFragment<FragmentByScoreBinding>(FragmentByScoreBind
         RecordEntity(9, 4, "촉각으로 감각한 좋아하는 거", null, "2022.12.23", 5.0f),
         RecordEntity(10, 5, "모르겠어요 감각 좋아하는 거", null, "2022.12.23", 5.0f)
     )
+    private val records: MutableList<Record> = mutableListOf(Record(1, null), Record(2, null), Record(3, recordEntities[0]), Record(3, recordEntities[1]), Record(3, recordEntities[2]), Record(3, recordEntities[3]), Record(3, recordEntities[4]), Record(3, recordEntities[5]), Record(3, recordEntities[6]), Record(3, recordEntities[7]), Record(3, recordEntities[8]), Record(3, recordEntities[9]), Record(3, recordEntities[10]))
 
     override fun initAfterBinding() {
         initAdapter()
+
+        //삭제된 record 의 position 을 Observe 하고 있는 라이브 데이터
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Int>("removedPosition")?.observe(viewLifecycleOwner) {position ->
+            recordShortAdapter.removeItem(position, 1) //어댑터에서 데이터 삭제
+        }
     }
 
     private fun initAdapter() {
-        val records: ArrayList<Record> = arrayListOf(Record(1, null), Record(2, null), Record(3, recordEntities[0]), Record(3, recordEntities[1]), Record(3, recordEntities[2]), Record(3, recordEntities[3]), Record(3, recordEntities[4]), Record(3, recordEntities[5]), Record(3, recordEntities[6]), Record(3, recordEntities[7]), Record(3, recordEntities[8]), Record(3, recordEntities[9]), Record(3, recordEntities[10]))
         recordShortAdapter = RecordShortAdapter()
         recordShortAdapter.setMyClickListener(object : RecordShortAdapter.MyClickListener {
-            override fun onClick(record: Record) {
-                val action = BySenseFragmentDirections.actionGlobalRecordDialogFragment(record)
+            override fun onClick(record: Record, position: Int) {
+                val action = BySenseFragmentDirections.actionGlobalRecordDialogFragment(record, position)
                 findNavController().navigate(action)
             }
         })

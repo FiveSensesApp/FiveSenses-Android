@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.mangpo.taste.R
 import com.willy.ratingbar.BaseRatingBar
 import kotlin.math.roundToInt
@@ -50,4 +52,9 @@ fun BaseRatingBar.setting(emptyDrawable: Int, filledDrawable: Int, star: Float) 
     this.setEmptyDrawableRes(emptyDrawable)
     this.setFilledDrawableRes(filledDrawable)
     this.rating = star
+}
+
+//이전 프래그먼트에게 값 넘겨주기
+fun <T> Fragment.setNavigationResult(key: String, result: T) {
+    findNavController().previousBackStackEntry?.savedStateHandle?.set(key, result)
 }
