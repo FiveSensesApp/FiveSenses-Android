@@ -53,6 +53,7 @@
     <string name="title_friday">금</string>
     <string name="title_saturday">토</string>
     <string name="title_update_complete">수정 완료</string>
+    <string name="title_search_result">검색 결과</string>
 
     <string name="action_logout">로그아웃</string>
     <string name="action_withdrawal">계정 탈퇴</string>
@@ -92,4 +93,6 @@
     <string name="error_check_old_pw">기존 비밀번호를 확인해주세요.</string>
     <string name="error_not_match_pw">비밀번호가 일치하지 않습니다!</string>
     <string name="error_keyword_start_essential">키워드와 별점은 필수입니다!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
