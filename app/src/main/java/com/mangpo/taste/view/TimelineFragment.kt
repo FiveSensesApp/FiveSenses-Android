@@ -92,7 +92,9 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
                 selectedPosition = recordDetailAdapter.getSelectedPosition()
                 recordEntities.removeAt(selectedPosition - 2)   //이건 나중에 사라질거임.
                 records.removeAt(selectedPosition)  //이것도 나중에 사라질 수도(사라질 확률이 높겠다)
-                recordDetailAdapter.notifyItemRemoved(selectedPosition)
+
+                recordDetailAdapter.notifyItemRemoved(selectedPosition) //삭제된 내역 반영
+                recordDetailAdapter.notifyItemChanged(1)    //전체 개수 내용 반영(총 n개)
             }
 
             override fun rightAction() {
@@ -112,7 +114,7 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
 
             override fun delete(recordId: Int) {
                 val bundle: Bundle = Bundle()
-                bundle.putParcelable("data", TwoBtnDialog(getString(R.string.msg_really_delete), getString(R.string.msg_cannot_recover), getString(R.string.action_delete_long), getString(R.string.action_go_back), false))
+                bundle.putParcelable("data", TwoBtnDialog(getString(R.string.msg_really_delete), getString(R.string.msg_cannot_recover), getString(R.string.action_delete_long), getString(R.string.action_go_back), R.drawable.bg_gy01_12))
 
                 twoBtnDialogFragment.arguments = bundle
                 twoBtnDialogFragment.show(requireActivity().supportFragmentManager, null)

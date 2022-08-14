@@ -1,15 +1,49 @@
 package com.mangpo.taste.view
 
+import android.os.Bundle
 import androidx.navigation.fragment.findNavController
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentSettingBinding
+import com.mangpo.taste.view.model.TwoBtnDialog
 
 class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBinding::inflate) {
+    private var dialogType: Int = -1
+
+    private lateinit var twoBtnDialogFragment: TwoBtnDialogFragment
+
     override fun initAfterBinding() {
+        initTwoBtnDialog()
         setMyEventListener()
 
         binding.settingAlarmTimeTv.isEnabled = binding.settingAlarmSettingSb.isChecked
+    }
+
+    private fun initTwoBtnDialog() {
+        twoBtnDialogFragment = TwoBtnDialogFragment()
+        twoBtnDialogFragment.setMyCallback(object : TwoBtnDialogFragment.MyCallback {
+            override fun leftAction() { //아니요
+                if (dialogType==0) {    //로그아웃
+
+                } else {    //회원탈퇴
+
+                }
+
+                dialogType = -1 //초기화
+            }
+
+            override fun rightAction() {    //예
+                if (dialogType==0) {    //로그아웃
+
+                } else {    //회원탈퇴
+
+                }
+
+                dialogType = -1 //초기화
+
+                findNavController().navigate(R.id.action_settingFragment_to_loginActivity)  //LoginActivity 로 이동
+            }
+        })
     }
 
     private fun setMyEventListener() {
@@ -46,12 +80,24 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
 
         //로그아웃 텍스트뷰 클릭리스너
         binding.settingLogoutTv.setOnClickListener {
-            findNavController().navigate(R.id.action_settingFragment_to_logoutDialogFragment)
+            dialogType = 0
+
+            val bundle: Bundle = Bundle()
+            bundle.putParcelable("data", TwoBtnDialog(getString(R.string.action_logout), getString(R.string.msg_logout), getString(R.string.action_no), getString(R.string.action_yes), R.drawable.bg_gy01_12))
+
+            twoBtnDialogFragment.arguments = bundle
+            twoBtnDialogFragment.show(requireActivity().supportFragmentManager, null)
         }
 
         //회원탈퇴 텍스트뷰 클릭리스너
         binding.settingWithdrawalTv.setOnClickListener {
-            findNavController().navigate(R.id.action_settingFragment_to_withdrawalDialogFragment)
+            dialogType = 1
+
+            val bundle: Bundle = Bundle()
+            bundle.putParcelable("data", TwoBtnDialog(getString(R.string.msg_really_withdrawal), getString(R.string.msg_all_records_lost), getString(R.string.action_no), getString(R.string.action_yes), R.drawable.bg_gy01_12))
+
+            twoBtnDialogFragment.arguments = bundle
+            twoBtnDialogFragment.show(requireActivity().supportFragmentManager, null)
         }
     }
 }

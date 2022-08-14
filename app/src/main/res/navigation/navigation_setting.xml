@@ -28,15 +28,6 @@
             android:id="@+id/action_termsFragment_to_termsBottomSheetFragment"
             app:destination="@id/termsBottomSheetFragment" />
     </fragment>
-    <dialog
-        android:id="@+id/withdrawalDialogFragment"
-        android:name="com.mangpo.taste.view.WithdrawalDialogFragment"
-        tools:layout="@layout/fragment_withdrawal_dialog"
-        android:label="fragment_withdrawal_dialog">
-        <action
-            android:id="@+id/action_withdrawalDialogFragment_to_loginActivity"
-            app:destination="@id/loginActivity" />
-    </dialog>
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.mangpo.taste.view.SettingFragment"
@@ -46,12 +37,6 @@
             android:id="@+id/action_settingFragment_to_pwResettingFragment"
             app:destination="@id/pwResettingFragment" />
         <action
-            android:id="@+id/action_settingFragment_to_logoutDialogFragment"
-            app:destination="@id/logoutDialogFragment" />
-        <action
-            android:id="@+id/action_settingFragment_to_withdrawalDialogFragment"
-            app:destination="@id/withdrawalDialogFragment" />
-        <action
             android:id="@+id/action_settingFragment_to_termsFragment"
             app:destination="@id/termsFragment" />
         <action
@@ -60,6 +45,9 @@
         <action
             android:id="@+id/action_settingFragment_to_alarmTimeDialogFragment"
             app:destination="@id/alarmTimeDialogFragment" />
+        <action
+            android:id="@+id/action_settingFragment_to_loginActivity"
+            app:destination="@id/loginActivity" />
     </fragment>
     <dialog
         android:id="@+id/alarmTimeDialogFragment"
@@ -80,13 +68,4 @@
         android:name="com.mangpo.taste.view.OpenSourceFragment"
         tools:layout="@layout/fragment_open_source"
         android:label="fragment_open_source" />
-    <dialog
-        android:id="@+id/logoutDialogFragment"
-        android:name="com.mangpo.taste.view.LogoutDialogFragment"
-        tools:layout="@layout/fragment_logout_dialog"
-        android:label="fragment_logout_dialog">
-        <action
-            android:id="@+id/action_logoutDialogFragment_to_loginActivity"
-            app:destination="@id/loginActivity" />
-    </dialog>
 </navigation>

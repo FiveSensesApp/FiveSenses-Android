@@ -15,15 +15,15 @@ import com.mangpo.taste.view.model.Record
 
 class RecordShortAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     interface MyClickListener {
-        fun onClick(record: Record)
+        fun onClick(record: Record, position: Int)
     }
 
     private lateinit var bySenseFilterBinding: ItemBySenseFilterBinding
     private lateinit var byScoreFilterBinding: ItemByScoreFilterBinding
     private lateinit var recordCntBinding: ItemRecordCntBinding
     private lateinit var contentBinding: ItemRecordShortBinding
-    private lateinit var baseRecords: List<Record>
-    private lateinit var records: List<Record>
+    private lateinit var baseRecords: MutableList<Record>
+    private lateinit var filteredRecords: MutableList<Record>
     private lateinit var myClickListener: MyClickListener
 
     override fun onCreateViewHolder(
@@ -51,17 +51,17 @@ class RecordShortAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (records[position].viewType) {
+        when (filteredRecords[position].viewType) {
             ContentViewType.BY_SENSE_FILTER.num -> (holder as BySenseFilterViewHolder).bind()
             ContentViewType.BY_SCORE_FILTER.num -> (holder as ByScoreFilterViewHolder).bind()
             ContentViewType.RECORD_CNT.num -> (holder as RecordCntViewHolder).bind()
-            ContentViewType.CONTENT.num -> (holder as RecordShortViewHolder).bind(records[position])
+            ContentViewType.CONTENT.num -> (holder as RecordShortViewHolder).bind(filteredRecords[position], position)
             else -> return
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (records[position].viewType) {
+        return when (filteredRecords[position].viewType) {
             0 -> ContentViewType.BY_SENSE_FILTER.num
             1 -> ContentViewType.BY_SCORE_FILTER.num
             2 -> ContentViewType.RECORD_CNT.num
@@ -69,12 +69,12 @@ class RecordShortAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    override fun getItemCount(): Int = records.size
+    override fun getItemCount(): Int = filteredRecords.size
 
     inner class RecordShortViewHolder(binding: ItemRecordShortBinding): RecyclerView.ViewHolder(binding.root) {
         private val keywordBtn: AppCompatButton = binding.root
 
-        fun bind(record: Record) {
+        fun bind(record: Record, position: Int) {
             keywordBtn.text = record.record!!.keyword
 
             when (record.record.taste) {
@@ -87,7 +87,7 @@ class RecordShortAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
 
             keywordBtn.setOnClickListener {
-                myClickListener.onClick(record)
+                myClickListener.onClick(record, position)
             }
         }
     }
@@ -96,7 +96,7 @@ class RecordShortAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private val cntTv: TextView = binding.root
 
         fun bind() {
-            cntTv.text = "총 ${records.filter { it.viewType==ContentViewType.CONTENT.num }.size}개"
+            cntTv.text = "총 ${filteredRecords.filter { it.viewType==ContentViewType.CONTENT.num }.size}개"
         }
     }
 
@@ -107,12 +107,12 @@ class RecordShortAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             //라디오그룹 체크 리스너
             filterRg.setOnCheckedChangeListener { radioGroup, i ->
                 when (i) {
-                    R.id.by_sense_filter_sight_rb -> records = baseRecords.filter { it.record==null || it.record?.taste==0 }
-                    R.id.by_sense_filter_ear_rb -> records = baseRecords.filter { it.record==null || it.record?.taste==1 }
-                    R.id.by_sense_filter_smell_rb -> records = baseRecords.filter { it.record==null || it.record?.taste==2 }
-                    R.id.by_sense_filter_taste_rb -> records = baseRecords.filter { it.record==null || it.record?.taste==3 }
-                    R.id.by_sense_filter_touch_rb -> records = baseRecords.filter { it.record==null || it.record?.taste==4 }
-                    R.id.by_sense_filter_question_rb -> records = baseRecords.filter { it.record==null || it.record?.taste==5 }
+                    R.id.by_sense_filter_sight_rb -> filteredRecords = baseRecords.filter { it.record==null || it.record?.taste==0 } as MutableList<Record>
+                    R.id.by_sense_filter_ear_rb -> filteredRecords = baseRecords.filter { it.record==null || it.record?.taste==1 } as MutableList<Record>
+                    R.id.by_sense_filter_smell_rb -> filteredRecords = baseRecords.filter { it.record==null || it.record?.taste==2 } as MutableList<Record>
+                    R.id.by_sense_filter_taste_rb -> filteredRecords = baseRecords.filter { it.record==null || it.record?.taste==3 } as MutableList<Record>
+                    R.id.by_sense_filter_touch_rb -> filteredRecords = baseRecords.filter { it.record==null || it.record?.taste==4 } as MutableList<Record>
+                    R.id.by_sense_filter_question_rb -> filteredRecords = baseRecords.filter { it.record==null || it.record?.taste==5 } as MutableList<Record>
                 }
 
                 notifyDataSetChanged()
@@ -126,11 +126,11 @@ class RecordShortAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun bind() {
             filterRg.setOnCheckedChangeListener { radioGroup, i ->
                 when (i) {
-                    R.id.by_score_1score_rb -> records = baseRecords.filter { it.record==null || it.record?.star==1f }
-                    R.id.by_score_2score_rb -> records = baseRecords.filter { it.record==null || it.record?.star==2f }
-                    R.id.by_score_3score_rb -> records = baseRecords.filter { it.record==null || it.record?.star==3f }
-                    R.id.by_score_4score_rb -> records = baseRecords.filter { it.record==null || it.record?.star==4f }
-                    R.id.by_score_5score_rb -> records = baseRecords.filter { it.record==null || it.record?.star==5f }
+                    R.id.by_score_1score_rb -> filteredRecords = baseRecords.filter { it.record==null || it.record?.star==1f } as MutableList<Record>
+                    R.id.by_score_2score_rb -> filteredRecords = baseRecords.filter { it.record==null || it.record?.star==2f } as MutableList<Record>
+                    R.id.by_score_3score_rb -> filteredRecords = baseRecords.filter { it.record==null || it.record?.star==3f } as MutableList<Record>
+                    R.id.by_score_4score_rb -> filteredRecords = baseRecords.filter { it.record==null || it.record?.star==4f } as MutableList<Record>
+                    R.id.by_score_5score_rb -> filteredRecords = baseRecords.filter { it.record==null || it.record?.star==5f } as MutableList<Record>
                 }
 
                 notifyDataSetChanged()
@@ -143,24 +143,33 @@ class RecordShortAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     fun setData(records: List<Record>, viewType: Int) {
-        this.baseRecords = records
+        this.baseRecords = records as ArrayList<Record>
 
         if (viewType==ContentViewType.BY_SENSE_FILTER.num)  //감각별 보관함일 때
-            this.records = baseRecords.filter { it.record==null || it.record?.taste==0 }    //디폴트는 시각만 보이도록
+            filteredRecords = baseRecords.filter { it.record==null || it.record?.taste==0 } as MutableList<Record>   //디폴트는 시각만 보이도록
         else if (viewType==ContentViewType.BY_SCORE_FILTER.num) //점수별 보관함일 때
-            this.records = baseRecords.filter { it.record==null || it.record?.star==5f }    //디폴트는 5점만 보이도록
+            filteredRecords = baseRecords.filter { it.record==null || it.record?.star==5f } as MutableList<Record>    //디폴트는 5점만 보이도록
 
         notifyDataSetChanged()
     }
 
-    fun setData(records: List<Record>) {
+    fun setData(records: MutableList<Record>) {
         this.baseRecords = records
-        this.records = baseRecords
+        this.filteredRecords = records
 
         notifyDataSetChanged()
     }
 
     fun setMyClickListener(myClickListener: MyClickListener) {
         this.myClickListener = myClickListener
+    }
+
+    fun removeItem(position: Int, changedPosition: Int) {
+        baseRecords.removeAt(position)
+        if (baseRecords!=filteredRecords)   //filteredRecords 가 baseRecords 를 참조하는 경우 발생.
+            filteredRecords.removeAt(position)
+
+        notifyItemChanged(changedPosition)    //전체 개수 내용 반영(총 n개)
+        notifyItemRangeRemoved(position, filteredRecords.size)  //삭제 내역 반영
     }
 }

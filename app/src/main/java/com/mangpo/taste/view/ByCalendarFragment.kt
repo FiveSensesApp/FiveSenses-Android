@@ -74,6 +74,11 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
         initCalendarHeader()
 
         initAdapter()
+
+        //삭제된 record 의 position 을 Observe 하고 있는 라이브 데이터
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Int>("removedPosition")?.observe(viewLifecycleOwner) {position ->
+            recordShortAdapter.removeItem(position, 0) //어댑터에서 데이터 삭제
+        }
     }
 
     private fun setMyEventListener() {
@@ -121,8 +126,8 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
     private fun initAdapter() {
         recordShortAdapter = RecordShortAdapter()
         recordShortAdapter.setMyClickListener(object : RecordShortAdapter.MyClickListener {
-            override fun onClick(record: Record) {
-                val action = BySenseFragmentDirections.actionGlobalRecordDialogFragment(record)
+            override fun onClick(record: Record, position: Int) {
+                val action = BySenseFragmentDirections.actionGlobalRecordDialogFragment(record, position)
                 findNavController().navigate(action)
             }
         })
@@ -132,7 +137,7 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
 
     private fun setRecordData(date: LocalDate) {
         val todayRecord = recordEntities.filter { LocalDate.parse(it.date, DateTimeFormatter.ofPattern("yyyy.MM.dd"))==date }
-        val records: ArrayList<Record> = arrayListOf(Record(2, null))
+        val records: MutableList<Record> = mutableListOf<Record>(Record(2, null))
         for (record in todayRecord) {
             records.add(Record(3, record))
         }

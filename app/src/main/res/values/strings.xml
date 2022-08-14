@@ -18,11 +18,10 @@
     <string name="title_terms_of_service">서비스 이용약관</string>
     <string name="title_privacy_policy">개인정보 처리 방침</string>
     <string name="title_pw_resetting_complete">비밀번호 재설정 완료</string>
-    <string name="title_my_taste">나의 취향</string>
-    <string name="title_timeline">\t| 타임라인</string>
-    <string name="title_by_sense">\t| 감각별</string>
-    <string name="title_by_score">\t| 점수별</string>
-    <string name="title_by_calendar">\t| 달력별</string>
+    <string name="title_timeline">| 타임라인</string>
+    <string name="title_by_sense">| 감각별</string>
+    <string name="title_by_score">| 점수별</string>
+    <string name="title_by_calendar">| 달력별</string>
     <string name="title_record_complete">기록 완료</string>
     <string name="title_slogan1">감각을 통해 취향을 쌓는 즐거움!</string>
     <string name="title_slogan2">당신은 무엇을 감각할 때 행복한가요?</string>
@@ -54,6 +53,7 @@
     <string name="title_friday">금</string>
     <string name="title_saturday">토</string>
     <string name="title_update_complete">수정 완료</string>
+    <string name="title_search_result">검색 결과</string>
 
     <string name="action_logout">로그아웃</string>
     <string name="action_withdrawal">계정 탈퇴</string>
@@ -93,4 +93,6 @@
     <string name="error_check_old_pw">기존 비밀번호를 확인해주세요.</string>
     <string name="error_not_match_pw">비밀번호가 일치하지 않습니다!</string>
     <string name="error_keyword_start_essential">키워드와 별점은 필수입니다!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

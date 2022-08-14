@@ -60,22 +60,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:text="@string/title_my_taste"
+            android:text="나의 취향 | 타임라인"
             android:textAppearance="@style/Head_B_26"
             app:layout_constraintBottom_toBottomOf="@+id/feed_type_select_touch_view"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/feed_type_select_touch_view" />
 
         <TextView
-            android:id="@+id/feed_type_tv"
+            android:id="@+id/feed_search_result_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/title_timeline"
+            android:layout_marginStart="20dp"
+            android:text="@string/title_search_result"
             android:textAppearance="@style/Head_B_26"
-            android:textColor="@color/GY_03"
-            app:layout_constraintBottom_toBottomOf="@+id/feed_my_taste_tv"
-            app:layout_constraintStart_toEndOf="@+id/feed_my_taste_tv"
-            app:layout_constraintTop_toTopOf="@+id/feed_my_taste_tv" />
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/feed_type_select_touch_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/feed_type_select_touch_view" />
 
         <ImageView
             android:id="@+id/feed_toggle_iv"
@@ -83,7 +84,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_toggle_44"
             app:layout_constraintBottom_toBottomOf="@+id/feed_type_select_touch_view"
-            app:layout_constraintStart_toEndOf="@+id/feed_type_tv"
+            app:layout_constraintStart_toEndOf="@+id/feed_my_taste_tv"
             app:layout_constraintTop_toTopOf="@+id/feed_type_select_touch_view" />
 
         <View
@@ -117,16 +118,35 @@
                     android:background="@color/GY_03"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/feed_type1_tv"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/feed_type1_touch_cl"
                     android:layout_width="match_parent"
                     android:layout_height="44dp"
-                    android:layout_marginHorizontal="21dp"
+                    android:layout_marginStart="19dp"
                     android:layout_marginTop="7dp"
-                    android:gravity="center_vertical"
-                    android:text="@string/title_by_sense"
-                    android:textAppearance="@style/Head_B_26"
-                    app:layout_constraintTop_toBottomOf="@+id/feed_type_select_top_line_view" />
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/feed_type_select_top_line_view">
+
+                    <ImageView
+                        android:id="@+id/feed_type1_iv"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="73dp"
+                        android:src="@drawable/ic_sense_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/feed_type1_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="7dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/title_by_sense"
+                        android:textAppearance="@style/Head_B_26"
+                        app:layout_constraintStart_toEndOf="@+id/feed_type1_iv" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <View
                     android:id="@+id/feed_type1_bottom_line_view"
@@ -135,18 +155,37 @@
                     android:layout_marginHorizontal="19dp"
                     android:layout_marginTop="8dp"
                     android:background="@color/GY_01"
-                    app:layout_constraintTop_toBottomOf="@+id/feed_type1_tv" />
+                    app:layout_constraintTop_toBottomOf="@+id/feed_type1_touch_cl" />
 
-                <TextView
-                    android:id="@+id/feed_type2_tv"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/feed_type2_touch_cl"
                     android:layout_width="match_parent"
                     android:layout_height="44dp"
-                    android:layout_marginHorizontal="21dp"
+                    android:layout_marginStart="19dp"
                     android:layout_marginTop="8dp"
-                    android:gravity="center_vertical"
-                    android:text="@string/title_by_score"
-                    android:textAppearance="@style/Head_B_26"
-                    app:layout_constraintTop_toBottomOf="@+id/feed_type1_bottom_line_view" />
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/feed_type1_bottom_line_view">
+
+                    <ImageView
+                        android:id="@+id/feed_type2_iv"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="73dp"
+                        android:src="@drawable/ic_star_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/feed_type2_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="7dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/title_by_score"
+                        android:textAppearance="@style/Head_B_26"
+                        app:layout_constraintStart_toEndOf="@+id/feed_type2_iv" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <View
                     android:id="@+id/feed_type2_bottom_line_view"
@@ -155,20 +194,39 @@
                     android:layout_marginHorizontal="19dp"
                     android:layout_marginTop="8dp"
                     android:background="@color/GY_01"
-                    app:layout_constraintTop_toBottomOf="@+id/feed_type2_tv" />
+                    app:layout_constraintTop_toBottomOf="@+id/feed_type2_touch_cl" />
 
-                <TextView
-                    android:id="@+id/feed_type3_tv"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/feed_type3_touch_cl"
                     android:layout_width="match_parent"
                     android:layout_height="44dp"
-                    android:layout_marginHorizontal="21dp"
+                    android:layout_marginStart="19dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginBottom="12dp"
-                    android:gravity="center_vertical"
-                    android:text="@string/title_by_calendar"
-                    android:textAppearance="@style/Head_B_26"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/feed_type2_bottom_line_view" />
+                    app:layout_constraintTop_toBottomOf="@+id/feed_type2_bottom_line_view">
+
+                    <ImageView
+                        android:id="@+id/feed_type3_iv"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="73dp"
+                        android:src="@drawable/ic_calendar_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/feed_type3_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="7dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/title_by_calendar"
+                        android:textAppearance="@style/Head_B_26"
+                        app:layout_constraintStart_toEndOf="@+id/feed_type3_iv" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

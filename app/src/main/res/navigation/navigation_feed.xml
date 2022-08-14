@@ -31,6 +31,9 @@
         <argument
             android:name="record"
             app:argType="com.mangpo.taste.view.model.Record" />
+        <argument
+            android:name="position"
+            app:argType="integer" />
     </dialog>
     <action
         android:id="@+id/action_global_recordDialogFragment"
@@ -61,4 +64,16 @@
         android:id="@+id/action_global_noTasteFragment"
         app:destination="@id/noTasteFragment"
         app:launchSingleTop="true" />
+    <fragment
+        android:id="@+id/searchResultFragment"
+        android:name="com.mangpo.taste.view.SearchResultFragment"
+        android:label="fragment_search_result"
+        tools:layout="@layout/fragment_search_result">
+        <argument
+            android:name="search"
+            app:argType="string" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_searchResultFragment"
+        app:destination="@id/searchResultFragment" />
 </navigation>
