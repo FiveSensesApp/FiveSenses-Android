@@ -104,6 +104,11 @@ class RecordDialogFragment : DialogFragment() {
 
         //삭제 클릭뷰 클릭 리스너
         binding.recordDetailDeleteClickView.setOnClickListener {
+            if (recordEntity.content==null)
+                binding.recordDetailBlurredView.setBackgroundResource(R.drawable.ic_delete_bg_small)
+            else
+                binding.recordDetailBlurredView.setBackgroundResource(R.drawable.ic_delete_bg_big)
+
             fadeOut(requireContext(), binding.recordDetailMenuCl)   //메뉴 레이아웃 fadeOut
             binding.recordDetailBlurredView.visibility = View.VISIBLE   //블러처리 화면 VISIBLE
 
