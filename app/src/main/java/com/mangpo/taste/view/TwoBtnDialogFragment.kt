@@ -80,6 +80,11 @@ class TwoBtnDialogFragment : DialogFragment() {
         binding.twoBtnMsgTv.text = data.msg
         binding.twoBtnLeftBtn.text = data.leftAction
         binding.twoBtnRightBtn.text = data.rightAction
+
+        if (data.rightAction==getString(R.string.title_inquiry_mail))
+            binding.twoBtnRightBtn.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_movement_web_wh_30)
+        else
+            binding.twoBtnRightBtn.icon = null
     }
 
     fun setMyCallback(myCallback: MyCallback) {

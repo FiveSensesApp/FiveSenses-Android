@@ -62,6 +62,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
             binding.feedMyTasteTv.visibility = View.GONE //나의 취향~ 텍스트뷰 GONE
             binding.feedToggleIv.visibility = View.GONE //토글 이미지뷰 GONE
             binding.feedSearchResultTv.visibility = View.VISIBLE   //검색 결과 텍스트뷰 VISIBLE
+            hideTypeSelectLayout() //타입 선택하는 레이아웃 GONE
 
             if (binding.feedFcv.findNavController().currentDestination?.id!=R.id.searchResultFragment) {
                 val action = NavigationFeedDirections.actionGlobalSearchResultFragment(p0.toString())

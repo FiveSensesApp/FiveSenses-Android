@@ -62,6 +62,7 @@ class OneBtnDialogFragment : DialogFragment() {
 
         binding.oneBtnActionBtn.setOnClickListener {
             myCallback.end()
+            dismiss()   //다이얼로그 종료
         }
     }
 

@@ -57,14 +57,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         binding.mainRecordFcv.visibility = View.VISIBLE //recordFcv VISIBLE
         binding.mainRecordFcv.startAnimation(translateUp)   //아래 -> 위로 올라오는 애니메이션
         binding.mainTransparentView.visibility = View.VISIBLE   //투명배경 VISIBLE
-        hideStatusBar() //상태바 숨기기
     }
 
     private fun hideBottomSheet() {
         binding.mainRecordFcv.visibility = View.INVISIBLE   //recordFcv INVISIBLE
         binding.mainRecordFcv.startAnimation(translateDown) //위 -> 아래로 내려가는 애니메이션
         binding.mainTransparentView.visibility = View.INVISIBLE   //투명배경 INVISIBLE
-        transparentStatusBar()  //상태바 투명하게
     }
 
     fun setRecordFcvTopMargin(margin: Int) {

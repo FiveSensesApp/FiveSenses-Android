@@ -3,10 +3,7 @@ package com.mangpo.taste.base
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.WindowInsets
-import android.view.WindowManager
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -56,7 +53,7 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
     fun checkNetwork(): Boolean = NetworkManager.checkNetworkState(applicationContext)
 
     //상태바 숨기기
-    fun hideStatusBar() {
+    /*fun hideStatusBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.insetsController?.hide(WindowInsets.Type.statusBars())
         } else {
@@ -65,10 +62,10 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
             )
         }
-    }
+    }*/
 
     //상태바 투명하게
-    fun transparentStatusBar() {
+    /*fun transparentStatusBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.insetsController?.show(WindowInsets.Type.statusBars())
         } else {
@@ -76,6 +73,22 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
             )
+        }
+    }*/
+
+    fun showStatusBarText() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.insetsController?.setSystemBarsAppearance(
+                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
+                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS)
+        } else {
+            @Suppress("DEPRECATION")
+            window.decorView.systemUiVisibility = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+            } else {
+                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
+
         }
     }
 }

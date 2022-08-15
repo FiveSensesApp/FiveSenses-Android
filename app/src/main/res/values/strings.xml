@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">5gaam</string>
+    <string name="app_email">hi.mangpo@gmail.com</string>
+    <string name="app_mangpo">©MANGPO</string>
 
     <string name="title_app_version">ver 1.0.0</string>
     <string name="title_setting">설정</string>
@@ -54,6 +56,13 @@
     <string name="title_saturday">토</string>
     <string name="title_update_complete">수정 완료</string>
     <string name="title_search_result">검색 결과</string>
+    <string name="title_password">비밀번호</string>
+    <string name="title_login">로그인</string>
+    <string name="title_login_fail">로그인 실패</string>
+    <string name="title_temporary_pw_issued">임시 비밀번호 발급 완료</string>
+    <string name="title_find_email">이메일 찾기</string>
+    <string name="title_inquiry_mail">문의</string>
+    <string name="title_sign_up">회원가입</string>
 
     <string name="action_logout">로그아웃</string>
     <string name="action_withdrawal">계정 탈퇴</string>
@@ -70,6 +79,8 @@
     <string name="action_delete">삭제</string>
     <string name="action_confirm">확인</string>
     <string name="action_delete_long">삭제하기</string>
+    <string name="action_send_mail">메일 전송</string>
+    <string name="action_next">다음</string>
 
     <string name="msg_logout">정말 로그아웃 하시겠습니까?</string>
     <string name="msg_really_withdrawal">정말 탈퇴하실 건가요?</string>
@@ -89,10 +100,23 @@
     <string name="msg_update_complete">취향 수정이 완료되었어요.</string>
     <string name="msg_really_delete">정말 삭제하시겠어요?</string>
     <string name="msg_cannot_recover">삭제한 취향은 복구할 수 없어요.</string>
+    <string name="msg_nice_to_meet_you">만나서 반가워요!</string>
+    <string name="msg_enter_email">이메일 주소를 입력해주세요.</string>
+    <string name="msg_enter_pw">비밀번호를 입력해주세요.</string>
+    <string name="msg_check_email_pw">이메일 / 비밀번호를 확인해주세요.</string>
+    <string name="msg_send_temporary_pw">가입하신 이메일로\n임시 비밀번호를 보낼게요!</string>
+    <string name="msg_enter_signed_up_email">가입했던 이메일 주소를 입력해주세요.</string>
+    <string name="msg_dont_know_email">이메일을 모르겠다면?</string>
+    <string name="msg_reset_pw">비밀번호 재설정 후 사용해주세요!</string>
+    <string name="msg_contact_official_email">공식 이메일로 문의주세요!</string>
+    <string name="msg_login">이미 가입하셨나요? 로그인하기</string>
+    <string name="msg_on_boarding1">당신은 무엇을 감각할 때\n가장 행복한가요?</string>
+    <string name="msg_on_boarding2">내가 보고 듣고 느끼는 것이\n곧 나를 이룬다.</string>
+    <string name="msg_on_boarding3">사소한 것이라도 괜찮아요.\n하나씩 쌓이면 취향이 됩니다.</string>
+    <string name="msg_on_boarding4">오감으로 느낀 당신의 취향을\n지금 수집해보세요.</string>
 
     <string name="error_check_old_pw">기존 비밀번호를 확인해주세요.</string>
     <string name="error_not_match_pw">비밀번호가 일치하지 않습니다!</string>
     <string name="error_keyword_start_essential">키워드와 별점은 필수입니다!</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="error_email_not_subscribed">가입되지 않은 이메일입니다!</string>
 </resources>

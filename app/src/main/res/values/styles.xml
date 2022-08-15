@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="Body2_R_10" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:textSize">10dp</item>
+    </style>
     <style name="Body2_R_12" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/pretendard_regular</item>
         <item name="android:textSize">12dp</item>
