@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.NicknameSettingActivity">
+
+    <ImageView
+        android:id="@+id/nickname_setting_step_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="74dp"
+        android:src="@drawable/ic_sign_up3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/nickname_setting_how_call_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:gravity="center"
+        android:text="@string/msg_how_call"
+        android:textAppearance="@style/Head_B_26"
+        app:layout_constraintTop_toBottomOf="@+id/nickname_setting_step_iv" />
+
+    <TextView
+        android:id="@+id/nickname_setting_can_be_modified_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:text="@string/msg_nickname_can_be_modified"
+        android:textAppearance="@style/Body2_R_14"
+        android:textColor="@color/GY_04"
+        app:layout_constraintTop_toBottomOf="@+id/nickname_setting_how_call_tv" />
+
+    <EditText
+        android:id="@+id/nickname_setting_nickname_et"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="38dp"
+        android:background="@drawable/bg_gy01_12"
+        android:hint="@string/msg_up_to_8_characters"
+        android:inputType="text"
+        android:maxLength="8"
+        android:paddingHorizontal="21dp"
+        android:textAppearance="@style/Sub_Head_B_16"
+        android:textColor="@color/GY_04"
+        android:textColorHint="@color/GY_02"
+        app:layout_constraintTop_toBottomOf="@+id/nickname_setting_can_be_modified_tv" />
+
+    <TextView
+        android:id="@+id/nickname_setting_info_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:lineSpacingExtra="4sp"
+        android:text="@string/msg_nickname_conditions"
+        android:textAppearance="@style/Body2_R_12"
+        android:textColor="@color/GY_04"
+        app:layout_constraintTop_toBottomOf="@+id/nickname_setting_nickname_et" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/nickname_setting_next_btn"
+        android:layout_width="189dp"
+        android:layout_height="46dp"
+        android:layout_marginBottom="122dp"
+        android:background="@drawable/selector_sign_up_btn"
+        android:enabled="false"
+        android:gravity="center"
+        android:stateListAnimator="@null"
+        android:text="@string/action_next"
+        android:textAppearance="@style/Sub_Head_B_18"
+        android:textColor="@drawable/selector_sign_up_btn_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

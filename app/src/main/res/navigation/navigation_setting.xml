@@ -8,13 +8,13 @@
     <activity
         android:id="@+id/loginActivity"
         android:name="com.mangpo.taste.view.LoginActivity"
-        tools:layout="@layout/activity_login"
-        android:label="activity_login" />
+        android:label="activity_login"
+        tools:layout="@layout/activity_login" />
     <dialog
         android:id="@+id/termsBottomSheetFragment"
         android:name="com.mangpo.taste.view.TermsBottomSheetFragment"
-        tools:layout="@layout/fragment_terms_bottom_sheet"
-        android:label="fragment_terms_bottom_sheet">
+        android:label="fragment_terms_bottom_sheet"
+        tools:layout="@layout/fragment_terms_bottom_sheet">
         <argument
             android:name="type"
             app:argType="integer" />
@@ -22,8 +22,8 @@
     <fragment
         android:id="@+id/termsFragment"
         android:name="com.mangpo.taste.view.TermsFragment"
-        tools:layout="@layout/fragment_terms"
-        android:label="fragment_terms">
+        android:label="fragment_terms"
+        tools:layout="@layout/fragment_terms">
         <action
             android:id="@+id/action_termsFragment_to_termsBottomSheetFragment"
             app:destination="@id/termsBottomSheetFragment" />
@@ -31,8 +31,8 @@
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.mangpo.taste.view.SettingFragment"
-        tools:layout="@layout/fragment_setting"
-        android:label="fragment_setting">
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting">
         <action
             android:id="@+id/action_settingFragment_to_pwResettingFragment"
             app:destination="@id/pwResettingFragment" />
@@ -43,29 +43,17 @@
             android:id="@+id/action_settingFragment_to_openSourceFragment"
             app:destination="@id/openSourceFragment" />
         <action
-            android:id="@+id/action_settingFragment_to_alarmTimeDialogFragment"
-            app:destination="@id/alarmTimeDialogFragment" />
-        <action
             android:id="@+id/action_settingFragment_to_loginActivity"
             app:destination="@id/loginActivity" />
     </fragment>
-    <dialog
-        android:id="@+id/alarmTimeDialogFragment"
-        android:name="com.mangpo.taste.view.AlarmTimeDialogFragment"
-        tools:layout="@layout/fragment_alarm_time_dialog"
-        android:label="fragment_alarm_time_dialog">
-        <argument
-            android:name="time"
-            app:argType="string" />
-    </dialog>
     <fragment
         android:id="@+id/pwResettingFragment"
         android:name="com.mangpo.taste.view.PwResettingFragment"
-        tools:layout="@layout/fragment_pw_resetting"
-        android:label="fragment_pw_resetting"/>
+        android:label="fragment_pw_resetting"
+        tools:layout="@layout/fragment_pw_resetting" />
     <fragment
         android:id="@+id/openSourceFragment"
         android:name="com.mangpo.taste.view.OpenSourceFragment"
-        tools:layout="@layout/fragment_open_source"
-        android:label="fragment_open_source" />
+        android:label="fragment_open_source"
+        tools:layout="@layout/fragment_open_source" />
 </navigation>

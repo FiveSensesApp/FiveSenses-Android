@@ -63,6 +63,7 @@
     <string name="title_find_email">이메일 찾기</string>
     <string name="title_inquiry_mail">문의</string>
     <string name="title_sign_up">회원가입</string>
+    <string name="title_policies">(필수)이용약관, (필수)개인정보처리방침, (선택)마케팅 수신 동의</string>
 
     <string name="action_logout">로그아웃</string>
     <string name="action_withdrawal">계정 탈퇴</string>
@@ -81,6 +82,9 @@
     <string name="action_delete_long">삭제하기</string>
     <string name="action_send_mail">메일 전송</string>
     <string name="action_next">다음</string>
+    <string name="action_send_code">코드전송</string>
+    <string name="action_resend">재전송</string>
+    <string name="action_start">시작하기</string>
 
     <string name="msg_logout">정말 로그아웃 하시겠습니까?</string>
     <string name="msg_really_withdrawal">정말 탈퇴하실 건가요?</string>
@@ -114,9 +118,29 @@
     <string name="msg_on_boarding2">내가 보고 듣고 느끼는 것이\n곧 나를 이룬다.</string>
     <string name="msg_on_boarding3">사소한 것이라도 괜찮아요.\n하나씩 쌓이면 취향이 됩니다.</string>
     <string name="msg_on_boarding4">오감으로 느낀 당신의 취향을\n지금 수집해보세요.</string>
+    <string name="msg_create_account">계정을 생성합니다.</string>
+    <string name="msg_keep_records">한 번 가입하면 기기를 변경해도 기록이 유지돼요!</string>
+    <string name="msg_enter_actual_email">실제 사용중인 이메일 주소를 입력해주세요.</string>
+    <string name="msg_enter_pw_again">다시 한 번 비밀번호를 입력해주세요.</string>
+    <string name="msg_agree_subscription_terms">오감 가입 약관에 모두 동의합니다.</string>
+    <string name="msg_authenticate_email">이메일을 인증합니다.</string>
+    <string name="msg_send_authenticate_code">생성한 계정 이메일로 인증 코드를 보내드릴게요!</string>
+    <string name="msg_send_authenticate_code_here">여기로 인증코드를 보낼게요!</string>
+    <string name="msg_enter_authentication_code">인증코드를 입력해주세요.</string>
+    <string name="msg_how_call">어떻게 불러드릴까요?</string>
+    <string name="msg_nickname_can_be_modified">닉네임은 언제든 수정 가능합니다. 편하게 입력해주세요!</string>
+    <string name="msg_up_to_8_characters">최대 8자까지 설정 가능합니다.</string>
+    <string name="msg_nickname_conditions">한글, 영어, 숫자만 가능합니다.\n특수문자 및 이모지는 사용 불가해요.</string>
+    <string name="msg_almost_there">거의 다 왔어요!</string>
+    <string name="msg_allow_notifications">꾸준한 취향 기록을 위해 알림을 허용해주세요.</string>
+    <string name="msg_still_change_notification">나중에도 [설정 - 알림설정]에서\n알림을 변경할 수 있어요!</string>
+    <string name="msg_write_right_now">바로 써볼까요?</string>
+    <string name="msg_sign_up_complete">가입이 완료되었어요. 나만의 취향을 감각해보세요!</string>
 
     <string name="error_check_old_pw">기존 비밀번호를 확인해주세요.</string>
     <string name="error_not_match_pw">비밀번호가 일치하지 않습니다!</string>
     <string name="error_keyword_start_essential">키워드와 별점은 필수입니다!</string>
     <string name="error_email_not_subscribed">가입되지 않은 이메일입니다!</string>
+    <string name="error_enter_authentication_code_again">* 인증코드를 다시 입력해주세요.</string>
+    <string name="error_contains_unacceptable_characters">* 허용되지 않는 문자가 포함되어있습니다!</string>
 </resources>

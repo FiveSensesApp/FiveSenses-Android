@@ -72,7 +72,9 @@ class OnBoardingActivity : FragmentActivity() {
             if ((it as AppCompatButton).text.toString()==getString(R.string.action_next)) {
                 binding.onBoardingVp.currentItem++
             } else {
-
+                val intent: Intent = Intent(this@OnBoardingActivity, CreateAccountActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
             }
         }
 

@@ -11,9 +11,11 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
     private var dialogType: Int = -1
 
     private lateinit var twoBtnDialogFragment: TwoBtnDialogFragment
+    private lateinit var alarmTimeDialogFragment: AlarmTimeDialogFragment
 
     override fun initAfterBinding() {
         initTwoBtnDialog()
+        setAlarmTimeDialogFragment()
         setMyEventListener()
 
         binding.settingAlarmTimeTv.isEnabled = binding.settingAlarmSettingSb.isChecked
@@ -46,6 +48,19 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
         })
     }
 
+    private fun setAlarmTimeDialogFragment() {
+        alarmTimeDialogFragment = AlarmTimeDialogFragment()
+
+        alarmTimeDialogFragment.setCallback(object : AlarmTimeDialogFragment.Callback {
+            override fun cancel() {
+            }
+
+            override fun complete(time: String) {
+                binding.settingAlarmTimeTv.text = time
+            }
+        })
+    }
+
     private fun setMyEventListener() {
         //뒤로가기 이미지뷰 클릭 리스너
         binding.settingBackIv.setOnClickListener {
@@ -59,8 +74,11 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
 
         //알람 시간 텍스트뷰 클릭 리스너
         binding.settingAlarmTimeTv.setOnClickListener {
-            val action = SettingFragmentDirections.actionSettingFragmentToAlarmTimeDialogFragment(binding.settingAlarmTimeTv.text.toString())
-            findNavController().navigate(action)
+            val bundle: Bundle = Bundle()
+            bundle.putString("time", binding.settingAlarmTimeTv.text.toString())
+
+            alarmTimeDialogFragment.arguments = bundle
+            alarmTimeDialogFragment.show(requireActivity().supportFragmentManager, null)
         }
 
         //비밀번호 재설정 버튼 클릭리스너

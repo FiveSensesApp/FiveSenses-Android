@@ -9,20 +9,21 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.NumberPicker
 import androidx.fragment.app.DialogFragment
-import androidx.navigation.NavArgs
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import com.mangpo.taste.R
 import com.mangpo.taste.databinding.FragmentAlarmTimeDialogBinding
 import com.mangpo.taste.util.DialogFragmentUtils
 
-class AlarmTimeDialogFragment : DialogFragment() {
-    private val args: AlarmTimeDialogFragmentArgs by navArgs()
+class AlarmTimeDialogFragment() : DialogFragment() {
+    interface Callback {
+        fun cancel()
+        fun complete(time: String)
+    }
+
     private val timeUnitList = listOf<String>("오전", "오후")
     private val hourList = (1..12).toList().map { it.toString().padStart(2, '0') }
     private val minuteList = (0..60).toList().map { it.toString().padStart(2, '0') }
 
     private lateinit var binding: FragmentAlarmTimeDialogBinding
+    private lateinit var callback: Callback
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +36,8 @@ class AlarmTimeDialogFragment : DialogFragment() {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
 
-        initNumberPicker()
+        initNumberPicker(arguments?.getString("time")!!)
+        setEventListener()
 
         return binding.root
     }
@@ -52,26 +54,42 @@ class AlarmTimeDialogFragment : DialogFragment() {
     }
 
     //NumberPicker 초기화
-    private fun initNumberPicker() {
+    private fun initNumberPicker(time: String) {
         binding.alarmTimeAmPmNp.displayedValues = timeUnitList.toTypedArray()
         binding.alarmTimeAmPmNp.wrapSelectorWheel = true
         binding.alarmTimeAmPmNp.minValue = 0
         binding.alarmTimeAmPmNp.maxValue = timeUnitList.size - 1
         binding.alarmTimeAmPmNp.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
-        binding.alarmTimeAmPmNp.value = timeUnitList.indexOf(args.time.split(" ")[0])
+        binding.alarmTimeAmPmNp.value = timeUnitList.indexOf(time.split(" ")[0])
 
         binding.alarmTimeHourNp.displayedValues = hourList.toTypedArray()
         binding.alarmTimeHourNp.wrapSelectorWheel = true
         binding.alarmTimeHourNp.minValue = 0
         binding.alarmTimeHourNp.maxValue = hourList.size - 1
         binding.alarmTimeHourNp.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
-        binding.alarmTimeHourNp.value = hourList.indexOf(args.time.split(" ")[1].split(":")[0])
+        binding.alarmTimeHourNp.value = hourList.indexOf(time.split(" ")[1].split(":")[0])
 
         binding.alarmTimeMinuteNp.displayedValues = minuteList.toTypedArray()
         binding.alarmTimeMinuteNp.minValue = 0
         binding.alarmTimeMinuteNp.maxValue = minuteList.size - 1
         binding.alarmTimeMinuteNp.wrapSelectorWheel = true
         binding.alarmTimeMinuteNp.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
-        binding.alarmTimeMinuteNp.value = minuteList.indexOf(args.time.split(" ")[1].split(":")[1])
+        binding.alarmTimeMinuteNp.value = minuteList.indexOf(time.split(" ")[1].split(":")[1])
+    }
+
+    private fun setEventListener() {
+        binding.alarmTimeCancelBtn.setOnClickListener {
+            callback.cancel()
+            dismiss()
+        }
+
+        binding.alarmTimeCompleteBtn.setOnClickListener {
+            callback.complete("${timeUnitList[binding.alarmTimeAmPmNp.value]} ${hourList[binding.alarmTimeHourNp.value]}:${minuteList[binding.alarmTimeMinuteNp.value]}")
+            dismiss()
+        }
+    }
+
+    fun setCallback(callback: Callback) {
+        this.callback = callback
     }
 }
