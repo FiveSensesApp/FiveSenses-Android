@@ -58,11 +58,10 @@
         android:layout_height="46dp"
         android:layout_marginBottom="122dp"
         android:background="@drawable/selector_sign_up_btn"
-        android:enabled="false"
         android:stateListAnimator="@null"
         android:text="@string/action_next"
         android:textAppearance="@style/Sub_Head_B_18"
-        android:textColor="@drawable/selector_sign_up_text"
+        android:textColor="@drawable/selector_sign_up_btn_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
