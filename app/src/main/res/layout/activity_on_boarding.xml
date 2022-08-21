@@ -31,7 +31,7 @@
         app:piv_unselectedColor="@color/GY_02"
         app:piv_viewPager="@id/on_boarding_vp"
         attrs:piv_padding="10dp"
-        attrs:piv_radius="5dp" />
+        attrs:piv_radius="3dp" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/on_boarding_btn"

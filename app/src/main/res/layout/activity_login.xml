@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.LoginActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.text.InputType" />
+
+        <import type="com.mangpo.taste.R" />
+
+        <variable
+            name="data"
+            type="com.mangpo.taste.view.LoginActivity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.LoginActivity">
 
     <ImageView
         android:id="@+id/login_characters_iv"
@@ -16,99 +28,100 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/login_hello_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:text="@string/msg_nice_to_meet_you"
-        android:textAppearance="@style/Head_B_26"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_characters_iv" />
+        <TextView
+            android:id="@+id/login_hello_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:text="@string/msg_nice_to_meet_you"
+            android:textAppearance="@style/Head_B_26"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_characters_iv" />
 
-    <EditText
-        android:id="@+id/login_email_et"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="63dp"
-        android:background="@drawable/bg_gy01_12"
-        android:hint="@string/msg_enter_email"
-        android:inputType="textEmailAddress"
-        android:paddingHorizontal="21dp"
-        android:textAppearance="@style/Sub_Head_B_16"
-        android:textColor="@color/GY_04"
-        android:textColorHint="@color/GY_03"
-        app:layout_constraintTop_toBottomOf="@+id/login_hello_tv" />
+        <EditText
+            android:id="@+id/login_email_et"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="63dp"
+            android:background="@drawable/bg_gy01_12"
+            android:hint="@string/msg_enter_email"
+            android:inputType="textEmailAddress"
+            android:paddingHorizontal="21dp"
+            android:textAppearance="@style/Sub_Head_B_16"
+            android:textColor="@color/GY_04"
+            android:textColorHint="@color/GY_03"
+            app:layout_constraintTop_toBottomOf="@+id/login_hello_tv" />
 
-    <EditText
-        android:id="@+id/login_pw_et"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="13dp"
-        android:background="@drawable/bg_gy01_12"
-        android:hint="@string/msg_enter_pw"
-        android:inputType="textPassword"
-        android:paddingStart="22dp"
-        android:paddingEnd="35dp"
-        android:textAppearance="@style/Sub_Head_B_16"
-        android:textColor="@color/GY_04"
-        android:textColorHint="@color/GY_03"
-        app:layout_constraintTop_toBottomOf="@+id/login_email_et" />
+        <EditText
+            android:id="@+id/login_pw_et"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="13dp"
+            android:background="@drawable/bg_gy01_12"
+            android:hint="@string/msg_enter_pw"
+            android:inputType='@{data.isTouched? InputType.TYPE_CLASS_TEXT : (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)}'
+            android:paddingStart="22dp"
+            android:paddingEnd="35dp"
+            android:textAppearance='@style/Sub_Head_B_16'
+            android:textColor="@{data.isTouched? context.getColor(R.color.RD_2) : context.getColor(R.color.GY_04)}"
+            android:textColorHint="@color/GY_03"
+            app:layout_constraintTop_toBottomOf="@+id/login_email_et" />
 
-    <ImageButton
-        android:id="@+id/login_pw_eye_ib"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:background="@android:color/transparent"
-        android:padding="0dp"
-        android:src="@drawable/ic_eye_gy04_30"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/login_pw_et"
-        app:layout_constraintEnd_toEndOf="@+id/login_pw_et"
-        app:layout_constraintTop_toTopOf="@+id/login_pw_et" />
+        <ImageButton
+            android:id="@+id/login_pw_eye_ib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:background="@android:color/transparent"
+            android:padding="0dp"
+            android:src="@{data.isTouched? context.getDrawable(R.drawable.ic_eye_rd2_30) : context.getDrawable(R.drawable.ic_eye_gy04_30)}"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/login_pw_et"
+            app:layout_constraintEnd_toEndOf="@+id/login_pw_et"
+            app:layout_constraintTop_toTopOf="@+id/login_pw_et" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/login_login_btn"
-        android:layout_width="189dp"
-        android:layout_height="46dp"
-        android:layout_marginBottom="122dp"
-        android:background="@drawable/selector_login_btn"
-        android:enabled="false"
-        android:stateListAnimator="@null"
-        android:text="@string/title_login"
-        android:textAppearance="@style/Sub_Head_B_18"
-        android:textColor="@color/WH"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/login_login_btn"
+            android:layout_width="189dp"
+            android:layout_height="46dp"
+            android:layout_marginBottom="122dp"
+            android:background="@drawable/selector_login_btn"
+            android:enabled="false"
+            android:stateListAnimator="@null"
+            android:text="@string/title_login"
+            android:textAppearance="@style/Sub_Head_B_18"
+            android:textColor="@color/WH"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/login_pw_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="85dp"
-        android:text="@string/title_password"
-        android:textAppearance="@style/Sub_Head_B_16"
-        android:textColor="@color/GY_03"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/login_what_pw_tv"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/login_pw_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="85dp"
+            android:text="@string/title_password"
+            android:textAppearance="@style/Sub_Head_B_16"
+            android:textColor="@color/GY_03"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/login_what_pw_tv"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/login_what_pw_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="를 모르겠다면?"
-        android:textAppearance="@style/Sub_Head_B_16"
-        android:textColor="@color/GY_03"
-        app:layout_constraintBottom_toBottomOf="@+id/login_pw_tv"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/login_pw_tv"
-        app:layout_constraintTop_toTopOf="@+id/login_pw_tv" />
+        <TextView
+            android:id="@+id/login_what_pw_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="를 모르겠다면?"
+            android:textAppearance="@style/Sub_Head_B_16"
+            android:textColor="@color/GY_03"
+            app:layout_constraintBottom_toBottomOf="@+id/login_pw_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/login_pw_tv"
+            app:layout_constraintTop_toTopOf="@+id/login_pw_tv" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

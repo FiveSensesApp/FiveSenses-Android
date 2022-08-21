@@ -1,70 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.CreateAccountActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
 
-    <ImageView
-        android:id="@+id/create_account_step_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="74dp"
-        android:src="@drawable/ic_sign_up1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <import type="android.text.InputType" />
 
-    <TextView
-        android:id="@+id/create_account_create_account_tv"
+        <import type="com.mangpo.taste.R" />
+
+        <variable
+            name="data"
+            type="com.mangpo.taste.view.CreateAccountActivity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:gravity="center"
-        android:text="@string/msg_create_account"
-        android:textAppearance="@style/Head_B_26"
-        app:layout_constraintTop_toBottomOf="@+id/create_account_step_iv" />
+        android:layout_height="match_parent"
+        tools:context=".view.CreateAccountActivity">
 
-    <TextView
-        android:id="@+id/create_account_keep_records_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:gravity="center"
-        android:text="@string/msg_keep_records"
-        android:textAppearance="@style/Body2_R_14"
-        android:textColor="@color/GY_04"
-        app:layout_constraintTop_toBottomOf="@+id/create_account_create_account_tv" />
+        <ImageView
+            android:id="@+id/create_account_step_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="74dp"
+            android:src="@drawable/ic_sign_up1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/create_account_email_et"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="38dp"
-        android:background="@drawable/bg_gy04_12"
-        android:hint="@string/msg_enter_actual_email"
-        android:inputType="textEmailAddress"
-        android:paddingHorizontal="21dp"
-        android:textAppearance="@style/Sub_Head_B_16"
-        android:textColor="@color/WH"
-        android:textColorHint="@color/WH"
-        app:layout_constraintTop_toBottomOf="@+id/create_account_keep_records_tv" />
+        <TextView
+            android:id="@+id/create_account_create_account_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:gravity="center"
+            android:text="@string/msg_create_account"
+            android:textAppearance="@style/Head_B_26"
+            app:layout_constraintTop_toBottomOf="@+id/create_account_step_iv" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/create_account_next_btn"
-        android:layout_width="189dp"
-        android:layout_height="46dp"
-        android:layout_marginBottom="122dp"
-        android:background="@drawable/selector_sign_up_btn"
-        android:enabled="false"
-        android:stateListAnimator="@null"
-        android:text="@string/action_next"
-        android:textAppearance="@style/Sub_Head_B_18"
-        android:textColor="@drawable/selector_sign_up_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/create_account_keep_records_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:text="@string/msg_keep_records"
+            android:textAppearance="@style/Body2_R_14"
+            android:textColor="@color/GY_04"
+            app:layout_constraintTop_toBottomOf="@+id/create_account_create_account_tv" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            android:id="@+id/create_account_email_et"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="38dp"
+            android:background="@drawable/bg_gy04_12"
+            android:hint="@string/msg_enter_actual_email"
+            android:inputType="textEmailAddress"
+            android:paddingHorizontal="21dp"
+            android:textAppearance="@style/Sub_Head_B_16"
+            android:textColor="@color/WH"
+            android:textColorHint="@color/WH"
+            app:layout_constraintTop_toBottomOf="@+id/create_account_keep_records_tv" />
+
+        <EditText
+            android:id="@+id/create_account_pw1_et"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_gy01_12"
+            android:hint="@string/msg_enter_pw"
+            android:inputType='@{data.pw1EyeTouched? InputType.TYPE_CLASS_TEXT : (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)}'
+            android:paddingStart="21dp"
+            android:paddingEnd="48dp"
+            android:textAppearance='@style/Sub_Head_B_16'
+            android:textColor="@{data.pw1EyeTouched? context.getColor(R.color.RD_2) : context.getColor(R.color.GY_03)}"
+            android:textColorHint="@color/GY_03"
+            app:layout_constraintTop_toBottomOf="@+id/create_account_email_et" />
+
+        <ImageButton
+            android:id="@+id/create_account_pw1_eye_ib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:background="@android:color/transparent"
+            android:padding="0dp"
+            android:src="@{data.pw1EyeTouched? context.getDrawable(R.drawable.ic_eye_rd2_30) : context.getDrawable(R.drawable.ic_eye_gy04_30)}"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/create_account_pw1_et"
+            app:layout_constraintEnd_toEndOf="@+id/create_account_pw1_et"
+            app:layout_constraintTop_toTopOf="@+id/create_account_pw1_et" />
+
+        <EditText
+            android:id="@+id/create_account_pw2_et"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_gy01_12"
+            android:hint="@string/msg_enter_pw_again"
+            android:inputType='@{data.pw2EyeTouched? InputType.TYPE_CLASS_TEXT : (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)}'
+            android:paddingStart="21dp"
+            android:paddingEnd="48dp"
+            android:textAppearance='@style/Sub_Head_B_16'
+            android:textColor="@{data.pw2EyeTouched? context.getColor(R.color.RD_2) : context.getColor(R.color.GY_03)}"
+            android:textColorHint="@color/GY_03"
+            app:layout_constraintTop_toBottomOf="@+id/create_account_pw1_et" />
+
+        <ImageButton
+            android:id="@+id/create_account_pw2_eye_ib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:background="@android:color/transparent"
+            android:padding="0dp"
+            android:src="@{data.pw2EyeTouched? context.getDrawable(R.drawable.ic_eye_rd2_30) : context.getDrawable(R.drawable.ic_eye_gy04_30)}"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/create_account_pw2_et"
+            app:layout_constraintEnd_toEndOf="@+id/create_account_pw2_et"
+            app:layout_constraintTop_toTopOf="@+id/create_account_pw2_et" />
+
+        <TextView
+            android:id="@+id/create_account_pw_condition_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/msg_pw_conditions"
+            android:gravity="center"
+            android:textAppearance="@style/Body2_R_12"
+            android:textColor="@color/GY_04"
+            app:layout_constraintTop_toBottomOf="@+id/create_account_pw2_et"
+            android:layout_marginTop="10dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/create_account_next_btn"
+            android:layout_width="189dp"
+            android:layout_height="46dp"
+            android:layout_marginBottom="122dp"
+            android:background="@drawable/selector_sign_up_btn"
+            android:enabled="false"
+            android:stateListAnimator="@null"
+            android:text="@string/action_next"
+            android:textAppearance="@style/Sub_Head_B_18"
+            android:textColor="@drawable/selector_sign_up_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
