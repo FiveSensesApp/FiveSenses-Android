@@ -3,13 +3,10 @@ package com.mangpo.taste.view
 import android.graphics.Paint
 import android.os.Bundle
 import android.text.Editable
-import android.text.InputType
 import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
-import android.widget.ImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseActivity
 import com.mangpo.taste.databinding.ActivityLoginBinding
@@ -22,9 +19,13 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventList
 @AndroidEntryPoint
 class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate), TextWatcher {
 //    private val mainViewModel: MainViewModel by viewModels()
+    var isTouched: Boolean = false
+
     private lateinit var oneBtnDialogFragment: OneBtnDialogFragment
 
     override fun initAfterBinding() {
+        binding.data = this
+
         setEventListener()
         setOneBtnDialogFragment()
 
@@ -77,6 +78,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
     }
 
     override fun afterTextChanged(p0: Editable?) {
+        binding.loginPwEt.typeface = binding.loginEmailEt.typeface  //패스워드 EditText 글꼴이 계속 풀리는 문제 해결
     }
 
     private fun setEventListener() {
@@ -86,19 +88,17 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
         binding.loginPwEyeIb.setOnTouchListener { view, motionEvent ->
             when (motionEvent?.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    (view as ImageButton).setImageResource(R.drawable.ic_eye_rd2_30)
-                    binding.loginPwEt.setTextColor(ContextCompat.getColor(applicationContext, R.color.RD_2))
-                    binding.loginPwEt.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                    isTouched = true
                 }
                 MotionEvent.ACTION_UP -> {
-                    (view as ImageButton).setImageResource(R.drawable.ic_eye_gy04_30)
-                    binding.loginPwEt.setTextColor(ContextCompat.getColor(applicationContext, R.color.GY_04))
-                    binding.loginPwEt.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                    isTouched = false
                 }
                 else -> {
 
                 }
             }
+
+            binding.invalidateAll()
 
             false
         }
