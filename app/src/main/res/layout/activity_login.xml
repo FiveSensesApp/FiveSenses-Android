@@ -5,6 +5,8 @@
 
         <import type="android.text.InputType" />
 
+        <import type="android.view.View" />
+
         <import type="com.mangpo.taste.R" />
 
         <variable
@@ -18,15 +20,15 @@
         android:layout_height="match_parent"
         tools:context=".view.LoginActivity">
 
-    <ImageView
-        android:id="@+id/login_characters_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="81dp"
-        android:src="@drawable/ic_characters"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/login_characters_iv"
+            marginTop="@{data.isKeyboardVisible? 74 : 112}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_characters"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/login_hello_tv"
@@ -62,7 +64,6 @@
             android:layout_marginTop="13dp"
             android:background="@drawable/bg_gy01_12"
             android:hint="@string/msg_enter_pw"
-            android:inputType='@{data.isTouched? InputType.TYPE_CLASS_TEXT : (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)}'
             android:paddingStart="22dp"
             android:paddingEnd="35dp"
             android:textAppearance='@style/Sub_Head_B_16'
@@ -85,9 +86,9 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/login_login_btn"
+            marginBottom="@{data.isKeyboardVisible? 15 : 122}"
             android:layout_width="189dp"
             android:layout_height="46dp"
-            android:layout_marginBottom="122dp"
             android:background="@drawable/selector_login_btn"
             android:enabled="false"
             android:stateListAnimator="@null"
@@ -106,6 +107,7 @@
             android:text="@string/title_password"
             android:textAppearance="@style/Sub_Head_B_16"
             android:textColor="@color/GY_03"
+            android:visibility="@{data.isKeyboardVisible? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/login_what_pw_tv"
             app:layout_constraintHorizontal_chainStyle="packed"
@@ -118,6 +120,7 @@
             android:text="를 모르겠다면?"
             android:textAppearance="@style/Sub_Head_B_16"
             android:textColor="@color/GY_03"
+            android:visibility="@{data.isKeyboardVisible? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/login_pw_tv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/login_pw_tv"

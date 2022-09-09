@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.mangpo.taste.util.NetworkManager
 
-
 abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater) -> T): AppCompatActivity(){
     protected lateinit var binding: T
         private set

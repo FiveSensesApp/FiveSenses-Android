@@ -1,65 +1,53 @@
 package com.mangpo.taste.view
 
-import android.graphics.Paint
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
+import android.text.method.PasswordTransformationMethod
 import android.view.MotionEvent
 import android.view.View
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.activity.viewModels
+import androidx.lifecycle.Observer
+import com.mangpo.domain.model.authorize.AuthorizeReqEntity
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseActivity
 import com.mangpo.taste.databinding.ActivityLoginBinding
-import com.mangpo.taste.util.convertDpToPx
 import com.mangpo.taste.view.model.OneBtnDialog
+import com.mangpo.taste.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 
 @AndroidEntryPoint
 class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate), TextWatcher {
-//    private val mainViewModel: MainViewModel by viewModels()
+    private val loginVm: LoginViewModel by viewModels()
+
     var isTouched: Boolean = false
+    var isKeyboardVisible: Boolean = false
 
     private lateinit var oneBtnDialogFragment: OneBtnDialogFragment
 
     override fun initAfterBinding() {
-        binding.data = this
-
-        setEventListener()
-        setOneBtnDialogFragment()
+        binding.data = this //데이터 바인딩 설정
 
         //키보드 감지해서 뷰 바꾸기
         KeyboardVisibilityEvent.setEventListener(
             this@LoginActivity,
             KeyboardVisibilityEventListener {
-                val charactersIvParams = (binding.loginCharactersIv.layoutParams as ConstraintLayout.LayoutParams)
-                val loginBtnParams = (binding.loginLoginBtn.layoutParams as ConstraintLayout.LayoutParams)
-                if (it) {   //키보드 올라와 있으면
-                    charactersIvParams.topMargin = convertDpToPx(applicationContext,43) //marginTop 43dp
-                    loginBtnParams.bottomMargin = convertDpToPx(applicationContext, 15) //marginBottom 15dp
-
-                    binding.loginPwTv.visibility = View.GONE
-                    binding.loginWhatPwTv.visibility = View.GONE
-                } else {    //키보드 내려와 있으면
-                    charactersIvParams.topMargin = convertDpToPx(applicationContext,81) //marginTop 81dp
-                    loginBtnParams.bottomMargin = convertDpToPx(applicationContext, 122) //marginBottom 122dp
-
-                    binding.loginPwTv.visibility = View.VISIBLE
-                    binding.loginWhatPwTv.visibility = View.VISIBLE
-                }
-
-                binding.loginCharactersIv.layoutParams = charactersIvParams
-                binding.loginLoginBtn.layoutParams = loginBtnParams
+                isKeyboardVisible = it
+                binding.invalidateAll()
+                binding.loginPwEt.transformationMethod = PasswordTransformationMethod.getInstance()
             })
 
-        binding.loginPwTv.paintFlags = Paint.UNDERLINE_TEXT_FLAG    //비밀번호에 밑줄 긋기
+        setEventListener()
+        setOneBtnDialogFragment()
+        observe()
+    }
 
-        /*binding.loginTv.setOnClickListener {
-//            mainViewModel.getBooksByName("R")
-
-            startNextActivity(MainActivity::class.java)
-        }*/
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finishAffinity()
     }
 
     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -88,14 +76,14 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
         binding.loginPwEyeIb.setOnTouchListener { view, motionEvent ->
             when (motionEvent?.action) {
                 MotionEvent.ACTION_DOWN -> {
+                    binding.loginPwEt.inputType = InputType.TYPE_CLASS_TEXT
                     isTouched = true
                 }
                 MotionEvent.ACTION_UP -> {
+                    binding.loginPwEt.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
                     isTouched = false
                 }
-                else -> {
-
-                }
+                else -> {}
             }
 
             binding.invalidateAll()
@@ -105,16 +93,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
 
         //로그인 버튼 클릭 리스너
         binding.loginLoginBtn.setOnClickListener {
-            startActivityWithClear(MainActivity::class.java)
-        }
-
-        //로그인 실패 다이얼로그 보여주기 위한 임시 코드
-        binding.loginWhatPwTv.setOnClickListener {
-            val bundle: Bundle = Bundle()
-            bundle.putParcelable("data", OneBtnDialog(getString(R.string.title_login_fail), getString(R.string.msg_check_email_pw), getString(R.string.action_confirm), listOf(46, 10, 46, 12)))
-
-            oneBtnDialogFragment.arguments = bundle
-            oneBtnDialogFragment.show(supportFragmentManager, null)
+            loginVm.authorize(AuthorizeReqEntity(binding.loginEmailEt.text.toString(), binding.loginPwEt.text.toString()))
         }
 
         //비밀번호 텍스트뷰 클릭 리스너 -> TempPwActivity 로 이동
@@ -134,21 +113,23 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
     private fun validate(): Boolean = binding.loginEmailEt.text.isNotBlank() && binding.loginPwEt.text.isNotBlank()
 
     private fun observe() {
-        /*mainViewModel.toast.observe(this@LoginActivity) {
-            it.getContentIfNotHandled()?.let { value ->
-                showToast(value)
+        loginVm.toast.observe(this, Observer {
+            val toast = it.getContentIfNotHandled()
+
+            if (toast!=null)
+                showToast(toast)
+        })
+
+        loginVm.loginSuccess.observe(this, Observer {
+            if (it) {   //로그인 성공
+                startActivityWithClear(MainActivity::class.java)
+            } else {    //로그인 실패
+                val bundle: Bundle = Bundle()
+                bundle.putParcelable("data", OneBtnDialog(getString(R.string.title_login_fail), getString(R.string.msg_check_email_pw), getString(R.string.action_confirm), listOf(46, 10, 46, 12)))
+
+                oneBtnDialogFragment.arguments = bundle
+                oneBtnDialogFragment.show(supportFragmentManager, null)
             }
-        }
-
-        mainViewModel.isLoading.observe(this@LoginActivity) {
-            if (it)
-                Log.d("MainActivity", "isLoading Observe!! -> 로딩중")
-            else
-                Log.d("MainActivity", "isLoading Observe!! -> 로딩끝")
-        }
-
-        mainViewModel.books.observe(this@LoginActivity) {
-            Log.d("MainActivity", "books Observe!! -> $it")
-        }*/
+        })
     }
 }

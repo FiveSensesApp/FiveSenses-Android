@@ -14,6 +14,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.mangpo.taste.R
 import com.mangpo.taste.databinding.ActivityOnBoardingBinding
+import com.mangpo.taste.util.SpfUtils.writeSpf
 
 class OnBoardingActivity : FragmentActivity() {
     private lateinit var binding: ActivityOnBoardingBinding
@@ -72,17 +73,21 @@ class OnBoardingActivity : FragmentActivity() {
             if ((it as AppCompatButton).text.toString()==getString(R.string.action_next)) {
                 binding.onBoardingVp.currentItem++
             } else {
-                val intent: Intent = Intent(this@OnBoardingActivity, CreateAccountActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
+                goNextActivity(CreateAccountActivity::class.java)
             }
         }
 
         binding.onBoardingLoginTv.setOnClickListener {
-            val intent: Intent = Intent(this@OnBoardingActivity, LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
+            goNextActivity(LoginActivity::class.java)
         }
+    }
+
+    private fun goNextActivity(activity: Class<*>) {
+        writeSpf("onBoarding", true)
+
+        val intent: Intent = Intent(this@OnBoardingActivity, activity)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
     }
 
     inner class OnBoardingVPAdapter(fa: FragmentActivity): FragmentStateAdapter(fa) {

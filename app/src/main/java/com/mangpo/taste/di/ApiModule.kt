@@ -1,14 +1,16 @@
 package com.mangpo.taste.di
 
+import android.util.Log
+import com.mangpo.data.service.AuthService
 import com.mangpo.data.service.KakaoBookService
 import com.mangpo.taste.BuildConfig
+import com.mangpo.taste.util.SpfUtils
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -19,10 +21,22 @@ import javax.inject.Singleton
 class ApiModule {
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
+    fun getInterceptor(): Interceptor {
+        Log.d("getInterceptor", "getInterceptor")
+        return Interceptor {
+            val request = it.request().newBuilder().addHeader("Authorization", "Bearer ${SpfUtils.getEncryptedSpf("jwt")}")
+            val actualRequest = request.build()
+            it.proceed(actualRequest)
+        }
+    }
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(interceptor: Interceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .readTimeout(30000, TimeUnit.MILLISECONDS)
             .connectTimeout(30000, TimeUnit.MILLISECONDS)
+            .addInterceptor(interceptor)
             .build()
     }
 
@@ -30,7 +44,7 @@ class ApiModule {
     @Singleton
     fun provideRetrofit(client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BuildConfig.KAKAOBOOK_BASEURL)
+            .baseUrl(BuildConfig.BASEURL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
@@ -40,5 +54,11 @@ class ApiModule {
     @Singleton
     fun provideKakaoBookService(retrofit: Retrofit): KakaoBookService {
         return retrofit.create(KakaoBookService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthService(retrofit: Retrofit): AuthService {
+        return retrofit.create(AuthService::class.java)
     }
 }
