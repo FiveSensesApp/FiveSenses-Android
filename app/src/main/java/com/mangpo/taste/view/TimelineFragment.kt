@@ -2,15 +2,25 @@ package com.mangpo.taste.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.mangpo.domain.model.RecordEntity
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentTimelineBinding
+import com.mangpo.taste.util.SpfUtils
 import com.mangpo.taste.view.adpater.RecordDetailAdapter
 import com.mangpo.taste.view.model.Record
 import com.mangpo.taste.view.model.TwoBtnDialog
+import com.mangpo.taste.viewmodel.PostViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineBinding::inflate) {
+    private val vm: PostViewModel by viewModels()
+
     //임시데이터
     private val recordEntities: ArrayList<RecordEntity> = arrayListOf<RecordEntity>(
         RecordEntity(
@@ -71,6 +81,9 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
     override fun initAfterBinding() {
         initTwoBtnDialog()
         initAdapter()
+        observe()
+
+        vm.getPosts(SpfUtils.getIntEncryptedSpf("userId"), 0, "id,desc", null, null, null)
     }
 
     override fun onResume() {
@@ -122,5 +135,16 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
         })
 
         binding.timelineRecordRv.adapter = recordDetailAdapter
+    }
+
+    private fun observe() {
+        vm.posts.observe(viewLifecycleOwner, Observer {
+            Log.d("TimelineFragment", "posts observe!! -> $it")
+            if (it.empty) {
+                findNavController().navigate(R.id.action_global_noFeedFragment)
+            } else {
+
+            }
+        })
     }
 }
