@@ -17,13 +17,12 @@ import com.mangpo.taste.util.setSpannableText
 import com.mangpo.taste.viewmodel.MainViewModel
 
 class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::inflate), TextWatcher {
-    private val mainViewModel: MainViewModel by activityViewModels()
+    private val mainVm: MainViewModel by activityViewModels()
     private val hasRecord: Boolean = true
 
     private lateinit var onBackPressedCallback: OnBackPressedCallback
 
     override fun initAfterBinding() {
-        setStartDestination()   //기록이 있으면 timelineFragment, 없으면 noTasteFragment 로 startDestination 지정하기
         setMyEventListener()
         observe()
 
@@ -76,12 +75,6 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
     override fun afterTextChanged(p0: Editable?) {
     }
 
-    //기록이 있을 때/없을 때 각각 다른 StartDestination 을 가짐
-    private fun setStartDestination() {
-        if (!hasRecord)   //기록이 없을 때 -> NoTasteFragment 로 이동하기
-            binding.feedFcv.findNavController().navigate(R.id.action_global_noTasteFragment)
-    }
-
     private fun setMyEventListener() {
         //오른쪽 검색 아이콘 클릭 리스너
         binding.feedSearchRightIv.setOnClickListener {
@@ -122,7 +115,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
 
     private fun observe() {
         //피드 필터 타입 Observe
-        mainViewModel.feedType.observe(viewLifecycleOwner, Observer {
+        mainVm.feedType.observe(viewLifecycleOwner, Observer {
             if (hasRecord) { //기록이 있을 때만
                 when (it) {
                     getString(R.string.title_timeline) -> binding.feedFcv.findNavController().navigate(R.id.action_global_timelineFragment)
@@ -165,7 +158,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
             }
 
 
-            mainViewModel.setFeedType(clickedText)  //피드 타입 LiveData 변경
+            mainVm.setFeedType(clickedText)  //피드 타입 LiveData 변경
             binding.feedMyTasteTv.text = "나의 취향 $clickedText" //피드 타입 텍스트 변경
             setSpannableText(binding.feedMyTasteTv.text.toString(), requireContext(), R.color.GY_03, 6, binding.feedMyTasteTv.text.length, binding.feedMyTasteTv)   //나의 취향 뒷부분 텍스트 색상 변경
 
