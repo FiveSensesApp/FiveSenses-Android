@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mangpo.domain.model.NetworkResult
 import com.mangpo.domain.model.base.BaseResEntity
 import kotlinx.coroutines.*
 
@@ -21,7 +20,7 @@ open class BaseViewModel(): ViewModel() {
         _isLoading.postValue(isLoading)
     }
 
-    private fun showToast(message: String) {
+    fun showToast(message: String) {
         _toast.postValue(Event(message))
     }
 
@@ -39,27 +38,6 @@ open class BaseViewModel(): ViewModel() {
                     600 -> _toast.postValue(Event<String>("네트워크를 확인해주세요."))
                     700 -> _toast.postValue(Event<String>("알 수 없는 에러가 발생했습니다."))
                     else -> callback(response)
-                }
-            }
-
-            if(showLoading)
-                startLoading(block)
-            else
-                block()
-        }
-    }
-
-    fun <T> getApiResult(
-        apiResult: suspend () -> NetworkResult<T>,
-        success: (T) -> Unit,
-        showLoading: Boolean = true,
-        title: String
-    ) {
-        job = viewModelScope.launch {
-            val block = suspend {
-                when (val networkResult = apiResult()) {
-                    is NetworkResult.Success -> success(networkResult.data)
-                    is NetworkResult.Fail -> showToast(networkResult.message)
                 }
             }
 
