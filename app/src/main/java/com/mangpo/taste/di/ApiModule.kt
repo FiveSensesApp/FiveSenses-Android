@@ -2,7 +2,8 @@ package com.mangpo.taste.di
 
 import android.util.Log
 import com.mangpo.data.service.AuthService
-import com.mangpo.data.service.KakaoBookService
+import com.mangpo.data.service.PostService
+import com.mangpo.data.service.UserService
 import com.mangpo.taste.BuildConfig
 import com.mangpo.taste.util.SpfUtils
 import dagger.Module
@@ -24,7 +25,7 @@ class ApiModule {
     fun getInterceptor(): Interceptor {
         Log.d("getInterceptor", "getInterceptor")
         return Interceptor {
-            val request = it.request().newBuilder().addHeader("Authorization", "Bearer ${SpfUtils.getEncryptedSpf("jwt")}")
+            val request = it.request().newBuilder().addHeader("Authorization", "Bearer ${SpfUtils.getStrEncryptedSpf("jwt")}")
             val actualRequest = request.build()
             it.proceed(actualRequest)
         }
@@ -52,13 +53,19 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun provideKakaoBookService(retrofit: Retrofit): KakaoBookService {
-        return retrofit.create(KakaoBookService::class.java)
+    fun provideAuthService(retrofit: Retrofit): AuthService {
+        return retrofit.create(AuthService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideAuthService(retrofit: Retrofit): AuthService {
-        return retrofit.create(AuthService::class.java)
+    fun providePostService(retrofit: Retrofit): PostService {
+        return retrofit.create(PostService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserService(retrofit: Retrofit): UserService {
+        return retrofit.create(UserService::class.java)
     }
 }
