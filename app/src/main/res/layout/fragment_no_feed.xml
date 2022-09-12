@@ -4,24 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.NoTasteFragment">
+    tools:context=".view.NoFeedFragment">
 
     <FrameLayout
-        android:id="@+id/no_taste_filter_fl"
+        android:id="@+id/no_feed_filter_fl"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:paddingStart="20dp"
         app:layout_constraintTop_toTopOf="parent">
 
         <RadioGroup
-            android:id="@+id/no_taste_timeline_filter_rg"
+            android:id="@+id/no_feed_timeline_filter_rg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <RadioButton
-                android:id="@+id/no_taste_latest_order_rb"
+                android:id="@+id/no_feed_latest_order_rb"
                 android:layout_width="90dp"
                 android:layout_height="36dp"
                 android:background="@drawable/selector_filter_rb"
@@ -33,7 +33,7 @@
                 android:textColor="@color/WH" />
 
             <RadioButton
-                android:id="@+id/no_taste_old_fashioned_rb"
+                android:id="@+id/no_feed_old_fashioned_rb"
                 android:layout_width="90dp"
                 android:layout_height="36dp"
                 android:layout_marginStart="10dp"
@@ -47,21 +47,21 @@
         </RadioGroup>
 
         <HorizontalScrollView
-            android:id="@+id/no_taste_sense_hsv"
+            android:id="@+id/no_feed_sense_hsv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none"
             android:visibility="invisible">
 
             <RadioGroup
-                android:id="@+id/no_taste_sense_filter_rg"
+                android:id="@+id/no_feed_sense_filter_rg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/no_taste_sight_rb"
+                    android:id="@+id/no_feed_sight_rb"
                     android:layout_width="57dp"
                     android:layout_height="36dp"
                     android:background="@drawable/selector_filter_rb"
@@ -73,7 +73,7 @@
                     android:textColor="@color/WH" />
 
                 <RadioButton
-                    android:id="@+id/no_taste_ear_rb"
+                    android:id="@+id/no_feed_ear_rb"
                     android:layout_width="57dp"
                     android:layout_height="36dp"
                     android:layout_marginStart="8dp"
@@ -85,7 +85,7 @@
                     android:textColor="@color/WH" />
 
                 <RadioButton
-                    android:id="@+id/no_taste_smell_rb"
+                    android:id="@+id/no_feed_smell_rb"
                     android:layout_width="57dp"
                     android:layout_height="36dp"
                     android:layout_marginStart="8dp"
@@ -97,7 +97,7 @@
                     android:textColor="@color/WH" />
 
                 <RadioButton
-                    android:id="@+id/no_taste_taste_rb"
+                    android:id="@+id/no_feed_taste_rb"
                     android:layout_width="57dp"
                     android:layout_height="36dp"
                     android:layout_marginStart="8dp"
@@ -109,7 +109,7 @@
                     android:textColor="@color/WH" />
 
                 <RadioButton
-                    android:id="@+id/no_taste_touch_rb"
+                    android:id="@+id/no_feed_touch_rb"
                     android:layout_width="57dp"
                     android:layout_height="36dp"
                     android:layout_marginStart="8dp"
@@ -121,7 +121,7 @@
                     android:textColor="@color/WH" />
 
                 <RadioButton
-                    android:id="@+id/no_taste_question_rb"
+                    android:id="@+id/no_feed_question_rb"
                     android:layout_width="98dp"
                     android:layout_height="36dp"
                     android:layout_marginStart="8dp"
@@ -137,7 +137,7 @@
         </HorizontalScrollView>
 
         <RadioGroup
-            android:id="@+id/no_taste_score_filter_rg"
+            android:id="@+id/no_feed_score_filter_rg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
@@ -145,7 +145,7 @@
             android:visibility="invisible">
 
             <RadioButton
-                android:id="@+id/no_taste_5_score_rb"
+                android:id="@+id/no_feed_5_score_rb"
                 android:layout_width="58dp"
                 android:layout_height="36dp"
                 android:background="@drawable/selector_filter_rb"
@@ -157,7 +157,7 @@
                 android:textColor="@color/WH" />
 
             <RadioButton
-                android:id="@+id/no_taste_4_score_rb"
+                android:id="@+id/no_feed_4_score_rb"
                 android:layout_width="58dp"
                 android:layout_height="36dp"
                 android:layout_marginStart="8dp"
@@ -169,7 +169,7 @@
                 android:textColor="@color/WH" />
 
             <RadioButton
-                android:id="@+id/no_taste_3_score_rb"
+                android:id="@+id/no_feed_3_score_rb"
                 android:layout_width="58dp"
                 android:layout_height="36dp"
                 android:layout_marginStart="8dp"
@@ -181,7 +181,7 @@
                 android:textColor="@color/WH" />
 
             <RadioButton
-                android:id="@+id/no_taste_2_score_rb"
+                android:id="@+id/no_feed_2_score_rb"
                 android:layout_width="57dp"
                 android:layout_height="36dp"
                 android:layout_marginStart="8dp"
@@ -193,7 +193,7 @@
                 android:textColor="@color/WH" />
 
             <RadioButton
-                android:id="@+id/no_taste_1_score_rb"
+                android:id="@+id/no_feed_1_score_rb"
                 android:layout_width="57dp"
                 android:layout_height="36dp"
                 android:layout_marginStart="8dp"
@@ -208,7 +208,7 @@
     </FrameLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/no_taste_calendar_cl"
+        android:id="@+id/no_feed_calendar_cl"
         android:layout_width="match_parent"
         android:layout_height="187dp"
         android:background="@drawable/bg_wh_bottom30"
@@ -218,7 +218,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.kizitonwose.calendarview.CalendarView
-            android:id="@+id/no_taste_cv"
+            android:id="@+id/no_feed_cv"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:cv_dayViewResource="@layout/calendar_day_layout"
@@ -229,11 +229,11 @@
             app:cv_orientation="horizontal"
             app:cv_outDateStyle="endOfRow"
             app:cv_scrollMode="paged"
-            app:layout_constraintBottom_toTopOf="@+id/no_taste_arrow_touch_view"
+            app:layout_constraintBottom_toTopOf="@+id/no_feed_arrow_touch_view"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/no_taste_arrow_iv"
+            android:id="@+id/no_feed_arrow_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_expand_46"
@@ -243,7 +243,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <View
-            android:id="@+id/no_taste_arrow_touch_view"
+            android:id="@+id/no_feed_arrow_touch_view"
             android:layout_width="match_parent"
             android:layout_height="46dp"
             app:layout_constraintBottom_toBottomOf="parent" />
@@ -251,16 +251,18 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/no_taste_try_cl"
+        android:id="@+id/no_feed_try_cl"
         android:layout_width="match_parent"
-        android:layout_height="388dp"
+        android:layout_height="0dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="9dp"
+        android:layout_marginBottom="19dp"
         android:background="@drawable/bg_gy01_10"
-        app:layout_constraintTop_toBottomOf="@+id/no_taste_filter_fl">
+        app:layout_constraintBottom_toTopOf="@+id/no_feed_how_to_use_btn"
+        app:layout_constraintTop_toBottomOf="@+id/no_feed_filter_fl">
 
         <TextView
-            android:id="@+id/no_taste_try_tv"
+            android:id="@+id/no_feed_try_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -268,150 +270,207 @@
             android:textAppearance="@style/Head_B_20"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/no_taste_sight_iv"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/no_feed_sight_cl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="13.5dp"
-            android:layout_marginTop="33dp"
-            android:src="@drawable/ic_sight_character_circle_78"
+            android:layout_marginStart="14dp"
+            app:layout_constraintBottom_toTopOf="@+id/no_feed_taste_cl"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/no_taste_try_tv" />
+            app:layout_constraintTop_toBottomOf="@+id/no_feed_try_tv">
 
-        <TextView
-            android:id="@+id/no_taste_sight_tv"
+            <ImageView
+                android:id="@+id/no_feed_sight_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_sight_character_circle_78"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/no_feed_sight_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="@string/title_sight"
+                android:textAppearance="@style/Sub_Head_B_18"
+                android:textColor="@color/RD_3"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/no_feed_sight_iv"
+                app:layout_constraintStart_toStartOf="@+id/no_feed_sight_iv"
+                app:layout_constraintTop_toBottomOf="@+id/no_feed_sight_iv" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/no_feed_ear_cl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:text="@string/title_sight"
-            android:textAppearance="@style/Sub_Head_B_18"
-            android:textColor="@color/RD_3"
-            app:layout_constraintEnd_toEndOf="@+id/no_taste_sight_iv"
-            app:layout_constraintStart_toStartOf="@+id/no_taste_sight_iv"
-            app:layout_constraintTop_toBottomOf="@+id/no_taste_sight_iv" />
+            app:layout_constraintBottom_toTopOf="@+id/no_feed_touch_cl"
+            app:layout_constraintEnd_toStartOf="@+id/no_feed_smell_cl"
+            app:layout_constraintStart_toEndOf="@+id/no_feed_sight_cl"
+            app:layout_constraintTop_toBottomOf="@+id/no_feed_try_tv">
 
-        <ImageView
-            android:id="@+id/no_taste_ear_iv"
+            <ImageView
+                android:id="@+id/no_feed_ear_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_ear_character_circle_78"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/no_feed_ear_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="@string/title_ear"
+                android:textAppearance="@style/Sub_Head_B_18"
+                android:textColor="@color/BU_3"
+                app:layout_constraintEnd_toEndOf="@+id/no_feed_ear_iv"
+                app:layout_constraintStart_toStartOf="@+id/no_feed_ear_iv"
+                app:layout_constraintTop_toBottomOf="@+id/no_feed_ear_iv" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/no_feed_smell_cl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="33dp"
-            android:src="@drawable/ic_ear_character_circle_78"
-            app:layout_constraintEnd_toStartOf="@+id/no_taste_smell_iv"
-            app:layout_constraintStart_toEndOf="@+id/no_taste_sight_iv"
-            app:layout_constraintTop_toBottomOf="@+id/no_taste_try_tv" />
-
-        <TextView
-            android:id="@+id/no_taste_ear_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:text="@string/title_ear"
-            android:textAppearance="@style/Sub_Head_B_18"
-            android:textColor="@color/BU_3"
-            app:layout_constraintEnd_toEndOf="@+id/no_taste_ear_iv"
-            app:layout_constraintStart_toStartOf="@+id/no_taste_ear_iv"
-            app:layout_constraintTop_toBottomOf="@+id/no_taste_ear_iv" />
-
-        <ImageView
-            android:id="@+id/no_taste_smell_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="33dp"
-            android:layout_marginEnd="13.5dp"
-            android:src="@drawable/ic_smell_character_circle_78"
+            android:layout_marginEnd="14dp"
+            app:layout_constraintBottom_toTopOf="@+id/no_feed_question_cl"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/no_taste_try_tv" />
+            app:layout_constraintTop_toBottomOf="@+id/no_feed_try_tv">
 
-        <TextView
-            android:id="@+id/no_taste_smell_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:text="@string/title_smell"
-            android:textAppearance="@style/Sub_Head_B_18"
-            android:textColor="@color/GN_3"
-            app:layout_constraintEnd_toEndOf="@+id/no_taste_smell_iv"
-            app:layout_constraintStart_toStartOf="@+id/no_taste_smell_iv"
-            app:layout_constraintTop_toBottomOf="@+id/no_taste_smell_iv" />
+            <ImageView
+                android:id="@+id/no_feed_smell_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_smell_character_circle_78"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/no_taste_taste_iv"
+            <TextView
+                android:id="@+id/no_feed_smell_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="@string/title_smell"
+                android:textAppearance="@style/Sub_Head_B_18"
+                android:textColor="@color/GN_3"
+                app:layout_constraintEnd_toEndOf="@+id/no_feed_smell_iv"
+                app:layout_constraintStart_toStartOf="@+id/no_feed_smell_iv"
+                app:layout_constraintTop_toBottomOf="@+id/no_feed_smell_iv" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/no_feed_taste_cl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="13.5dp"
-            android:layout_marginBottom="7dp"
-            android:src="@drawable/ic_taste_character_circle_78"
-            app:layout_constraintBottom_toTopOf="@+id/no_taste_taste_tv"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/no_taste_taste_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="38dp"
-            android:text="@string/title_taste"
-            android:textAppearance="@style/Sub_Head_B_18"
-            android:textColor="@color/YE_2"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/no_taste_taste_iv"
-            app:layout_constraintStart_toStartOf="@+id/no_taste_taste_iv" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/no_feed_sight_cl">
 
-        <ImageView
-            android:id="@+id/no_taste_touch_iv"
+            <ImageView
+                android:id="@+id/no_feed_taste_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_taste_character_circle_78"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/no_feed_taste_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="@string/title_taste"
+                android:textAppearance="@style/Sub_Head_B_18"
+                android:textColor="@color/YE_2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/no_feed_taste_iv"
+                app:layout_constraintStart_toStartOf="@+id/no_feed_taste_iv"
+                app:layout_constraintTop_toBottomOf="@+id/no_feed_taste_iv" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/no_feed_touch_cl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="7dp"
-            android:src="@drawable/ic_touch_character_circle_78"
-            app:layout_constraintBottom_toTopOf="@+id/no_taste_taste_tv"
-            app:layout_constraintEnd_toStartOf="@+id/no_taste_question_iv"
-            app:layout_constraintStart_toEndOf="@+id/no_taste_taste_iv" />
-
-        <TextView
-            android:id="@+id/no_taste_touch_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="38dp"
-            android:text="@string/title_touch"
-            android:textAppearance="@style/Sub_Head_B_18"
-            android:textColor="@color/PU_3"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/no_taste_touch_iv"
-            app:layout_constraintStart_toStartOf="@+id/no_taste_touch_iv" />
+            app:layout_constraintEnd_toEndOf="@id/no_feed_ear_cl"
+            app:layout_constraintStart_toStartOf="@id/no_feed_ear_cl"
+            app:layout_constraintTop_toBottomOf="@+id/no_feed_ear_cl">
 
-        <ImageView
-            android:id="@+id/no_taste_question_iv"
+            <ImageView
+                android:id="@+id/no_feed_touch_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_touch_character_circle_78"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/no_feed_touch_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="@string/title_touch"
+                android:textAppearance="@style/Sub_Head_B_18"
+                android:textColor="@color/PU_3"
+                app:layout_constraintEnd_toEndOf="@+id/no_feed_touch_iv"
+                app:layout_constraintStart_toStartOf="@+id/no_feed_touch_iv"
+                app:layout_constraintTop_toBottomOf="@+id/no_feed_touch_iv" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/no_feed_question_cl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="13.5dp"
-            android:layout_marginBottom="7dp"
-            android:src="@drawable/ic_question_character_circle_78"
-            app:layout_constraintBottom_toTopOf="@+id/no_taste_question_tv"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <TextView
-            android:id="@+id/no_taste_question_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="38dp"
-            android:text="@string/title_question"
-            android:textAppearance="@style/Sub_Head_B_18"
-            android:textColor="@color/GY_04"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/no_taste_question_iv"
-            app:layout_constraintStart_toStartOf="@+id/no_taste_question_iv" />
+            app:layout_constraintEnd_toEndOf="@id/no_feed_smell_cl"
+            app:layout_constraintStart_toStartOf="@id/no_feed_smell_cl"
+            app:layout_constraintTop_toBottomOf="@+id/no_feed_smell_cl">
+
+            <ImageView
+                android:id="@+id/no_feed_question_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_question_character_circle_78"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/no_feed_question_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="@string/title_question"
+                android:textAppearance="@style/Sub_Head_B_18"
+                android:textColor="@color/GY_04"
+                app:layout_constraintEnd_toEndOf="@+id/no_feed_question_iv"
+                app:layout_constraintStart_toStartOf="@+id/no_feed_question_iv"
+                app:layout_constraintTop_toBottomOf="@+id/no_feed_question_iv" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/no_taste_how_to_use_btn"
+        android:id="@+id/no_feed_how_to_use_btn"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginHorizontal="61dp"
-        android:layout_marginTop="19dp"
+        android:layout_marginBottom="26dp"
         android:background="@drawable/bg_bk_22p5"
         android:text="@string/msg_how_to_use"
         android:textAppearance="@style/Sub_Head_B_18"
         android:textColor="@color/WH"
-        app:layout_constraintTop_toBottomOf="@+id/no_taste_try_cl" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

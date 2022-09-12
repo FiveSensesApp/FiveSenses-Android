@@ -6,10 +6,10 @@
     app:startDestination="@id/timelineFragment">
 
     <fragment
-        android:id="@+id/noTasteFragment"
-        android:name="com.mangpo.taste.view.NoTasteFragment"
-        android:label="fragment_no_taste"
-        tools:layout="@layout/fragment_no_taste" />
+        android:id="@+id/noFeedFragment"
+        android:name="com.mangpo.taste.view.NoFeedFragment"
+        android:label="fragment_no_feed"
+        tools:layout="@layout/fragment_no_feed" />
     <fragment
         android:id="@+id/timelineFragment"
         android:name="com.mangpo.taste.view.TimelineFragment"
@@ -61,8 +61,8 @@
         app:destination="@id/timelineFragment"
         app:launchSingleTop="true" />
     <action
-        android:id="@+id/action_global_noTasteFragment"
-        app:destination="@id/noTasteFragment"
+        android:id="@+id/action_global_noFeedFragment"
+        app:destination="@id/noFeedFragment"
         app:launchSingleTop="true" />
     <fragment
         android:id="@+id/searchResultFragment"
