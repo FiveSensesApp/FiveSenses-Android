@@ -5,6 +5,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -12,12 +13,13 @@ import androidx.navigation.ui.setupWithNavController
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseActivity
 import com.mangpo.taste.databinding.ActivityMainBinding
+import com.mangpo.taste.util.SpfUtils.getIntEncryptedSpf
 import com.mangpo.taste.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
-    private val mainViewModel: MainViewModel by viewModels()
+    private val mainVm: MainViewModel by viewModels()
 
     private lateinit var mainNavHostFragment: NavHostFragment
     private lateinit var translateUp: Animation
@@ -28,13 +30,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         translateUp = AnimationUtils.loadAnimation(applicationContext, R.anim.translate_up)
         translateDown = AnimationUtils.loadAnimation(applicationContext, R.anim.translate_down)
 
-        setMyEventListener()
-
         mainNavHostFragment = supportFragmentManager.findFragmentById(binding.mainFcv.id) as NavHostFragment
         val navController = mainNavHostFragment.findNavController()
         binding.mainBnv.setupWithNavController(navController)
-
         binding.mainBnv.background = null
+
+        setMyEventListener()
+        observe()
+
+        mainVm.getUserInfo(getIntEncryptedSpf("userId"))
     }
 
     override fun onBackPressed() {
@@ -52,7 +56,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     private fun showBottomSheet() {
-        mainViewModel.setRandomSloganIdx()  //OgamSelectFragment 의 슬로건 idx 를 랜덤하게 뽑기 위해 라이브데이터 사용
+        mainVm.setRandomSloganIdx()  //OgamSelectFragment 의 슬로건 idx 를 랜덤하게 뽑기 위해 라이브데이터 사용
 
         binding.mainRecordFcv.visibility = View.VISIBLE //recordFcv VISIBLE
         binding.mainRecordFcv.startAnimation(translateUp)   //아래 -> 위로 올라오는 애니메이션
@@ -63,6 +67,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         binding.mainRecordFcv.visibility = View.INVISIBLE   //recordFcv INVISIBLE
         binding.mainRecordFcv.startAnimation(translateDown) //위 -> 아래로 내려가는 애니메이션
         binding.mainTransparentView.visibility = View.INVISIBLE   //투명배경 INVISIBLE
+    }
+
+    private fun observe() {
+        mainVm.toast.observe(this, Observer {
+            val msg = it.getContentIfNotHandled()
+
+            if (msg!=null)
+                showToast(msg)
+        })
+
+        mainVm.getUserInfoResult.observe(this, Observer {
+            if (!it)
+                finishAffinity()
+        })
     }
 
     fun setRecordFcvTopMargin(margin: Int) {
