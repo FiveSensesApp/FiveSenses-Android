@@ -91,6 +91,9 @@ dependencies {
     //Indicator
     implementation 'com.romandanylyk:pageindicatorview:1.0.3'
 
+    //JwtDecode
+    implementation 'com.auth0.android:jwtdecode:2.0.1'
+
     //EncryptedSpf
     implementation("androidx.security:security-crypto:1.0.0")
     // For Identity Credential APIs
