@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
 
         <import type="android.text.InputType" />
+
+        <import type="android.view.View" />
 
         <import type="com.mangpo.taste.R" />
 
@@ -11,8 +14,7 @@
             type="com.mangpo.taste.view.CreateAccountActivity" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,9 +22,9 @@
 
         <ImageView
             android:id="@+id/create_account_step_iv"
+            marginTop="@{data.isKeyboardVisible? 36 : 74}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="74dp"
             android:src="@drawable/ic_sign_up1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -72,7 +74,6 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/bg_gy01_12"
             android:hint="@string/msg_enter_pw"
-            android:inputType='@{data.pw1EyeTouched? InputType.TYPE_CLASS_TEXT : (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)}'
             android:paddingStart="21dp"
             android:paddingEnd="48dp"
             android:textAppearance='@style/Sub_Head_B_16'
@@ -88,7 +89,7 @@
             android:background="@android:color/transparent"
             android:padding="0dp"
             android:src="@{data.pw1EyeTouched? context.getDrawable(R.drawable.ic_eye_rd2_30) : context.getDrawable(R.drawable.ic_eye_gy04_30)}"
-            android:visibility="invisible"
+            android:visibility="@{data.pw1EyeIbVisibility}"
             app:layout_constraintBottom_toBottomOf="@+id/create_account_pw1_et"
             app:layout_constraintEnd_toEndOf="@+id/create_account_pw1_et"
             app:layout_constraintTop_toTopOf="@+id/create_account_pw1_et" />
@@ -101,7 +102,6 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/bg_gy01_12"
             android:hint="@string/msg_enter_pw_again"
-            android:inputType='@{data.pw2EyeTouched? InputType.TYPE_CLASS_TEXT : (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)}'
             android:paddingStart="21dp"
             android:paddingEnd="48dp"
             android:textAppearance='@style/Sub_Head_B_16'
@@ -117,7 +117,7 @@
             android:background="@android:color/transparent"
             android:padding="0dp"
             android:src="@{data.pw2EyeTouched? context.getDrawable(R.drawable.ic_eye_rd2_30) : context.getDrawable(R.drawable.ic_eye_gy04_30)}"
-            android:visibility="invisible"
+            android:visibility="@{data.pw2EyeIbVisibility}"
             app:layout_constraintBottom_toBottomOf="@+id/create_account_pw2_et"
             app:layout_constraintEnd_toEndOf="@+id/create_account_pw2_et"
             app:layout_constraintTop_toTopOf="@+id/create_account_pw2_et" />
@@ -126,20 +126,20 @@
             android:id="@+id/create_account_pw_condition_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/msg_pw_conditions"
+            android:layout_marginTop="10dp"
             android:gravity="center"
+            android:text="@string/msg_pw_conditions"
             android:textAppearance="@style/Body2_R_12"
             android:textColor="@color/GY_04"
-            app:layout_constraintTop_toBottomOf="@+id/create_account_pw2_et"
-            android:layout_marginTop="10dp" />
+            app:layout_constraintTop_toBottomOf="@+id/create_account_pw2_et" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/create_account_next_btn"
+            marginBottom="@{data.isKeyboardVisible? 15: 122}"
             android:layout_width="189dp"
             android:layout_height="46dp"
-            android:layout_marginBottom="122dp"
             android:background="@drawable/selector_sign_up_btn"
-            android:enabled="false"
+            android:enabled="@{data.nextBtnEnable}"
             android:stateListAnimator="@null"
             android:text="@string/action_next"
             android:textAppearance="@style/Sub_Head_B_18"
