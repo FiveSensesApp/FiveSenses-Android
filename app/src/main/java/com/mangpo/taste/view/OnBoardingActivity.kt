@@ -83,7 +83,7 @@ class OnBoardingActivity : FragmentActivity() {
     }
 
     private fun goNextActivity(activity: Class<*>) {
-        writeSpf("onBoarding", true)
+//        writeSpf("onBoarding", true)
 
         val intent: Intent = Intent(this@OnBoardingActivity, activity)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
