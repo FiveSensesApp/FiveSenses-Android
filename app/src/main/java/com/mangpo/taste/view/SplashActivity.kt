@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.mangpo.taste.base.BaseActivity
 import com.mangpo.taste.databinding.ActivitySplashBinding
-import com.mangpo.taste.util.SpfUtils.getEncryptedSpf
-import com.mangpo.taste.util.SpfUtils.getSpf
+import com.mangpo.taste.util.SpfUtils.getStrEncryptedSpf
+import com.mangpo.taste.util.SpfUtils.getBooleanSpf
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -19,13 +19,13 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
     override fun initAfterBinding() {
         when {
-            getSpf("onBoarding", false)==false -> {
+            getBooleanSpf("onBoarding", false)==false -> {
                 lifecycleScope.launch(Dispatchers.Main) {
                     delay(3000L)
                     startActivityWithClear(OnBoardingActivity::class.java)
                 }
             }
-            getEncryptedSpf("jwt")==null -> {
+            getStrEncryptedSpf("jwt")==null -> {
                 startActivityWithClear(LoginActivity::class.java)
             }
             else -> {
