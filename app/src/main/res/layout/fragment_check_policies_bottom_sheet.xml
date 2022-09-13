@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.mangpo.taste.view.CheckPoliciesBottomSheetFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_wh_top30"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        tools:context=".view.CheckPoliciesBottomSheetFragment">
+
+        <TextView
+            android:id="@+id/check_policies_check_policies_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="29dp"
+            android:text="@string/title_check_policies"
+            android:textAppearance="@style/Head_B_20"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/check_policies_check_policies_desc_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="6dp"
+            android:text="@string/msg_agree_terms_go_next_step"
+            android:textAppearance="@style/Body2_R_12"
+            android:textColor="@color/GY_02"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/check_policies_check_policies_tv" />
+
+        <ImageButton
+            android:id="@+id/check_policies_all_agree_ib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:background="@null"
+            android:src="@drawable/ic_unchecked_40"
+            app:layout_constraintBottom_toBottomOf="@+id/check_policies_line_view"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/check_policies_all_agree_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/action_all_agree"
+            android:textAppearance="@style/Body1_M_14"
+            app:layout_constraintBottom_toBottomOf="@+id/check_policies_all_agree_ib"
+            app:layout_constraintStart_toEndOf="@+id/check_policies_all_agree_ib"
+            app:layout_constraintTop_toTopOf="@+id/check_policies_all_agree_ib" />
+
+        <View
+            android:id="@+id/check_policies_line_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="56dp"
+            android:background="@color/GY_02"
+            app:layout_constraintTop_toBottomOf="@+id/check_policies_check_policies_desc_tv" />
+
+        <ImageButton
+            android:id="@+id/check_policies_tc_ib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="7dp"
+            android:background="@null"
+            android:src="@drawable/ic_unchecked_34"
+            app:layout_constraintStart_toStartOf="@+id/check_policies_line_view"
+            app:layout_constraintTop_toBottomOf="@+id/check_policies_line_view" />
+
+        <TextView
+            android:id="@+id/check_policies_tc_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="@string/title_required_terms_and_conditions"
+            android:textAppearance="@style/Sub_Head_B_12"
+            app:layout_constraintBottom_toBottomOf="@+id/check_policies_tc_ib"
+            app:layout_constraintStart_toEndOf="@+id/check_policies_tc_ib"
+            app:layout_constraintTop_toTopOf="@+id/check_policies_tc_ib" />
+
+        <ImageButton
+            android:id="@+id/check_policies_tc_next_ib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:background="@null"
+            android:src="@drawable/ic_right_arrow_34"
+            app:layout_constraintBottom_toBottomOf="@+id/check_policies_tc_ib"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/check_policies_tc_ib" />
+
+        <ImageButton
+            android:id="@+id/check_policies_pp_ib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="7dp"
+            android:background="@null"
+            android:src="@drawable/ic_unchecked_34"
+            app:layout_constraintStart_toStartOf="@+id/check_policies_line_view"
+            app:layout_constraintTop_toBottomOf="@+id/check_policies_tc_ib" />
+
+        <TextView
+            android:id="@+id/check_policies_pp_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="@string/title_privacy_policy"
+            android:textAppearance="@style/Sub_Head_B_12"
+            app:layout_constraintBottom_toBottomOf="@+id/check_policies_pp_ib"
+            app:layout_constraintStart_toEndOf="@+id/check_policies_pp_ib"
+            app:layout_constraintTop_toTopOf="@+id/check_policies_pp_ib" />
+
+        <ImageButton
+            android:id="@+id/check_policies_pp_next_ib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:background="@null"
+            android:src="@drawable/ic_right_arrow_34"
+            app:layout_constraintBottom_toBottomOf="@+id/check_policies_pp_ib"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/check_policies_pp_ib" />
+
+        <ImageButton
+            android:id="@+id/check_policies_mi_ib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="7dp"
+            android:background="@null"
+            android:src="@drawable/ic_unchecked_34"
+            app:layout_constraintStart_toStartOf="@+id/check_policies_line_view"
+            app:layout_constraintTop_toBottomOf="@+id/check_policies_pp_ib" />
+
+        <TextView
+            android:id="@+id/check_policies_mi_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="@string/title_optional_receive_marketing_information"
+            android:textAppearance="@style/Sub_Head_B_12"
+            app:layout_constraintBottom_toBottomOf="@+id/check_policies_mi_ib"
+            app:layout_constraintStart_toEndOf="@+id/check_policies_mi_ib"
+            app:layout_constraintTop_toTopOf="@+id/check_policies_mi_ib" />
+
+        <ImageButton
+            android:id="@+id/check_policies_mi_next_ib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:background="@null"
+            android:src="@drawable/ic_right_arrow_34"
+            app:layout_constraintBottom_toBottomOf="@+id/check_policies_mi_ib"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/check_policies_mi_ib" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/check_policies_confirm_btn"
+            android:layout_width="189dp"
+            android:layout_height="46dp"
+            android:layout_marginBottom="88dp"
+            android:background="@drawable/bg_bk_23"
+            android:stateListAnimator="@null"
+            android:text="@string/action_confirm_complete"
+            android:textAppearance="@style/Sub_Head_B_18"
+            android:textColor="@color/WH"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

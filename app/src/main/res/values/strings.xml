@@ -64,6 +64,10 @@
     <string name="title_inquiry_mail">문의</string>
     <string name="title_sign_up">회원가입</string>
     <string name="title_policies">(필수)이용약관, (필수)개인정보처리방침, (선택)마케팅 수신 동의</string>
+    <string name="title_check_policies">약관 확인하기</string>
+    <string name="title_required_terms_and_conditions">[필수] ‘오감’ 이용약관</string>
+    <string name="title_required_privacy_policy">[필수] 개인정보처리방침</string>
+    <string name="title_optional_receive_marketing_information">[선택] 마케팅 정보 수신</string>
 
     <string name="action_logout">로그아웃</string>
     <string name="action_withdrawal">계정 탈퇴</string>
@@ -85,6 +89,8 @@
     <string name="action_send_code">코드전송</string>
     <string name="action_resend">재전송</string>
     <string name="action_start">시작하기</string>
+    <string name="action_all_agree">전체동의</string>
+    <string name="action_confirm_complete">확인 완료</string>
 
     <string name="msg_logout">정말 로그아웃 하시겠습니까?</string>
     <string name="msg_really_withdrawal">정말 탈퇴하실 건가요?</string>
@@ -136,6 +142,7 @@
     <string name="msg_still_change_notification">나중에도 [설정 - 알림설정]에서\n알림을 변경할 수 있어요!</string>
     <string name="msg_write_right_now">바로 써볼까요?</string>
     <string name="msg_sign_up_complete">가입이 완료되었어요. 나만의 취향을 감각해보세요!</string>
+    <string name="msg_agree_terms_go_next_step">아래 약관에 동의하시고, 다음 단계로 이동하세요!</string>
 
     <string name="error_check_old_pw">기존 비밀번호를 확인해주세요.</string>
     <string name="error_not_match_pw">비밀번호가 일치하지 않습니다!</string>
@@ -143,4 +150,5 @@
     <string name="error_email_not_subscribed">가입되지 않은 이메일입니다!</string>
     <string name="error_enter_authentication_code_again">* 인증코드를 다시 입력해주세요.</string>
     <string name="error_contains_unacceptable_characters">* 허용되지 않는 문자가 포함되어있습니다!</string>
+
 </resources>

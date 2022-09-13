@@ -22,9 +22,10 @@ class CreateAccountActivity : BaseActivity<ActivityCreateAccountBinding>(Activit
     var pw2EyeIbVisibility: Int = View.INVISIBLE
     var isKeyboardVisible: Boolean = false
     var nextBtnEnable: Boolean = false
+    var isIbChecked: Boolean = false
 
     override fun initAfterBinding() {
-        binding.data = this
+        binding.activity = this
 
         //키보드 감지해서 뷰 바꾸기
         KeyboardVisibilityEvent.setEventListener(
@@ -117,6 +118,7 @@ class CreateAccountActivity : BaseActivity<ActivityCreateAccountBinding>(Activit
         }
     }
 
+    //다음 버튼 활성화/비활성화 여부를 위한 유효성 검사 함수
     private fun validate(): Boolean {
         return binding.createAccountEmailEt.text.isNotBlank() &&
                 binding.createAccountPw1Et.text.isNotBlank() &&
@@ -124,6 +126,19 @@ class CreateAccountActivity : BaseActivity<ActivityCreateAccountBinding>(Activit
                 matchRegex(binding.createAccountEmailEt.text.toString(), Patterns.EMAIL_ADDRESS.toRegex()) &&
                 matchRegex(binding.createAccountPw1Et.text.toString(), "^(?=.*[a-zA-Z0-9])(?=.*[a-zA-Z!@#\$%^&*])(?=.*[0-9!@#\$%^&*]).{10,30}\$".toRegex()) &&
                 matchRegex(binding.createAccountPw2Et.text.toString(), "^(?=.*[a-zA-Z0-9])(?=.*[a-zA-Z!@#\$%^&*])(?=.*[0-9!@#\$%^&*]).{10,30}\$".toRegex()) &&
-                binding.createAccountPw1Et.text.toString()==binding.createAccountPw2Et.text.toString()
+                binding.createAccountPw1Et.text.toString()==binding.createAccountPw2Et.text.toString() &&
+                isIbChecked
+    }
+
+    //가입 약관 동의 체크 이벤트 함수
+    fun changeCheckIb() {
+        isIbChecked = !isIbChecked
+        nextBtnEnable = validate()
+        binding.invalidateAll()
+    }
+
+    fun showPoliciesBottomSheet() {
+        val policiesBottomSheetFragment = CheckPoliciesBottomSheetFragment()
+        policiesBottomSheetFragment.show(supportFragmentManager, null)
     }
 }

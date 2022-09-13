@@ -10,7 +10,7 @@
         <import type="com.mangpo.taste.R" />
 
         <variable
-            name="data"
+            name="activity"
             type="com.mangpo.taste.view.CreateAccountActivity" />
     </data>
 
@@ -22,7 +22,7 @@
 
         <ImageView
             android:id="@+id/create_account_step_iv"
-            marginTop="@{data.isKeyboardVisible? 36 : 74}"
+            marginTop="@{activity.isKeyboardVisible? 36 : 74}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_sign_up1"
@@ -77,7 +77,7 @@
             android:paddingStart="21dp"
             android:paddingEnd="48dp"
             android:textAppearance='@style/Sub_Head_B_16'
-            android:textColor="@{data.pw1EyeTouched? context.getColor(R.color.RD_2) : context.getColor(R.color.GY_03)}"
+            android:textColor="@{activity.pw1EyeTouched? context.getColor(R.color.RD_2) : context.getColor(R.color.GY_03)}"
             android:textColorHint="@color/GY_03"
             app:layout_constraintTop_toBottomOf="@+id/create_account_email_et" />
 
@@ -88,8 +88,8 @@
             android:layout_marginEnd="10dp"
             android:background="@android:color/transparent"
             android:padding="0dp"
-            android:src="@{data.pw1EyeTouched? context.getDrawable(R.drawable.ic_eye_rd2_30) : context.getDrawable(R.drawable.ic_eye_gy04_30)}"
-            android:visibility="@{data.pw1EyeIbVisibility}"
+            android:src="@{activity.pw1EyeTouched? context.getDrawable(R.drawable.ic_eye_rd2_30) : context.getDrawable(R.drawable.ic_eye_gy04_30)}"
+            android:visibility="@{activity.pw1EyeIbVisibility}"
             app:layout_constraintBottom_toBottomOf="@+id/create_account_pw1_et"
             app:layout_constraintEnd_toEndOf="@+id/create_account_pw1_et"
             app:layout_constraintTop_toTopOf="@+id/create_account_pw1_et" />
@@ -105,7 +105,7 @@
             android:paddingStart="21dp"
             android:paddingEnd="48dp"
             android:textAppearance='@style/Sub_Head_B_16'
-            android:textColor="@{data.pw2EyeTouched? context.getColor(R.color.RD_2) : context.getColor(R.color.GY_03)}"
+            android:textColor="@{activity.pw2EyeTouched? context.getColor(R.color.RD_2) : context.getColor(R.color.GY_03)}"
             android:textColorHint="@color/GY_03"
             app:layout_constraintTop_toBottomOf="@+id/create_account_pw1_et" />
 
@@ -116,8 +116,8 @@
             android:layout_marginEnd="10dp"
             android:background="@android:color/transparent"
             android:padding="0dp"
-            android:src="@{data.pw2EyeTouched? context.getDrawable(R.drawable.ic_eye_rd2_30) : context.getDrawable(R.drawable.ic_eye_gy04_30)}"
-            android:visibility="@{data.pw2EyeIbVisibility}"
+            android:src="@{activity.pw2EyeTouched? context.getDrawable(R.drawable.ic_eye_rd2_30) : context.getDrawable(R.drawable.ic_eye_gy04_30)}"
+            android:visibility="@{activity.pw2EyeIbVisibility}"
             app:layout_constraintBottom_toBottomOf="@+id/create_account_pw2_et"
             app:layout_constraintEnd_toEndOf="@+id/create_account_pw2_et"
             app:layout_constraintTop_toTopOf="@+id/create_account_pw2_et" />
@@ -133,13 +133,72 @@
             android:textColor="@color/GY_04"
             app:layout_constraintTop_toBottomOf="@+id/create_account_pw2_et" />
 
+        <View
+            android:id="@+id/create_account_line_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="43dp"
+            android:background="@color/GY_03"
+            android:visibility="@{activity.keyboardVisible? View.INVISIBLE : View.VISIBLE}"
+            app:layout_constraintTop_toBottomOf="@+id/create_account_pw_condition_tv" />
+
+        <ImageButton
+            android:id="@+id/create_account_check_ib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="6dp"
+            android:background="@null"
+            android:onClick="@{()->activity.changeCheckIb()}"
+            android:src="@{activity.isIbChecked? @drawable/ic_checked_40 : @drawable/ic_unchecked_40}"
+            android:visibility="@{activity.keyboardVisible? View.INVISIBLE : View.VISIBLE}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/create_account_line_view" />
+
+        <TextView
+            android:id="@+id/create_account_agree_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/msg_agree_subscription_terms"
+            android:textAppearance="@style/Body1_M_14"
+            android:visibility="@{activity.keyboardVisible? View.INVISIBLE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@+id/create_account_check_ib"
+            app:layout_constraintStart_toEndOf="@+id/create_account_check_ib"
+            app:layout_constraintTop_toTopOf="@+id/create_account_check_ib" />
+
+        <TextView
+            android:id="@+id/create_account_policies_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/title_policies"
+            android:textAppearance="@style/Body2_R_10"
+            android:textColor="@color/GY_02"
+            android:visibility="@{activity.keyboardVisible? View.INVISIBLE : View.VISIBLE}"
+            app:layout_constraintStart_toStartOf="@+id/create_account_agree_tv"
+            app:layout_constraintTop_toBottomOf="@+id/create_account_agree_tv" />
+
+        <ImageButton
+            android:id="@+id/create_account_next_ib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="20dp"
+            android:background="@null"
+            android:onClick="@{() -> activity.showPoliciesBottomSheet()}"
+            android:src="@drawable/ic_right_arrow_40"
+            android:visibility="@{activity.keyboardVisible? View.INVISIBLE : View.VISIBLE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/create_account_line_view" />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/create_account_next_btn"
-            marginBottom="@{data.isKeyboardVisible? 15: 122}"
+            marginBottom="@{activity.isKeyboardVisible? 15: 122}"
             android:layout_width="189dp"
             android:layout_height="46dp"
             android:background="@drawable/selector_sign_up_btn"
-            android:enabled="@{data.nextBtnEnable}"
+            android:enabled="@{activity.nextBtnEnable}"
             android:stateListAnimator="@null"
             android:text="@string/action_next"
             android:textAppearance="@style/Sub_Head_B_18"
