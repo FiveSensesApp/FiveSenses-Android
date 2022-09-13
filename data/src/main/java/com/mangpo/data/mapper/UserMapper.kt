@@ -2,10 +2,9 @@ package com.mangpo.data.mapper
 
 import com.mangpo.data.model.base.BaseResDTO
 import com.mangpo.data.model.getUserInfo.GetUserInfoResDTO
+import com.mangpo.data.util.MapperUtils.calDate
 import com.mangpo.domain.model.base.BaseResEntity
 import com.mangpo.domain.model.getUserInfo.GetUserInfoResEntity
-import java.text.SimpleDateFormat
-import java.util.*
 
 object UserMapper {
     fun mapperToGetUserInfoEntity(getUserInfoResDTO: BaseResDTO<GetUserInfoResDTO?>): BaseResEntity<GetUserInfoResEntity?> {
@@ -18,6 +17,4 @@ object UserMapper {
                 })
         }
     }
-
-    private fun calDate(createdDate: String): Int = ((Calendar.getInstance().time.time - SimpleDateFormat("yyyy-MM-dd").parse(createdDate).time) / (24 * 60 * 60 * 1000)).toInt()
 }

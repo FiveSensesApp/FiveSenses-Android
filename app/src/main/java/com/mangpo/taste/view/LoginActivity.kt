@@ -116,8 +116,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
         loginVm.toast.observe(this, Observer {
             val toast = it.getContentIfNotHandled()
 
-            if (toast!=null)
+            if (toast!=null) {
+                hideKeyboard(binding.root)
                 showToast(toast)
+            }
         })
 
         loginVm.loginSuccess.observe(this, Observer {

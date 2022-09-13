@@ -1,13 +1,18 @@
 package com.mangpo.taste.view
 
+import android.content.Intent
 import android.os.Bundle
+import com.mangpo.domain.model.createUser.CreateUserReqEntity
 import com.mangpo.taste.base.BaseActivity
 import com.mangpo.taste.databinding.ActivityAlarmTimeSettingBinding
 
 class AlarmTimeSettingActivity : BaseActivity<ActivityAlarmTimeSettingBinding>(ActivityAlarmTimeSettingBinding::inflate) {
     private lateinit var alarmTimeDialogFragment: AlarmTimeDialogFragment
+    private lateinit var createUserReqEntity: CreateUserReqEntity
 
     override fun initAfterBinding() {
+        createUserReqEntity = intent.getParcelableExtra<CreateUserReqEntity>("newUser")!!
+
         setAlarmTimeDialogFragment()
         setEventLister()
     }
@@ -30,7 +35,11 @@ class AlarmTimeSettingActivity : BaseActivity<ActivityAlarmTimeSettingBinding>(A
             }
 
             override fun complete(time: String) {
-                startNextActivity(StartActivity::class.java)
+                createUserReqEntity.alarmDate = time
+
+                val intent = Intent(this@AlarmTimeSettingActivity, StartActivity::class.java)
+                intent.putExtra("newUser", createUserReqEntity)
+                startActivity(intent)
             }
         })
     }

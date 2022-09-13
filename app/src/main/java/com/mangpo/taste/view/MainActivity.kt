@@ -38,7 +38,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         setMyEventListener()
         observe()
 
-        mainVm.getUserInfo(getIntEncryptedSpf("userId"))
+//        mainVm.getUserInfo(getIntEncryptedSpf("userId"))
     }
 
     override fun onBackPressed() {

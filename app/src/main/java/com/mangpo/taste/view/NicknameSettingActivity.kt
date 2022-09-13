@@ -1,17 +1,37 @@
 package com.mangpo.taste.view
 
+import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.core.content.ContextCompat
+import com.mangpo.domain.model.createUser.CreateUserReqEntity
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseActivity
 import com.mangpo.taste.databinding.ActivityNicknameSettingBinding
 import com.mangpo.taste.util.matchRegex
-import com.mangpo.taste.util.setKeyboardVisibilityEvent
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 
 class NicknameSettingActivity : BaseActivity<ActivityNicknameSettingBinding>(ActivityNicknameSettingBinding::inflate), TextWatcher {
+    var isKeyboardVisible: Boolean = false
+
+    private lateinit var createUserReqEntity: CreateUserReqEntity
+
     override fun initAfterBinding() {
-        this.setKeyboardVisibilityEvent(binding.nicknameSettingStepIv, binding.nicknameSettingNextBtn)  //키보드 감지해서 뷰 바꾸기
+        binding.apply {
+            activity = this@NicknameSettingActivity
+        }
+
+        //키보드 감지해서 뷰 바꾸기
+        KeyboardVisibilityEvent.setEventListener(
+            this@NicknameSettingActivity,
+            KeyboardVisibilityEventListener {
+                isKeyboardVisible = it
+                binding.invalidateAll()
+            }
+        )
+
+        createUserReqEntity = intent.getParcelableExtra<CreateUserReqEntity>("newUser")!!
 
         setEventListener()
     }
@@ -39,14 +59,18 @@ class NicknameSettingActivity : BaseActivity<ActivityNicknameSettingBinding>(Act
 
     private fun setEventListener() {
         binding.nicknameSettingNicknameEt.addTextChangedListener(this)
-
-        binding.nicknameSettingNextBtn.setOnClickListener {
-            startNextActivity(AlarmTimeSettingActivity::class.java)
-        }
     }
 
     private fun setInfoTVDesign(text: Int, color: Int) {
         binding.nicknameSettingInfoTv.setTextColor(ContextCompat.getColor(applicationContext, color))
         binding.nicknameSettingInfoTv.text = getString(text)
+    }
+
+    fun goNextActivity(nickname: String) {
+        createUserReqEntity.nickname = nickname
+
+        val intent = Intent(this, AlarmTimeSettingActivity::class.java)
+        intent.putExtra("newUser", createUserReqEntity)
+        startActivity(intent)
     }
 }

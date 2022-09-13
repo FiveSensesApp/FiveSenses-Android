@@ -1,64 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.StartActivity">
+<layout>
 
-    <ImageView
-        android:id="@+id/start_characters_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="74dp"
-        android:src="@drawable/ic_characters"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
 
-    <TextView
-        android:id="@+id/start_write_right_now_tv"
+        <variable
+            name="activity"
+            type="com.mangpo.taste.view.StartActivity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:gravity="center"
-        android:text="@string/msg_write_right_now"
-        android:textAppearance="@style/Head_B_26"
-        app:layout_constraintTop_toBottomOf="@+id/start_characters_iv" />
+        android:layout_height="match_parent"
+        tools:context=".view.StartActivity">
 
-    <TextView
-        android:id="@+id/start_sign_up_complete_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:gravity="center"
-        android:text="@string/msg_sign_up_complete"
-        android:textAppearance="@style/Body2_R_14"
-        android:textColor="@color/GY_04"
-        app:layout_constraintTop_toBottomOf="@+id/start_write_right_now_tv" />
+        <ImageView
+            android:id="@+id/start_characters_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="74dp"
+            android:src="@drawable/ic_characters"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:layout_width="375dp"
-        android:layout_height="386dp"
-        android:src="@drawable/ic_start_ogam"
-        app:layout_constraintBottom_toTopOf="@+id/start_start_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/start_sign_up_complete_tv" />
+        <TextView
+            android:id="@+id/start_write_right_now_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:gravity="center"
+            android:text="@string/msg_write_right_now"
+            android:textAppearance="@style/Head_B_26"
+            app:layout_constraintTop_toBottomOf="@+id/start_characters_iv" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/start_start_btn"
-        android:layout_width="189dp"
-        android:layout_height="46dp"
-        android:layout_marginBottom="122dp"
-        android:background="@drawable/bg_bk_23"
-        android:gravity="center"
-        android:stateListAnimator="@null"
-        android:text="@string/action_start"
-        android:textAppearance="@style/Sub_Head_B_18"
-        android:textColor="@color/WH"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/start_sign_up_complete_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:text="@string/msg_sign_up_complete"
+            android:textAppearance="@style/Body2_R_14"
+            android:textColor="@color/GY_04"
+            app:layout_constraintTop_toBottomOf="@+id/start_write_right_now_tv" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:layout_width="375dp"
+            android:layout_height="386dp"
+            android:src="@drawable/ic_start_ogam"
+            app:layout_constraintBottom_toTopOf="@+id/start_start_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/start_sign_up_complete_tv" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/start_start_btn"
+            android:layout_width="189dp"
+            android:layout_height="46dp"
+            android:layout_marginBottom="122dp"
+            android:background="@drawable/bg_bk_23"
+            android:gravity="center"
+            android:onClick="@{() -> activity.createUser()}"
+            android:stateListAnimator="@null"
+            android:text="@string/action_start"
+            android:textAppearance="@style/Sub_Head_B_18"
+            android:textColor="@color/WH"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -36,4 +36,9 @@ class UseCaseModule {
     fun provideValidateEmailSendCodeUseCase (userRepository: UserRepository): ValidateEmailSendCodeUseCase {
         return ValidateEmailSendCodeUseCase(userRepository)
     }
+
+    @Provides
+    fun provideCreateUserUseCase (authRepository: AuthRepository): CreateUserUseCase {
+        return CreateUserUseCase(authRepository)
+    }
 }
