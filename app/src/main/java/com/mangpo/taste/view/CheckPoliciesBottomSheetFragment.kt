@@ -1,6 +1,7 @@
 package com.mangpo.taste.view
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +13,12 @@ import com.mangpo.taste.databinding.FragmentCheckPoliciesBottomSheetBinding
 import com.mangpo.taste.util.BottomSheetDialogUtils
 
 class CheckPoliciesBottomSheetFragment : BottomSheetDialogFragment() {
+    interface Listener {
+        fun finish(allChecked: Boolean, agree: Boolean)
+    }
+
     private lateinit var binding: FragmentCheckPoliciesBottomSheetBinding
+    private lateinit var listener: Listener
 
     var allIbCheckState: Boolean = false
     var tcIbCheckState: Boolean = false
@@ -41,6 +47,26 @@ class CheckPoliciesBottomSheetFragment : BottomSheetDialogFragment() {
             fragment = this@CheckPoliciesBottomSheetFragment
         }
 
+        if (arguments?.getBoolean("isAllChecked", false)!!) {
+            allIbCheckState = true
+            tcIbCheckState = true
+            ppIbCheckState = true
+            miIbCheckState = true
+        } else {
+            if (arguments?.getBoolean("isAgree", false)!!) {
+                allIbCheckState = false
+                tcIbCheckState = true
+                ppIbCheckState = true
+                miIbCheckState = false
+            } else {
+                allIbCheckState = false
+                tcIbCheckState = false
+                ppIbCheckState = false
+                miIbCheckState = false
+            }
+        }
+        binding.invalidateAll()
+
         return binding.root
     }
 
@@ -49,19 +75,48 @@ class CheckPoliciesBottomSheetFragment : BottomSheetDialogFragment() {
         return R.style.BottomSheetDialog
     }
 
-    fun check(type: String) {
-        when (type) {
-            "all" -> {
+    fun setMyListener(listener: Listener) {
+        this.listener = listener
+    }
+
+    fun check(checkIbId: Int) {
+        when (checkIbId) {
+            binding.checkPoliciesAllAgreeIb.id -> {
                 allIbCheckState = !allIbCheckState
-                tcIbCheckState = !tcIbCheckState
-                ppIbCheckState = !ppIbCheckState
-                miIbCheckState = !miIbCheckState
+                tcIbCheckState = allIbCheckState
+                ppIbCheckState = allIbCheckState
+                miIbCheckState = allIbCheckState
             }
-            "tc" -> tcIbCheckState = !tcIbCheckState
-            "pp" -> ppIbCheckState = !ppIbCheckState
-            "mi" -> miIbCheckState = !miIbCheckState
+            binding.checkPoliciesTcIb.id -> tcIbCheckState = !tcIbCheckState
+            binding.checkPoliciesPpIb.id -> ppIbCheckState = !ppIbCheckState
+            binding.checkPoliciesMiIb.id -> miIbCheckState = !miIbCheckState
         }
 
+        allIbCheckState = ppIbCheckState && tcIbCheckState && miIbCheckState
+
         binding.invalidateAll()
+    }
+
+    fun goPolicyActivity(policyIbId: Int) {
+        val intent = Intent(requireContext(), PolicyActivity::class.java)
+
+        when (policyIbId) {
+            binding.checkPoliciesTcNextIb.id -> {
+                intent.putExtra("title", getString(R.string.title_ogam_terms))
+            }
+            binding.checkPoliciesPpNextIb.id -> {
+                intent.putExtra("title", getString(R.string.title_privacy_policy_no_blank))
+            }
+            binding.checkPoliciesMiNextIb.id -> {
+                intent.putExtra("title", getString(R.string.title_receive_marketing_information))
+            }
+        }
+
+        startActivity(intent)
+    }
+
+    fun finish() {
+        listener.finish(allIbCheckState, (tcIbCheckState && ppIbCheckState))
+        dismiss()
     }
 }

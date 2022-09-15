@@ -10,6 +10,7 @@
     <string name="title_pw_resetting">비밀번호 재설정</string>
     <string name="title_notice">공지사항</string>
     <string name="title_terms">이용약관</string>
+    <string name="title_ogam_terms">\‘오감\' 이용약관</string>
     <string name="title_opensource_license">오픈소스 라이선스</string>
     <string name="title_leave_app_review">앱 리뷰 남기기</string>
     <string name="title_go_social_media">공식 SNS이동</string>
@@ -68,6 +69,8 @@
     <string name="title_required_terms_and_conditions">[필수] ‘오감’ 이용약관</string>
     <string name="title_required_privacy_policy">[필수] 개인정보처리방침</string>
     <string name="title_optional_receive_marketing_information">[선택] 마케팅 정보 수신</string>
+    <string name="title_privacy_policy_no_blank">개인정보처리방침</string>
+    <string name="title_receive_marketing_information">마케팅 정보 수신</string>
 
     <string name="action_logout">로그아웃</string>
     <string name="action_withdrawal">계정 탈퇴</string>

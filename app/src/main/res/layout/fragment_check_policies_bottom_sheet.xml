@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
 
         <variable
@@ -45,7 +46,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:background="@null"
-            android:src="@drawable/ic_unchecked_40"
+            android:onClick="@{(Int) -> fragment.check(checkPoliciesAllAgreeIb.getId())}"
+            android:src="@{fragment.allIbCheckState? @drawable/ic_checked_40: @drawable/ic_unchecked_40}"
             app:layout_constraintBottom_toBottomOf="@+id/check_policies_line_view"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -75,7 +77,8 @@
             android:layout_marginStart="48dp"
             android:layout_marginTop="7dp"
             android:background="@null"
-            android:src="@drawable/ic_unchecked_34"
+            android:onClick="@{(Int) -> fragment.check(checkPoliciesTcIb.getId())}"
+            android:src="@{fragment.tcIbCheckState? @drawable/ic_checked_34: @drawable/ic_unchecked_34}"
             app:layout_constraintStart_toStartOf="@+id/check_policies_line_view"
             app:layout_constraintTop_toBottomOf="@+id/check_policies_line_view" />
 
@@ -96,6 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             android:background="@null"
+            android:onClick="@{(Int) -> fragment.goPolicyActivity(checkPoliciesTcNextIb.getId())}"
             android:src="@drawable/ic_right_arrow_34"
             app:layout_constraintBottom_toBottomOf="@+id/check_policies_tc_ib"
             app:layout_constraintEnd_toEndOf="parent"
@@ -108,7 +112,8 @@
             android:layout_marginStart="48dp"
             android:layout_marginTop="7dp"
             android:background="@null"
-            android:src="@drawable/ic_unchecked_34"
+            android:onClick="@{(Int) -> fragment.check(checkPoliciesPpIb.getId())}"
+            android:src="@{fragment.ppIbCheckState? @drawable/ic_checked_34: @drawable/ic_unchecked_34}"
             app:layout_constraintStart_toStartOf="@+id/check_policies_line_view"
             app:layout_constraintTop_toBottomOf="@+id/check_policies_tc_ib" />
 
@@ -117,7 +122,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:text="@string/title_privacy_policy"
+            android:text="@string/title_required_privacy_policy"
             android:textAppearance="@style/Sub_Head_B_12"
             app:layout_constraintBottom_toBottomOf="@+id/check_policies_pp_ib"
             app:layout_constraintStart_toEndOf="@+id/check_policies_pp_ib"
@@ -129,6 +134,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             android:background="@null"
+            android:onClick="@{(Int) -> fragment.goPolicyActivity(checkPoliciesPpNextIb.getId())}"
             android:src="@drawable/ic_right_arrow_34"
             app:layout_constraintBottom_toBottomOf="@+id/check_policies_pp_ib"
             app:layout_constraintEnd_toEndOf="parent"
@@ -141,7 +147,8 @@
             android:layout_marginStart="48dp"
             android:layout_marginTop="7dp"
             android:background="@null"
-            android:src="@drawable/ic_unchecked_34"
+            android:onClick="@{(Int) -> fragment.check(checkPoliciesMiIb.getId())}"
+            android:src="@{fragment.miIbCheckState? @drawable/ic_checked_34: @drawable/ic_unchecked_34}"
             app:layout_constraintStart_toStartOf="@+id/check_policies_line_view"
             app:layout_constraintTop_toBottomOf="@+id/check_policies_pp_ib" />
 
@@ -162,6 +169,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             android:background="@null"
+            android:onClick="@{(Int) -> fragment.goPolicyActivity(checkPoliciesMiNextIb.getId())}"
             android:src="@drawable/ic_right_arrow_34"
             app:layout_constraintBottom_toBottomOf="@+id/check_policies_mi_ib"
             app:layout_constraintEnd_toEndOf="parent"
@@ -173,6 +181,7 @@
             android:layout_height="46dp"
             android:layout_marginBottom="88dp"
             android:background="@drawable/bg_bk_23"
+            android:onClick="@{() -> fragment.finish()}"
             android:stateListAnimator="@null"
             android:text="@string/action_confirm_complete"
             android:textAppearance="@style/Sub_Head_B_18"

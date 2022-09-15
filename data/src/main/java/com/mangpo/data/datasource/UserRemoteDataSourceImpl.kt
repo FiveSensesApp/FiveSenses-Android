@@ -2,6 +2,7 @@ package com.mangpo.data.datasource
 
 import com.mangpo.data.model.base.BaseResDTO
 import com.mangpo.data.model.getUserInfo.GetUserInfoResDTO
+import com.mangpo.data.model.validateDuplicate.ValidateDuplicateReqDTO
 import com.mangpo.data.service.UserService
 import javax.inject.Inject
 
@@ -16,5 +17,9 @@ class UserRemoteDataSourceImpl @Inject constructor(private val service: UserServ
 
     override suspend fun validateEmailSendCode(email: String, emailCode: Int): BaseResDTO<Nothing> {
         return callApi { service.validateEmailSendCode(email, emailCode) }
+    }
+
+    override suspend fun validateDuplicate(validateDuplicateReqDTO: ValidateDuplicateReqDTO): BaseResDTO<Nothing> {
+        return callApi { service.validateDuplicate(validateDuplicateReqDTO) }
     }
 }

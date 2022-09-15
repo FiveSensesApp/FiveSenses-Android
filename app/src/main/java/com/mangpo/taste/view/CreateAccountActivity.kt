@@ -1,6 +1,7 @@
 package com.mangpo.taste.view
 
 import android.content.Intent
+import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
@@ -8,24 +9,39 @@ import android.text.method.PasswordTransformationMethod
 import android.util.Patterns
 import android.view.MotionEvent
 import android.view.View
+import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import com.mangpo.domain.model.createUser.CreateUserReqEntity
 import com.mangpo.taste.base.BaseActivity
 import com.mangpo.taste.databinding.ActivityCreateAccountBinding
 import com.mangpo.taste.util.matchRegex
+import com.mangpo.taste.viewmodel.CreateAccountViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 
+@AndroidEntryPoint
 class CreateAccountActivity : BaseActivity<ActivityCreateAccountBinding>(ActivityCreateAccountBinding::inflate), TextWatcher {
+    private val createAccountVm: CreateAccountViewModel by viewModels()
+
+    private var isAgree: Boolean = false
+
+    private lateinit var checkPoliciesBottomSheetFragment: CheckPoliciesBottomSheetFragment
+
     var pw1EyeTouched: Boolean = false
     var pw1EyeIbVisibility: Int = View.INVISIBLE
     var pw2EyeTouched: Boolean = false
     var pw2EyeIbVisibility: Int = View.INVISIBLE
     var isKeyboardVisible: Boolean = false
     var nextBtnEnable: Boolean = false
-    var isIbChecked: Boolean = false
+    var isAllChecked: Boolean = false
 
     override fun initAfterBinding() {
-        binding.activity = this
+        binding.apply {
+            binding.activity = this@CreateAccountActivity
+        }
+
+        initCheckPoliciesBottomSheetFragment()
 
         //키보드 감지해서 뷰 바꾸기
         KeyboardVisibilityEvent.setEventListener(
@@ -37,8 +53,9 @@ class CreateAccountActivity : BaseActivity<ActivityCreateAccountBinding>(Activit
                 binding.createAccountPw1Et.transformationMethod = PasswordTransformationMethod.getInstance()
                 binding.createAccountPw2Et.transformationMethod = PasswordTransformationMethod.getInstance()
             })
-
         setEventListener()
+
+        observe()
     }
 
     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -68,16 +85,21 @@ class CreateAccountActivity : BaseActivity<ActivityCreateAccountBinding>(Activit
         binding.createAccountPw2Et.typeface = binding.createAccountEmailEt.typeface //패스워드 EditText 글꼴이 계속 풀리는 문제 해결
     }
 
+    private fun initCheckPoliciesBottomSheetFragment() {
+        checkPoliciesBottomSheetFragment = CheckPoliciesBottomSheetFragment()
+        checkPoliciesBottomSheetFragment.setMyListener(object : CheckPoliciesBottomSheetFragment.Listener {
+            override fun finish(allChecked: Boolean, agree: Boolean) {
+                isAllChecked = allChecked
+                isAgree = agree
+                nextBtnEnable = validate()
+                binding.invalidateAll()
+            }
+        })
+    }
+
     private fun setEventListener() {
         binding.createAccountPw1Et.addTextChangedListener(this)
         binding.createAccountPw2Et.addTextChangedListener(this)
-
-        binding.createAccountNextBtn.setOnClickListener {
-            val createUserReqEntity: CreateUserReqEntity = CreateUserReqEntity(email = binding.createAccountEmailEt.text.toString(), password = binding.createAccountPw1Et.text.toString())
-            val intent = Intent(this, EmailAuthActivity::class.java)
-            intent.putExtra("newUser", createUserReqEntity)
-            startActivity(intent)
-        }
 
         //눈 이미지 누르고 있으면 비밀번호 보여주고 아니면 가리기
         binding.createAccountPw1EyeIb.setOnTouchListener { view, motionEvent ->
@@ -127,18 +149,45 @@ class CreateAccountActivity : BaseActivity<ActivityCreateAccountBinding>(Activit
                 matchRegex(binding.createAccountPw1Et.text.toString(), "^(?=.*[a-zA-Z0-9])(?=.*[a-zA-Z!@#\$%^&*])(?=.*[0-9!@#\$%^&*]).{10,30}\$".toRegex()) &&
                 matchRegex(binding.createAccountPw2Et.text.toString(), "^(?=.*[a-zA-Z0-9])(?=.*[a-zA-Z!@#\$%^&*])(?=.*[0-9!@#\$%^&*]).{10,30}\$".toRegex()) &&
                 binding.createAccountPw1Et.text.toString()==binding.createAccountPw2Et.text.toString() &&
-                isIbChecked
+                isAgree
+    }
+
+    private fun observe() {
+        createAccountVm.toast.observe(this, Observer {
+            val msg = it.getContentIfNotHandled()
+
+            if (msg!=null)
+                showToast(msg)
+        })
+
+        createAccountVm.validateDuplicateResult.observe(this, Observer {
+            if (it) {
+                val createUserReqEntity: CreateUserReqEntity = CreateUserReqEntity(email = binding.createAccountEmailEt.text.toString(), password = binding.createAccountPw1Et.text.toString())
+                val intent = Intent(this, EmailAuthActivity::class.java)
+                intent.putExtra("newUser", createUserReqEntity)
+                startActivity(intent)
+            }
+        })
     }
 
     //가입 약관 동의 체크 이벤트 함수
     fun changeCheckIb() {
-        isIbChecked = !isIbChecked
+        isAllChecked = !isAllChecked
+        isAgree = isAllChecked
         nextBtnEnable = validate()
         binding.invalidateAll()
     }
 
     fun showPoliciesBottomSheet() {
-        val policiesBottomSheetFragment = CheckPoliciesBottomSheetFragment()
-        policiesBottomSheetFragment.show(supportFragmentManager, null)
+        val bundle: Bundle = Bundle()
+        bundle.putBoolean("isAllChecked", isAllChecked)
+        bundle.putBoolean("isAgree", isAgree)
+        checkPoliciesBottomSheetFragment.arguments = bundle
+        checkPoliciesBottomSheetFragment.show(supportFragmentManager, null)
+    }
+
+    fun validateDuplicate(email: String) {
+        hideKeyboard(binding.root)
+        createAccountVm.validateDuplicate(email)
     }
 }

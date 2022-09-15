@@ -3,6 +3,7 @@ package com.mangpo.data.repository
 import com.mangpo.data.datasource.UserRemoteDataSource
 import com.mangpo.data.mapper.BaseMapper
 import com.mangpo.data.mapper.UserMapper
+import com.mangpo.data.model.validateDuplicate.ValidateDuplicateReqDTO
 import com.mangpo.domain.model.base.BaseResEntity
 import com.mangpo.domain.model.getUserInfo.GetUserInfoResEntity
 import com.mangpo.domain.repository.UserRepository
@@ -26,6 +27,12 @@ class UserRepositoryImpl @Inject constructor(private val userRemoteDataSource: U
         emailCode: Int
     ): BaseResEntity<Nothing> {
         val response = userRemoteDataSource.validateEmailSendCode(email, emailCode)
+
+        return sendData(response) { BaseMapper.mapperToBaseResEntity(response) }
+    }
+
+    override suspend fun validateDuplicate(email: String): BaseResEntity<Nothing> {
+        val response = userRemoteDataSource.validateDuplicate(ValidateDuplicateReqDTO(email))
 
         return sendData(response) { BaseMapper.mapperToBaseResEntity(response) }
     }

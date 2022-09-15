@@ -151,7 +151,7 @@
             android:layout_marginTop="6dp"
             android:background="@null"
             android:onClick="@{()->activity.changeCheckIb()}"
-            android:src="@{activity.isIbChecked? @drawable/ic_checked_40 : @drawable/ic_unchecked_40}"
+            android:src="@{activity.isAllChecked? @drawable/ic_checked_40 : @drawable/ic_unchecked_40}"
             android:visibility="@{activity.keyboardVisible? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/create_account_line_view" />
@@ -199,6 +199,7 @@
             android:layout_height="46dp"
             android:background="@drawable/selector_sign_up_btn"
             android:enabled="@{activity.nextBtnEnable}"
+            android:onClick="@{() -> activity.validateDuplicate(createAccountEmailEt.getText().toString())}"
             android:stateListAnimator="@null"
             android:text="@string/action_next"
             android:textAppearance="@style/Sub_Head_B_18"

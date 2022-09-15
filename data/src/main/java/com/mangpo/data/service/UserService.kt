@@ -2,10 +2,8 @@ package com.mangpo.data.service
 
 import com.mangpo.data.model.base.BaseResDTO
 import com.mangpo.data.model.getUserInfo.GetUserInfoResDTO
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
-import retrofit2.http.Query
+import com.mangpo.data.model.validateDuplicate.ValidateDuplicateReqDTO
+import retrofit2.http.*
 
 interface UserService {
     @GET("/api/users/{userIdx}")
@@ -19,4 +17,7 @@ interface UserService {
 
     @POST("/api/users/validate-email-send-code")
     suspend fun validateEmailSendCode(@Query("email") email: String, @Query("emailCode") emailCode: Int): BaseResDTO<Nothing>
+
+    @POST("/api/users/validate-duplicate")
+    suspend fun validateDuplicate(@Body validateDuplicateReqDTO: ValidateDuplicateReqDTO): BaseResDTO<Nothing>
 }
