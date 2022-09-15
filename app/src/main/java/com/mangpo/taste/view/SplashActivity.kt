@@ -21,7 +21,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
         when {
             getBooleanSpf("onBoarding", false)==false -> {
                 lifecycleScope.launch(Dispatchers.Main) {
-                    delay(3000L)
+                    delay(5000L)
                     startActivityWithClear(OnBoardingActivity::class.java)
                 }
             }
