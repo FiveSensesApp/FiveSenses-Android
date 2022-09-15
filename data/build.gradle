@@ -12,8 +12,6 @@ android {
     compileSdk 31
 
     defaultConfig {
-        buildConfigField "String", "KAKAOBOOK_KEY", properties['kakaobook_key']
-
         minSdk 26
         targetSdk 31
 
@@ -22,6 +20,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

@@ -5,6 +5,8 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
     id 'kotlin-parcelize'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 Properties properties = new Properties()
@@ -14,7 +16,6 @@ android {
     compileSdk 31
 
     defaultConfig {
-        buildConfigField "String", "KAKAOBOOK_BASEURL", properties['kakaobook_baseurl']
         buildConfigField "String", "BASEURL", properties['baseurl']
 
         applicationId "com.mangpo.taste"
@@ -26,10 +27,27 @@ android {
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
+    signingConfigs {
+        releaseWithSignedKey {
+            storeFile file(properties['keystore.path'])
+            storePassword properties['keystore.password']
+            keyAlias properties['keystore.alias']
+            keyPassword properties['keystore.password']
+        }
+    }
+
     buildTypes {
+        debug {
+            // 프로가드 활성화
+            minifyEnabled false
+            // 기본 프로가드 설정
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseWithSignedKey
         }
     }
     compileOptions {
@@ -96,6 +114,12 @@ dependencies {
 
     //EncryptedSpf
     implementation("androidx.security:security-crypto:1.0.0")
+
+    //firebase-crashlytics
+    implementation platform('com.google.firebase:firebase-bom:30.3.1')
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
     // For Identity Credential APIs
     implementation("androidx.security:security-identity-credential:1.0.0-alpha03")
     // For App Authentication APIs
