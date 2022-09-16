@@ -7,7 +7,6 @@ import com.mangpo.taste.base.BaseActivity
 import com.mangpo.taste.databinding.ActivityStartBinding
 import com.mangpo.taste.viewmodel.StartViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.LocalDateTime
 
 @AndroidEntryPoint
 class StartActivity : BaseActivity<ActivityStartBinding>(ActivityStartBinding::inflate) {

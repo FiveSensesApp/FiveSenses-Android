@@ -20,9 +20,10 @@ class StartViewModel @Inject constructor(private val createUserUseCase: CreateUs
             {
                 when (it.code) {
                     201 -> {
+                        SpfUtils.writeEncryptedSpf("userId", it.data!!.id)
                         SpfUtils.writeSpf("nickname", it.data!!.nickname)
                         SpfUtils.writeEncryptedSpf("email", it.data!!.email)
-                        SpfUtils.writeSpf("startDayCnt", it.data!!.startDayCnt)
+                        SpfUtils.writeSpf("startDate", it.data!!.startDate)
                         SpfUtils.writeSpf("isAlarmOn", it.data!!.isAlarmOn)
                         SpfUtils.writeSpf("alarmTime", it.data!!.alarmDate)
 

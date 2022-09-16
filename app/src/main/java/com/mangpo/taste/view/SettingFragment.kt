@@ -5,7 +5,7 @@ import androidx.navigation.fragment.findNavController
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentSettingBinding
-import com.mangpo.taste.util.SpfUtils.clearEncryptedSpf
+import com.mangpo.taste.util.SpfUtils.clear
 import com.mangpo.taste.view.model.TwoBtnDialog
 
 class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBinding::inflate) {
@@ -36,7 +36,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
             }
 
             override fun rightAction() {    //예
-                clearEncryptedSpf()    //jwt 초기화
+                clear()    //jwt 초기화
                 dialogType = -1 //초기화
                 findNavController().navigate(R.id.action_settingFragment_to_loginActivity)  //LoginActivity 로 이동
             }

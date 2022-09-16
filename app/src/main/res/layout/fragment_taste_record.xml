@@ -1,176 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.TasteRecordFragment">
+<layout>
 
-    <ImageView
-        android:id="@+id/taste_record_back_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="21dp"
-        android:src="@drawable/ic_back_wh_38"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
 
-    <ImageView
-        android:id="@+id/taste_record_taste_character_iv"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        app:layout_constraintBottom_toBottomOf="@+id/taste_record_back_iv"
-        app:layout_constraintStart_toEndOf="@+id/taste_record_back_iv"
-        app:layout_constraintTop_toTopOf="@+id/taste_record_back_iv" />
+        <import type="android.view.View" />
 
-    <TextView
-        android:id="@+id/taste_record_title_tv"
+        <variable
+            name="fragment"
+            type="com.mangpo.taste.view.TasteRecordFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:gravity="center_vertical"
-        android:textAppearance="@style/Head_B_26"
-        app:layout_constraintTop_toBottomOf="@+id/taste_record_back_iv" />
+        android:layout_height="match_parent"
+        tools:context=".view.TasteRecordFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/taste_record_record_cl"
-        android:layout_width="match_parent"
-        android:layout_height="320dp"
-        android:layout_marginTop="172dp"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <EditText
-            android:id="@+id/taste_record_keyword_et"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginHorizontal="20dp"
-            android:background="@drawable/bg_gy01_10"
-            android:hint="@string/msg_taste_keyword_hint"
-            android:inputType="text"
-            android:maxLength="15"
-            android:maxLines="1"
-            android:paddingHorizontal="14dp"
-            android:textAppearance="@style/Sub_Head_B_18"
-            android:textColorHint="@color/GY_03"
+        <ImageView
+            android:id="@+id/taste_record_back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="21dp"
+            android:src="@drawable/ic_back_wh_38"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.willy.ratingbar.BaseRatingBar
-            android:id="@+id/taste_record_srb"
-            android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/taste_record_taste_character_iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="4dp"
+            android:src="@{fragment.ogamSelect.character}"
+            app:layout_constraintBottom_toBottomOf="@+id/taste_record_back_iv"
+            app:layout_constraintStart_toEndOf="@+id/taste_record_back_iv"
+            app:layout_constraintTop_toTopOf="@+id/taste_record_back_iv" />
+
+        <TextView
+            android:id="@+id/taste_record_title_tv"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/taste_record_srb_msg_tv"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center_vertical"
+            android:textAppearance="@style/Head_B_26"
+            android:visibility="@{fragment.keyboardUp? View.GONE: View.VISIBLE}"
+            app:layout_constraintTop_toBottomOf="@+id/taste_record_back_iv" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/taste_record_record_cl"
+            marginTop="@{fragment.keyboardUp? 80: 172}"
+            android:layout_width="match_parent"
+            android:layout_height="320dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/taste_record_keyword_et"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginHorizontal="20dp"
+                android:background="@drawable/bg_gy01_10"
+                android:hint="@string/msg_taste_keyword_hint"
+                android:inputType="text"
+                android:maxLength="15"
+                android:maxLines="1"
+                android:paddingHorizontal="14dp"
+                android:textAppearance="@style/Sub_Head_B_18"
+                android:textColorHint="@color/GY_03"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.willy.ratingbar.BaseRatingBar
+                android:id="@+id/taste_record_srb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@+id/taste_record_srb_msg_tv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/taste_record_keyword_et"
+                app:layout_constraintVertical_chainStyle="packed"
+                srbEmptyDrawable="@{fragment.ogamSelect.emptyStar}"
+                srbFilledDrawable="@{fragment.ogamSelect.filledStar}"
+                app:srb_clearRatingEnabled="true"
+                app:srb_clickable="true"
+                app:srb_isIndicator="false"
+                app:srb_minimumStars="0"
+                app:srb_numStars="5"
+                app:srb_scrollable="true"
+                app:srb_starPadding="7dp"
+                app:srb_stepSize="1.0" />
+
+            <TextView
+                android:id="@+id/taste_record_srb_msg_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/msg_indicate_taste_preference"
+                android:textAppearance="@style/Body2_R_12"
+                android:textColor="@{fragment.ogamSelect.msgTextColor}"
+                app:layout_constraintBottom_toTopOf="@+id/taste_record_content_et"
+                app:layout_constraintTop_toBottomOf="@+id/taste_record_srb" />
+
+            <EditText
+                android:id="@+id/taste_record_content_et"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/bg_gy01_10"
+                android:gravity="start"
+                android:hint="@string/msg_taste_record_hint"
+                android:inputType="textMultiLine"
+                android:maxLength="100"
+                android:paddingHorizontal="13dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="13dp"
+                android:textAppearance="@style/Body1_M_16"
+                android:textColorHint="@color/GY_03"
+                app:layout_constraintBottom_toTopOf="@+id/taste_record_date_tv" />
+
+            <TextView
+                android:id="@+id/taste_record_date_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginBottom="3dp"
+                android:text="@{fragment.date}"
+                android:textAppearance="@style/Body1_M_14"
+                android:textColor="@color/GY_03"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/taste_record_content_cnt_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="27dp"
+                android:layout_marginBottom="3dp"
+                android:text="0 / 100"
+                android:textAppearance="@style/Body1_M_14"
+                android:textColor="@color/GY_03"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/taste_record_line_view"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginBottom="74dp"
+            android:background="@color/GY_02"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/taste_record_fab"
+            android:layout_width="67dp"
+            android:layout_height="67dp"
+            android:layout_marginBottom="21dp"
+            android:clickable="true"
+            android:src="@drawable/ic_check_28"
+            app:backgroundTint="@color/BK"
+            app:borderWidth="0dp"
+            app:elevation="0dp"
+            app:fabCustomSize="67dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/taste_record_keyword_et"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:srb_clearRatingEnabled="true"
-            app:srb_clickable="true"
-            app:srb_isIndicator="false"
-            app:srb_minimumStars="0"
-            app:srb_numStars="5"
-            app:srb_scrollable="true"
-            app:srb_starPadding="7dp"
-            app:srb_stepSize="1.0" />
+            app:rippleColor="@android:color/transparent"
+            app:tint="@color/WH" />
 
         <TextView
-            android:id="@+id/taste_record_srb_msg_tv"
+            android:id="@+id/taste_record_essential_err_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
             android:gravity="center"
-            android:text="@string/msg_indicate_taste_preference"
-            android:textAppearance="@style/Body2_R_12"
-            app:layout_constraintBottom_toTopOf="@+id/taste_record_content_et"
-            app:layout_constraintTop_toBottomOf="@+id/taste_record_srb" />
+            android:text="@string/error_keyword_start_essential"
+            android:textAppearance="@style/Body1_M_14"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@+id/taste_record_record_cl" />
 
-        <EditText
-            android:id="@+id/taste_record_content_et"
+        <View
+            android:id="@+id/taste_record_blurred_view"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="4dp"
-            android:background="@drawable/bg_gy01_10"
-            android:gravity="start"
-            android:hint="@string/msg_taste_record_hint"
-            android:inputType="textMultiLine"
-            android:maxLength="100"
-            android:paddingHorizontal="13dp"
-            android:paddingTop="15dp"
-            android:paddingBottom="13dp"
-            android:textAppearance="@style/Body1_M_16"
-            android:textColorHint="@color/GY_03"
-            app:layout_constraintBottom_toTopOf="@+id/taste_record_date_tv" />
-
-        <TextView
-            android:id="@+id/taste_record_date_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginBottom="3dp"
-            android:textAppearance="@style/Body1_M_14"
-            android:textColor="@color/GY_03"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/taste_record_content_cnt_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="27dp"
-            android:layout_marginBottom="3dp"
-            android:text="0 / 100"
-            android:textAppearance="@style/Body1_M_14"
-            android:textColor="@color/GY_03"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:layout_height="340dp"
+            android:background="@color/WH"
+            android:visibility="invisible"
+            app:layout_constraintTop_toTopOf="@+id/taste_record_record_cl" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <View
-        android:id="@+id/taste_record_line_view"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginBottom="74dp"
-        android:background="@color/GY_02"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/taste_record_fab"
-        android:layout_width="67dp"
-        android:layout_height="67dp"
-        android:layout_marginBottom="21dp"
-        android:clickable="true"
-        android:src="@drawable/ic_check_28"
-        app:backgroundTint="@color/BK"
-        app:borderWidth="0dp"
-        app:elevation="0dp"
-        app:fabCustomSize="67dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:rippleColor="@android:color/transparent"
-        app:tint="@color/WH" />
-
-    <TextView
-        android:id="@+id/taste_record_essential_err_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:gravity="center"
-        android:text="@string/error_keyword_start_essential"
-        android:textAppearance="@style/Body1_M_14"
-        android:visibility="invisible"
-        app:layout_constraintTop_toBottomOf="@+id/taste_record_record_cl" />
-
-    <View
-        android:id="@+id/taste_record_blurred_view"
-        android:layout_width="match_parent"
-        android:layout_height="340dp"
-        android:background="@color/WH"
-        android:visibility="invisible"
-        app:layout_constraintTop_toTopOf="@+id/taste_record_record_cl" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

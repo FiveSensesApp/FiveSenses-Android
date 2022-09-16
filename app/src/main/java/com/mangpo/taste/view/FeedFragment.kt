@@ -7,25 +7,31 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.mangpo.taste.NavigationFeedDirections
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentFeedBinding
+import com.mangpo.taste.util.SpfUtils
 import com.mangpo.taste.util.setSpannableText
+import com.mangpo.taste.viewmodel.FeedViewModel
 import com.mangpo.taste.viewmodel.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::inflate), TextWatcher {
+    private val feedVm: FeedViewModel by viewModels()
     private val mainVm: MainViewModel by activityViewModels()
     private val hasRecord: Boolean = true
 
     private lateinit var onBackPressedCallback: OnBackPressedCallback
 
     override fun initAfterBinding() {
-        setMyEventListener()
-        observe()
+        setSpannableText(binding.feedMyTasteTv.text.toString(), requireContext(), R.color.GY_03, 6, binding.feedMyTasteTv.text.length, binding.feedMyTasteTv)   //나의 취향 뒷부분 텍스트 색상 변경
 
+        setMyEventListener()
         //뒤로가기 콜백 리스너
         onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -41,7 +47,9 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)    //뒤로가기 콜백 리스너 등록
 
-        setSpannableText(binding.feedMyTasteTv.text.toString(), requireContext(), R.color.GY_03, 6, binding.feedMyTasteTv.text.length, binding.feedMyTasteTv)   //나의 취향 뒷부분 텍스트 색상 변경
+        observe()
+
+        feedVm.getPosts(SpfUtils.getIntEncryptedSpf("userId"), 0, "id,desc", null, null, null)  //기록 목록 조회 API 호출
     }
 
     override fun onDetach() {
@@ -61,6 +69,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
             binding.feedMyTasteTv.visibility = View.GONE //나의 취향~ 텍스트뷰 GONE
             binding.feedToggleIv.visibility = View.GONE //토글 이미지뷰 GONE
             binding.feedSearchResultTv.visibility = View.VISIBLE   //검색 결과 텍스트뷰 VISIBLE
+
             hideTypeSelectLayout() //타입 선택하는 레이아웃 GONE
 
             if (binding.feedFcv.findNavController().currentDestination?.id!=R.id.searchResultFragment) {
@@ -114,6 +123,14 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
     }
 
     private fun observe() {
+        feedVm.posts.observe(viewLifecycleOwner, Observer {
+            if (it.empty) { //기록 없을 때
+                binding.feedFcv.findNavController().setGraph(R.navigation.navigation_no_feed)
+            } else {    //기록 있을 때
+                binding.feedFcv.findNavController().setGraph(R.navigation.navigation_feed)
+            }
+        })
+
         //피드 필터 타입 Observe
         mainVm.feedType.observe(viewLifecycleOwner, Observer {
             if (hasRecord) { //기록이 있을 때만

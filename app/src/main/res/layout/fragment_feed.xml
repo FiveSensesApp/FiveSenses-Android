@@ -242,8 +242,7 @@
         android:layout_marginTop="136dp"
         app:defaultNavHost="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/navigation_feed" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/feed_blurred_view"

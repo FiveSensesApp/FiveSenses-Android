@@ -3,26 +3,27 @@ package com.mangpo.taste.view
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
-import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentOgamSelectBinding
+import com.mangpo.taste.util.SpfUtils
+import com.mangpo.taste.view.model.OgamSelect
 import com.mangpo.taste.viewmodel.MainViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
 class OgamSelectFragment : BaseFragment<FragmentOgamSelectBinding>(FragmentOgamSelectBinding::inflate) {
-    private val mainViewModel: MainViewModel by activityViewModels()
-
-    private val slogans: List<Int> = listOf(R.string.title_slogan1, R.string.title_slogan2, R.string.title_slogan3, R.string.title_slogan4, R.string.title_slogan5, R.string.title_slogan6)
+    private val mainVm: MainViewModel by activityViewModels()
 
     override fun initAfterBinding() {
-        setMyEventListener()
-        observe()
+        binding.apply {
+            fragment = this@OgamSelectFragment
+            mainVm = this@OgamSelectFragment.mainVm
+            lifecycleOwner = viewLifecycleOwner
+        }
 
         //현재 날짜 보여주기
         val current = System.currentTimeMillis()
@@ -30,54 +31,29 @@ class OgamSelectFragment : BaseFragment<FragmentOgamSelectBinding>(FragmentOgamS
         binding.ogamSelectDateTv.text = simpleDateFormat
 
         //hello 텍스트뷰 부분 텍스트 색상 변경
-        val nickname = "워니버니"
+        val nickname = SpfUtils.getStrSpf("nickname")!!
         val ssb: SpannableStringBuilder = SpannableStringBuilder("${nickname}${getString(R.string.msg_hello)}")
         ssb.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.GY_04)), 0, nickname.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         binding.ogamSelectHelloTv.text = ssb
     }
 
-    private fun setMyEventListener() {
-        //시각 터치뷰 클릭 리스너
-        binding.ogamSelectSightTouchView.setOnClickListener(TouchViewListener())
-        //청각 터치뷰 클릭 리스너
-        binding.ogamSelectEarTouchView.setOnClickListener(TouchViewListener())
-        //후각 터치뷰 클릭 리스너
-        binding.ogamSelectSmellTouchView.setOnClickListener(TouchViewListener())
-        //미각 터치뷰 클릭 리스너
-        binding.ogamSelectTasteTouchView.setOnClickListener(TouchViewListener())
-        //촉각 터치뷰 클릭 리스너
-        binding.ogamSelectTouchTouchView.setOnClickListener(TouchViewListener())
-        //모르겠어요 터치뷰 클릭 리스너
-        binding.ogamSelectQuestionTouchView.setOnClickListener(TouchViewListener())
+    fun goRecordFragment(type: Int) {
+        var ogamSelect: OgamSelect = OgamSelect()
 
-        //FloatingActionButton 클릭 리스너 -> MainActivity onBackPressed
-        binding.ogamSelectFab.setOnClickListener {
-            requireActivity().onBackPressed()
+        when (type) {
+            R.string.title_sight -> ogamSelect = OgamSelect(ContextCompat.getDrawable(requireContext(), R.drawable.ic_sight_character_40), getString(type), getString(R.string.title_taste_record_title), R.color.RD_2, ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_blurred_rd_23), ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_fill_rd2_23), ContextCompat.getColor(requireContext(), R.color.RD_2))
+            R.string.title_ear -> ogamSelect = OgamSelect(ContextCompat.getDrawable(requireContext(), R.drawable.ic_ear_character_40), getString(type), getString(R.string.title_taste_record_title), R.color.BU_2, ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_blurred_bu_23), ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_fill_bu2_23), ContextCompat.getColor(requireContext(), R.color.BU_2))
+            R.string.title_smell -> ogamSelect = OgamSelect(ContextCompat.getDrawable(requireContext(), R.drawable.ic_smell_character_40), getString(type), getString(R.string.title_taste_record_title), R.color.GN_2, ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_blurred_gn_23), ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_fill_gn2_23), ContextCompat.getColor(requireContext(), R.color.GN_3))
+            R.string.title_taste -> ogamSelect = OgamSelect(ContextCompat.getDrawable(requireContext(), R.drawable.ic_taste_character_40), getString(type), getString(R.string.title_taste_record_title), R.color.YE_2, ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_blurred_ye_23), ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_fill_ye2_23), ContextCompat.getColor(requireContext(), R.color.YE_2))
+            R.string.title_touch -> ogamSelect = OgamSelect(ContextCompat.getDrawable(requireContext(), R.drawable.ic_touch_character_40), getString(type), getString(R.string.title_taste_record_title), R.color.PU_2, ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_blurred_pu_23), ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_fill_pu2_23), ContextCompat.getColor(requireContext(), R.color.PU_2))
+            R.string.title_question -> ogamSelect = OgamSelect(ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_character_40), getString(R.string.title_sense), getString(R.string.title_taste_record_title_before), R.color.GY_04, ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_blurred_gy_23), ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_fill_gy04_23), ContextCompat.getColor(requireContext(), R.color.GY_04))
         }
+
+        val action = OgamSelectFragmentDirections.actionOgamSelectFragmentToTasteRecordFragment(ogamSelect)
+        findNavController().navigate(action)
     }
 
-    private fun observe() {
-        //OgamSelectFragment 의 슬로건 idx Observer
-        mainViewModel.randomSloganIdx.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            binding.ogamSelectSloganTv.text = getString(slogans[it])
-        })
-    }
-
-    //터치뷰 클릭리스너 이너 클래스
-    inner class TouchViewListener: View.OnClickListener {
-        private lateinit var action: NavDirections
-
-        override fun onClick(v: View?) {
-            when (v?.id) {
-                binding.ogamSelectSightTouchView.id -> action = OgamSelectFragmentDirections.actionOgamSelectFragmentToTasteRecordFragment(R.string.title_sight)
-                binding.ogamSelectEarTouchView.id -> action = OgamSelectFragmentDirections.actionOgamSelectFragmentToTasteRecordFragment(R.string.title_ear)
-                binding.ogamSelectSmellTouchView.id -> action = OgamSelectFragmentDirections.actionOgamSelectFragmentToTasteRecordFragment(R.string.title_smell)
-                binding.ogamSelectTasteTouchView.id -> action = OgamSelectFragmentDirections.actionOgamSelectFragmentToTasteRecordFragment(R.string.title_taste)
-                binding.ogamSelectTouchTouchView.id -> action = OgamSelectFragmentDirections.actionOgamSelectFragmentToTasteRecordFragment(R.string.title_touch)
-                binding.ogamSelectQuestionTouchView.id -> action = OgamSelectFragmentDirections.actionOgamSelectFragmentToTasteRecordFragment(R.string.title_sense)
-            }
-
-            findNavController().navigate(action)
-        }
+    fun back() {
+        requireActivity().onBackPressed()
     }
 }
