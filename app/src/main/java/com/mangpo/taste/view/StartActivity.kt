@@ -1,5 +1,8 @@
 package com.mangpo.taste.view
 
+import androidx.activity.viewModels
+import androidx.lifecycle.Observer
+import com.mangpo.domain.model.createUser.CreateUserReqEntity
 import com.mangpo.taste.base.BaseActivity
 import com.mangpo.taste.databinding.ActivityStartBinding
 import com.mangpo.taste.viewmodel.StartViewModel

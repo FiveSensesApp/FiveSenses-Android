@@ -5,7 +5,6 @@ import com.mangpo.data.model.authorize.AuthorizeResDTO
 import com.mangpo.data.model.base.BaseResDTO
 import com.mangpo.data.model.createUser.CreateUserReqDTO
 import com.mangpo.data.model.createUser.CreateUserResDTO
-import com.mangpo.data.util.MapperUtils.calDate
 import com.mangpo.domain.model.authorize.AuthorizeReqEntity
 import com.mangpo.domain.model.authorize.AuthorizeResEntity
 import com.mangpo.domain.model.base.BaseResEntity
@@ -39,7 +38,7 @@ object AuthMapper {
         } else {
             createUserResDTO.run {
                 BaseResEntity(meta.code, meta.msg, data!!.run {
-                    CreateUserResEntity(alarmDate, calDate(createdDate), email, id, isAlarmOn, nickname)
+                    CreateUserResEntity(alarmDate, createdDate.split("T")[0], email, id, isAlarmOn, nickname)
                 })
             }
         }
