@@ -29,7 +29,7 @@ object SpfUtils {
         return spf.getString(key, null)
     }
 
-    fun getBooleanSpf(key: String, defaultValue: Boolean): Boolean? {
+    fun getBooleanSpf(key: String, defaultValue: Boolean): Boolean {
         return spf.getBoolean(key, defaultValue)
     }
 
@@ -55,10 +55,8 @@ object SpfUtils {
         return encryptedSpf.getInt(key, -1)
     }
 
-    fun clearEncryptedSpf() {
-        with(encryptedSpf.edit()) {
-            putString("jwt", null)
-            apply()
-        }
+    fun clear() {
+        spf.edit().clear().apply()
+        encryptedSpf.edit().clear().apply()
     }
 }

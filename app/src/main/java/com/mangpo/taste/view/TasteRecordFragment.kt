@@ -5,16 +5,13 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import androidx.activity.OnBackPressedCallback
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentTasteRecordBinding
-import com.mangpo.taste.util.convertDpToPx
 import com.mangpo.taste.util.setSpannableText
-import com.mangpo.taste.util.setting
+import com.mangpo.taste.view.model.OgamSelect
 import com.mangpo.taste.view.model.TwoBtnDialog
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent.setEventListener
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
@@ -29,9 +26,16 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
 
     private var isComplete: Boolean = false
 
+    var isKeyboardUp: Boolean = false
+    var date: String = ""
+    var ogamSelect: OgamSelect = OgamSelect()
+
     override fun initAfterBinding() {
-        initDialog()
-        setMyEventListener()
+        binding.apply {
+            fragment = this@TasteRecordFragment
+        }
+
+        ogamSelect = navArgs.sense
 
         //뒤로가기 콜백 리스너
         onBackPressedCallback = object : OnBackPressedCallback(true) {
@@ -48,27 +52,28 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)    //뒤로가기 콜백 리스너 등록
 
+        initDialog()
+
+        //date 텍스트뷰에 오늘 날짜 보여주기
+        val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+        date = LocalDateTime.now().format(formatter)
+        binding.invalidateAll()
+
+        setSpannableText("${ogamSelect.sense1}${ogamSelect.sense2}", requireContext(), ogamSelect.senseTextColor, 0, ogamSelect.sense1.length, binding.tasteRecordTitleTv)
+
         //키보드 감지해서 뷰 바꾸기
         setEventListener(requireActivity(), viewLifecycleOwner, KeyboardVisibilityEventListener {
             if (it) {   //키보드 올라와 있을 때
-                (requireActivity() as MainActivity).setRecordFcvTopMargin(convertDpToPx(requireContext(), 43))  //높이 더 크게
-                setRecordClMargin(convertDpToPx(requireContext(), 80))  //기록하기 topMargin 변경
-                binding.tasteRecordTitleTv.visibility = View.GONE   //타이틀 GONE
+                (requireActivity() as MainActivity).setRecordFcvTopMargin(43)  //높이 더 크게
             } else {    //키보드 내려와 있을 때
-                (requireActivity() as MainActivity).setRecordFcvTopMargin(convertDpToPx(requireContext(), 136)) //높이 낮게
-                setRecordClMargin(convertDpToPx(requireContext(), 172)) //기록하기 topMargin 변경
-                binding.tasteRecordTitleTv.visibility = View.VISIBLE    //타이틀 VISIBLE
+                (requireActivity() as MainActivity).setRecordFcvTopMargin(136) //높이 낮게
             }
+
+            isKeyboardUp = it
+            binding.invalidateAll()
         })
 
-        //date 텍스트뷰에 오늘 날짜 보여주기
-        val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
-        val formatted = current.format(formatter)
-        binding.tasteRecordDateTv.text = formatted
-
-        setUIBySense(navArgs.sense) //감각별로 UI 변경해서 보여주기
-
+        setMyEventListener()
     }
 
     override fun onDetach() {
@@ -151,59 +156,7 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
         }
     }
 
-    private fun setRecordClMargin(topMargin: Int) {
-        val params = binding.tasteRecordRecordCl.layoutParams as ConstraintLayout.LayoutParams
-        params.setMargins(0, topMargin, 0, 0)
-        binding.tasteRecordRecordCl.layoutParams = params
-    }
-
     private fun validate(): Boolean = !(binding.tasteRecordKeywordEt.text.isBlank() || binding.tasteRecordSrb.rating == 0f)
-
-    private fun setUIBySense(sense: Int) {
-        when (sense) {
-            R.string.title_sight -> {
-                binding.tasteRecordTasteCharacterIv.setImageResource(R.drawable.ic_sight_character_40)
-                setSpannableText("${getString(sense)}${getString(R.string.title_taste_record_title)}", requireContext(), R.color.RD_2, 0, getString(sense).length, binding.tasteRecordTitleTv)
-                binding.tasteRecordSrb.setting(R.drawable.ic_star_blurred_rd_23, R.drawable.ic_star_fill_rd2_23, 0f)
-                binding.tasteRecordSrbMsgTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.RD_2))
-            }
-
-            R.string.title_ear -> {
-                binding.tasteRecordTasteCharacterIv.setImageResource(R.drawable.ic_ear_character_40)
-                setSpannableText("${getString(sense)}${getString(R.string.title_taste_record_title)}", requireContext(), R.color.BU_2, 0, getString(sense).length, binding.tasteRecordTitleTv)
-                binding.tasteRecordSrb.setting(R.drawable.ic_star_blurred_bu_23, R.drawable.ic_star_fill_bu2_23, 0f)
-                binding.tasteRecordSrbMsgTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.BU_2))
-            }
-
-            R.string.title_smell -> {
-                binding.tasteRecordTasteCharacterIv.setImageResource(R.drawable.ic_smell_character_40)
-                setSpannableText("${getString(sense)}${getString(R.string.title_taste_record_title)}", requireContext(), R.color.GN_2, 0, getString(sense).length, binding.tasteRecordTitleTv)
-                binding.tasteRecordSrb.setting(R.drawable.ic_star_blurred_gn_23, R.drawable.ic_star_fill_gn2_23, 0f)
-                binding.tasteRecordSrbMsgTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.GN_3))
-            }
-
-            R.string.title_taste -> {
-                binding.tasteRecordTasteCharacterIv.setImageResource(R.drawable.ic_taste_character_40)
-                setSpannableText("${getString(sense)}${getString(R.string.title_taste_record_title)}", requireContext(), R.color.YE_2, 0, getString(sense).length, binding.tasteRecordTitleTv)
-                binding.tasteRecordSrb.setting(R.drawable.ic_star_blurred_ye_23, R.drawable.ic_star_fill_ye2_23, 0f)
-                binding.tasteRecordSrbMsgTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.YE_2))
-            }
-
-            R.string.title_touch -> {
-                binding.tasteRecordTasteCharacterIv.setImageResource(R.drawable.ic_touch_character_40)
-                setSpannableText("${getString(sense)}${getString(R.string.title_taste_record_title)}", requireContext(), R.color.PU_2, 0, getString(sense).length, binding.tasteRecordTitleTv)
-                binding.tasteRecordSrb.setting(R.drawable.ic_star_blurred_pu_23, R.drawable.ic_star_fill_pu2_23, 0f)
-                binding.tasteRecordSrbMsgTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.PU_2))
-            }
-
-            R.string.title_sense -> {
-                binding.tasteRecordTasteCharacterIv.setImageResource(R.drawable.ic_question_character_40)
-                setSpannableText("${getString(sense)}${getString(R.string.title_taste_record_title_before)}", requireContext(), R.color.GY_04, 0, getString(sense).length, binding.tasteRecordTitleTv)
-                binding.tasteRecordSrb.setting(R.drawable.ic_star_blurred_gy_23, R.drawable.ic_star_fill_gy04_23, 0f)
-                binding.tasteRecordSrbMsgTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.GY_04))
-            }
-        }
-    }
 
     //작성했던 내용 모두 초기화하는 함수
     private fun clear() {

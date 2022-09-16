@@ -1,250 +1,275 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.OgamSelectFragment">
 
-    <TextView
-        android:id="@+id/ogam_select_date_tv"
+<layout>
+
+    <data>
+
+        <import type="com.mangpo.taste.R" />
+
+        <variable
+            name="fragment"
+            type="com.mangpo.taste.view.OgamSelectFragment" />
+
+        <variable
+            name="mainVm"
+            type="com.mangpo.taste.viewmodel.MainViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="34dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="9dp"
-        android:textAppearance="@style/Sub_Head_B_16"
-        android:textColor="@color/GY_02"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/ogam_select_hello_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="34dp"
-        android:layout_marginTop="22dp"
-        android:layout_marginEnd="9dp"
-        android:textAppearance="@style/Head_B_26"
-        app:layout_constraintTop_toBottomOf="@+id/ogam_select_date_tv" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="264dp"
-        android:layout_marginHorizontal="28dp"
-        app:layout_constraintBottom_toTopOf="@+id/ogam_select_slogan_tv"
-        app:layout_constraintTop_toBottomOf="@+id/ogam_select_hello_tv">
-
-        <ImageView
-            android:id="@+id/ogam_select_sight_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:src="@drawable/ic_sight_character_78"
-            app:layout_constraintEnd_toEndOf="@+id/ogam_select_sight_touch_view"
-            app:layout_constraintStart_toStartOf="@+id/ogam_select_sight_touch_view"
-            app:layout_constraintTop_toTopOf="@+id/ogam_select_sight_touch_view" />
+        android:layout_height="match_parent"
+        tools:context=".view.OgamSelectFragment">
 
         <TextView
-            android:id="@+id/ogam_select_sight_tv"
-            android:layout_width="wrap_content"
+            android:id="@+id/ogam_select_date_tv"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:text="@string/title_sight"
-            android:textAppearance="@style/Sub_Head_B_18"
-            android:textColor="@color/RD_3"
-            app:layout_constraintEnd_toEndOf="@+id/ogam_select_sight_iv"
-            app:layout_constraintStart_toStartOf="@+id/ogam_select_sight_iv"
-            app:layout_constraintTop_toBottomOf="@+id/ogam_select_sight_iv" />
-
-        <View
-            android:id="@+id/ogam_select_sight_touch_view"
-            android:layout_width="94dp"
-            android:layout_height="128dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="34dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginEnd="9dp"
+            android:textAppearance="@style/Sub_Head_B_16"
+            android:textColor="@color/GY_02"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/ogam_select_ear_iv"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/ogam_select_hello_tv"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:src="@drawable/ic_ear_character_78"
-            app:layout_constraintEnd_toEndOf="@+id/ogam_select_ear_touch_view"
-            app:layout_constraintStart_toStartOf="@+id/ogam_select_ear_touch_view"
-            app:layout_constraintTop_toTopOf="@+id/ogam_select_ear_touch_view" />
+            android:layout_marginStart="34dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginEnd="9dp"
+            android:textAppearance="@style/Head_B_26"
+            app:layout_constraintTop_toBottomOf="@+id/ogam_select_date_tv" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="264dp"
+            android:layout_marginHorizontal="28dp"
+            app:layout_constraintBottom_toTopOf="@+id/ogam_select_slogan_tv"
+            app:layout_constraintTop_toBottomOf="@+id/ogam_select_hello_tv">
+
+            <ImageView
+                android:id="@+id/ogam_select_sight_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:src="@drawable/ic_sight_character_78"
+                app:layout_constraintEnd_toEndOf="@+id/ogam_select_sight_touch_view"
+                app:layout_constraintStart_toStartOf="@+id/ogam_select_sight_touch_view"
+                app:layout_constraintTop_toTopOf="@+id/ogam_select_sight_touch_view" />
+
+            <TextView
+                android:id="@+id/ogam_select_sight_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="@string/title_sight"
+                android:textAppearance="@style/Sub_Head_B_18"
+                android:textColor="@color/RD_3"
+                app:layout_constraintEnd_toEndOf="@+id/ogam_select_sight_iv"
+                app:layout_constraintStart_toStartOf="@+id/ogam_select_sight_iv"
+                app:layout_constraintTop_toBottomOf="@+id/ogam_select_sight_iv" />
+
+            <View
+                android:id="@+id/ogam_select_sight_touch_view"
+                android:layout_width="94dp"
+                android:layout_height="128dp"
+                android:onClick="@{() -> fragment.goRecordFragment(R.string.title_sight)}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ogam_select_ear_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:src="@drawable/ic_ear_character_78"
+                app:layout_constraintEnd_toEndOf="@+id/ogam_select_ear_touch_view"
+                app:layout_constraintStart_toStartOf="@+id/ogam_select_ear_touch_view"
+                app:layout_constraintTop_toTopOf="@+id/ogam_select_ear_touch_view" />
+
+            <TextView
+                android:id="@+id/ogam_select_ear_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="@string/title_ear"
+                android:textAppearance="@style/Sub_Head_B_18"
+                android:textColor="@color/BU_3"
+                app:layout_constraintEnd_toEndOf="@+id/ogam_select_ear_iv"
+                app:layout_constraintStart_toStartOf="@+id/ogam_select_ear_iv"
+                app:layout_constraintTop_toBottomOf="@+id/ogam_select_ear_iv" />
+
+            <View
+                android:id="@+id/ogam_select_ear_touch_view"
+                android:layout_width="94dp"
+                android:layout_height="128dp"
+                android:onClick="@{() -> fragment.goRecordFragment(R.string.title_ear)}"
+                app:layout_constraintEnd_toStartOf="@+id/ogam_select_smell_touch_view"
+                app:layout_constraintStart_toEndOf="@+id/ogam_select_sight_touch_view"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ogam_select_smell_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:src="@drawable/ic_smell_character_78"
+                app:layout_constraintEnd_toEndOf="@+id/ogam_select_smell_touch_view"
+                app:layout_constraintStart_toStartOf="@+id/ogam_select_smell_touch_view"
+                app:layout_constraintTop_toTopOf="@+id/ogam_select_smell_touch_view" />
+
+            <TextView
+                android:id="@+id/ogam_select_smell_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="@string/title_smell"
+                android:textAppearance="@style/Sub_Head_B_18"
+                android:textColor="@color/GN_3"
+                app:layout_constraintEnd_toEndOf="@+id/ogam_select_smell_iv"
+                app:layout_constraintStart_toStartOf="@+id/ogam_select_smell_iv"
+                app:layout_constraintTop_toBottomOf="@+id/ogam_select_smell_iv" />
+
+            <View
+                android:id="@+id/ogam_select_smell_touch_view"
+                android:layout_width="94dp"
+                android:layout_height="128dp"
+                android:onClick="@{() -> fragment.goRecordFragment(R.string.title_smell)}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ogam_select_taste_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/ic_taste_character_78"
+                app:layout_constraintEnd_toEndOf="@+id/ogam_select_taste_touch_view"
+                app:layout_constraintStart_toStartOf="@+id/ogam_select_taste_touch_view"
+                app:layout_constraintTop_toTopOf="@+id/ogam_select_taste_touch_view" />
+
+            <TextView
+                android:id="@+id/ogam_select_taste_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="@string/title_taste"
+                android:textAppearance="@style/Sub_Head_B_18"
+                android:textColor="@color/YE_2"
+                app:layout_constraintEnd_toEndOf="@+id/ogam_select_taste_iv"
+                app:layout_constraintStart_toStartOf="@+id/ogam_select_taste_iv"
+                app:layout_constraintTop_toBottomOf="@+id/ogam_select_taste_iv" />
+
+            <View
+                android:id="@+id/ogam_select_taste_touch_view"
+                android:layout_width="94dp"
+                android:layout_height="128dp"
+                android:onClick="@{() -> fragment.goRecordFragment(R.string.title_taste)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/ogam_select_touch_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/ic_touch_character_78"
+                app:layout_constraintEnd_toEndOf="@+id/ogam_select_touch_touch_view"
+                app:layout_constraintStart_toStartOf="@+id/ogam_select_touch_touch_view"
+                app:layout_constraintTop_toTopOf="@+id/ogam_select_touch_touch_view" />
+
+            <TextView
+                android:id="@+id/ogam_select_touch_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="@string/title_touch"
+                android:textAppearance="@style/Sub_Head_B_18"
+                android:textColor="@color/PU_3"
+                app:layout_constraintEnd_toEndOf="@+id/ogam_select_touch_iv"
+                app:layout_constraintStart_toStartOf="@+id/ogam_select_touch_iv"
+                app:layout_constraintTop_toBottomOf="@+id/ogam_select_touch_iv" />
+
+            <View
+                android:id="@+id/ogam_select_touch_touch_view"
+                android:layout_width="94dp"
+                android:layout_height="128dp"
+                android:onClick="@{() -> fragment.goRecordFragment(R.string.title_touch)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ogam_select_question_touch_view"
+                app:layout_constraintStart_toEndOf="@+id/ogam_select_taste_touch_view" />
+
+            <ImageView
+                android:id="@+id/ogam_select_question_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/ic_question_character_78"
+                app:layout_constraintEnd_toEndOf="@+id/ogam_select_question_touch_view"
+                app:layout_constraintStart_toStartOf="@+id/ogam_select_question_touch_view"
+                app:layout_constraintTop_toTopOf="@+id/ogam_select_question_touch_view" />
+
+            <TextView
+                android:id="@+id/ogam_select_question_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="@string/title_question"
+                android:textAppearance="@style/Sub_Head_B_18"
+                android:textColor="@color/GY_04"
+                app:layout_constraintEnd_toEndOf="@+id/ogam_select_question_iv"
+                app:layout_constraintStart_toStartOf="@+id/ogam_select_question_iv"
+                app:layout_constraintTop_toBottomOf="@+id/ogam_select_question_iv" />
+
+            <View
+                android:id="@+id/ogam_select_question_touch_view"
+                android:layout_width="94dp"
+                android:layout_height="128dp"
+                android:onClick="@{() -> fragment.goRecordFragment(R.string.title_question)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/ogam_select_ear_tv"
-            android:layout_width="wrap_content"
+            android:id="@+id/ogam_select_slogan_tv"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:text="@string/title_ear"
-            android:textAppearance="@style/Sub_Head_B_18"
-            android:textColor="@color/BU_3"
-            app:layout_constraintEnd_toEndOf="@+id/ogam_select_ear_iv"
-            app:layout_constraintStart_toStartOf="@+id/ogam_select_ear_iv"
-            app:layout_constraintTop_toBottomOf="@+id/ogam_select_ear_iv" />
-
-        <View
-            android:id="@+id/ogam_select_ear_touch_view"
-            android:layout_width="94dp"
-            android:layout_height="128dp"
-            app:layout_constraintEnd_toStartOf="@+id/ogam_select_smell_touch_view"
-            app:layout_constraintStart_toEndOf="@+id/ogam_select_sight_touch_view"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/ogam_select_smell_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:src="@drawable/ic_smell_character_78"
-            app:layout_constraintEnd_toEndOf="@+id/ogam_select_smell_touch_view"
-            app:layout_constraintStart_toStartOf="@+id/ogam_select_smell_touch_view"
-            app:layout_constraintTop_toTopOf="@+id/ogam_select_smell_touch_view" />
-
-        <TextView
-            android:id="@+id/ogam_select_smell_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:text="@string/title_smell"
-            android:textAppearance="@style/Sub_Head_B_18"
-            android:textColor="@color/GN_3"
-            app:layout_constraintEnd_toEndOf="@+id/ogam_select_smell_iv"
-            app:layout_constraintStart_toStartOf="@+id/ogam_select_smell_iv"
-            app:layout_constraintTop_toBottomOf="@+id/ogam_select_smell_iv" />
-
-        <View
-            android:id="@+id/ogam_select_smell_touch_view"
-            android:layout_width="94dp"
-            android:layout_height="128dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/ogam_select_taste_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/ic_taste_character_78"
-            app:layout_constraintEnd_toEndOf="@+id/ogam_select_taste_touch_view"
-            app:layout_constraintStart_toStartOf="@+id/ogam_select_taste_touch_view"
-            app:layout_constraintTop_toTopOf="@+id/ogam_select_taste_touch_view" />
-
-        <TextView
-            android:id="@+id/ogam_select_taste_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:text="@string/title_taste"
-            android:textAppearance="@style/Sub_Head_B_18"
-            android:textColor="@color/YE_2"
-            app:layout_constraintEnd_toEndOf="@+id/ogam_select_taste_iv"
-            app:layout_constraintStart_toStartOf="@+id/ogam_select_taste_iv"
-            app:layout_constraintTop_toBottomOf="@+id/ogam_select_taste_iv" />
-
-        <View
-            android:id="@+id/ogam_select_taste_touch_view"
-            android:layout_width="94dp"
-            android:layout_height="128dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <ImageView
-            android:id="@+id/ogam_select_touch_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/ic_touch_character_78"
-            app:layout_constraintEnd_toEndOf="@+id/ogam_select_touch_touch_view"
-            app:layout_constraintStart_toStartOf="@+id/ogam_select_touch_touch_view"
-            app:layout_constraintTop_toTopOf="@+id/ogam_select_touch_touch_view" />
-
-        <TextView
-            android:id="@+id/ogam_select_touch_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:text="@string/title_touch"
-            android:textAppearance="@style/Sub_Head_B_18"
-            android:textColor="@color/PU_3"
-            app:layout_constraintEnd_toEndOf="@+id/ogam_select_touch_iv"
-            app:layout_constraintStart_toStartOf="@+id/ogam_select_touch_iv"
-            app:layout_constraintTop_toBottomOf="@+id/ogam_select_touch_iv" />
-
-        <View
-            android:id="@+id/ogam_select_touch_touch_view"
-            android:layout_width="94dp"
-            android:layout_height="128dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/ogam_select_question_touch_view"
-            app:layout_constraintStart_toEndOf="@+id/ogam_select_taste_touch_view" />
-
-        <ImageView
-            android:id="@+id/ogam_select_question_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/ic_question_character_78"
-            app:layout_constraintEnd_toEndOf="@+id/ogam_select_question_touch_view"
-            app:layout_constraintStart_toStartOf="@+id/ogam_select_question_touch_view"
-            app:layout_constraintTop_toTopOf="@+id/ogam_select_question_touch_view" />
-
-        <TextView
-            android:id="@+id/ogam_select_question_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:text="@string/title_question"
-            android:textAppearance="@style/Sub_Head_B_18"
+            android:layout_marginBottom="21dp"
+            android:gravity="center"
+            android:text="@{mainVm.slogan}"
+            android:textAppearance="@style/Body1_M_16"
             android:textColor="@color/GY_04"
-            app:layout_constraintEnd_toEndOf="@+id/ogam_select_question_iv"
-            app:layout_constraintStart_toStartOf="@+id/ogam_select_question_iv"
-            app:layout_constraintTop_toBottomOf="@+id/ogam_select_question_iv" />
+            app:layout_constraintBottom_toTopOf="@+id/ogam_select_fab" />
 
         <View
-            android:id="@+id/ogam_select_question_touch_view"
-            android:layout_width="94dp"
-            android:layout_height="128dp"
+            android:id="@+id/ogam_select_line_view"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginBottom="74dp"
+            android:background="@color/GY_02"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/ogam_select_fab"
+            android:layout_width="67dp"
+            android:layout_height="67dp"
+            android:layout_marginBottom="21dp"
+            android:clickable="true"
+            android:src="@drawable/ic_close_21"
+            app:backgroundTint="@color/BK"
+            app:borderWidth="0dp"
+            app:elevation="0dp"
+            app:fabCustomSize="67dp"
+            android:onClick="@{() -> fragment.back()}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:rippleColor="@android:color/transparent"
+            app:tint="@color/WH" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/ogam_select_slogan_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="21dp"
-        android:gravity="center"
-        android:textAppearance="@style/Body1_M_16"
-        android:textColor="@color/GY_04"
-        app:layout_constraintBottom_toTopOf="@+id/ogam_select_fab" />
-
-    <View
-        android:id="@+id/ogam_select_line_view"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginBottom="74dp"
-        android:background="@color/GY_02"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/ogam_select_fab"
-        android:layout_width="67dp"
-        android:layout_height="67dp"
-        android:layout_marginBottom="21dp"
-        android:clickable="true"
-        android:src="@drawable/ic_close_21"
-        app:backgroundTint="@color/BK"
-        app:borderWidth="0dp"
-        app:elevation="0dp"
-        app:fabCustomSize="67dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:rippleColor="@android:color/transparent"
-        app:tint="@color/WH" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

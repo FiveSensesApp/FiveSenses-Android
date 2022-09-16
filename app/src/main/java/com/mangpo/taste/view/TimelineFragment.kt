@@ -2,10 +2,7 @@ package com.mangpo.taste.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import com.mangpo.domain.model.RecordEntity
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
@@ -138,13 +135,5 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
     }
 
     private fun observe() {
-        vm.posts.observe(viewLifecycleOwner, Observer {
-            Log.d("TimelineFragment", "posts observe!! -> $it")
-            if (it.empty) {
-                findNavController().navigate(R.id.action_global_noFeedFragment)
-            } else {
-
-            }
-        })
     }
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_no_feed"
+    app:startDestination="@id/noFeedFragment">
+    <fragment
+        android:id="@+id/noFeedFragment"
+        android:name="com.mangpo.taste.view.NoFeedFragment"
+        android:label="fragment_no_feed"
+        tools:layout="@layout/fragment_no_feed" >
+        <action
+            android:id="@+id/action_noFeedFragment_to_loginActivity"
+            app:destination="@id/loginActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.mangpo.taste.view.LoginActivity"
+        android:label="LoginActivity" />
+</navigation>

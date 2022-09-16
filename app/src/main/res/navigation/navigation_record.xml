@@ -21,6 +21,6 @@
         tools:layout="@layout/fragment_taste_record" >
         <argument
             android:name="sense"
-            app:argType="integer" />
+            app:argType="com.mangpo.taste.view.model.OgamSelect" />
     </fragment>
 </navigation>
