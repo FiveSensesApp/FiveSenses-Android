@@ -19,18 +19,16 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
     override fun initAfterBinding() {
         when {
-            getBooleanSpf("onBoarding", false)==false -> {
-                lifecycleScope.launch(Dispatchers.Main) {
-                    delay(5000L)
-                    startActivityWithClear(OnBoardingActivity::class.java)
-                }
-            }
-            getStrEncryptedSpf("jwt")==null -> {
-                startActivityWithClear(LoginActivity::class.java)
-            }
-            else -> {
-                startActivityWithClear(MainActivity::class.java)
-            }
+            !getBooleanSpf("onBoarding", false) -> goNextActivity(OnBoardingActivity::class.java)
+            getStrEncryptedSpf("jwt")==null -> goNextActivity(LoginActivity::class.java)
+            else -> goNextActivity(MainActivity::class.java)
+        }
+    }
+
+    private fun goNextActivity(activity: Class<*>) {
+        lifecycleScope.launch(Dispatchers.Main) {
+            delay(5000L)
+            startActivityWithClear(activity)
         }
     }
 }
