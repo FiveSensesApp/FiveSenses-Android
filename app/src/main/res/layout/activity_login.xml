@@ -64,6 +64,7 @@
             android:layout_marginTop="13dp"
             android:background="@drawable/bg_gy01_12"
             android:hint="@string/msg_enter_pw"
+            android:inputType="textPassword"
             android:paddingStart="22dp"
             android:paddingEnd="35dp"
             android:textAppearance='@style/Sub_Head_B_16'
