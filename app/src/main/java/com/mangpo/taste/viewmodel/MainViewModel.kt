@@ -2,7 +2,6 @@ package com.mangpo.taste.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.mangpo.domain.model.getUserInfo.GetUserInfoResEntity
 import com.mangpo.domain.usecase.GetUserInfoUseCase
 import com.mangpo.taste.base.BaseViewModel
 import com.mangpo.taste.util.SpfUtils
@@ -15,8 +14,11 @@ class MainViewModel @Inject constructor(private val getUserInfoUseCase: GetUserI
     private val _feedType: MutableLiveData<String> = MutableLiveData()
     val feedType: LiveData<String> = _feedType
 
-    private val _user: MutableLiveData<GetUserInfoResEntity> = MutableLiveData()
-    val user: LiveData<GetUserInfoResEntity> get() = _user
+    private val _isTasteRecordShown: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isTasteRecordShown: LiveData<Boolean> get() = _isTasteRecordShown
+
+    private val _isRecordComplete: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isRecordComplete: LiveData<Boolean> get() = _isRecordComplete
 
     private val _getUserInfoResult: MutableLiveData<Boolean> = MutableLiveData()
     val getUserInfoResult: LiveData<Boolean> get() = _getUserInfoResult
@@ -66,5 +68,13 @@ class MainViewModel @Inject constructor(private val getUserInfoUseCase: GetUserI
             },
             false
         )
+    }
+
+    fun setIsTasteRecordShown(value: Boolean) {
+        _isTasteRecordShown.postValue(value)
+    }
+
+    fun setIsRecordComplete(value: Boolean) {
+        _isRecordComplete.postValue(value)
     }
 }

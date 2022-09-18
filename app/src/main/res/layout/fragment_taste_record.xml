@@ -53,7 +53,8 @@
             android:id="@+id/taste_record_record_cl"
             marginTop="@{fragment.keyboardUp? 80: 172}"
             android:layout_width="match_parent"
-            android:layout_height="320dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/taste_record_essential_err_tv"
             app:layout_constraintTop_toTopOf="parent">
 
             <EditText
@@ -73,15 +74,16 @@
 
             <com.willy.ratingbar.BaseRatingBar
                 android:id="@+id/taste_record_srb"
+                srbEmptyDrawable="@{fragment.ogamSelect.emptyStar}"
+                srbFilledDrawable="@{fragment.ogamSelect.filledStar}"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="34dp"
+                android:layout_marginTop="20dp"
                 app:layout_constraintBottom_toTopOf="@+id/taste_record_srb_msg_tv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/taste_record_keyword_et"
                 app:layout_constraintVertical_chainStyle="packed"
-                srbEmptyDrawable="@{fragment.ogamSelect.emptyStar}"
-                srbFilledDrawable="@{fragment.ogamSelect.filledStar}"
                 app:srb_clearRatingEnabled="true"
                 app:srb_clickable="true"
                 app:srb_isIndicator="false"
@@ -105,8 +107,9 @@
             <EditText
                 android:id="@+id/taste_record_content_et"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="0dp"
                 android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="4dp"
                 android:background="@drawable/bg_gy01_10"
                 android:gravity="start"
@@ -118,7 +121,8 @@
                 android:paddingBottom="13dp"
                 android:textAppearance="@style/Body1_M_16"
                 android:textColorHint="@color/GY_03"
-                app:layout_constraintBottom_toTopOf="@+id/taste_record_date_tv" />
+                app:layout_constraintBottom_toTopOf="@+id/taste_record_date_tv"
+                app:layout_constraintTop_toBottomOf="@+id/taste_record_srb_msg_tv" />
 
             <TextView
                 android:id="@+id/taste_record_date_tv"
@@ -152,6 +156,7 @@
             android:layout_height="0.5dp"
             android:layout_marginBottom="74dp"
             android:background="@color/GY_02"
+            android:visibility="@{fragment.keyboardUp? View.GONE: View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -160,7 +165,9 @@
             android:layout_height="67dp"
             android:layout_marginBottom="21dp"
             android:clickable="true"
+            android:onClick="@{() -> fragment.createPost()}"
             android:src="@drawable/ic_check_28"
+            android:visibility="@{fragment.keyboardUp? View.GONE: View.VISIBLE}"
             app:backgroundTint="@color/BK"
             app:borderWidth="0dp"
             app:elevation="0dp"
@@ -175,19 +182,19 @@
             android:id="@+id/taste_record_essential_err_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
+            android:layout_marginBottom="11dp"
             android:gravity="center"
             android:text="@string/error_keyword_start_essential"
             android:textAppearance="@style/Body1_M_14"
-            android:visibility="invisible"
-            app:layout_constraintTop_toBottomOf="@+id/taste_record_record_cl" />
+            android:visibility="@{fragment.createPostValidation? View.INVISIBLE: View.VISIBLE}"
+            app:layout_constraintBottom_toTopOf="@id/taste_record_fab" />
 
         <View
             android:id="@+id/taste_record_blurred_view"
             android:layout_width="match_parent"
             android:layout_height="340dp"
             android:background="@color/WH"
-            android:visibility="invisible"
+            android:visibility="@{fragment.isDialogShown? View.VISIBLE: View.INVISIBLE}"
             app:layout_constraintTop_toTopOf="@+id/taste_record_record_cl" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

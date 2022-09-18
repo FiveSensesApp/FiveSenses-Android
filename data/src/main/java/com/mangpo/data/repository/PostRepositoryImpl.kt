@@ -1,8 +1,11 @@
 package com.mangpo.data.repository
 
 import com.mangpo.data.datasource.PostRemoteDataSource
+import com.mangpo.data.mapper.BaseMapper
 import com.mangpo.data.mapper.PostMapper
+import com.mangpo.data.model.createPost.CreatePostReqDTO
 import com.mangpo.domain.model.base.BaseResEntity
+import com.mangpo.domain.model.createPost.CreatePostReqEntity
 import com.mangpo.domain.model.getPosts.GetPostsResEntity
 import com.mangpo.domain.repository.PostRepository
 import javax.inject.Inject
@@ -18,5 +21,12 @@ class PostRepositoryImpl @Inject constructor(private val dataSource: PostRemoteD
     ): BaseResEntity<GetPostsResEntity?> {
         val response = dataSource.getPosts(userId, page, sort, createDate, star, category)
         return sendData(response) { PostMapper.mapperToGetPostsResEntity(response) }
+    }
+
+    override suspend fun createPost(createPostReqEntity: CreatePostReqEntity): BaseResEntity<Nothing> {
+        val createPostReqDTO: CreatePostReqDTO = PostMapper.mapperToCreatePostReqDTO(createPostReqEntity)
+        val response = dataSource.createPost(createPostReqDTO)
+
+        return sendData(response) { BaseMapper.mapperToBaseResEntityVerAny(response) }
     }
 }

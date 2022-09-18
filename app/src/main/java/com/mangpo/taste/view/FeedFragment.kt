@@ -10,7 +10,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
-import com.mangpo.taste.NavigationFeedDirections
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentFeedBinding
@@ -35,20 +34,22 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
         //뒤로가기 콜백 리스너
         onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (binding.feedFcv.findNavController().currentDestination?.id == R.id.searchResultFragment) {  //검색 결과 프래그먼트에 있을 경우
+                /*if (binding.feedFcv.findNavController().currentDestination?.id == R.id.searchResultFragment) {  //검색 결과 프래그먼트에 있을 경우
                     binding.feedSearchRightIv.visibility = View.VISIBLE  //오른쪽 검색 아이콘 VISIBLE
                     binding.feedSearchLeftIv.visibility = View.INVISIBLE  //왼쪽 검색 아이콘 INVISIBLE
                     binding.feedSearchEt.visibility = View.INVISIBLE  //검색 EditText INVISIBLE
 
                     binding.feedSearchEt.text.clear()   //검색 내역 지우기
                 } else
-                    requireActivity().finish()
+                    requireActivity().finish()*/
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)    //뒤로가기 콜백 리스너 등록
 
         observe()
 
+//        Log.d("FeedFragment", "userId: ${SpfUtils.getIntEncryptedSpf("userId")}")
+//        Log.d("FeedFragment", "jwt: ${SpfUtils.getStrEncryptedSpf("jwt")}")
         feedVm.getPosts(SpfUtils.getIntEncryptedSpf("userId"), 0, "id,desc", null, null, null)  //기록 목록 조회 API 호출
     }
 
@@ -72,12 +73,12 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
 
             hideTypeSelectLayout() //타입 선택하는 레이아웃 GONE
 
-            if (binding.feedFcv.findNavController().currentDestination?.id!=R.id.searchResultFragment) {
+            /*if (binding.feedFcv.findNavController().currentDestination?.id!=R.id.searchResultFragment) {
                 val action = NavigationFeedDirections.actionGlobalSearchResultFragment(p0.toString())
                 binding.feedFcv.findNavController().navigate(action)
             } else {
                 binding.feedFcv.findNavController().previousBackStackEntry?.savedStateHandle?.set("search", p0.toString())
-            }
+            }*/
         }
     }
 
@@ -135,11 +136,19 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
         mainVm.feedType.observe(viewLifecycleOwner, Observer {
             if (hasRecord) { //기록이 있을 때만
                 when (it) {
-                    getString(R.string.title_timeline) -> binding.feedFcv.findNavController().navigate(R.id.action_global_timelineFragment)
+                   /* getString(R.string.title_timeline) -> binding.feedFcv.findNavController().navigate(R.id.action_global_timelineFragment)
                     getString(R.string.title_by_sense) -> binding.feedFcv.findNavController().navigate(R.id.action_global_bySenseFragment)
                     getString(R.string.title_by_score) -> binding.feedFcv.findNavController().navigate(R.id.action_global_byScoreFragment)
-                    getString(R.string.title_by_calendar) -> binding.feedFcv.findNavController().navigate(R.id.action_global_byCalendarFragment)
+                    getString(R.string.title_by_calendar) -> binding.feedFcv.findNavController().navigate(R.id.action_global_byCalendarFragment)*/
                 }
+            }
+        })
+
+        mainVm.isRecordComplete.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                feedVm.getPosts(SpfUtils.getIntEncryptedSpf("userId"), 0, "id,desc", null, null, null)  //기록 목록 조회 API 호출
+            } else {
+
             }
         })
     }

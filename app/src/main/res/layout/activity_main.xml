@@ -86,7 +86,7 @@
                 android:layout_width="67dp"
                 android:layout_height="67dp"
                 android:clickable="true"
-                android:onClick="@{() -> activity.showBottomSheet()}"
+                android:onClick="@{() -> vm.setIsTasteRecordShown(true)}"
                 android:src="@drawable/ic_plus_28"
                 app:backgroundTint="@color/BK"
                 app:borderWidth="0dp"

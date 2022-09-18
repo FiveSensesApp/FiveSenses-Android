@@ -46,4 +46,9 @@ class UseCaseModule {
     fun provideValidateDuplicateUseCase (userRepository: UserRepository): ValidateDuplicateUseCase {
         return ValidateDuplicateUseCase(userRepository)
     }
+
+    @Provides
+    fun provideCreatePostUseCase (postRepository: PostRepository): CreatePostUseCase {
+        return CreatePostUseCase(postRepository)
+    }
 }

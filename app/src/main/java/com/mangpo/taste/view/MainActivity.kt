@@ -78,15 +78,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             }
         })
 
-        mainVm.getUserInfoResult.observe(this, Observer {
-            if (!it) {
-                SpfUtils.clear()
-                finishAffinity()
+        mainVm.isTasteRecordShown.observe(this, Observer {
+            if (it) {
+                showBottomSheet()
+            } else {
+                hideBottomSheet()
             }
         })
     }
 
-    fun showBottomSheet() {
+    private fun showBottomSheet() {
         mainVm.setRandomSloganIdx()  //OgamSelectFragment 의 슬로건 idx 를 랜덤하게 뽑기 위해 라이브데이터 사용
 
         recordFcvVisibility = View.VISIBLE

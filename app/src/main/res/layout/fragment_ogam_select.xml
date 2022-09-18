@@ -264,7 +264,7 @@
             app:borderWidth="0dp"
             app:elevation="0dp"
             app:fabCustomSize="67dp"
-            android:onClick="@{() -> fragment.back()}"
+            android:onClick="@{() -> mainVm.setIsTasteRecordShown(false)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
