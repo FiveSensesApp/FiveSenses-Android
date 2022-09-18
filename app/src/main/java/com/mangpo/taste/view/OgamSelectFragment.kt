@@ -30,11 +30,22 @@ class OgamSelectFragment : BaseFragment<FragmentOgamSelectBinding>(FragmentOgamS
         val simpleDateFormat = SimpleDateFormat("M.d (E) a HH:mm", Locale.KOREA).format(current)
         binding.ogamSelectDateTv.text = simpleDateFormat
 
-        //hello 텍스트뷰 부분 텍스트 색상 변경
-        val nickname = SpfUtils.getStrSpf("nickname")!!
-        val ssb: SpannableStringBuilder = SpannableStringBuilder("${nickname}${getString(R.string.msg_hello)}")
-        ssb.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.GY_04)), 0, nickname.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        binding.ogamSelectHelloTv.text = ssb
+        observe()
+    }
+
+    private fun observe() {
+        mainVm.getUserInfoResult.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            if (it) {
+                //hello 텍스트뷰 부분 텍스트 색상 변경
+                val nickname = SpfUtils.getStrSpf("nickname")!!
+                val ssb: SpannableStringBuilder = SpannableStringBuilder("${nickname}${getString(R.string.msg_hello)}")
+                ssb.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.GY_04)), 0, nickname.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                binding.ogamSelectHelloTv.text = ssb
+            } else {
+                SpfUtils.clear()
+                requireActivity().finishAffinity()
+            }
+        })
     }
 
     fun goRecordFragment(type: Int) {
