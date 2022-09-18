@@ -127,8 +127,8 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
         recordShortAdapter = RecordShortAdapter()
         recordShortAdapter.setMyClickListener(object : RecordShortAdapter.MyClickListener {
             override fun onClick(record: Record, position: Int) {
-                val action = BySenseFragmentDirections.actionGlobalRecordDialogFragment(record, position)
-                findNavController().navigate(action)
+                /*val action = BySenseFragmentDirections.actionGlobalRecordDialogFragment(record, position)
+                findNavController().navigate(action)*/
             }
         })
         setRecordData(LocalDate.now())  //오늘 날짜의 기록 데이터로 RecyclerView 에 데이터 전달하기

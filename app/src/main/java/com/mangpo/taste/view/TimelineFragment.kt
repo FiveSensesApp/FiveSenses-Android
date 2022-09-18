@@ -3,6 +3,7 @@ package com.mangpo.taste.view
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mangpo.domain.model.RecordEntity
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
@@ -16,8 +17,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineBinding::inflate) {
-    private val vm: PostViewModel by viewModels()
-
     //임시데이터
     private val recordEntities: ArrayList<RecordEntity> = arrayListOf<RecordEntity>(
         RecordEntity(
@@ -78,9 +77,6 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
     override fun initAfterBinding() {
         initTwoBtnDialog()
         initAdapter()
-        observe()
-
-        vm.getPosts(SpfUtils.getIntEncryptedSpf("userId"), 0, "id,desc", null, null, null)
     }
 
     override fun onResume() {
@@ -132,8 +128,5 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
         })
 
         binding.timelineRecordRv.adapter = recordDetailAdapter
-    }
-
-    private fun observe() {
     }
 }

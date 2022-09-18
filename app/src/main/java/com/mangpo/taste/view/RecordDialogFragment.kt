@@ -21,7 +21,7 @@ import com.mangpo.taste.util.setNavigationResult
 import com.mangpo.taste.view.model.TwoBtnDialog
 
 class RecordDialogFragment : DialogFragment() {
-    private val args: RecordDialogFragmentArgs by navArgs()
+//    private val args: RecordDialogFragmentArgs by navArgs()
 
     private lateinit var binding: ItemRecordDetailBinding
     private lateinit var twoBtnDialogFragment: TwoBtnDialogFragment
@@ -40,7 +40,7 @@ class RecordDialogFragment : DialogFragment() {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
 
-        recordEntity = args.record.record!!
+//        recordEntity = args.record.record!!
 
         binding.recordDetailCloseIv.visibility = View.VISIBLE   //닫기 아이콘 VISIBLE
 
@@ -68,7 +68,7 @@ class RecordDialogFragment : DialogFragment() {
             override fun leftAction() { //삭제하기
                 binding.recordDetailBlurredView.visibility = View.INVISIBLE
 
-                this@RecordDialogFragment.setNavigationResult("removedPosition", args.position)    //이전 프래그먼트한테 recordId 넘겨주기
+//                this@RecordDialogFragment.setNavigationResult("removedPosition", args.position)    //이전 프래그먼트한테 recordId 넘겨주기
                 dismiss()   //프래그먼트 종료
             }
 
@@ -97,9 +97,9 @@ class RecordDialogFragment : DialogFragment() {
             fadeOut(requireContext(), binding.recordDetailMenuCl)   //메뉴 레이아웃 fadeOut
 
             //RecordUpdateActivity 로 이동
-            val intent: Intent = Intent(requireContext(), RecordUpdateActivity::class.java)
+            /*val intent: Intent = Intent(requireContext(), RecordUpdateActivity::class.java)
             intent.putExtra("record", args.record.record!!)
-            startActivity(intent)
+            startActivity(intent)*/
         }
 
         //삭제 클릭뷰 클릭 리스너

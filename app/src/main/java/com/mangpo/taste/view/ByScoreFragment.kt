@@ -73,8 +73,8 @@ class ByScoreFragment : BaseFragment<FragmentByScoreBinding>(FragmentByScoreBind
         recordShortAdapter = RecordShortAdapter()
         recordShortAdapter.setMyClickListener(object : RecordShortAdapter.MyClickListener {
             override fun onClick(record: Record, position: Int) {
-                val action = BySenseFragmentDirections.actionGlobalRecordDialogFragment(record, position)
-                findNavController().navigate(action)
+               /* val action = BySenseFragmentDirections.actionGlobalRecordDialogFragment(record, position)
+                findNavController().navigate(action)*/
             }
         })
         recordShortAdapter.setData(records, 1)
