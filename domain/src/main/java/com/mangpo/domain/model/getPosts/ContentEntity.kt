@@ -5,6 +5,6 @@ data class ContentEntity(
     val category: String,
     val keyword: String,
     val star: Int,
-    val content: String,
+    val content: String?,
     val createdDate: String
 )
