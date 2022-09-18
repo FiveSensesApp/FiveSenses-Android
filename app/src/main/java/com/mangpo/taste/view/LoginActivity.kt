@@ -3,8 +3,10 @@ package com.mangpo.taste.view
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
+import android.text.SpannableString
 import android.text.TextWatcher
 import android.text.method.PasswordTransformationMethod
+import android.text.style.UnderlineSpan
 import android.view.MotionEvent
 import android.view.View
 import androidx.activity.viewModels
@@ -30,6 +32,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
 
     override fun initAfterBinding() {
         binding.data = this //데이터 바인딩 설정
+
+        val pwTvText = SpannableString(binding.loginPwTv.text.toString())
+        pwTvText.setSpan(UnderlineSpan(), 0, 4, 0)
+        binding.loginPwTv.text = pwTvText
 
         //키보드 감지해서 뷰 바꾸기
         KeyboardVisibilityEvent.setEventListener(
@@ -95,11 +101,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
         binding.loginLoginBtn.setOnClickListener {
             loginVm.authorize(AuthorizeReqEntity(binding.loginEmailEt.text.toString(), binding.loginPwEt.text.toString()))
         }
-
-        //비밀번호 텍스트뷰 클릭 리스너 -> TempPwActivity 로 이동
-        binding.loginPwTv.setOnClickListener {
-            startNextActivity(TempPwActivity::class.java)
-        }
     }
 
     private fun setOneBtnDialogFragment() {
@@ -133,5 +134,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
                 oneBtnDialogFragment.show(supportFragmentManager, null)
             }
         })
+    }
+
+    fun goFindPwActivity() {
+        startNextActivity(TempPwActivity::class.java)
     }
 }

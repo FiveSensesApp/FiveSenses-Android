@@ -22,4 +22,8 @@ class UserRemoteDataSourceImpl @Inject constructor(private val service: UserServ
     override suspend fun validateDuplicate(validateDuplicateReqDTO: ValidateDuplicateReqDTO): BaseResDTO<Nothing> {
         return callApi { service.validateDuplicate(validateDuplicateReqDTO) }
     }
+
+    override suspend fun lostPassword(email: String): BaseResDTO<Nothing> {
+        return callApi { service.lostPassword(email) }
+    }
 }

@@ -51,4 +51,9 @@ class UseCaseModule {
     fun provideCreatePostUseCase (postRepository: PostRepository): CreatePostUseCase {
         return CreatePostUseCase(postRepository)
     }
+
+    @Provides
+    fun provideLostPasswordUseCase (userRepository: UserRepository): LostPasswordUseCase {
+        return LostPasswordUseCase(userRepository)
+    }
 }

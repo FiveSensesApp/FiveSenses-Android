@@ -71,6 +71,7 @@
     <string name="title_optional_receive_marketing_information">[선택] 마케팅 정보 수신</string>
     <string name="title_privacy_policy_no_blank">개인정보처리방침</string>
     <string name="title_receive_marketing_information">마케팅 정보 수신</string>
+    <string name="title_email">이메일</string>
 
     <string name="action_logout">로그아웃</string>
     <string name="action_withdrawal">계정 탈퇴</string>
@@ -120,6 +121,7 @@
     <string name="msg_send_temporary_pw">가입하신 이메일로\n임시 비밀번호를 보낼게요!</string>
     <string name="msg_enter_signed_up_email">가입했던 이메일 주소를 입력해주세요.</string>
     <string name="msg_dont_know_email">이메일을 모르겠다면?</string>
+    <string name="msg_dont_know_pw">비밀번호를 모르겠다면?</string>
     <string name="msg_reset_pw">비밀번호 재설정 후 사용해주세요!</string>
     <string name="msg_contact_official_email">공식 이메일로 문의주세요!</string>
     <string name="msg_login">이미 가입하셨나요? 로그인하기</string>

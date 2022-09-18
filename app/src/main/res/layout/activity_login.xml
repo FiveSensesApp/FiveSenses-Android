@@ -105,27 +105,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="85dp"
-            android:text="@string/title_password"
+            android:text="@string/msg_dont_know_pw"
             android:textAppearance="@style/Sub_Head_B_16"
             android:textColor="@color/GY_03"
             android:visibility="@{data.isKeyboardVisible? View.INVISIBLE : View.VISIBLE}"
+            android:onClick="@{() -> data.goFindPwActivity()}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/login_what_pw_tv"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/login_what_pw_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="를 모르겠다면?"
-            android:textAppearance="@style/Sub_Head_B_16"
-            android:textColor="@color/GY_03"
-            android:visibility="@{data.isKeyboardVisible? View.INVISIBLE : View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="@+id/login_pw_tv"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/login_pw_tv"
-            app:layout_constraintTop_toTopOf="@+id/login_pw_tv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -36,4 +36,10 @@ class UserRepositoryImpl @Inject constructor(private val userRemoteDataSource: U
 
         return sendData(response) { BaseMapper.mapperToBaseResEntity(response) }
     }
+
+    override suspend fun lostPassword(email: String): BaseResEntity<Nothing> {
+        val response = userRemoteDataSource.lostPassword(email)
+
+        return sendData(response) { BaseMapper.mapperToBaseResEntity(response) }
+    }
 }

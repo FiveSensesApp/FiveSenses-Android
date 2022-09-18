@@ -9,4 +9,5 @@ interface UserRemoteDataSource {
     suspend fun validateEmail(email: String): BaseResDTO<Nothing>
     suspend fun validateEmailSendCode(email: String, emailCode: Int): BaseResDTO<Nothing>
     suspend fun validateDuplicate(validateDuplicateReqDTO: ValidateDuplicateReqDTO): BaseResDTO<Nothing>
+    suspend fun lostPassword(email: String): BaseResDTO<Nothing>
 }

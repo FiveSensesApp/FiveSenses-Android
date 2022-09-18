@@ -8,4 +8,5 @@ interface UserRepository {
     suspend fun validateEmail(email: String): BaseResEntity<Nothing>
     suspend fun validateEmailSendCode(email: String, emailCode: Int): BaseResEntity<Nothing>
     suspend fun validateDuplicate(email: String): BaseResEntity<Nothing>
+    suspend fun lostPassword(email: String): BaseResEntity<Nothing>
 }
