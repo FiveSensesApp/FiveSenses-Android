@@ -1,5 +1,6 @@
 package com.mangpo.taste.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mangpo.domain.usecase.LostPasswordUseCase
@@ -9,22 +10,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TempPwViewModel @Inject constructor(private val lostPasswordUseCase: LostPasswordUseCase): BaseViewModel() {
-    private val _lostPasswordResult: MutableLiveData<Boolean> = MutableLiveData()
-    val lostPasswordResult: LiveData<Boolean> get() = _lostPasswordResult
+    private val _lostPasswordResCode: MutableLiveData<Int> = MutableLiveData()
+    val lostPasswordResCode: LiveData<Int> get() = _lostPasswordResCode
 
     fun lostPassword(email: String) {
         callApi(
             { lostPasswordUseCase.invoke(email) },
-            {
-                when (it.code) {
-                    200 -> _lostPasswordResult.postValue(true)
-                    404 -> {
-                        showToast(it.msg!!)
-                        _lostPasswordResult.postValue(false)
-                    }
-                    else -> _lostPasswordResult.postValue(false)
-                }
-            },
+            { _lostPasswordResCode.postValue(it.code) },
             true
         )
     }
