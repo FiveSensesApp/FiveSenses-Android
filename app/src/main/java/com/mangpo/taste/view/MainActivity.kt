@@ -51,10 +51,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     override fun onBackPressed() {
-        if (binding.mainRecordFcv.visibility==View.VISIBLE && binding.mainRecordFcv.findNavController().currentDestination?.id == R.id.ogamSelectFragment)  //바텀 시트 화면에서 오감 선택 화면이면 바텀 시트 내리기
-            hideBottomSheet()
-        else    //이외 경우는 뒤로가기
-            super.onBackPressed()
+        if (binding.mainRecordFcv.visibility==View.VISIBLE) {   //기록하기 바텀 시트가 올라와 있을 때
+            if (binding.mainRecordFcv.findNavController().currentDestination?.id == R.id.ogamSelectFragment) {  //바텀 시트 화면에서 오감 선택 화면이면 바텀 시트 내리기
+                hideBottomSheet()
+            } else {    //바텀 시트 화면에서 오감 선택 화면이 아니면 뒤로가기
+                super.onBackPressed()
+            }
+        } else {    //기록하기 바텀 시트가 올라와 있지 않을 때 앱 종료
+            finishAffinity()
+        }
     }
 
     private fun hideBottomSheet() {
