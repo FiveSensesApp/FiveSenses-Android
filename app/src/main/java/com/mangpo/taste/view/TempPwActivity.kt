@@ -75,6 +75,14 @@ class TempPwActivity : BaseActivity<ActivityTempPwBinding>(ActivityTempPwBinding
     }
 
     private fun observe() {
+        tempPwVm.isLoading.observe(this, Observer {
+            if (it) {
+                showLoading()
+            } else {
+                hideLoading()
+            }
+        })
+
         tempPwVm.toast.observe(this, Observer {
             val msg = it.getContentIfNotHandled()
 
@@ -90,10 +98,6 @@ class TempPwActivity : BaseActivity<ActivityTempPwBinding>(ActivityTempPwBinding
                 oneBtnDialogFragment.arguments = bundle
                 oneBtnDialogFragment.show(supportFragmentManager, null)
             }
-        })
-
-        tempPwVm.isLoading.observe(this, Observer {
-            Log.d("TempPwActivity", it.toString())
         })
     }
 
