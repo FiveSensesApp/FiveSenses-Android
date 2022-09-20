@@ -10,4 +10,19 @@
         android:name="com.mangpo.taste.view.TimelineFragment"
         android:label="fragment_timeline"
         tools:layout="@layout/fragment_timeline" />
+    <fragment
+        android:id="@+id/byCalendarFragment"
+        android:name="com.mangpo.taste.view.ByCalendarFragment"
+        android:label="fragment_by_calendar"
+        tools:layout="@layout/fragment_by_calendar" />
+    <fragment
+        android:id="@+id/byScoreFragment"
+        android:name="com.mangpo.taste.view.ByScoreFragment"
+        android:label="fragment_by_score"
+        tools:layout="@layout/fragment_by_score" />
+    <fragment
+        android:id="@+id/bySenseFragment"
+        android:name="com.mangpo.taste.view.BySenseFragment"
+        android:label="fragment_by_sense"
+        tools:layout="@layout/fragment_by_sense" /><action android:id="@+id/action_global_bySenseFragment" app:destination="@id/bySenseFragment"/><action android:id="@+id/action_global_byScoreFragment" app:destination="@id/byScoreFragment"/><action android:id="@+id/action_global_byCalendarFragment" app:destination="@id/byCalendarFragment"/><action android:id="@+id/action_global_timelineFragment" app:destination="@id/timelineFragment"/>
 </navigation>
