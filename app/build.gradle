@@ -29,10 +29,10 @@ android {
 
     signingConfigs {
         releaseWithSignedKey {
-            storeFile file(properties['keystore.path'])
-            storePassword properties['keystore.password']
-            keyAlias properties['keystore.alias']
-            keyPassword properties['keystore.password']
+//            storeFile file(properties['keystore.path'])
+//            storePassword properties['keystore.password']
+//            keyAlias properties['keystore.alias']
+//            keyPassword properties['keystore.password']
         }
     }
 
@@ -134,7 +134,7 @@ dependencies {
     androidTestImplementation("androidx.security:security-app-authenticator:1.0.0-alpha01")
 
     //lottie
-    implementation 'com.airbnb.android:lottie:5.2.0'
+    implementation "com.airbnb.android:lottie-compose:5.2.0"
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'

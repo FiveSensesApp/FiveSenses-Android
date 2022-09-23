@@ -64,6 +64,7 @@
             android:text="@string/error_email_not_subscribed"
             android:textAppearance="@style/Body2_R_12"
             android:textColor="@color/RD_2"
+            android:visibility="@{vm.lostPasswordResCode==404? View.VISIBLE: View.INVISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/temp_pw_email_et" />
@@ -72,7 +73,7 @@
             android:id="@+id/temp_pw_send_mail_btn"
             android:layout_width="189dp"
             android:layout_height="46dp"
-            android:onClick="@{(EditText) -> vm.lostPassword(tempPwEmailEt.getText().toString())}"
+            android:onClick="@{(EditText) -> activity.lostPassword(tempPwEmailEt.getText().toString())}"
             marginBottom="@{activity.isKeyboardShown? 15: 122}"
             android:background="@drawable/bg_bk_23"
             android:stateListAnimator="@null"

@@ -7,7 +7,10 @@ import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.contains
 import androidx.viewbinding.ViewBinding
+import com.mangpo.taste.R
 import com.mangpo.taste.util.NetworkManager
 
 abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater) -> T): AppCompatActivity(){
@@ -16,12 +19,15 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
 
     private var imm : InputMethodManager? = null
 
+    private lateinit var loading: View
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = inflate(layoutInflater)
         setContentView(binding.root)
 
         imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager?
+        loading = layoutInflater.inflate(R.layout.view_loading, binding.root as ConstraintLayout, false)
 
         initAfterBinding()
     }
@@ -88,6 +94,20 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
                 View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             }
 
+        }
+    }
+
+    fun showLoading() {
+        if ((binding.root as ConstraintLayout).contains(loading)) {
+            hideLoading()
+        }
+
+        (binding.root as ConstraintLayout).addView(loading)
+    }
+
+    fun hideLoading() {
+        if ((binding.root as ConstraintLayout).contains(loading)) {
+            (binding.root as ConstraintLayout).removeView(loading)
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.mangpo.taste.view
 
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.mangpo.domain.model.RecordEntity
 import com.mangpo.taste.R
@@ -10,10 +12,12 @@ import com.mangpo.taste.view.adpater.RecordShortAdapter
 import com.mangpo.taste.view.calendar.CalendarHeaderViewContainer
 import com.mangpo.taste.view.calendar.DayViewContainer
 import com.mangpo.taste.view.model.Record
+import com.mangpo.taste.viewmodel.MainViewModel
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCalendarBinding::inflate) {
+    private val mainVm: MainViewModel by activityViewModels()
+
     private val recordEntities: ArrayList<RecordEntity> = arrayListOf<RecordEntity>(
         RecordEntity(
             0,
@@ -73,12 +77,14 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
         initDayViewContainer()
         initCalendarHeader()
 
-        initAdapter()
+//        initAdapter()
 
         //삭제된 record 의 position 을 Observe 하고 있는 라이브 데이터
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Int>("removedPosition")?.observe(viewLifecycleOwner) {position ->
             recordShortAdapter.removeItem(position, 0) //어댑터에서 데이터 삭제
         }
+
+        observe()
     }
 
     private fun setMyEventListener() {
@@ -136,13 +142,13 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
     }
 
     private fun setRecordData(date: LocalDate) {
-        val todayRecord = recordEntities.filter { LocalDate.parse(it.date, DateTimeFormatter.ofPattern("yyyy.MM.dd"))==date }
+        /*val todayRecord = recordEntities.filter { LocalDate.parse(it.date, DateTimeFormatter.ofPattern("yyyy.MM.dd"))==date }
         val records: MutableList<Record> = mutableListOf<Record>(Record(2, null))
         for (record in todayRecord) {
             records.add(Record(3, record))
         }
 
-        recordShortAdapter.setData(records)
+        recordShortAdapter.setData(records)*/
     }
 
     private fun setFoldCalendarView() {
@@ -151,5 +157,10 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
         binding.byCalendarArrowIv.tag = "expand"   //이미지뷰 태그를 expand 로
 
         dayViewContainer.updateMonthConfiguration(1, null)
+    }
+
+    private fun observe() {
+        mainVm.isTasteRecordShown.observe(viewLifecycleOwner, Observer {
+        })
     }
 }

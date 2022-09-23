@@ -22,7 +22,8 @@
 
         <ImageView
             android:id="@+id/create_account_step_iv"
-            marginTop="@{activity.isKeyboardVisible? 36 : 74}"
+            android:layout_marginTop="74dp"
+            android:visibility="@{activity.isKeyboardVisible? View.GONE: View.VISIBLE}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_sign_up1"
@@ -36,6 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
             android:gravity="center"
+            android:visibility="@{activity.isKeyboardVisible? View.GONE: View.VISIBLE}"
             android:text="@string/msg_create_account"
             android:textAppearance="@style/Head_B_26"
             app:layout_constraintTop_toBottomOf="@+id/create_account_step_iv" />
@@ -47,6 +49,7 @@
             android:layout_marginTop="4dp"
             android:gravity="center"
             android:text="@string/msg_keep_records"
+            android:visibility="@{activity.isKeyboardVisible? View.GONE: View.VISIBLE}"
             android:textAppearance="@style/Body2_R_14"
             android:textColor="@color/GY_04"
             app:layout_constraintTop_toBottomOf="@+id/create_account_create_account_tv" />
@@ -140,7 +143,6 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="43dp"
             android:background="@color/GY_03"
-            android:visibility="@{activity.keyboardVisible? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintTop_toBottomOf="@+id/create_account_pw_condition_tv" />
 
         <ImageButton
@@ -152,7 +154,6 @@
             android:background="@null"
             android:onClick="@{()->activity.changeCheckIb()}"
             android:src="@{activity.isAllChecked? @drawable/ic_checked_40 : @drawable/ic_unchecked_40}"
-            android:visibility="@{activity.keyboardVisible? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/create_account_line_view" />
 
@@ -162,7 +163,6 @@
             android:layout_height="wrap_content"
             android:text="@string/msg_agree_subscription_terms"
             android:textAppearance="@style/Body1_M_14"
-            android:visibility="@{activity.keyboardVisible? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/create_account_check_ib"
             app:layout_constraintStart_toEndOf="@+id/create_account_check_ib"
             app:layout_constraintTop_toTopOf="@+id/create_account_check_ib" />
@@ -175,7 +175,6 @@
             android:text="@string/title_policies"
             android:textAppearance="@style/Body2_R_10"
             android:textColor="@color/GY_02"
-            android:visibility="@{activity.keyboardVisible? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintStart_toStartOf="@+id/create_account_agree_tv"
             app:layout_constraintTop_toBottomOf="@+id/create_account_agree_tv" />
 
@@ -188,7 +187,6 @@
             android:background="@null"
             android:onClick="@{() -> activity.showPoliciesBottomSheet()}"
             android:src="@drawable/ic_right_arrow_40"
-            android:visibility="@{activity.keyboardVisible? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/create_account_line_view" />
 

@@ -155,5 +155,4 @@
     <string name="error_email_not_subscribed">가입되지 않은 이메일입니다!</string>
     <string name="error_enter_authentication_code_again">* 인증코드를 다시 입력해주세요.</string>
     <string name="error_contains_unacceptable_characters">* 허용되지 않는 문자가 포함되어있습니다!</string>
-
 </resources>

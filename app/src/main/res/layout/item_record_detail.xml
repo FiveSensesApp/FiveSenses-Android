@@ -1,238 +1,272 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/bg_transparent_12">
+<layout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="adapter"
+            type="com.mangpo.taste.view.adpater.RecordDetailAdapter.RecordDetailViewHolder" />
+
+        <variable
+            name="content"
+            type="com.mangpo.domain.model.getPosts.ContentEntity" />
+
+        <variable
+            name="resource"
+            type="com.mangpo.taste.view.model.RecordDetailResource" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/bg_gy01_12"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="0dp">
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_transparent_12"
+        android:paddingHorizontal="20dp"
+        android:paddingBottom="16dp">
 
-        <ImageView
-            android:id="@+id/record_detail_close_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="11dp"
-            android:layout_marginTop="14dp"
-            android:src="@drawable/ic_close_30"
-            android:visibility="invisible"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/record_detail_more_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/record_detail_character_iv"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="5dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/record_detail_close_iv" />
-
-        <TextView
-            android:id="@+id/record_detail_keyword_tv"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="66dp"
-            android:layout_marginEnd="14dp"
-            android:background="@drawable/ic_keyword_speech_bubble"
-            android:gravity="center"
-            android:textAppearance="@style/Sub_Head_B_16"
-            app:layout_constraintBottom_toBottomOf="@+id/record_detail_character_iv"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/record_detail_character_iv"
-            app:layout_constraintTop_toTopOf="@+id/record_detail_character_iv" />
-
-        <TextView
-            android:id="@+id/record_detail_content_tv"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:layout_marginHorizontal="14dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/bg_wh_10"
-            android:lineSpacingExtra="4sp"
-            android:paddingHorizontal="14dp"
-            android:paddingVertical="13.52dp"
-            android:textAppearance="@style/Body1_M_14"
-            android:textColor="@color/GY_04"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/record_detail_srb"
-            app:layout_constraintTop_toBottomOf="@+id/record_detail_character_iv" />
-
-        <TextView
-            android:id="@+id/record_detail_date_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:textAppearance="@style/Body1_M_14"
-            app:layout_constraintBottom_toBottomOf="@+id/record_detail_srb"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_gy01_12"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/record_detail_srb" />
+            tools:layout_editor_absoluteY="0dp">
 
-        <com.willy.ratingbar.BaseRatingBar
-            android:id="@+id/record_detail_srb"
-            android:layout_width="157dp"
-            android:layout_height="34dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="24dp"
+            <ImageView
+                android:id="@+id/record_detail_close_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="11dp"
+                android:layout_marginTop="14dp"
+                android:src="@drawable/ic_close_30"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/record_detail_more_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:onClick="@{(ConstraintLayout) -> adapter.clickedMoreIv(recordDetailMenuCl)}"
+                android:src="@{resource.moreIcon}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/record_detail_character_iv"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="5dp"
+                android:src="@{resource.character}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/record_detail_close_iv" />
+
+            <TextView
+                android:id="@+id/record_detail_keyword_tv"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="66dp"
+                android:layout_marginEnd="14dp"
+                android:background="@drawable/ic_keyword_speech_bubble"
+                android:gravity="center"
+                android:text="@{content.keyword}"
+                android:textAppearance="@style/Sub_Head_B_16"
+                app:layout_constraintBottom_toBottomOf="@+id/record_detail_character_iv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/record_detail_character_iv"
+                app:layout_constraintTop_toTopOf="@+id/record_detail_character_iv" />
+
+            <TextView
+                android:id="@+id/record_detail_content_tv"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_marginHorizontal="14dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/bg_wh_10"
+                android:lineSpacingExtra="4sp"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="13.52dp"
+                android:text="@{content.content}"
+                android:textAppearance="@style/Body1_M_14"
+                android:textColor="@color/GY_04"
+                android:visibility="@{content.content==null? View.GONE: View.VISIBLE}"
+                app:layout_constraintBottom_toTopOf="@+id/record_detail_srb"
+                app:layout_constraintTop_toBottomOf="@+id/record_detail_character_iv" />
+
+            <TextView
+                android:id="@+id/record_detail_date_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:text="@{content.createdDate}"
+                android:textAppearance="@style/Body1_M_14"
+                android:textColor="@{resource.dateTextColor}"
+                app:layout_constraintBottom_toBottomOf="@+id/record_detail_srb"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/record_detail_srb" />
+
+            <com.willy.ratingbar.BaseRatingBar
+                android:id="@+id/record_detail_srb"
+                srbEmptyDrawable="@{resource.emptyStar}"
+                srbFilledDrawable="@{resource.filledStar}"
+                srbRating="@{content.star}"
+                android:layout_width="157dp"
+                android:layout_height="34dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/record_detail_content_tv"
+                app:srb_clearRatingEnabled="true"
+                app:srb_clickable="false"
+                app:srb_isIndicator="false"
+                app:srb_minimumStars="0"
+                app:srb_numStars="5"
+                app:srb_scrollable="false"
+                app:srb_starPadding="7dp"
+                app:srb_stepSize="1.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/record_detail_menu_cl"
+            android:layout_width="112dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="58dp"
+            android:layout_marginEnd="14dp"
+            android:background="@drawable/bg_bk_10"
+            android:elevation="4dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/record_detail_update_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="11dp"
+                android:src="@drawable/ic_update_28"
+                app:layout_constraintBottom_toBottomOf="@+id/record_detail_update_click_view"
+                app:layout_constraintStart_toStartOf="@+id/record_detail_update_click_view"
+                app:layout_constraintTop_toTopOf="@+id/record_detail_update_click_view" />
+
+            <TextView
+                android:id="@+id/record_detail_update_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="19dp"
+                android:text="@string/action_update"
+                android:textAppearance="@style/Sub_Head_B_16"
+                android:textColor="@color/WH"
+                app:layout_constraintBottom_toBottomOf="@+id/record_detail_update_click_view"
+                app:layout_constraintEnd_toEndOf="@+id/record_detail_update_click_view"
+                app:layout_constraintTop_toTopOf="@+id/record_detail_update_click_view" />
+
+            <View
+                android:id="@+id/record_detail_update_click_view"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="5dp"
+                android:onClick="@{() -> adapter.updateFeed(content.id)}"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="51dp"
+                android:background="@color/GY_04"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/record_detail_share_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="11dp"
+                android:src="@drawable/ic_share_28"
+                app:layout_constraintBottom_toBottomOf="@+id/record_detail_share_click_view"
+                app:layout_constraintStart_toStartOf="@+id/record_detail_share_click_view"
+                app:layout_constraintTop_toTopOf="@+id/record_detail_share_click_view" />
+
+            <TextView
+                android:id="@+id/record_detail_share_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="19dp"
+                android:text="@string/action_share"
+                android:textAppearance="@style/Sub_Head_B_16"
+                android:textColor="@color/WH"
+                app:layout_constraintBottom_toBottomOf="@+id/record_detail_share_click_view"
+                app:layout_constraintEnd_toEndOf="@+id/record_detail_share_click_view"
+                app:layout_constraintTop_toTopOf="@+id/record_detail_share_click_view" />
+
+            <View
+                android:id="@+id/record_detail_share_click_view"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginHorizontal="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/record_detail_delete_click_view"
+                app:layout_constraintTop_toBottomOf="@+id/record_detail_update_click_view" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginBottom="51dp"
+                android:background="@color/GY_04"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <ImageView
+                android:id="@+id/record_detail_delete_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="11dp"
+                android:src="@drawable/ic_delete_28"
+                app:layout_constraintBottom_toBottomOf="@+id/record_detail_delete_click_view"
+                app:layout_constraintStart_toStartOf="@+id/record_detail_delete_click_view"
+                app:layout_constraintTop_toTopOf="@+id/record_detail_delete_click_view" />
+
+            <TextView
+                android:id="@+id/record_detail_delete_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="19dp"
+                android:text="@string/action_delete"
+                android:textAppearance="@style/Sub_Head_B_16"
+                android:textColor="@color/RD_2"
+                app:layout_constraintBottom_toBottomOf="@+id/record_detail_delete_click_view"
+                app:layout_constraintEnd_toEndOf="@+id/record_detail_delete_click_view"
+                app:layout_constraintTop_toTopOf="@+id/record_detail_delete_click_view" />
+
+            <View
+                android:id="@+id/record_detail_delete_click_view"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginBottom="5dp"
+                android:onClick="@{() -> adapter.deleteFeed(content.id)}"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/record_detail_blurred_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_gy0180_12"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/record_detail_content_tv"
-            app:srb_clearRatingEnabled="true"
-            app:srb_clickable="false"
-            app:srb_isIndicator="false"
-            app:srb_minimumStars="0"
-            app:srb_numStars="5"
-            app:srb_scrollable="false"
-            app:srb_starPadding="7dp"
-            app:srb_stepSize="1.0" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/record_detail_menu_cl"
-        android:layout_width="112dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="58dp"
-        android:layout_marginEnd="14dp"
-        android:background="@drawable/bg_bk_10"
-        android:elevation="4dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/record_detail_update_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="11dp"
-            android:src="@drawable/ic_update_28"
-            app:layout_constraintBottom_toBottomOf="@+id/record_detail_update_click_view"
-            app:layout_constraintStart_toStartOf="@+id/record_detail_update_click_view"
-            app:layout_constraintTop_toTopOf="@+id/record_detail_update_click_view" />
-
-        <TextView
-            android:id="@+id/record_detail_update_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="19dp"
-            android:text="@string/action_update"
-            android:textAppearance="@style/Sub_Head_B_16"
-            android:textColor="@color/WH"
-            app:layout_constraintBottom_toBottomOf="@+id/record_detail_update_click_view"
-            app:layout_constraintEnd_toEndOf="@+id/record_detail_update_click_view"
-            app:layout_constraintTop_toTopOf="@+id/record_detail_update_click_view" />
-
-        <View
-            android:id="@+id/record_detail_update_click_view"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_marginHorizontal="8dp"
-            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginHorizontal="8dp"
-            android:layout_marginTop="51dp"
-            android:background="@color/GY_04"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/record_detail_share_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="11dp"
-            android:src="@drawable/ic_share_28"
-            app:layout_constraintBottom_toBottomOf="@+id/record_detail_share_click_view"
-            app:layout_constraintStart_toStartOf="@+id/record_detail_share_click_view"
-            app:layout_constraintTop_toTopOf="@+id/record_detail_share_click_view" />
-
-        <TextView
-            android:id="@+id/record_detail_share_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="19dp"
-            android:text="@string/action_share"
-            android:textAppearance="@style/Sub_Head_B_16"
-            android:textColor="@color/WH"
-            app:layout_constraintBottom_toBottomOf="@+id/record_detail_share_click_view"
-            app:layout_constraintEnd_toEndOf="@+id/record_detail_share_click_view"
-            app:layout_constraintTop_toTopOf="@+id/record_detail_share_click_view" />
-
-        <View
-            android:id="@+id/record_detail_share_click_view"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_marginHorizontal="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/record_detail_delete_click_view"
-            app:layout_constraintTop_toBottomOf="@+id/record_detail_update_click_view" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginHorizontal="8dp"
-            android:layout_marginBottom="51dp"
-            android:background="@color/GY_04"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-        <ImageView
-            android:id="@+id/record_detail_delete_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="11dp"
-            android:src="@drawable/ic_delete_28"
-            app:layout_constraintBottom_toBottomOf="@+id/record_detail_delete_click_view"
-            app:layout_constraintStart_toStartOf="@+id/record_detail_delete_click_view"
-            app:layout_constraintTop_toTopOf="@+id/record_detail_delete_click_view" />
-
-        <TextView
-            android:id="@+id/record_detail_delete_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="19dp"
-            android:text="@string/action_delete"
-            android:textAppearance="@style/Sub_Head_B_16"
-            android:textColor="@color/RD_2"
-            app:layout_constraintBottom_toBottomOf="@+id/record_detail_delete_click_view"
-            app:layout_constraintEnd_toEndOf="@+id/record_detail_delete_click_view"
-            app:layout_constraintTop_toTopOf="@+id/record_detail_delete_click_view" />
-
-        <View
-            android:id="@+id/record_detail_delete_click_view"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_marginHorizontal="8dp"
-            android:layout_marginBottom="5dp"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <View
-        android:id="@+id/record_detail_blurred_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/bg_gy0180_12"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

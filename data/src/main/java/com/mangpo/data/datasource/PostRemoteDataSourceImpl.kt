@@ -4,6 +4,8 @@ import com.mangpo.data.model.base.BaseResDTO
 import com.mangpo.data.model.createPost.CreatePostReqDTO
 import com.mangpo.data.model.createPost.CreatePostResDTO
 import com.mangpo.data.model.getPosts.GetPostsResDTO
+import com.mangpo.data.model.updatePost.UpdatePostReqDTO
+import com.mangpo.data.model.updatePost.UpdatePostResDTO
 import com.mangpo.data.service.PostService
 import javax.inject.Inject
 
@@ -21,5 +23,16 @@ class PostRemoteDataSourceImpl @Inject constructor(private val service: PostServ
 
     override suspend fun createPost(createPostReqDTO: CreatePostReqDTO): BaseResDTO<CreatePostResDTO?> {
         return callApi { service.createPost(createPostReqDTO) }
+    }
+
+    override suspend fun deletePost(postId: Int): BaseResDTO<Nothing> {
+        return callApi { service.deletePost(postId) }
+    }
+
+    override suspend fun updatePost(
+        postId: Int,
+        updatePostReqDTO: UpdatePostReqDTO
+    ): BaseResDTO<UpdatePostResDTO?> {
+        return callApi { service.updatePost(updatePostReqDTO, postId) }
     }
 }

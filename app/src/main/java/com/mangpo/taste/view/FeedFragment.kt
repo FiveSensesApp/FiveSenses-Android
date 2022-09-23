@@ -25,32 +25,64 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
     private val mainVm: MainViewModel by activityViewModels()
     private val hasRecord: Boolean = true
 
+    private var isBack: Boolean = false
+
     private lateinit var onBackPressedCallback: OnBackPressedCallback
+    private lateinit var typeIconList: List<Drawable>
+    private lateinit var typeTextList: List<String>
+
+    var isTypeSelectShown: Boolean = false
+    lateinit var removedTypeTextList: List<String>
+    lateinit var removedTypeIconList: List<Drawable>
 
     override fun initAfterBinding() {
-        setSpannableText(binding.feedMyTasteTv.text.toString(), requireContext(), R.color.GY_03, 6, binding.feedMyTasteTv.text.length, binding.feedMyTasteTv)   //나의 취향 뒷부분 텍스트 색상 변경
-
-        setMyEventListener()
-        //뒤로가기 콜백 리스너
-        onBackPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                /*if (binding.feedFcv.findNavController().currentDestination?.id == R.id.searchResultFragment) {  //검색 결과 프래그먼트에 있을 경우
-                    binding.feedSearchRightIv.visibility = View.VISIBLE  //오른쪽 검색 아이콘 VISIBLE
-                    binding.feedSearchLeftIv.visibility = View.INVISIBLE  //왼쪽 검색 아이콘 INVISIBLE
-                    binding.feedSearchEt.visibility = View.INVISIBLE  //검색 EditText INVISIBLE
-
-                    binding.feedSearchEt.text.clear()   //검색 내역 지우기
-                } else
-                    requireActivity().finish()*/
+        if (!isBack) {
+            binding.apply {
+                fragment = this@FeedFragment
+                mainVm = this@FeedFragment.mainVm
+                lifecycleOwner = viewLifecycleOwner
             }
+
+            typeIconList = listOf<Drawable>(ContextCompat.getDrawable(requireContext(), R.drawable.ic_timeline_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_sense_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_calendar_24)!!)
+            removedTypeIconList = listOf<Drawable>(ContextCompat.getDrawable(requireContext(), R.drawable.ic_sense_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_calendar_24)!!)
+            typeTextList = listOf(getString(R.string.title_timeline), getString(R.string.title_by_sense), getString(R.string.title_by_score), getString(R.string.title_by_calendar))
+            removedTypeTextList = listOf(getString(R.string.title_by_sense), getString(R.string.title_by_score), getString(R.string.title_by_calendar))
+
+            setSpannableText(binding.feedMyTasteTv.text.toString(), requireContext(), R.color.GY_03, 6, binding.feedMyTasteTv.text.length, binding.feedMyTasteTv)   //나의 취향 뒷부분 텍스트 색상 변경
+
+            //뒤로가기 콜백 리스너
+            onBackPressedCallback = object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    /*if (binding.feedFcv.findNavController().currentDestination?.id == R.id.searchResultFragment) {  //검색 결과 프래그먼트에 있을 경우
+                        binding.feedSearchRightIv.visibility = View.VISIBLE  //오른쪽 검색 아이콘 VISIBLE
+                        binding.feedSearchLeftIv.visibility = View.INVISIBLE  //왼쪽 검색 아이콘 INVISIBLE
+                        binding.feedSearchEt.visibility = View.INVISIBLE  //검색 EditText INVISIBLE
+
+                        binding.feedSearchEt.text.clear()   //검색 내역 지우기
+                    } else
+                        requireActivity().finish()*/
+                }
+            }
+            requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)    //뒤로가기 콜백 리스너 등록
+
+            setMyEventListener()
+            observe()
+
+            feedVm.getPosts(
+                SpfUtils.getIntEncryptedSpf("userId"),
+                0,
+                "id,desc",
+                null,
+                null,
+                null
+            )  //기록 목록 조회 API 호출
         }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)    //뒤로가기 콜백 리스너 등록
+    }
 
-        observe()
+    override fun onStop() {
+        super.onStop()
 
-//        Log.d("FeedFragment", "userId: ${SpfUtils.getIntEncryptedSpf("userId")}")
-//        Log.d("FeedFragment", "jwt: ${SpfUtils.getStrEncryptedSpf("jwt")}")
-        feedVm.getPosts(SpfUtils.getIntEncryptedSpf("userId"), 0, "id,desc", null, null, null)  //기록 목록 조회 API 호출
+        isBack = true
     }
 
     override fun onDetach() {
@@ -71,7 +103,8 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
             binding.feedToggleIv.visibility = View.GONE //토글 이미지뷰 GONE
             binding.feedSearchResultTv.visibility = View.VISIBLE   //검색 결과 텍스트뷰 VISIBLE
 
-            hideTypeSelectLayout() //타입 선택하는 레이아웃 GONE
+            isTypeSelectShown = false
+            binding.invalidateAll()
 
             /*if (binding.feedFcv.findNavController().currentDestination?.id!=R.id.searchResultFragment) {
                 val action = NavigationFeedDirections.actionGlobalSearchResultFragment(p0.toString())
@@ -88,67 +121,38 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
     private fun setMyEventListener() {
         //오른쪽 검색 아이콘 클릭 리스너
         binding.feedSearchRightIv.setOnClickListener {
-            hideTypeSelectLayout()  //취향 선택 레이아웃 GONE
+            isTypeSelectShown = false
+            binding.invalidateAll()
+
             it.visibility = View.INVISIBLE  //INVISIBLE
 
             binding.feedSearchLeftIv.visibility = View.VISIBLE  //왼쪽 검색 아이콘 VISIBLE
             binding.feedSearchEt.visibility = View.VISIBLE  //검색 EditText VISIBLE
         }
 
-        //나의 취향 터치뷰 클릭 리스너
-        binding.feedTypeSelectTouchView.setOnClickListener {
-            if ((requireActivity() as MainActivity).checkRecordFcvVisibility()==View.INVISIBLE) {   //MainActivity 의 recordFcv 가 INVISIBLE 일 때만 활성화
-                if (binding.feedTypeSelectLayout.visibility == View.GONE) { //나의 취향 정렬 타입 선택하는 화면이 안보이고 있으면 보여주기
-                    binding.feedBlurredView.visibility = View.VISIBLE   //투명 배경 VISIBLE
-                    binding.feedTypeSelectLayout.visibility = View.VISIBLE
-                    binding.feedTopLayout.background = ContextCompat.getDrawable(requireContext(), R.drawable.bg_wh_bottom30)
-                } else    //나의 취향 정렬 타입 선택하는 화면이 보이고 있으면 숨겨주기
-                    hideTypeSelectLayout()
-            }
-        }
-
-        //취향 정렬 타입 텍스트뷰 클릭 리스너
-        binding.feedType1TouchCl.setOnClickListener(TouchViewListener(1))
-        binding.feedType2TouchCl.setOnClickListener(TouchViewListener(2))
-        binding.feedType3TouchCl.setOnClickListener(TouchViewListener(3))
-
         //검색 EditText TextWatcher 등록
         binding.feedSearchEt.addTextChangedListener(this)
     }
 
-    //나의 취향 정렬 타입 선택하는 화면 숨겨주기
-    private fun hideTypeSelectLayout() {
-        binding.feedBlurredView.visibility = View.INVISIBLE //투명 배경 INVISIBLE
-        binding.feedTypeSelectLayout.visibility = View.GONE
-        binding.feedTopLayout.background = null
-    }
-
     private fun observe() {
+        //기록 화면이 올라왔을 때/내려왔을 때 typeSelectTouchView 의 활성화/비활성화 여부 Observe
+        mainVm.typeSelectTouchViewEnableStatus.observe(viewLifecycleOwner, Observer {
+            val typeSelectTouchViewEnableStatus = it.getContentIfNotHandled()
+
+            if (typeSelectTouchViewEnableStatus!=null) {
+                binding.feedTypeSelectTouchView.isEnabled = typeSelectTouchViewEnableStatus
+            }
+        })
+
         feedVm.posts.observe(viewLifecycleOwner, Observer {
-            if (it.empty) { //기록 없을 때
-                binding.feedFcv.findNavController().setGraph(R.navigation.navigation_no_feed)
-            } else {    //기록 있을 때
-                binding.feedFcv.findNavController().setGraph(R.navigation.navigation_feed)
-            }
-        })
+            val posts = it.getContentIfNotHandled()
 
-        //피드 필터 타입 Observe
-        mainVm.feedType.observe(viewLifecycleOwner, Observer {
-            if (hasRecord) { //기록이 있을 때만
-                when (it) {
-                   /* getString(R.string.title_timeline) -> binding.feedFcv.findNavController().navigate(R.id.action_global_timelineFragment)
-                    getString(R.string.title_by_sense) -> binding.feedFcv.findNavController().navigate(R.id.action_global_bySenseFragment)
-                    getString(R.string.title_by_score) -> binding.feedFcv.findNavController().navigate(R.id.action_global_byScoreFragment)
-                    getString(R.string.title_by_calendar) -> binding.feedFcv.findNavController().navigate(R.id.action_global_byCalendarFragment)*/
+            if (posts!=null) {
+                if (posts.empty) {
+                    binding.feedFcv.findNavController().navigate(R.id.action_emptyFragment_to_noFeedFragment)
+                } else {
+                    binding.feedFcv.findNavController().navigate(R.id.action_emptyFragment_to_timelineFragment)
                 }
-            }
-        })
-
-        mainVm.isRecordComplete.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                feedVm.getPosts(SpfUtils.getIntEncryptedSpf("userId"), 0, "id,desc", null, null, null)  //기록 목록 조회 API 호출
-            } else {
-
             }
         })
     }
@@ -159,47 +163,46 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
         binding.feedSearchResultTv.visibility = View.GONE   //검색 결과 텍스트뷰 GONE
     }
 
-    //터치뷰 클릭리스너 이너 클래스
-    inner class TouchViewListener(private val order: Int): View.OnClickListener {
-        private val typeTextList = listOf(getString(R.string.title_timeline), getString(R.string.title_by_sense), getString(R.string.title_by_score), getString(R.string.title_by_calendar))
-        private val typeIconList = listOf<Drawable>(ContextCompat.getDrawable(requireContext(), R.drawable.ic_timeline_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_sense_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_calendar_24)!!)
+    //나의 취향 터치뷰 클릭 리스너
+    fun onClickTypeSelectTouchView(visibility: Int) {
+        isTypeSelectShown = visibility==View.GONE
+        binding.invalidateAll()
+    }
 
-        private lateinit var clickedText: String
-        private lateinit var clickedIcon: Drawable
+    fun onClickTypeCl(order: Int) {
+        isTypeSelectShown = false
 
-        override fun onClick(v: View?) {
-            when (order) {
-                1 -> {
-                    clickedText = binding.feedType1Tv.text.toString()
-                    clickedIcon = binding.feedType1Iv.drawable
-                }
-                2 -> {
-                    clickedText = binding.feedType2Tv.text.toString()
-                    clickedIcon = binding.feedType2Iv.drawable
-                }
-                else -> {
-                    clickedText = binding.feedType3Tv.text.toString()
-                    clickedIcon = binding.feedType3Iv.drawable
-                }
+        var clickedText: String
+        var clickedIcon: Drawable
+
+        when (order) {
+            1 -> {
+                clickedText = binding.feedType1Tv.text.toString()
+                clickedIcon = binding.feedType1Iv.drawable
             }
-
-
-            mainVm.setFeedType(clickedText)  //피드 타입 LiveData 변경
-            binding.feedMyTasteTv.text = "나의 취향 $clickedText" //피드 타입 텍스트 변경
-            setSpannableText(binding.feedMyTasteTv.text.toString(), requireContext(), R.color.GY_03, 6, binding.feedMyTasteTv.text.length, binding.feedMyTasteTv)   //나의 취향 뒷부분 텍스트 색상 변경
-
-            hideTypeSelectLayout()  //나의 취향 정렬 타입 선택하는 화면 숨겨주기
-
-            //선택한 타입 텍스트&아이콘 제외하고 나머지를 typeSelectLayout 에 보여주기
-            val removedTypeTextList: List<String> = typeTextList.filterNot { it == clickedText }
-            val removedTypeIconList: List<Drawable> = typeIconList.filterNot { it == clickedIcon }
-
-            binding.feedType1Tv.text = removedTypeTextList[0]
-            binding.feedType1Iv.setImageDrawable(removedTypeIconList[0])
-            binding.feedType2Tv.text = removedTypeTextList[1]
-            binding.feedType2Iv.setImageDrawable(removedTypeIconList[1])
-            binding.feedType3Tv.text = removedTypeTextList[2]
-            binding.feedType3Iv.setImageDrawable(removedTypeIconList[2])
+            2 -> {
+                clickedText = binding.feedType2Tv.text.toString()
+                clickedIcon = binding.feedType2Iv.drawable
+            }
+            else -> {
+                clickedText = binding.feedType3Tv.text.toString()
+                clickedIcon = binding.feedType3Iv.drawable
+            }
         }
+
+        when (clickedText) {
+            getString(R.string.title_timeline) -> binding.feedFcv.findNavController().navigate(R.id.action_global_timelineFragment)
+            getString(R.string.title_by_sense) -> binding.feedFcv.findNavController().navigate(R.id.action_global_bySenseFragment)
+            getString(R.string.title_by_score) -> binding.feedFcv.findNavController().navigate(R.id.action_global_byScoreFragment)
+            getString(R.string.title_by_calendar) -> binding.feedFcv.findNavController().navigate(R.id.action_global_byCalendarFragment)
+        }
+
+        binding.feedMyTasteTv.text = "나의 취향 $clickedText"
+
+        //선택한 타입 텍스트&아이콘 제외하고 나머지를 typeSelectLayout 에 보여주기
+        removedTypeTextList = typeTextList.filterNot { it == clickedText }
+        removedTypeIconList = typeIconList.filterNot { it == clickedIcon }
+
+        binding.invalidateAll()
     }
 }
