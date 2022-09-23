@@ -87,12 +87,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             val isTasteRecordShown = it.getContentIfNotHandled()
 
             if (isTasteRecordShown!=null) {
-                if (isTasteRecordShown) {   //기록 화면을 내리고 싶다
-                    showBottomSheet()   //기록 화면을 내린다
+                if (isTasteRecordShown) {   //기록 화면을 올리고 싶다
+                    showBottomSheet()   //기록 화면을 올린다
                     mainVm.setIsRecordComplete(false)   //기록하러 가는 중이니까 기록 완료 플래그를 false 로 변경
                     mainVm.setTypeSelectTouchViewEnableStatus(false)    //FeedFragment 에서 selectTypeTouchView 클릭 리스너 비활성화
-                } else {    //기록 화면을 올리고 싶다
-                    hideBottomSheet()   //기록 화면을 올린다
+                } else {    //기록 화면을 내리고 싶다
+                    hideBottomSheet()   //기록 화면을 내린다
                     mainVm.setTypeSelectTouchViewEnableStatus(true) //FeedFragment 에서 selectTypeTouchView 클릭 리스너 활성화
                     mainVm.setCallGetPostsFlag(mainVm.getIsRecordComplete())    //TimelineFragment, ByScoreFragment, BySenseFragment, ByCalendarFragment 에게 getPosts API 를 호출할지 말지 선택할 수 있는 플래그 변수 postValue
                 }

@@ -25,6 +25,7 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun update(content: ContentEntity)
         fun delete()
         fun changeSortFilter(sort: String)
+        fun callGetPostsAPI(filter: String)
     }
 
     private var deletePostId: Int = -1
@@ -195,6 +196,11 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     fun removeData() {
         val position: Int = getPositionByPostId(this.deletePostId)
         this.records.removeAt(position)
+
+        if (this.records.none { it.viewType == 2 }) {
+            myClickListener.callGetPostsAPI(getFilter())
+        }
+
         notifyItemRemoved(position) //삭제된 내역 반영
         notifyItemChanged(1)    //전체 개수 내용 반영(총 n개)
     }

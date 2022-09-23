@@ -141,6 +141,10 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
 
             if (typeSelectTouchViewEnableStatus!=null) {
                 binding.feedTypeSelectTouchView.isEnabled = typeSelectTouchViewEnableStatus
+
+                if (typeSelectTouchViewEnableStatus && mainVm.getIsRecordComplete() && binding.feedFcv.findNavController().currentDestination?.id==R.id.noFeedFragment) {
+                    binding.feedFcv.findNavController().navigate(R.id.action_global_timelineFragment)
+                }
             }
         })
 

@@ -103,6 +103,13 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
                 //정렬 필터에 따라 getPosts API 호출
                 getPosts(page, sort)
             }
+
+            override fun callGetPostsAPI(filter: String) {
+                page = 0
+                isLast = false
+
+                getPosts(page, filter)
+            }
         })
 
         //무한스크롤 구현
