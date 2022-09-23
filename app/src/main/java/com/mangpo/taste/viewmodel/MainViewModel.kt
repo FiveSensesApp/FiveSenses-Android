@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mangpo.domain.usecase.GetUserInfoUseCase
 import com.mangpo.taste.base.BaseViewModel
+import com.mangpo.taste.base.Event
 import com.mangpo.taste.util.SpfUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
@@ -14,16 +15,21 @@ class MainViewModel @Inject constructor(private val getUserInfoUseCase: GetUserI
     private val _feedType: MutableLiveData<String> = MutableLiveData()
     val feedType: LiveData<String> = _feedType
 
-    private val _isTasteRecordShown: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isTasteRecordShown: LiveData<Boolean> get() = _isTasteRecordShown
+    private val _isTasteRecordShown: MutableLiveData<Event<Boolean>> = MutableLiveData()
+    val isTasteRecordShown: LiveData<Event<Boolean>> get() = _isTasteRecordShown
 
-    private val _isRecordComplete: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isRecordComplete: LiveData<Boolean> get() = _isRecordComplete
+    private val _typeSelectTouchViewEnableStatus: MutableLiveData<Event<Boolean>> = MutableLiveData()
+    val typeSelectTouchViewEnableStatus: LiveData<Event<Boolean>> get() = _typeSelectTouchViewEnableStatus
+
+    private val _callGetPostsFlag: MutableLiveData<Event<Boolean>> = MutableLiveData()
+    val callGetPostsFlag: LiveData<Event<Boolean>> get() = _callGetPostsFlag
 
     private val _getUserInfoResult: MutableLiveData<Boolean> = MutableLiveData()
     val getUserInfoResult: LiveData<Boolean> get() = _getUserInfoResult
 
     val slogan: MutableLiveData<String> = MutableLiveData()
+
+    private var isRecordComplete: Boolean = false
 
     fun setRandomSloganIdx() {
         val slogans: List<String> = listOf(
@@ -71,10 +77,20 @@ class MainViewModel @Inject constructor(private val getUserInfoUseCase: GetUserI
     }
 
     fun setIsTasteRecordShown(value: Boolean) {
-        _isTasteRecordShown.postValue(value)
+        _isTasteRecordShown.postValue(Event(value))
     }
 
     fun setIsRecordComplete(value: Boolean) {
-        _isRecordComplete.postValue(value)
+        isRecordComplete = value
+    }
+
+    fun getIsRecordComplete(): Boolean = this.isRecordComplete
+
+    fun setTypeSelectTouchViewEnableStatus(value: Boolean) {
+        _typeSelectTouchViewEnableStatus.postValue(Event(value))
+    }
+
+    fun setCallGetPostsFlag(value: Boolean) {
+        _callGetPostsFlag.postValue(Event(value))
     }
 }

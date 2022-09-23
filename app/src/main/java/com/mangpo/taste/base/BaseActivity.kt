@@ -8,6 +8,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.contains
 import androidx.viewbinding.ViewBinding
 import com.mangpo.taste.R
 import com.mangpo.taste.util.NetworkManager
@@ -97,10 +98,16 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
     }
 
     fun showLoading() {
+        if ((binding.root as ConstraintLayout).contains(loading)) {
+            hideLoading()
+        }
+
         (binding.root as ConstraintLayout).addView(loading)
     }
 
     fun hideLoading() {
-        (binding.root as ConstraintLayout).removeView(loading)
+        if ((binding.root as ConstraintLayout).contains(loading)) {
+            (binding.root as ConstraintLayout).removeView(loading)
+        }
     }
 }

@@ -1,106 +1,73 @@
 package com.mangpo.taste.view
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.mangpo.domain.model.RecordEntity
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
+import com.mangpo.domain.model.getPosts.ContentEntity
+import com.mangpo.domain.model.updatePost.UpdatePostResEntity
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentTimelineBinding
 import com.mangpo.taste.util.SpfUtils
 import com.mangpo.taste.view.adpater.RecordDetailAdapter
-import com.mangpo.taste.view.model.Record
 import com.mangpo.taste.view.model.TwoBtnDialog
-import com.mangpo.taste.viewmodel.PostViewModel
+import com.mangpo.taste.viewmodel.FeedViewModel
+import com.mangpo.taste.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineBinding::inflate) {
-    //임시데이터
-    private val recordEntities: ArrayList<RecordEntity> = arrayListOf<RecordEntity>(
-        RecordEntity(
-            0,
-            0,
-            "시각으로 감각한 좋아하는 거",
-            "50자는 너무 짧은 것 같아~ 아무래도 좋아하는 것에 대해 이야기하는 건 하루종일 할 수 있는데 50자는 하다가 끊기는 느낌? 사실 쓰면서 100자도 짧다고 그건 쩔수 아닐까 싶어",
-            "2022.12.23",
-            4.0f
-        ),
-        RecordEntity(
-            1,
-            2,
-            "후각으로 감각한 좋아하는 거",
-            "50자는 너무 짧은 것 같아~ 아무래도 좋아하는 것에 대해 이야기하는 건 하루종일 할 수 있는데 50자는 하다가 끊기는 느낌? 사실 쓰면서 100자도 짧다고 그건 쩔수 아닐까 싶어",
-            "2022.12.23",
-            4.0f
-        ),
-        RecordEntity(
-            2,
-            3,
-            "미각으로 감각한 좋아하는 거",
-            "50자는 너무 짧은 것 같아~ 아무래도 좋아하는 것에 대해 이야기하는 건 하루종일 할 수 있는데 50자는 하다가 끊기는 느낌? 사실 쓰면서 100자도 짧다고 그건 쩔수 아닐까 싶어",
-            "2022.12.23",
-            4.0f
-        ),
-        RecordEntity(
-            3,
-            4,
-            "촉각으로 감각한 좋아하는 거",
-            "50자는 너무 짧은 것 같아~ 아무래도 좋아하는 것에 대해 이야기하는 건 하루종일 할 수 있는데 50자는 하다가 끊기는 느낌? 사실 쓰면서 100자도 짧다고 그건 쩔수 아닐까 싶어",
-            "2022.12.23",
-            4.0f
-        ),
-        RecordEntity(
-            4,
-            5,
-            "모르겠어요 감각 좋아하는 거",
-            "50자는 너무 짧은 것 같아~ 아무래도 좋아하는 것에 대해 이야기하는 건 하루종일 할 수 있는데 50자는 하다가 끊기는 느낌? 사실 쓰면서 100자도 짧다고 그건 쩔수 아닐까 싶어",
-            "2022.12.23",
-            4.0f
-        ),
-        RecordEntity(5, 0, "시각으로 감각한 좋아하는 거", null, "2022.12.23", 4.0f),
-        RecordEntity(6, 1, "청각으로 감각한 좋아하는 거", null, "2022.12.23", 4.0f),
-        RecordEntity(7,2, "후각으로 감각한 좋아하는 거", null, "2022.12.23", 4.0f),
-        RecordEntity(8, 3, "미각으로 감각한 좋아하는 거", null, "2022.12.23", 4.0f),
-        RecordEntity(9, 4, "촉각으로 감각한 좋아하는 거", null, "2022.12.23", 4.0f),
-        RecordEntity(10, 5, "모르겠어요 감각 좋아하는 거", null, "2022.12.23", 4.0f)
-    )
-    //임시데이터
-    private val records: ArrayList<Record> = arrayListOf(Record(0, null), Record(1, null), Record(2, recordEntities[0]), Record(2, recordEntities[1]), Record(2, recordEntities[2]), Record(2, recordEntities[3]), Record(2, recordEntities[4]), Record(2, recordEntities[5]), Record(2, recordEntities[6]), Record(2, recordEntities[7]), Record(2, recordEntities[8]), Record(2, recordEntities[9]), Record(2, recordEntities[10]))
+    private val mainVm: MainViewModel by activityViewModels()
+    private val feedVm: FeedViewModel by viewModels()
 
+    private var isBack: Boolean = false
+    private var page: Int = 0
+    private var isLast: Boolean = false
     private var selectedPosition: Int = 0   //선택한 기록의 아이템 위치를 기록하는 변수
 
     private lateinit var twoBtnDialogFragment: TwoBtnDialogFragment
     private lateinit var recordDetailAdapter: RecordDetailAdapter
+    private lateinit var updateCompleteLauncher: ActivityResultLauncher<Intent>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        updateCompleteLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                // There are no request codes
+                val data: Intent = result.data!!
+                val updatedPost: UpdatePostResEntity = data.getParcelableExtra<UpdatePostResEntity>("updatedPost")!!
+                recordDetailAdapter.updateData(selectedPosition, updatedPost)
+            }
+        }
+    }
 
     override fun initAfterBinding() {
-        initTwoBtnDialog()
-        initAdapter()
+        if (!isBack) {
+            initTwoBtnDialog()
+            initAdapter()
+            observe()
+            getPosts(page, recordDetailAdapter.getFilter())
+        }
+
     }
 
     override fun onResume() {
         super.onResume()
-
         binding.timelineRecordRv.scrollToPosition(selectedPosition) //선택한 기록의 아이템 위치로 이동
-    }
-
-    override fun onStop() {
-        super.onStop()
-
-        selectedPosition = recordDetailAdapter.getSelectedPosition()    //마지막으로 선택한 기록의 아이템 위치로 저장해놓기
     }
 
     private fun initTwoBtnDialog() {
         twoBtnDialogFragment = TwoBtnDialogFragment()
         twoBtnDialogFragment.setMyCallback(object : TwoBtnDialogFragment.MyCallback {
             override fun leftAction() {
-                selectedPosition = recordDetailAdapter.getSelectedPosition()
-                recordEntities.removeAt(selectedPosition - 2)   //이건 나중에 사라질거임.
-                records.removeAt(selectedPosition)  //이것도 나중에 사라질 수도(사라질 확률이 높겠다)
-
-                recordDetailAdapter.notifyItemRemoved(selectedPosition) //삭제된 내역 반영
-                recordDetailAdapter.notifyItemChanged(1)    //전체 개수 내용 반영(총 n개)
+                feedVm.deletePost(recordDetailAdapter.getDeletePostId())
             }
 
             override fun rightAction() {
@@ -110,23 +77,111 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
 
     private fun initAdapter() {
         recordDetailAdapter = RecordDetailAdapter()
-        recordDetailAdapter.setData(records)
+
         recordDetailAdapter.setMyClickListener(object : RecordDetailAdapter.MyClickListener {
-            override fun update(record: RecordEntity) {
-                val intent: Intent = Intent(requireContext(), RecordUpdateActivity::class.java)
-                intent.putExtra("record", record)
-                startActivity(intent)
+            override fun update(content: ContentEntity) {
+                isBack = true
+                selectedPosition = recordDetailAdapter.getPositionByPostId(content.id)
+
+                val intent = Intent(requireContext(), RecordUpdateActivity::class.java)
+                intent.putExtra("content", content)
+                updateCompleteLauncher.launch(intent)
             }
 
-            override fun delete(recordId: Int) {
+            override fun delete() {
                 val bundle: Bundle = Bundle()
                 bundle.putParcelable("data", TwoBtnDialog(getString(R.string.msg_really_delete), getString(R.string.msg_cannot_recover), getString(R.string.action_delete_long), getString(R.string.action_go_back), R.drawable.bg_gy01_12))
-
                 twoBtnDialogFragment.arguments = bundle
                 twoBtnDialogFragment.show(requireActivity().supportFragmentManager, null)
+            }
+
+            override fun changeSortFilter(sort: String) {   //정렬 필터(최신순, 오래된순)가 바뀔 때 호출되는 함수
+                //page, isLast 초기화
+                page = 0
+                isLast = false
+
+                //정렬 필터에 따라 getPosts API 호출
+                getPosts(page, sort)
+            }
+        })
+
+        //무한스크롤 구현
+        binding.timelineRecordRv.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                //스크롤이 최하단에 있을 때
+                if (!binding.timelineRecordRv.canScrollVertically(1)) {
+                    if (!isLast) {  //마지막 페이지가 아니면 현재페이지+1, 현재 선택돼 있는 정렬 형태를 가져다 getPosts API 호출
+                        getPosts(++page, recordDetailAdapter.getFilter())
+                    }
+                }
             }
         })
 
         binding.timelineRecordRv.adapter = recordDetailAdapter
+    }
+
+    //기록 목록 조회 API 호출
+    private fun getPosts(page: Int, sort: String) {
+        feedVm.getPosts(SpfUtils.getIntEncryptedSpf("userId"), page, "id,$sort", null, null, null)
+    }
+
+    private fun observe() {
+        //기록 조회 API 호출 여부를 판단하기 위한 LiveData Observing
+        mainVm.callGetPostsFlag.observe(viewLifecycleOwner, Observer {
+            val callGetPostsFlag = it.getContentIfNotHandled()
+
+            if (callGetPostsFlag!=null && callGetPostsFlag) {
+                page = 0
+                isLast = false
+                getPosts(page, recordDetailAdapter.getFilter())
+            }
+        })
+
+        feedVm.toast.observe(viewLifecycleOwner, Observer {
+            val msg: String? = it.getContentIfNotHandled()
+
+            if (msg!=null)
+                showToast(msg)
+        })
+
+        feedVm.isLoading.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                (requireActivity() as MainActivity).showLoading()
+            } else {
+                (requireActivity() as MainActivity).hideLoading()
+            }
+        })
+
+        feedVm.posts.observe(viewLifecycleOwner, Observer {
+            val posts = it.getContentIfNotHandled()
+
+            if (posts!=null) {
+                //set page & isLast
+                page = posts.pageNumber
+                isLast = posts.isLast
+
+                if (!posts.empty) {    //빈 데이터가 아니면 adapter 에 데이터 추가
+                    if (page==0) {  //단 첫번재 페이지면 데이터들 모두 싹 지우고 추가
+                        recordDetailAdapter.clearData()
+                    }
+
+                    recordDetailAdapter.addData(posts.content)
+                } else {    //데이터가 비어있을 때
+                    if (page==0) {  //첫번재 페이지면 클리어
+                        recordDetailAdapter.clearData()
+                    }
+                }
+            }
+        })
+
+        feedVm.deletePostResult.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                200 -> recordDetailAdapter.removeData()
+                404 -> showToast("삭제 중 문제가 발생했습니다.")
+                else -> {}
+            }
+        })
     }
 }

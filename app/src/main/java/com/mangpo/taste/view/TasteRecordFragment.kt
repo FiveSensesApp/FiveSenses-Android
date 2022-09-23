@@ -3,9 +3,7 @@ package com.mangpo.taste.view
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import androidx.activity.OnBackPressedCallback
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -15,7 +13,6 @@ import com.mangpo.domain.model.createPost.CreatePostReqEntity
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentTasteRecordBinding
-import com.mangpo.taste.util.convertDpToPx
 import com.mangpo.taste.util.setSpannableText
 import com.mangpo.taste.view.model.OgamSelect
 import com.mangpo.taste.view.model.TwoBtnDialog
@@ -126,7 +123,6 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
 
                 if (isComplete) {   //기록 완료 -> 보관함 가기
                     mainVm.setIsTasteRecordShown(false) //TasteRecordFragment 닫기
-                    mainVm.setIsRecordComplete(true)    //기록 완료임을 MainViewModel 에 알려서 FeedFragment 가 알아채도록
                 }
 
                 isComplete = false  //기록 완료가 끝났으니까 플래그를 False 로 설정
@@ -164,6 +160,8 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
 
         tasteRecordVm.createPostResult.observe(viewLifecycleOwner, Observer {
             if (it) {   //기록 저장 성공
+                mainVm.setIsRecordComplete(true)
+
                 isComplete = true   //기록 완료일 때 뜰 다이얼로그를 보여주기 위한 플래그 설정
                 isDialogShown = true    //다이얼로그가 뜰 때 보여지는 투명뷰를 VISIBLE 로 변경하기 위한 플래그 설정
                 binding.invalidateAll()
@@ -172,6 +170,7 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
                 bundle.putParcelable("data", TwoBtnDialog(getString(R.string.title_record_complete), getString(R.string.msg_taste_input_complete), getString(R.string.action_keep_writing), getString(R.string.action_go_locker), null))
                 showDialog(bundle)
             } else {    //기록 저장 실패
+                mainVm.setIsRecordComplete(false)
                 showToast("기록 저장 중 문제가 발생했습니다.")
             }
         })
@@ -199,7 +198,7 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
                 getString(R.string.title_smell) -> category = "SMELL"
                 getString(R.string.title_taste) -> category = "TASTE"
                 getString(R.string.title_touch) -> category = "TOUCH"
-                getString(R.string.title_question) -> category = "AMBIGUOUS"
+                getString(R.string.title_sense) -> category = "AMBIGUOUS"
             }
 
             var content: String? = null

@@ -108,7 +108,7 @@
                 android:layout_width="0dp"
                 android:layout_height="44dp"
                 android:layout_marginTop="92dp"
-                android:onClick="@{(ConstraintLayout) -> mainVm.isTasteRecordShown? null: fragment.onClickTypeSelectTouchView(feedTypeSelectLayout.getVisibility())}"
+                android:onClick="@{(ConstraintLayout) -> fragment.onClickTypeSelectTouchView(feedTypeSelectLayout.getVisibility())}"
                 app:layout_constraintBottom_toTopOf="@+id/feed_hide_frame_layout"
                 app:layout_constraintEnd_toEndOf="@+id/feed_toggle_iv"
                 app:layout_constraintStart_toStartOf="@+id/feed_my_taste_tv"
@@ -262,7 +262,8 @@
             android:layout_marginTop="136dp"
             app:defaultNavHost="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:navGraph="@navigation/navigation_feed" />
 
         <View
             android:id="@+id/feed_blurred_view"

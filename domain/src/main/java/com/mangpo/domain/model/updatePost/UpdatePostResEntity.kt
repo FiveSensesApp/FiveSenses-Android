@@ -1,10 +1,10 @@
-package com.mangpo.domain.model.getPosts
+package com.mangpo.domain.model.updatePost
 
 import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class ContentEntity(
+data class UpdatePostResEntity(
     val id: Int,
     val category: String,
     val keyword: String,

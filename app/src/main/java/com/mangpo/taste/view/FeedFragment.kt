@@ -25,6 +25,8 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
     private val mainVm: MainViewModel by activityViewModels()
     private val hasRecord: Boolean = true
 
+    private var isBack: Boolean = false
+
     private lateinit var onBackPressedCallback: OnBackPressedCallback
     private lateinit var typeIconList: List<Drawable>
     private lateinit var typeTextList: List<String>
@@ -34,37 +36,53 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
     lateinit var removedTypeIconList: List<Drawable>
 
     override fun initAfterBinding() {
-        binding.apply {
-            fragment = this@FeedFragment
-            mainVm = this@FeedFragment.mainVm
-            lifecycleOwner = viewLifecycleOwner
-        }
-
-        typeIconList = listOf<Drawable>(ContextCompat.getDrawable(requireContext(), R.drawable.ic_timeline_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_sense_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_calendar_24)!!)
-        removedTypeIconList = listOf<Drawable>(ContextCompat.getDrawable(requireContext(), R.drawable.ic_sense_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_calendar_24)!!)
-        typeTextList = listOf(getString(R.string.title_timeline), getString(R.string.title_by_sense), getString(R.string.title_by_score), getString(R.string.title_by_calendar))
-        removedTypeTextList = listOf(getString(R.string.title_by_sense), getString(R.string.title_by_score), getString(R.string.title_by_calendar))
-
-        setSpannableText(binding.feedMyTasteTv.text.toString(), requireContext(), R.color.GY_03, 6, binding.feedMyTasteTv.text.length, binding.feedMyTasteTv)   //나의 취향 뒷부분 텍스트 색상 변경
-
-        //뒤로가기 콜백 리스너
-        onBackPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                /*if (binding.feedFcv.findNavController().currentDestination?.id == R.id.searchResultFragment) {  //검색 결과 프래그먼트에 있을 경우
-                    binding.feedSearchRightIv.visibility = View.VISIBLE  //오른쪽 검색 아이콘 VISIBLE
-                    binding.feedSearchLeftIv.visibility = View.INVISIBLE  //왼쪽 검색 아이콘 INVISIBLE
-                    binding.feedSearchEt.visibility = View.INVISIBLE  //검색 EditText INVISIBLE
-
-                    binding.feedSearchEt.text.clear()   //검색 내역 지우기
-                } else
-                    requireActivity().finish()*/
+        if (!isBack) {
+            binding.apply {
+                fragment = this@FeedFragment
+                mainVm = this@FeedFragment.mainVm
+                lifecycleOwner = viewLifecycleOwner
             }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)    //뒤로가기 콜백 리스너 등록
-        setMyEventListener()
-        observe()
 
-        feedVm.getPosts(SpfUtils.getIntEncryptedSpf("userId"), 0, "id,desc", null, null, null)  //기록 목록 조회 API 호출
+            typeIconList = listOf<Drawable>(ContextCompat.getDrawable(requireContext(), R.drawable.ic_timeline_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_sense_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_calendar_24)!!)
+            removedTypeIconList = listOf<Drawable>(ContextCompat.getDrawable(requireContext(), R.drawable.ic_sense_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_calendar_24)!!)
+            typeTextList = listOf(getString(R.string.title_timeline), getString(R.string.title_by_sense), getString(R.string.title_by_score), getString(R.string.title_by_calendar))
+            removedTypeTextList = listOf(getString(R.string.title_by_sense), getString(R.string.title_by_score), getString(R.string.title_by_calendar))
+
+            setSpannableText(binding.feedMyTasteTv.text.toString(), requireContext(), R.color.GY_03, 6, binding.feedMyTasteTv.text.length, binding.feedMyTasteTv)   //나의 취향 뒷부분 텍스트 색상 변경
+
+            //뒤로가기 콜백 리스너
+            onBackPressedCallback = object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    /*if (binding.feedFcv.findNavController().currentDestination?.id == R.id.searchResultFragment) {  //검색 결과 프래그먼트에 있을 경우
+                        binding.feedSearchRightIv.visibility = View.VISIBLE  //오른쪽 검색 아이콘 VISIBLE
+                        binding.feedSearchLeftIv.visibility = View.INVISIBLE  //왼쪽 검색 아이콘 INVISIBLE
+                        binding.feedSearchEt.visibility = View.INVISIBLE  //검색 EditText INVISIBLE
+
+                        binding.feedSearchEt.text.clear()   //검색 내역 지우기
+                    } else
+                        requireActivity().finish()*/
+                }
+            }
+            requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)    //뒤로가기 콜백 리스너 등록
+
+            setMyEventListener()
+            observe()
+
+            feedVm.getPosts(
+                SpfUtils.getIntEncryptedSpf("userId"),
+                0,
+                "id,desc",
+                null,
+                null,
+                null
+            )  //기록 목록 조회 API 호출
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        isBack = true
     }
 
     override fun onDetach() {
@@ -117,19 +135,24 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
     }
 
     private fun observe() {
-        feedVm.posts.observe(viewLifecycleOwner, Observer {
-            if (it.empty) { //기록 없을 때
-                binding.feedFcv.findNavController().setGraph(R.navigation.navigation_no_feed)
-            } else {    //기록 있을 때
-                binding.feedFcv.findNavController().setGraph(R.navigation.navigation_feed)
+        //기록 화면이 올라왔을 때/내려왔을 때 typeSelectTouchView 의 활성화/비활성화 여부 Observe
+        mainVm.typeSelectTouchViewEnableStatus.observe(viewLifecycleOwner, Observer {
+            val typeSelectTouchViewEnableStatus = it.getContentIfNotHandled()
+
+            if (typeSelectTouchViewEnableStatus!=null) {
+                binding.feedTypeSelectTouchView.isEnabled = typeSelectTouchViewEnableStatus
             }
         })
 
-        mainVm.isRecordComplete.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                feedVm.getPosts(SpfUtils.getIntEncryptedSpf("userId"), 0, "id,desc", null, null, null)  //기록 목록 조회 API 호출
-            } else {
+        feedVm.posts.observe(viewLifecycleOwner, Observer {
+            val posts = it.getContentIfNotHandled()
 
+            if (posts!=null) {
+                if (posts.empty) {
+                    binding.feedFcv.findNavController().navigate(R.id.action_emptyFragment_to_noFeedFragment)
+                } else {
+                    binding.feedFcv.findNavController().navigate(R.id.action_emptyFragment_to_timelineFragment)
+                }
             }
         })
     }

@@ -4,9 +4,12 @@ import com.mangpo.data.datasource.PostRemoteDataSource
 import com.mangpo.data.mapper.BaseMapper
 import com.mangpo.data.mapper.PostMapper
 import com.mangpo.data.model.createPost.CreatePostReqDTO
+import com.mangpo.data.model.updatePost.UpdatePostReqDTO
 import com.mangpo.domain.model.base.BaseResEntity
 import com.mangpo.domain.model.createPost.CreatePostReqEntity
 import com.mangpo.domain.model.getPosts.GetPostsResEntity
+import com.mangpo.domain.model.updatePost.UpdatePostReqEntity
+import com.mangpo.domain.model.updatePost.UpdatePostResEntity
 import com.mangpo.domain.repository.PostRepository
 import javax.inject.Inject
 
@@ -28,5 +31,18 @@ class PostRepositoryImpl @Inject constructor(private val dataSource: PostRemoteD
         val response = dataSource.createPost(createPostReqDTO)
 
         return sendData(response) { BaseMapper.mapperToBaseResEntityVerAny(response) }
+    }
+
+    override suspend fun deletePost(postId: Int): BaseResEntity<Nothing> {
+        val response = dataSource.deletePost(postId)
+
+        return sendData(response) { BaseMapper.mapperToBaseResEntity(response) }
+    }
+
+    override suspend fun updatePost(postReqEntity: UpdatePostReqEntity): BaseResEntity<UpdatePostResEntity?> {
+        val updatePostReqDTO: UpdatePostReqDTO = PostMapper.mapperToUpdatePostReqDTO(postReqEntity)
+        val response = dataSource.updatePost(postReqEntity.postId, updatePostReqDTO)
+
+        return sendData(response) { PostMapper.mapperToUpdatePostResEntity(response) }
     }
 }

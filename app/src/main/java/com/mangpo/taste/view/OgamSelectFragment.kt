@@ -63,8 +63,4 @@ class OgamSelectFragment : BaseFragment<FragmentOgamSelectBinding>(FragmentOgamS
         val action = OgamSelectFragmentDirections.actionOgamSelectFragmentToTasteRecordFragment(ogamSelect)
         findNavController().navigate(action)
     }
-
-    fun back() {
-        requireActivity().onBackPressed()
-    }
 }

@@ -32,3 +32,8 @@ fun setSrbEmptySetting(view: BaseRatingBar, emptyDrawable: Drawable) {
 fun setSrbFilledSetting(view: BaseRatingBar, filledDrawable: Drawable) {
     view.setFilledDrawable(filledDrawable)
 }
+
+@BindingAdapter("srbRating")
+fun setSrbRatingSetting(view: BaseRatingBar, star: Int) {
+    view.rating = star.toFloat()
+}
