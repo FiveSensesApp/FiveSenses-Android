@@ -29,10 +29,10 @@ android {
 
     signingConfigs {
         releaseWithSignedKey {
-//            storeFile file(properties['keystore.path'])
-//            storePassword properties['keystore.password']
-//            keyAlias properties['keystore.alias']
-//            keyPassword properties['keystore.password']
+            storeFile file(properties['keystore.path'])
+            storePassword properties['keystore.password']
+            keyAlias properties['keystore.alias']
+            keyPassword properties['keystore.password']
         }
     }
 
@@ -45,7 +45,7 @@ android {
         }
 
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.releaseWithSignedKey
         }
