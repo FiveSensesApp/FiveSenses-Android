@@ -225,3 +225,4 @@ fabric.properties
 /app/src/main/res/drawable/ic*.xml
 /app/src/main/res/font/
 /app/src/main/res/xml/network_security_config.xml
+/app/src/main/res/raw/
