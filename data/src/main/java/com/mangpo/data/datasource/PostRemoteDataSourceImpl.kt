@@ -21,6 +21,15 @@ class PostRemoteDataSourceImpl @Inject constructor(private val service: PostServ
         return callApi { service.getPosts(userId, page, sort, createDate, star, category) }
     }
 
+    override suspend fun findCountByParam(
+        userId: Int,
+        category: String?,
+        star: Int?,
+        createdDate: String?
+    ): BaseResDTO<Int> {
+        return callApi { service.findCountByParam(userId, category, star, createdDate) }
+    }
+
     override suspend fun createPost(createPostReqDTO: CreatePostReqDTO): BaseResDTO<CreatePostResDTO?> {
         return callApi { service.createPost(createPostReqDTO) }
     }

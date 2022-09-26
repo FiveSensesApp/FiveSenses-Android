@@ -66,4 +66,9 @@ class UseCaseModule {
     fun provideUpdatePostUseCase (postRepository: PostRepository): UpdatePostUseCase {
         return UpdatePostUseCase(postRepository)
     }
+
+    @Provides
+    fun provideFindCountByParamUseCase (postRepository: PostRepository): FindCountByParamUseCase {
+        return FindCountByParamUseCase(postRepository)
+    }
 }

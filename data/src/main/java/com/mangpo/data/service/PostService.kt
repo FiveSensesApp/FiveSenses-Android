@@ -12,6 +12,9 @@ interface PostService {
     @GET("/api/posts?size=20")
     suspend fun getPosts(@Query("userId") userId: Int, @Query("page") page: Int, @Query("sort") sort: String, @Query("createdDate") createdDate: String?, @Query("star") star: Int?, @Query("category") category: String?): BaseResDTO<GetPostsResDTO?>
 
+    @GET("/api/posts/count")
+    suspend fun findCountByParam(@Query("userId") userId: Int, @Query("category") category: String?, @Query("star") star: Int?, @Query("createdDate") createdDate: String?): BaseResDTO<Int>
+
     @POST("/api/posts")
     suspend fun createPost(@Body createPostReqDTO: CreatePostReqDTO): BaseResDTO<CreatePostResDTO?>
 
