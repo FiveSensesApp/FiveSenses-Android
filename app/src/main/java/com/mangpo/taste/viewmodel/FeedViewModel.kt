@@ -19,8 +19,8 @@ class FeedViewModel @Inject constructor(private val getUserInfoUseCase: GetUserI
     private val _deletePostResult: MutableLiveData<Int> = MutableLiveData()
     val deletePostResult: LiveData<Int> get() = _deletePostResult
 
-    private val _feedCnt: MutableLiveData<Int> = MutableLiveData()
-    val feedCnt: LiveData<Int> get() = _feedCnt
+    private val _feedCnt: MutableLiveData<Event<Int?>> = MutableLiveData()
+    val feedCnt: LiveData<Event<Int?>> get() = _feedCnt
 
     fun getPosts(userId: Int, page: Int, sort: String, createDate: String?, star: Int?, category: String?) {
         callApi(
@@ -68,7 +68,7 @@ class FeedViewModel @Inject constructor(private val getUserInfoUseCase: GetUserI
         callApi(
             { findCountByParamUseCase.invoke(userId, category, star, createdDate) },
             {
-                _feedCnt.postValue(it.data)
+                _feedCnt.postValue(Event(it.data))
             },
             false
         )

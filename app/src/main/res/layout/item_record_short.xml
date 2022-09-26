@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
+
         <variable
             name="content"
             type="com.mangpo.domain.model.getPosts.ContentEntity" />
+
         <variable
             name="background"
             type="android.graphics.drawable.Drawable" />
+
+        <variable
+            name="clickListener"
+            type="com.mangpo.taste.view.adpater.RecordShortAdapter.MyClickListener" />
     </data>
+
     <androidx.appcompat.widget.AppCompatButton xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -15,9 +23,10 @@
         android:layout_marginVertical="6dp"
         android:background="@{background}"
         android:gravity="start|center_vertical"
-        android:text="@{content.keyword}"
+        android:onClick="@{() -> clickListener.onClick(content)}"
         android:paddingStart="25dp"
         android:paddingEnd="42dp"
         android:stateListAnimator="@null"
+        android:text="@{content.keyword}"
         android:textAppearance="@style/Sub_Head_B_16" />
 </layout>

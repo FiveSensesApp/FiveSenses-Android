@@ -66,4 +66,15 @@
     <action
         android:id="@+id/action_global_timelineFragment"
         app:destination="@id/timelineFragment" />
+    <dialog
+        android:id="@+id/recordDialogFragment"
+        android:name="com.mangpo.taste.view.RecordDialogFragment"
+        android:label="RecordDialogFragment">
+        <argument
+            android:name="content"
+            app:argType="com.mangpo.domain.model.getPosts.ContentEntity" />
+    </dialog>
+    <action
+        android:id="@+id/action_global_recordDialogFragment"
+        app:destination="@id/recordDialogFragment" />
 </navigation>

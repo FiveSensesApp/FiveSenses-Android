@@ -1,11 +1,9 @@
 package com.mangpo.taste.view.adpater
 
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.RadioGroup
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mangpo.domain.model.getPosts.ContentEntity
@@ -18,7 +16,7 @@ import com.mangpo.taste.view.model.Record
 
 class RecordShortAdapter constructor(private val records: MutableList<Record>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     interface MyClickListener {
-        fun onClick(record: Record, position: Int)
+        fun onClick(content: ContentEntity)
         fun changeFilter(filter: String)
     }
 
@@ -75,26 +73,18 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
     override fun getItemCount(): Int = this.records.size
 
     inner class RecordShortViewHolder(private val binding: ItemRecordShortBinding): RecyclerView.ViewHolder(binding.root) {
-//        private val keywordBtn: AppCompatButton = binding.root
-
         fun bind(record: Record, position: Int) {
             binding.content = record.record
-//            keywordBtn.text = record.record!!.keyword
+            binding.clickListener = this@RecordShortAdapter.myClickListener
 
             when (record.record!!.category) {
                 "SIGHT" -> binding.background = ContextCompat.getDrawable(binding.root.context, R.drawable.ic_sight_stick)
-                "HEARING" -> ContextCompat.getDrawable(binding.root.context, R.drawable.ic_ear_stick)
-                "SMELL" -> ContextCompat.getDrawable(binding.root.context, R.drawable.ic_smell_stick)
-                "TASTE" -> ContextCompat.getDrawable(binding.root.context, R.drawable.ic_taste_stick)
-                "TOUCH" -> ContextCompat.getDrawable(binding.root.context, R.drawable.ic_touch_stick)
-                "AMBIGUOUS" -> ContextCompat.getDrawable(binding.root.context, R.drawable.bg_gy01_12)
+                "HEARING" -> binding.background = ContextCompat.getDrawable(binding.root.context, R.drawable.ic_ear_stick)
+                "SMELL" -> binding.background = ContextCompat.getDrawable(binding.root.context, R.drawable.ic_smell_stick)
+                "TASTE" -> binding.background = ContextCompat.getDrawable(binding.root.context, R.drawable.ic_taste_stick)
+                "TOUCH" -> binding.background = ContextCompat.getDrawable(binding.root.context, R.drawable.ic_touch_stick)
+                "AMBIGUOUS" -> binding.background = ContextCompat.getDrawable(binding.root.context, R.drawable.bg_gy01_12)
             }
-
-//            binding.invalidateAll()
-
-            /*keywordBtn.setOnClickListener {
-                myClickListener.onClick(record, position)
-            }*/
         }
     }
 
@@ -144,6 +134,16 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
 
     enum class ContentViewType(val num: Int) {
         BY_SENSE_FILTER(0), BY_SCORE_FILTER(1), RECORD_CNT(2), CONTENT(3)
+    }
+
+    private fun mapperToRecord(contentEntities: List<ContentEntity>): List<Record> {
+        val records: MutableList<Record> = mutableListOf()
+
+        for (contentEntity in contentEntities) {
+            records.add(Record(3, contentEntity))
+        }
+
+        return records
     }
 
     fun setData(records: List<Record>, viewType: Int) {
@@ -206,14 +206,13 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
         notifyDataSetChanged()
     }
 
-    private fun mapperToRecord(contentEntities: List<ContentEntity>): List<Record> {
-        val records: MutableList<Record> = mutableListOf()
+    fun removeData(contentId: Int) {
+        val position = this.records.indexOf(this.records.find { it.record?.id==contentId })
+        this.records.removeAt(position)
 
-        for (contentEntity in contentEntities) {
-            records.add(Record(3, contentEntity))
-        }
+        notifyItemRemoved(position) //삭제된 내역 반영
+        notifyItemChanged(1)    //전체 개수 내용 반영(총 n개)
 
-        return records
+        setCnt(this.records.size - 2)
     }
-
 }
