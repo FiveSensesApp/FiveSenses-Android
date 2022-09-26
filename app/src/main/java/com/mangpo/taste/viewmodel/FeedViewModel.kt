@@ -5,22 +5,22 @@ import androidx.lifecycle.MutableLiveData
 import com.mangpo.domain.model.getPosts.GetPostsResEntity
 import com.mangpo.domain.model.updatePost.UpdatePostReqEntity
 import com.mangpo.domain.model.updatePost.UpdatePostResEntity
-import com.mangpo.domain.usecase.DeletePostUseCase
-import com.mangpo.domain.usecase.GetPostsUseCase
-import com.mangpo.domain.usecase.GetUserInfoUseCase
-import com.mangpo.domain.usecase.UpdatePostUseCase
+import com.mangpo.domain.usecase.*
 import com.mangpo.taste.base.BaseViewModel
 import com.mangpo.taste.base.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class FeedViewModel @Inject constructor(private val getUserInfoUseCase: GetUserInfoUseCase, private val getPostsUseCase: GetPostsUseCase, private val deletePostUseCase: DeletePostUseCase, private val updatePostUseCase: UpdatePostUseCase): BaseViewModel() {
+class FeedViewModel @Inject constructor(private val getUserInfoUseCase: GetUserInfoUseCase, private val getPostsUseCase: GetPostsUseCase, private val deletePostUseCase: DeletePostUseCase, private val updatePostUseCase: UpdatePostUseCase, private val findCountByParamUseCase: FindCountByParamUseCase): BaseViewModel() {
     private val _posts: MutableLiveData<Event<GetPostsResEntity>> = MutableLiveData()
     val posts: LiveData<Event<GetPostsResEntity>> get() = _posts
 
     private val _deletePostResult: MutableLiveData<Int> = MutableLiveData()
     val deletePostResult: LiveData<Int> get() = _deletePostResult
+
+    private val _feedCnt: MutableLiveData<Int> = MutableLiveData()
+    val feedCnt: LiveData<Int> get() = _feedCnt
 
     fun getPosts(userId: Int, page: Int, sort: String, createDate: String?, star: Int?, category: String?) {
         callApi(
@@ -61,6 +61,16 @@ class FeedViewModel @Inject constructor(private val getUserInfoUseCase: GetUserI
                 }
             },
             true
+        )
+    }
+
+    fun findCountByParam(userId: Int, category: String?, star: Int?, createdDate: String?) {
+        callApi(
+            { findCountByParamUseCase.invoke(userId, category, star, createdDate) },
+            {
+                _feedCnt.postValue(it.data)
+            },
+            false
         )
     }
 

@@ -26,11 +26,22 @@ class PostRepositoryImpl @Inject constructor(private val dataSource: PostRemoteD
         return sendData(response) { PostMapper.mapperToGetPostsResEntity(response) }
     }
 
+    override suspend fun findCountByParam(
+        userId: Int,
+        category: String?,
+        star: Int?,
+        createdDate: String?
+    ): BaseResEntity<Int> {
+        val response = dataSource.findCountByParam(userId, category, star, createdDate)
+
+        return sendData(response) {  BaseMapper.mapperToBaseResEntityVerGeneric(response) }
+    }
+
     override suspend fun createPost(createPostReqEntity: CreatePostReqEntity): BaseResEntity<Nothing> {
         val createPostReqDTO: CreatePostReqDTO = PostMapper.mapperToCreatePostReqDTO(createPostReqEntity)
         val response = dataSource.createPost(createPostReqDTO)
 
-        return sendData(response) { BaseMapper.mapperToBaseResEntityVerAny(response) }
+        return sendData(response) { BaseMapper.mapperToBaseResEntityVerNothing(response) }
     }
 
     override suspend fun deletePost(postId: Int): BaseResEntity<Nothing> {

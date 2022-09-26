@@ -10,7 +10,13 @@ object BaseMapper {
         }
     }
 
-    fun <Any> mapperToBaseResEntityVerAny(baseResDTO: BaseResDTO<Any>): BaseResEntity<Nothing> {
+    fun <T> mapperToBaseResEntityVerGeneric(baseResDTO: BaseResDTO<T>): BaseResEntity<T> {
+        return baseResDTO.run {
+            BaseResEntity(meta.code, meta.msg, data)
+        }
+    }
+
+    fun <Any> mapperToBaseResEntityVerNothing(baseResDTO: BaseResDTO<Any>): BaseResEntity<Nothing> {
         return baseResDTO.run {
             BaseResEntity(meta.code, meta.msg, null)
         }

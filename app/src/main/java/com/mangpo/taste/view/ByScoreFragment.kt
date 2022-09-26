@@ -77,15 +77,15 @@ class ByScoreFragment : BaseFragment<FragmentByScoreBinding>(FragmentByScoreBind
     }
 
     private fun initAdapter() {
-        recordShortAdapter = RecordShortAdapter()
+        /*recordShortAdapter = RecordShortAdapter()
         recordShortAdapter.setMyClickListener(object : RecordShortAdapter.MyClickListener {
             override fun onClick(record: Record, position: Int) {
-               /* val action = BySenseFragmentDirections.actionGlobalRecordDialogFragment(record, position)
-                findNavController().navigate(action)*/
+               *//* val action = BySenseFragmentDirections.actionGlobalRecordDialogFragment(record, position)
+                findNavController().navigate(action)*//*
             }
         })
 //        recordShortAdapter.setData(records, 1)
-        binding.byScoreRv.adapter = recordShortAdapter
+        binding.byScoreRv.adapter = recordShortAdapter*/
     }
 
     private fun observe() {
