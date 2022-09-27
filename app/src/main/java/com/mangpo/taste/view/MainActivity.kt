@@ -77,9 +77,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         })
 
         mainVm.getUserInfoResult.observe(this, Observer {
+            //유저 정보 조회 실패 -> 401, 500 ~~~ (대부분 401일걸?)
             if (!it) {
-                SpfUtils.clear()
-                finishAffinity()
+                SpfUtils.clear()    //Spf 초기화
+                SpfUtils.writeSpf("onBoarding", true)   //온보딩 화면은 봤었으니까 다시 설정해주기
+                startActivityWithClear(LoginActivity::class.java)   //다시 로그인하라고 로그인 액티비티로 이동
             }
         })
 
