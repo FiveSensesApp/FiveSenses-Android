@@ -13,7 +13,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.mangpo.domain.model.getPosts.ContentEntity
 import com.mangpo.domain.model.updatePost.UpdatePostResEntity
@@ -125,7 +124,7 @@ class RecordDialogFragment : DialogFragment() {
     }
 
     fun close() {
-        findNavController().currentBackStackEntry?.savedStateHandle?.set("updateFlag", this.updateFlag)
+        this@RecordDialogFragment.setNavigationResult("updateFlag", this.updateFlag)    //이전 프래그먼트한테 updateFlag 넘겨주기
         dialog?.dismiss()
     }
 

@@ -70,7 +70,7 @@ class FeedViewModel @Inject constructor(private val getUserInfoUseCase: GetUserI
             {
                 _feedCnt.postValue(Event(it.data))
             },
-            false
+            true
         )
     }
 

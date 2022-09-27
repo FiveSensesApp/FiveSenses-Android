@@ -36,6 +36,7 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
 
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>("updateFlag")?.observe(viewLifecycleOwner) {
             if (it) {
+                recordShortAdapter.clearData()  //현재 리사이클러뷰에 있는 content 데이터들 지우기
                 clearPaging()   //페이징 관련 데이터 초기화
                 getPosts(page, recordShortAdapter.getSenseFilter())  //선택된 감각으로 기록 조회
             }
@@ -63,7 +64,6 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
             override fun changeFilter(filter: String) {
                 recordShortAdapter.clearData()
                 clearPaging()   //페이징 관련 데이터 초기화
-                getPosts(page, filter)  //선택된 감각으로 기록 조회
                 feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), filter, null, null)  //선택된 감각의 총 기록 개수 조회
             }
         })
@@ -81,10 +81,8 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
                 }
             }
         })
-
         binding.bySenseRv.adapter = recordShortAdapter
 
-        getPosts(0, recordShortAdapter.getSenseFilter())    //시각 기록 조회
         feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), recordShortAdapter.getSenseFilter(), null, null) //시각 기록 총 개수 조회
     }
 
@@ -105,7 +103,6 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
             if (callGetPostsFlag!=null && callGetPostsFlag) {
                 clearPaging()   //페이징 관련 데이터 초기화
                 recordShortAdapter.clearData()  //현재 리사이클러뷰에 있는 content 데이터들 지우기
-                getPosts(page, recordShortAdapter.getSenseFilter())    //현재 선택돼 있는 감각 필터에 대한 기록 조회
                 feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), recordShortAdapter.getSenseFilter(), null, null) //현재 선택돼 있는 감각 필터에 대한 총 기록 개수 조회
             }
         })
@@ -138,8 +135,13 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
         feedVm.feedCnt.observe(viewLifecycleOwner, Observer {
             val feedCnt = it.getContentIfNotHandled()
 
-            if (feedCnt!=null)
+            if (feedCnt!=null) {
                 recordShortAdapter.setCnt(feedCnt)
+
+                if (feedCnt!=0) {
+                    getPosts(page, recordShortAdapter.getSenseFilter())    //현재 선택돼 있는 감각 필터에 대한 기록 조회
+                }
+            }
         })
 
         feedVm.deletePostResult.observe(viewLifecycleOwner, Observer {
