@@ -1,5 +1,6 @@
 package com.mangpo.taste.view
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -8,10 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.mangpo.domain.model.getPosts.ContentEntity
+import com.mangpo.domain.model.updatePost.UpdatePostResEntity
 import com.mangpo.taste.R
 import com.mangpo.taste.databinding.FragmentRecordDialogBinding
 import com.mangpo.taste.util.DialogFragmentUtils
@@ -24,8 +29,25 @@ import com.mangpo.taste.view.model.TwoBtnDialog
 class RecordDialogFragment : DialogFragment() {
     private val args: RecordDialogFragmentArgs by navArgs()
 
+    private var updateFlag: Boolean = false
+
     private lateinit var binding: FragmentRecordDialogBinding
     private lateinit var twoBtnDialogFragment: TwoBtnDialogFragment
+    private lateinit var updateCompleteLauncher: ActivityResultLauncher<Intent>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        updateCompleteLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                updateFlag = true   //기록 업데이트 된 상태로 플래그 변경
+
+                //업데이트 후 전달 받은 수정된 기록 데이터(UpdatePostResEntity)를 ContentEntity 로 매핑해서 데이터 바인딩 실행
+                val updatedPost: UpdatePostResEntity = result.data!!.getParcelableExtra<UpdatePostResEntity>("updatedPost")!!
+                binding.content = ContentEntity(updatedPost.id, updatedPost.category, updatedPost.keyword, updatedPost.star, updatedPost.content, updatedPost.createdDate.split("T")[0])
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -103,6 +125,7 @@ class RecordDialogFragment : DialogFragment() {
     }
 
     fun close() {
+        findNavController().currentBackStackEntry?.savedStateHandle?.set("updateFlag", this.updateFlag)
         dialog?.dismiss()
     }
 
@@ -116,10 +139,9 @@ class RecordDialogFragment : DialogFragment() {
     fun clickUpdateClickView(contentEntity: ContentEntity) {
         fadeOut(requireContext(), binding.recordDialogMenuCl)   //메뉴 레이아웃 fadeOut
 
-        //RecordUpdateActivity 로 이동
-        val intent: Intent = Intent(requireContext(), RecordUpdateActivity::class.java)
+        val intent = Intent(requireContext(), RecordUpdateActivity::class.java)
         intent.putExtra("content", contentEntity)
-        startActivity(intent)
+        updateCompleteLauncher.launch(intent)
     }
 
     fun clickDeleteClickView(contentEntity: ContentEntity) {

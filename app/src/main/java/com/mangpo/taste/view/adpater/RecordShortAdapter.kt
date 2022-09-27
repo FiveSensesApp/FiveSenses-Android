@@ -26,6 +26,10 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
     private lateinit var contentBinding: ItemRecordShortBinding
     private lateinit var baseRecords: MutableList<Record>
     private lateinit var myClickListener: MyClickListener
+    private lateinit var recordShortViewHolder: RecordShortViewHolder
+    private lateinit var recordCntViewHolder: RecordCntViewHolder
+    private lateinit var bySenseFilterViewHolder: BySenseFilterViewHolder
+    private lateinit var byScoreFilterViewHolder: ByScoreFilterViewHolder
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -42,7 +46,8 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
             }
             ContentViewType.RECORD_CNT.num -> {
                 recordCntBinding = ItemRecordCntBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                RecordCntViewHolder(recordCntBinding)
+                recordCntViewHolder = RecordCntViewHolder(recordCntBinding)
+                recordCntViewHolder
             }
             else -> {
                 contentBinding = ItemRecordShortBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -55,7 +60,7 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
         when (this.records[position].viewType) {
             ContentViewType.BY_SENSE_FILTER.num -> (holder as BySenseFilterViewHolder).bind()
             ContentViewType.BY_SCORE_FILTER.num -> (holder as ByScoreFilterViewHolder).bind()
-            ContentViewType.RECORD_CNT.num -> (holder as RecordCntViewHolder).bind()
+            ContentViewType.RECORD_CNT.num -> holder as RecordCntViewHolder
             ContentViewType.CONTENT.num -> (holder as RecordShortViewHolder).bind(this.records[position], position)
             else -> return
         }
@@ -90,10 +95,14 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
 
     inner class RecordCntViewHolder(binding: ItemRecordCntBinding): RecyclerView.ViewHolder(binding.root) {
         private val cntTv: TextView = binding.root
+        private var cnt: Int = 0
 
-        fun bind() {
-            cntTv.text = "총 ${this@RecordShortAdapter.records.filter { it.viewType==ContentViewType.CONTENT.num }.size}개"
+        fun setCnt(cnt: Int) {
+            this.cnt = cnt
+            cntTv.text = "총 ${cnt}개"
         }
+
+        fun getCnt(): Int = this.cnt
     }
 
     inner class BySenseFilterViewHolder(binding: ItemBySenseFilterBinding): RecyclerView.ViewHolder(binding.root) {
@@ -192,10 +201,6 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
         }
     }
 
-    fun setCnt(cnt: Int) {
-        recordCntBinding.root.text = "총 ${cnt}개"
-   }
-
     fun addData(contentEntities: List<ContentEntity>) {
         this.records.addAll(mapperToRecord(contentEntities))
         notifyItemRangeInserted(this.records.size-contentEntities.size, contentEntities.size)
@@ -209,10 +214,14 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
     fun removeData(contentId: Int) {
         val position = this.records.indexOf(this.records.find { it.record?.id==contentId })
         this.records.removeAt(position)
-
         notifyItemRemoved(position) //삭제된 내역 반영
-        notifyItemChanged(1)    //전체 개수 내용 반영(총 n개)
 
-        setCnt(this.records.size - 2)
+        //(총 개수) - 1
+        val cnt = recordCntViewHolder.getCnt() - 1
+        recordCntViewHolder.setCnt(cnt)
+    }
+
+    fun setCnt(cnt: Int) {
+        recordCntViewHolder.setCnt(cnt)
     }
 }

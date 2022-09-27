@@ -1,5 +1,7 @@
 package com.mangpo.taste.view
 
+import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -26,15 +28,27 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
 
     private lateinit var recordShortAdapter: RecordShortAdapter
 
-    override fun initAfterBinding() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         initAdapter()
         observe()
+
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>("updateFlag")?.observe(viewLifecycleOwner) {
+            if (it) {
+                clearPaging()   //페이징 관련 데이터 초기화
+                getPosts(page, recordShortAdapter.getSenseFilter())  //선택된 감각으로 기록 조회
+            }
+        }
 
         //삭제된 record 의 position 을 Observe 하고 있는 라이브 데이터
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Int>("contentId")?.observe(viewLifecycleOwner) { contentId ->
             deletedContentId = contentId
             feedVm.deletePost(contentId)
         }
+    }
+
+    override fun initAfterBinding() {
     }
 
     private fun initAdapter() {
