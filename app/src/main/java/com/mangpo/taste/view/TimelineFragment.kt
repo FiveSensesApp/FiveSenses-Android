@@ -120,7 +120,7 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
                 //스크롤이 최하단에 있을 때
                 if (!binding.timelineRecordRv.canScrollVertically(1)) {
                     if (!isLast) {  //마지막 페이지가 아니면 현재페이지+1, 현재 선택돼 있는 정렬 형태를 가져다 getPosts API 호출
-                        getPosts(++page, recordDetailAdapter.getFilter())
+                        getPosts(page+1, recordDetailAdapter.getFilter())
                     }
                 }
             }

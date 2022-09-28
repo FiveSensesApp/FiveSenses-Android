@@ -65,6 +65,7 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
                 recordShortAdapter.clearData()
                 clearPaging()   //페이징 관련 데이터 초기화
                 feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), filter, null, null)  //선택된 감각의 총 기록 개수 조회
+                getPosts(page, recordShortAdapter.getSenseFilter())
             }
         })
 
@@ -76,7 +77,7 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
                 //스크롤이 최하단에 있을 때
                 if (!binding.bySenseRv.canScrollVertically(1)) {
                     if (!isLast) {  //마지막 페이지가 아니면 현재페이지+1, 현재 선택돼 있는 정렬 형태를 가져다 getPosts API 호출
-                        getPosts(++page, recordShortAdapter.getSenseFilter())
+                        getPosts(page+1, recordShortAdapter.getSenseFilter())
                     }
                 }
             }
@@ -84,6 +85,7 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
         binding.bySenseRv.adapter = recordShortAdapter
 
         feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), recordShortAdapter.getSenseFilter(), null, null) //시각 기록 총 개수 조회
+        getPosts(page, recordShortAdapter.getSenseFilter())
     }
 
     private fun getPosts(page: Int, category: String) {
@@ -103,7 +105,9 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
             if (callGetPostsFlag!=null && callGetPostsFlag) {
                 clearPaging()   //페이징 관련 데이터 초기화
                 recordShortAdapter.clearData()  //현재 리사이클러뷰에 있는 content 데이터들 지우기
+
                 feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), recordShortAdapter.getSenseFilter(), null, null) //현재 선택돼 있는 감각 필터에 대한 총 기록 개수 조회
+                getPosts(page, recordShortAdapter.getSenseFilter())
             }
         })
 
@@ -137,10 +141,6 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
 
             if (feedCnt!=null) {
                 recordShortAdapter.setCnt(feedCnt)
-
-                if (feedCnt!=0) {
-                    getPosts(page, recordShortAdapter.getSenseFilter())    //현재 선택돼 있는 감각 필터에 대한 기록 조회
-                }
             }
         })
 
