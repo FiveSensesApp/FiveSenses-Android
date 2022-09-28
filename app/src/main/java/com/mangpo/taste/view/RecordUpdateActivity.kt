@@ -169,7 +169,7 @@ class RecordUpdateActivity : BaseActivity<ActivityRecordUpdateBinding>(ActivityR
         } else {
             var content: String? = null
             if (binding.tasteRecordContentEt.text.isNotBlank()) {
-                content = binding.tasteRecordContentEt.text.toString()
+                content = binding.tasteRecordContentEt.text.replace("\\n".toRegex(), " ").trim()
             }
 
             val updatePostReqEntity: UpdatePostReqEntity = UpdatePostReqEntity(postId, category, content, binding.recordUpdateKeywordEt.text.toString(), binding.recordUpdateSrb.rating.toInt())

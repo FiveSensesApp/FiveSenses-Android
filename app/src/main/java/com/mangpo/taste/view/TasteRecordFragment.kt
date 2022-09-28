@@ -3,9 +3,6 @@ package com.mangpo.taste.view
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import android.view.KeyEvent
-import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -97,7 +94,6 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
 
     override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
         binding.tasteRecordContentCntTv.text = "${p0?.length} / 100"
-        binding.tasteRecordContentEt.setText(p0.toString().replace("\n", " "))
     }
 
     override fun afterTextChanged(p0: Editable?) {
@@ -207,7 +203,7 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
 
             var content: String? = null
             if (binding.tasteRecordContentEt.text.isNotBlank()) {
-                content = binding.tasteRecordContentEt.text.toString()
+                content = binding.tasteRecordContentEt.text.replace("\\n".toRegex(), " ").trim()
             }
 
             val createPostReqEntity: CreatePostReqEntity = CreatePostReqEntity(category, content, binding.tasteRecordKeywordEt.text.toString(), binding.tasteRecordSrb.rating.toInt())
