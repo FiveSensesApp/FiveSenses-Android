@@ -38,8 +38,8 @@
         app:layout_constraintTop_toBottomOf="@+id/alarm_time_setting_almost_tv" />
 
     <ImageView
-        android:layout_width="360dp"
-        android:layout_height="372dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:src="@drawable/ic_alarm_setting"
         app:layout_constraintBottom_toTopOf="@+id/alarm_time_setting_next_btn"
         app:layout_constraintEnd_toEndOf="parent"

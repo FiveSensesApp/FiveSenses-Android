@@ -22,7 +22,7 @@
 
         <ImageView
             android:id="@+id/login_characters_iv"
-            marginTop="@{data.isKeyboardVisible? 74 : 112}"
+            marginTop="@{data.isKeyboardVisible? 36 : 122}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_characters"
@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="63dp"
+            android:layout_marginTop="59dp"
             android:background="@drawable/bg_gy01_12"
             android:hint="@string/msg_enter_email"
             android:inputType="textEmailAddress"
@@ -87,7 +87,6 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/login_login_btn"
-            marginBottom="@{data.isKeyboardVisible? 15 : 122}"
             android:layout_width="189dp"
             android:layout_height="46dp"
             android:background="@drawable/selector_login_btn"
@@ -98,22 +97,22 @@
             android:textColor="@color/WH"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_pw_et" />
 
         <TextView
             android:id="@+id/login_pw_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="85dp"
+            android:layout_marginTop="17dp"
+            android:onClick="@{() -> data.goFindPwActivity()}"
             android:text="@string/msg_dont_know_pw"
             android:textAppearance="@style/Sub_Head_B_16"
             android:textColor="@color/GY_03"
             android:visibility="@{data.isKeyboardVisible? View.INVISIBLE : View.VISIBLE}"
-            android:onClick="@{() -> data.goFindPwActivity()}"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_login_btn" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -258,6 +258,7 @@
         android:layout_marginTop="9dp"
         android:layout_marginBottom="19dp"
         android:background="@drawable/bg_gy01_10"
+        android:paddingBottom="24dp"
         app:layout_constraintBottom_toTopOf="@+id/no_feed_how_to_use_btn"
         app:layout_constraintTop_toBottomOf="@+id/no_feed_filter_fl">
 
@@ -273,8 +274,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/no_feed_sight_cl"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="14dp"
+            android:layout_marginTop="24dp"
             app:layout_constraintBottom_toTopOf="@+id/no_feed_taste_cl"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/no_feed_try_tv">
@@ -282,11 +284,13 @@
             <ImageView
                 android:id="@+id/no_feed_sight_iv"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:src="@drawable/ic_sight_character_circle_78"
+                app:layout_constraintBottom_toTopOf="@+id/no_feed_sight_tv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
             <TextView
                 android:id="@+id/no_feed_sight_tv"
@@ -305,7 +309,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/no_feed_ear_cl"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="24dp"
             app:layout_constraintBottom_toTopOf="@+id/no_feed_touch_cl"
             app:layout_constraintEnd_toStartOf="@+id/no_feed_smell_cl"
             app:layout_constraintStart_toEndOf="@+id/no_feed_sight_cl"
@@ -314,11 +319,13 @@
             <ImageView
                 android:id="@+id/no_feed_ear_iv"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:src="@drawable/ic_ear_character_circle_78"
+                app:layout_constraintBottom_toTopOf="@+id/no_feed_ear_tv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
             <TextView
                 android:id="@+id/no_feed_ear_tv"
@@ -328,6 +335,7 @@
                 android:text="@string/title_ear"
                 android:textAppearance="@style/Sub_Head_B_18"
                 android:textColor="@color/BU_3"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/no_feed_ear_iv"
                 app:layout_constraintStart_toStartOf="@+id/no_feed_ear_iv"
                 app:layout_constraintTop_toBottomOf="@+id/no_feed_ear_iv" />
@@ -336,7 +344,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/no_feed_smell_cl"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="14dp"
             app:layout_constraintBottom_toTopOf="@+id/no_feed_question_cl"
             app:layout_constraintEnd_toEndOf="parent"
@@ -345,11 +354,13 @@
             <ImageView
                 android:id="@+id/no_feed_smell_iv"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:src="@drawable/ic_smell_character_circle_78"
+                app:layout_constraintBottom_toTopOf="@+id/no_feed_smell_tv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
             <TextView
                 android:id="@+id/no_feed_smell_tv"
@@ -359,6 +370,7 @@
                 android:text="@string/title_smell"
                 android:textAppearance="@style/Sub_Head_B_18"
                 android:textColor="@color/GN_3"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/no_feed_smell_iv"
                 app:layout_constraintStart_toStartOf="@+id/no_feed_smell_iv"
                 app:layout_constraintTop_toBottomOf="@+id/no_feed_smell_iv" />
@@ -367,7 +379,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/no_feed_taste_cl"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
             android:layout_marginStart="13.5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -376,11 +389,13 @@
             <ImageView
                 android:id="@+id/no_feed_taste_iv"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:src="@drawable/ic_taste_character_circle_78"
+                app:layout_constraintBottom_toTopOf="@+id/no_feed_taste_tv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
             <TextView
                 android:id="@+id/no_feed_taste_tv"
@@ -399,7 +414,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/no_feed_touch_cl"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/no_feed_ear_cl"
             app:layout_constraintStart_toStartOf="@id/no_feed_ear_cl"
@@ -408,11 +424,13 @@
             <ImageView
                 android:id="@+id/no_feed_touch_iv"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:src="@drawable/ic_touch_character_circle_78"
+                app:layout_constraintBottom_toTopOf="@+id/no_feed_touch_tv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
             <TextView
                 android:id="@+id/no_feed_touch_tv"
@@ -422,6 +440,7 @@
                 android:text="@string/title_touch"
                 android:textAppearance="@style/Sub_Head_B_18"
                 android:textColor="@color/PU_3"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/no_feed_touch_iv"
                 app:layout_constraintStart_toStartOf="@+id/no_feed_touch_iv"
                 app:layout_constraintTop_toBottomOf="@+id/no_feed_touch_iv" />
@@ -431,7 +450,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/no_feed_question_cl"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/no_feed_smell_cl"
             app:layout_constraintStart_toStartOf="@id/no_feed_smell_cl"
@@ -440,11 +460,13 @@
             <ImageView
                 android:id="@+id/no_feed_question_iv"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:src="@drawable/ic_question_character_circle_78"
+                app:layout_constraintBottom_toTopOf="@+id/no_feed_question_tv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
             <TextView
                 android:id="@+id/no_feed_question_tv"
@@ -454,6 +476,7 @@
                 android:text="@string/title_question"
                 android:textAppearance="@style/Sub_Head_B_18"
                 android:textColor="@color/GY_04"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/no_feed_question_iv"
                 app:layout_constraintStart_toStartOf="@+id/no_feed_question_iv"
                 app:layout_constraintTop_toBottomOf="@+id/no_feed_question_iv" />
