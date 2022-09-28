@@ -72,7 +72,7 @@ class MainViewModel @Inject constructor(private val getUserInfoUseCase: GetUserI
                     }
                 }
             },
-            false
+            true
         )
     }
 

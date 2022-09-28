@@ -69,6 +69,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     private fun observe() {
+        mainVm.isLoading.observe(this, Observer {
+            if (it) {
+                showLoading()
+            } else {
+                hideLoading()
+            }
+        })
+
         mainVm.toast.observe(this, Observer {
             val msg = it.getContentIfNotHandled()
 
