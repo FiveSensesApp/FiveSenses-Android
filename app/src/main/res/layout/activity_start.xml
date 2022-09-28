@@ -47,8 +47,8 @@
             app:layout_constraintTop_toBottomOf="@+id/start_write_right_now_tv" />
 
         <ImageView
-            android:layout_width="375dp"
-            android:layout_height="386dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:src="@drawable/ic_start_ogam"
             app:layout_constraintBottom_toTopOf="@+id/start_start_btn"
             app:layout_constraintEnd_toEndOf="parent"

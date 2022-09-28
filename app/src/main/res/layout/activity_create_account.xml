@@ -23,7 +23,7 @@
         <ImageView
             android:id="@+id/create_account_step_iv"
             android:layout_marginTop="74dp"
-            android:visibility="@{activity.isKeyboardVisible? View.GONE: View.VISIBLE}"
+            marginTop="@{activity.isKeyboardVisible? 36 : 74}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_sign_up1"
@@ -37,7 +37,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
             android:gravity="center"
-            android:visibility="@{activity.isKeyboardVisible? View.GONE: View.VISIBLE}"
             android:text="@string/msg_create_account"
             android:textAppearance="@style/Head_B_26"
             app:layout_constraintTop_toBottomOf="@+id/create_account_step_iv" />
@@ -49,7 +48,6 @@
             android:layout_marginTop="4dp"
             android:gravity="center"
             android:text="@string/msg_keep_records"
-            android:visibility="@{activity.isKeyboardVisible? View.GONE: View.VISIBLE}"
             android:textAppearance="@style/Body2_R_14"
             android:textColor="@color/GY_04"
             app:layout_constraintTop_toBottomOf="@+id/create_account_create_account_tv" />
@@ -192,6 +190,22 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/create_account_next_btn"
+            android:layout_width="189dp"
+            android:layout_height="46dp"
+            android:background="@drawable/selector_sign_up_btn"
+            android:enabled="@{activity.nextBtnEnable}"
+            android:onClick="@{() -> activity.validateDuplicate(createAccountEmailEt.getText().toString())}"
+            android:stateListAnimator="@null"
+            android:text="@string/action_next"
+            android:textAppearance="@style/Sub_Head_B_18"
+            android:textColor="@drawable/selector_sign_up_text"
+            app:layout_constraintTop_toBottomOf="@+id/create_account_line_view"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!--<androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/create_account_next_btn"
             marginBottom="@{activity.isKeyboardVisible? 15: 122}"
             android:layout_width="189dp"
             android:layout_height="46dp"
@@ -204,7 +218,7 @@
             android:textColor="@drawable/selector_sign_up_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
