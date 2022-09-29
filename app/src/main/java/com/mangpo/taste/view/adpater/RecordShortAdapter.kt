@@ -1,5 +1,6 @@
 package com.mangpo.taste.view.adpater
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.RadioGroup
@@ -230,6 +231,7 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
     }
 
     fun removeData(contentId: Int) {
+        Log.d("RecordShortAdapter", "removeData records: ${this.records}")
         val position = this.records.indexOf(this.records.find { it.record?.id==contentId })
         this.records.removeAt(position)
         notifyItemRemoved(position) //삭제된 내역 반영

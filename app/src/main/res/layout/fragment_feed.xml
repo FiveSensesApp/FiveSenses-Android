@@ -254,7 +254,16 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.fragment.app.FragmentContainerView
+        <FrameLayout
+            android:id="@+id/feed_content_fl"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="136dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navGraph="@navigation/navigation_feed"/>
+
+        <!--<androidx.fragment.app.FragmentContainerView
             android:id="@+id/feed_fcv"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
@@ -263,7 +272,7 @@
             app:defaultNavHost="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:navGraph="@navigation/navigation_feed" />
+            app:navGraph="@navigation/navigation_feed" />-->
 
         <View
             android:id="@+id/feed_blurred_view"

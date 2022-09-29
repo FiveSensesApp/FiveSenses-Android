@@ -1,6 +1,7 @@
 package com.mangpo.taste.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -8,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.mangpo.domain.model.getPosts.ContentEntity
+import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentByScoreBinding
 import com.mangpo.taste.util.SpfUtils
@@ -33,11 +35,11 @@ class ByScoreFragment : BaseFragment<FragmentByScoreBinding>(FragmentByScoreBind
 
         initAdapter()
         observe()
-    }
 
-    override fun initAfterBinding() {
+        Log.d("ByScoreFragment", "onViewCreated")
         //수정된 record 의 데이터를 Observe 하고 있는 라이브 데이터
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<ContentEntity>("updatedContent")?.observe(viewLifecycleOwner) {
+
             if (it.star==recordShortAdapter.getScoreFilter())   //점수 이외 다른 데이터가 수정됐으면 아이템 업데이트
                 recordShortAdapter.updateData(it)
             else    //점수가 수정됐으면 리사이클러뷰에서 아이템 삭제
@@ -49,6 +51,10 @@ class ByScoreFragment : BaseFragment<FragmentByScoreBinding>(FragmentByScoreBind
             deletedContentId = contentId
             feedVm.deletePost(contentId)
         }
+    }
+
+    override fun initAfterBinding() {
+
     }
 
     private fun initAdapter() {

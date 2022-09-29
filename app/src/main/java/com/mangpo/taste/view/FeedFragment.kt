@@ -1,11 +1,17 @@
 package com.mangpo.taste.view
 
 import android.graphics.drawable.Drawable
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -23,79 +29,79 @@ import dagger.hilt.android.AndroidEntryPoint
 class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::inflate), TextWatcher {
     private val feedVm: FeedViewModel by viewModels()
     private val mainVm: MainViewModel by activityViewModels()
-    private val hasRecord: Boolean = true
-
-    private var isBack: Boolean = false
 
     private lateinit var onBackPressedCallback: OnBackPressedCallback
     private lateinit var typeIconList: List<Drawable>
     private lateinit var typeTextList: List<String>
+    private lateinit var fm: FragmentManager
+    private lateinit var ft: FragmentTransaction
+    private lateinit var noFeedFragment: NoFeedFragment
+    private lateinit var timelineFragment: TimelineFragment
 
     var isTypeSelectShown: Boolean = false
     lateinit var removedTypeTextList: List<String>
     lateinit var removedTypeIconList: List<Drawable>
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        Log.d("FeedFragment", "onViewCreated")
+
+        binding.apply {
+            fragment = this@FeedFragment
+            mainVm = this@FeedFragment.mainVm
+            lifecycleOwner = viewLifecycleOwner
+        }
+
+        fm = requireActivity().supportFragmentManager
+        ft = fm.beginTransaction()
+        noFeedFragment = NoFeedFragment()
+        timelineFragment = TimelineFragment()
+
+        typeIconList = listOf<Drawable>(ContextCompat.getDrawable(requireContext(), R.drawable.ic_timeline_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_sense_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_calendar_24)!!)
+        removedTypeIconList = listOf<Drawable>(ContextCompat.getDrawable(requireContext(), R.drawable.ic_sense_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_calendar_24)!!)
+        typeTextList = listOf(getString(R.string.title_timeline), getString(R.string.title_by_sense), getString(R.string.title_by_score), getString(R.string.title_by_calendar))
+        removedTypeTextList = listOf(getString(R.string.title_by_sense), getString(R.string.title_by_score), getString(R.string.title_by_calendar))
+
+        setSpannableText(binding.feedMyTasteTv.text.toString(), requireContext(), R.color.GY_03, 6, binding.feedMyTasteTv.text.length, binding.feedMyTasteTv)   //나의 취향 뒷부분 텍스트 색상 변경
+
+        setMyEventListener()
+        observe()
+
+        //기록 목록 조회 API 호출
+        feedVm.getPosts(SpfUtils.getIntEncryptedSpf("userId"), 0, "id,desc", null, null, null)
+    }
+
     override fun initAfterBinding() {
-        if (!isBack) {
-            binding.apply {
-                fragment = this@FeedFragment
-                mainVm = this@FeedFragment.mainVm
-                lifecycleOwner = viewLifecycleOwner
-            }
-
-            typeIconList = listOf<Drawable>(ContextCompat.getDrawable(requireContext(), R.drawable.ic_timeline_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_sense_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_calendar_24)!!)
-            removedTypeIconList = listOf<Drawable>(ContextCompat.getDrawable(requireContext(), R.drawable.ic_sense_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_calendar_24)!!)
-            typeTextList = listOf(getString(R.string.title_timeline), getString(R.string.title_by_sense), getString(R.string.title_by_score), getString(R.string.title_by_calendar))
-            removedTypeTextList = listOf(getString(R.string.title_by_sense), getString(R.string.title_by_score), getString(R.string.title_by_calendar))
-
-            setSpannableText(binding.feedMyTasteTv.text.toString(), requireContext(), R.color.GY_03, 6, binding.feedMyTasteTv.text.length, binding.feedMyTasteTv)   //나의 취향 뒷부분 텍스트 색상 변경
-
+        /*if (!isBack) {
             //뒤로가기 콜백 리스너
             onBackPressedCallback = object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    /*if (binding.feedFcv.findNavController().currentDestination?.id == R.id.searchResultFragment) {  //검색 결과 프래그먼트에 있을 경우
+                    *//*if (binding.feedFcv.findNavController().currentDestination?.id == R.id.searchResultFragment) {  //검색 결과 프래그먼트에 있을 경우
                         binding.feedSearchRightIv.visibility = View.VISIBLE  //오른쪽 검색 아이콘 VISIBLE
                         binding.feedSearchLeftIv.visibility = View.INVISIBLE  //왼쪽 검색 아이콘 INVISIBLE
                         binding.feedSearchEt.visibility = View.INVISIBLE  //검색 EditText INVISIBLE
 
                         binding.feedSearchEt.text.clear()   //검색 내역 지우기
                     } else
-                        requireActivity().finish()*/
+                        requireActivity().finish()*//*
                 }
             }
             requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)    //뒤로가기 콜백 리스너 등록
-
-            setMyEventListener()
-            observe()
-
-            feedVm.getPosts(
-                SpfUtils.getIntEncryptedSpf("userId"),
-                0,
-                "id,desc",
-                null,
-                null,
-                null
-            )  //기록 목록 조회 API 호출
-        }
+        }*/
     }
 
-    override fun onStop() {
-        super.onStop()
-
-        isBack = true
-    }
-
-    override fun onDetach() {
+    /*override fun onDetach() {
         super.onDetach()
 
         onBackPressedCallback.remove()
-    }
+    }*/
 
     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
     }
 
     override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-        if (p0?.length!! <= 0) {
+        /*if (p0?.length!! <= 0) {
             showTasteHeader()
             binding.feedFcv.findNavController().popBackStack()
         } else {
@@ -106,13 +112,13 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
             isTypeSelectShown = false
             binding.invalidateAll()
 
-            /*if (binding.feedFcv.findNavController().currentDestination?.id!=R.id.searchResultFragment) {
+            *//*if (binding.feedFcv.findNavController().currentDestination?.id!=R.id.searchResultFragment) {
                 val action = NavigationFeedDirections.actionGlobalSearchResultFragment(p0.toString())
                 binding.feedFcv.findNavController().navigate(action)
             } else {
                 binding.feedFcv.findNavController().previousBackStackEntry?.savedStateHandle?.set("search", p0.toString())
-            }*/
-        }
+            }*//*
+        }*/
     }
 
     override fun afterTextChanged(p0: Editable?) {
@@ -137,7 +143,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
     private fun observe() {
         //기록 화면이 올라왔을 때/내려왔을 때 typeSelectTouchView 의 활성화/비활성화 여부 Observe
         mainVm.typeSelectTouchViewEnableStatus.observe(viewLifecycleOwner, Observer {
-            val typeSelectTouchViewEnableStatus = it.getContentIfNotHandled()
+            /*val typeSelectTouchViewEnableStatus = it.getContentIfNotHandled()
 
             if (typeSelectTouchViewEnableStatus!=null) {
                 binding.feedTypeSelectTouchView.isEnabled = typeSelectTouchViewEnableStatus
@@ -145,19 +151,45 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
                 if (typeSelectTouchViewEnableStatus && mainVm.getIsRecordComplete() && binding.feedFcv.findNavController().currentDestination?.id==R.id.noFeedFragment) {
                     binding.feedFcv.findNavController().navigate(R.id.action_global_timelineFragment)
                 }
-            }
+            }*/
         })
 
         feedVm.posts.observe(viewLifecycleOwner, Observer {
             val posts = it.getContentIfNotHandled()
 
             if (posts!=null) {
+                Log.d("FeedFragment", "posts Observe!! -> ${binding.feedMyTasteTv.text}")
+                if (posts.empty) {
+                    ft.replace(binding.feedContentFl.id, noFeedFragment).commit()
+//                    binding.feedFcv.findNavController().navigate(R.id.action_emptyFragment_to_noFeedFragment)
+                } else {
+                    ft.replace(binding.feedContentFl.id, timelineFragment).commit()
+//                    binding.feedFcv.findNavController().navigate(R.id.action_emptyFragment_to_timelineFragment)
+                    /*when (binding.feedMyTasteTv.text.toString()) {
+                        "나의 취향 ${getString(R.string.title_timeline)}" -> binding.feedFcv.findNavController().navigate(R.id.action_global_timelineFragment)
+                        "나의 취향 ${getString(R.string.title_by_sense)}" -> binding.feedFcv.findNavController().navigate(R.id.action_global_bySenseFragment)
+                        "나의 취향 ${getString(R.string.title_by_score)}" -> binding.feedFcv.findNavController().navigate(R.id.action_global_byScoreFragment)
+                        "나의 취향 ${getString(R.string.title_by_calendar)}" -> binding.feedFcv.findNavController().navigate(R.id.action_global_byCalendarFragment)
+                    }*/
+            }
+        }
+
+            /*val posts = it.getContentIfNotHandled()
+
+            if (posts!=null) {
+                Log.d("FeedFragment", "posts Observe!! -> ${binding.feedMyTasteTv.text}")
                 if (posts.empty) {
                     binding.feedFcv.findNavController().navigate(R.id.action_emptyFragment_to_noFeedFragment)
                 } else {
                     binding.feedFcv.findNavController().navigate(R.id.action_emptyFragment_to_timelineFragment)
+                    *//*when (binding.feedMyTasteTv.text.toString()) {
+                        "나의 취향 ${getString(R.string.title_timeline)}" -> binding.feedFcv.findNavController().navigate(R.id.action_global_timelineFragment)
+                        "나의 취향 ${getString(R.string.title_by_sense)}" -> binding.feedFcv.findNavController().navigate(R.id.action_global_bySenseFragment)
+                        "나의 취향 ${getString(R.string.title_by_score)}" -> binding.feedFcv.findNavController().navigate(R.id.action_global_byScoreFragment)
+                        "나의 취향 ${getString(R.string.title_by_calendar)}" -> binding.feedFcv.findNavController().navigate(R.id.action_global_byCalendarFragment)
+                    }*//*
                 }
-            }
+            }*/
         })
     }
 
@@ -195,10 +227,10 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
         }
 
         when (clickedText) {
-            getString(R.string.title_timeline) -> binding.feedFcv.findNavController().navigate(R.id.action_global_timelineFragment)
+            /*getString(R.string.title_timeline) -> binding.feedFcv.findNavController().navigate(R.id.action_global_timelineFragment)
             getString(R.string.title_by_sense) -> binding.feedFcv.findNavController().navigate(R.id.action_global_bySenseFragment)
             getString(R.string.title_by_score) -> binding.feedFcv.findNavController().navigate(R.id.action_global_byScoreFragment)
-            getString(R.string.title_by_calendar) -> binding.feedFcv.findNavController().navigate(R.id.action_global_byCalendarFragment)
+            getString(R.string.title_by_calendar) -> binding.feedFcv.findNavController().navigate(R.id.action_global_byCalendarFragment)*/
         }
 
         binding.feedMyTasteTv.text = "나의 취향 $clickedText"

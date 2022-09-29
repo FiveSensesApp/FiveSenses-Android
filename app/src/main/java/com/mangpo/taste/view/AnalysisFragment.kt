@@ -1,11 +1,19 @@
 package com.mangpo.taste.view
 
+import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentAnalysisBinding
 
 class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisBinding::inflate) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.d("AnalysisFragment", "onViewCreated")
+    }
+
     override fun initAfterBinding() {
         setMyEventListener()
     }
