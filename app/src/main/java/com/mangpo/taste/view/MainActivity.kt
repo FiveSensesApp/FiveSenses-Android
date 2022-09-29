@@ -1,5 +1,6 @@
 package com.mangpo.taste.view
 
+import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils

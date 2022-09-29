@@ -1,6 +1,7 @@
 package com.mangpo.taste.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -23,7 +24,7 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
     private val feedVm: FeedViewModel by viewModels()
 
     private var page: Int = 0
-    private var isLast: Boolean = false
+    private var isLast: Boolean = true
     private var deletedContentId: Int = -1
 
     private lateinit var recordShortAdapter: RecordShortAdapter
@@ -31,15 +32,14 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Log.d("BySenseFragment", "onViewCreated")
+
         initAdapter()
         observe()
 
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>("updateFlag")?.observe(viewLifecycleOwner) {
-            if (it) {
-                recordShortAdapter.clearData()  //현재 리사이클러뷰에 있는 content 데이터들 지우기
-                clearPaging()   //페이징 관련 데이터 초기화
-                getPosts(page, recordShortAdapter.getSenseFilter())  //선택된 감각으로 기록 조회
-            }
+        //수정된 record 의 데이터를 Observe 하고 있는 라이브 데이터
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<ContentEntity>("updatedContent")?.observe(viewLifecycleOwner) {
+            recordShortAdapter.updateData(it)
         }
 
         //삭제된 record 의 position 을 Observe 하고 있는 라이브 데이터
@@ -54,6 +54,7 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
 
     private fun initAdapter() {
         recordShortAdapter = RecordShortAdapter(mutableListOf(Record(0, null), Record(2, null)))
+
         recordShortAdapter.setMyClickListener(object : RecordShortAdapter.MyClickListener {
 
             override fun onClick(content: ContentEntity) {
@@ -66,6 +67,9 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
                 clearPaging()   //페이징 관련 데이터 초기화
                 feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), filter, null, null)  //선택된 감각의 총 기록 개수 조회
                 getPosts(page, recordShortAdapter.getSenseFilter())
+            }
+
+            override fun changeFilter(filter: Int) {
             }
         })
 
@@ -82,6 +86,7 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
                 }
             }
         })
+
         binding.bySenseRv.adapter = recordShortAdapter
 
         feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), recordShortAdapter.getSenseFilter(), null, null) //시각 기록 총 개수 조회
@@ -94,7 +99,7 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
 
     private fun clearPaging() {
         page = 0
-        isLast = false
+        isLast = true
     }
 
     private fun observe() {
