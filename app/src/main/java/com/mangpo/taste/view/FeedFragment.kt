@@ -34,11 +34,15 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
     private lateinit var typeIconList: List<Drawable>
     private lateinit var typeTextList: List<String>
     private lateinit var fm: FragmentManager
-    private lateinit var ft: FragmentTransaction
+//    private lateinit var ft: FragmentTransaction
     private lateinit var noFeedFragment: NoFeedFragment
     private lateinit var timelineFragment: TimelineFragment
+    private lateinit var bySenseFragment: BySenseFragment
+    private lateinit var byScoreFragment: ByScoreFragment
+    private lateinit var byCalendarFragment: ByCalendarFragment
 
     var isTypeSelectShown: Boolean = false
+    var selectedType = "나의 취향 | 타임라인"
     lateinit var removedTypeTextList: List<String>
     lateinit var removedTypeIconList: List<Drawable>
 
@@ -54,16 +58,18 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
         }
 
         fm = requireActivity().supportFragmentManager
-        ft = fm.beginTransaction()
         noFeedFragment = NoFeedFragment()
         timelineFragment = TimelineFragment()
+        bySenseFragment = BySenseFragment()
+        byScoreFragment = ByScoreFragment()
+        byCalendarFragment = ByCalendarFragment()
 
         typeIconList = listOf<Drawable>(ContextCompat.getDrawable(requireContext(), R.drawable.ic_timeline_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_sense_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_calendar_24)!!)
         removedTypeIconList = listOf<Drawable>(ContextCompat.getDrawable(requireContext(), R.drawable.ic_sense_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_calendar_24)!!)
         typeTextList = listOf(getString(R.string.title_timeline), getString(R.string.title_by_sense), getString(R.string.title_by_score), getString(R.string.title_by_calendar))
         removedTypeTextList = listOf(getString(R.string.title_by_sense), getString(R.string.title_by_score), getString(R.string.title_by_calendar))
 
-        setSpannableText(binding.feedMyTasteTv.text.toString(), requireContext(), R.color.GY_03, 6, binding.feedMyTasteTv.text.length, binding.feedMyTasteTv)   //나의 취향 뒷부분 텍스트 색상 변경
+        setSpannableText(selectedType, requireContext(), R.color.GY_03, 6, selectedType.length, binding.feedMyTasteTv)   //나의 취향 뒷부분 텍스트 색상 변경
 
         setMyEventListener()
         observe()
@@ -89,6 +95,11 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
             }
             requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)    //뒤로가기 콜백 리스너 등록
         }*/
+    }
+
+    override fun onStop() {
+        super.onStop()
+        selectedType = binding.feedMyTasteTv.text.toString()
     }
 
     /*override fun onDetach() {
@@ -158,38 +169,18 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
             val posts = it.getContentIfNotHandled()
 
             if (posts!=null) {
-                Log.d("FeedFragment", "posts Observe!! -> ${binding.feedMyTasteTv.text}")
                 if (posts.empty) {
-                    ft.replace(binding.feedContentFl.id, noFeedFragment).commit()
-//                    binding.feedFcv.findNavController().navigate(R.id.action_emptyFragment_to_noFeedFragment)
+                    fm.beginTransaction().replace(binding.feedContentFl.id, noFeedFragment).commit()
                 } else {
-                    ft.replace(binding.feedContentFl.id, timelineFragment).commit()
-//                    binding.feedFcv.findNavController().navigate(R.id.action_emptyFragment_to_timelineFragment)
-                    /*when (binding.feedMyTasteTv.text.toString()) {
-                        "나의 취향 ${getString(R.string.title_timeline)}" -> binding.feedFcv.findNavController().navigate(R.id.action_global_timelineFragment)
-                        "나의 취향 ${getString(R.string.title_by_sense)}" -> binding.feedFcv.findNavController().navigate(R.id.action_global_bySenseFragment)
-                        "나의 취향 ${getString(R.string.title_by_score)}" -> binding.feedFcv.findNavController().navigate(R.id.action_global_byScoreFragment)
-                        "나의 취향 ${getString(R.string.title_by_calendar)}" -> binding.feedFcv.findNavController().navigate(R.id.action_global_byCalendarFragment)
-                    }*/
-            }
-        }
-
-            /*val posts = it.getContentIfNotHandled()
-
-            if (posts!=null) {
-                Log.d("FeedFragment", "posts Observe!! -> ${binding.feedMyTasteTv.text}")
-                if (posts.empty) {
-                    binding.feedFcv.findNavController().navigate(R.id.action_emptyFragment_to_noFeedFragment)
-                } else {
-                    binding.feedFcv.findNavController().navigate(R.id.action_emptyFragment_to_timelineFragment)
-                    *//*when (binding.feedMyTasteTv.text.toString()) {
-                        "나의 취향 ${getString(R.string.title_timeline)}" -> binding.feedFcv.findNavController().navigate(R.id.action_global_timelineFragment)
-                        "나의 취향 ${getString(R.string.title_by_sense)}" -> binding.feedFcv.findNavController().navigate(R.id.action_global_bySenseFragment)
-                        "나의 취향 ${getString(R.string.title_by_score)}" -> binding.feedFcv.findNavController().navigate(R.id.action_global_byScoreFragment)
-                        "나의 취향 ${getString(R.string.title_by_calendar)}" -> binding.feedFcv.findNavController().navigate(R.id.action_global_byCalendarFragment)
-                    }*//*
+                    Log.d("FeedFragment", "posts Observe!! -> $selectedType")
+                    when (selectedType) {
+                        "나의 취향 ${getString(R.string.title_timeline)}" -> fm.beginTransaction().replace(binding.feedContentFl.id, timelineFragment).commit()
+                        "나의 취향 ${getString(R.string.title_by_sense)}" -> fm.beginTransaction().replace(binding.feedContentFl.id, bySenseFragment).commit()
+                        "나의 취향 ${getString(R.string.title_by_score)}" -> fm.beginTransaction().replace(binding.feedContentFl.id, byScoreFragment).commit()
+                        "나의 취향 ${getString(R.string.title_by_calendar)}" -> fm.beginTransaction().replace(binding.feedContentFl.id, byCalendarFragment).commit()
+                    }
                 }
-            }*/
+            }
         })
     }
 
@@ -227,13 +218,13 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
         }
 
         when (clickedText) {
-            /*getString(R.string.title_timeline) -> binding.feedFcv.findNavController().navigate(R.id.action_global_timelineFragment)
-            getString(R.string.title_by_sense) -> binding.feedFcv.findNavController().navigate(R.id.action_global_bySenseFragment)
-            getString(R.string.title_by_score) -> binding.feedFcv.findNavController().navigate(R.id.action_global_byScoreFragment)
-            getString(R.string.title_by_calendar) -> binding.feedFcv.findNavController().navigate(R.id.action_global_byCalendarFragment)*/
+            getString(R.string.title_timeline) -> fm.beginTransaction().replace(binding.feedContentFl.id, timelineFragment).commit()
+            getString(R.string.title_by_sense) -> fm.beginTransaction().replace(binding.feedContentFl.id, bySenseFragment).commit()
+            getString(R.string.title_by_score) -> fm.beginTransaction().replace(binding.feedContentFl.id, byScoreFragment).commit()
+            getString(R.string.title_by_calendar) -> fm.beginTransaction().replace(binding.feedContentFl.id, byCalendarFragment).commit()
         }
 
-        binding.feedMyTasteTv.text = "나의 취향 $clickedText"
+        selectedType = "나의 취향 $clickedText"
 
         //선택한 타입 텍스트&아이콘 제외하고 나머지를 typeSelectLayout 에 보여주기
         removedTypeTextList = typeTextList.filterNot { it == clickedText }

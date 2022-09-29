@@ -76,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:text="나의 취향 | 타임라인"
+                android:text="@{fragment.selectedType}"
                 android:textAppearance="@style/Head_B_26"
                 app:layout_constraintBottom_toBottomOf="@+id/feed_type_select_touch_view"
                 app:layout_constraintStart_toStartOf="parent"
