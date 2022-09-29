@@ -18,6 +18,7 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
     interface MyClickListener {
         fun onClick(content: ContentEntity)
         fun changeFilter(filter: String)
+        fun changeFilter(filter: Int)
     }
 
     private lateinit var bySenseFilterBinding: ItemBySenseFilterBinding
@@ -42,7 +43,8 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
             }
             ContentViewType.BY_SCORE_FILTER.num -> {
                 byScoreFilterBinding = ItemByScoreFilterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                ByScoreFilterViewHolder(byScoreFilterBinding)
+                byScoreFilterViewHolder = ByScoreFilterViewHolder(byScoreFilterBinding)
+                byScoreFilterViewHolder
             }
             ContentViewType.RECORD_CNT.num -> {
                 recordCntBinding = ItemRecordCntBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -128,15 +130,23 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
 
         fun bind() {
             filterRg.setOnCheckedChangeListener { radioGroup, i ->
-                /*when (i) {
-                    R.id.by_score_1score_rb -> filteredRecords = baseRecords.filter { it.record==null || it.record?.star==1f } as MutableList<Record>
-                    R.id.by_score_2score_rb -> filteredRecords = baseRecords.filter { it.record==null || it.record?.star==2f } as MutableList<Record>
-                    R.id.by_score_3score_rb -> filteredRecords = baseRecords.filter { it.record==null || it.record?.star==3f } as MutableList<Record>
-                    R.id.by_score_4score_rb -> filteredRecords = baseRecords.filter { it.record==null || it.record?.star==4f } as MutableList<Record>
-                    R.id.by_score_5score_rb -> filteredRecords = baseRecords.filter { it.record==null || it.record?.star==5f } as MutableList<Record>
-                }*/
+                when (i) {
+                    R.id.by_score_1score_rb -> myClickListener.changeFilter(1)
+                    R.id.by_score_2score_rb -> myClickListener.changeFilter(2)
+                    R.id.by_score_3score_rb -> myClickListener.changeFilter(3)
+                    R.id.by_score_4score_rb -> myClickListener.changeFilter(4)
+                    R.id.by_score_5score_rb -> myClickListener.changeFilter(5)
+                }
+            }
+        }
 
-                notifyDataSetChanged()
+        fun getScoreFilter(): Int {
+            return when (filterRg.checkedRadioButtonId) {
+                R.id.by_score_1score_rb -> 1
+                R.id.by_score_2score_rb -> 2
+                R.id.by_score_3score_rb -> 3
+                R.id.by_score_4score_rb -> 4
+                else -> 5
             }
         }
     }
@@ -201,6 +211,14 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
         }
     }
 
+    fun getScoreFilter(): Int {
+        return if (!::byScoreFilterBinding.isInitialized) {
+            5
+        } else {
+            byScoreFilterViewHolder.getScoreFilter()
+        }
+    }
+
     fun addData(contentEntities: List<ContentEntity>) {
         this.records.addAll(mapperToRecord(contentEntities))
         notifyItemRangeInserted(this.records.size-contentEntities.size, contentEntities.size)
@@ -223,5 +241,11 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
 
     fun setCnt(cnt: Int) {
         recordCntViewHolder.setCnt(cnt)
+    }
+
+    fun updateData(contentEntity: ContentEntity) {
+        val selectedPosition = this.records.indexOf(this.records.find { it.record?.id==contentEntity.id })
+        this.records[selectedPosition].record = contentEntity
+        notifyItemChanged(selectedPosition)
     }
 }

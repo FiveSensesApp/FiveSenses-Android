@@ -124,7 +124,7 @@ class RecordDialogFragment : DialogFragment() {
     }
 
     fun close() {
-        this@RecordDialogFragment.setNavigationResult("updateFlag", this.updateFlag)    //이전 프래그먼트한테 updateFlag 넘겨주기
+        this@RecordDialogFragment.setNavigationResult("updatedContent", binding.content)    //이전 프래그먼트한테 updateFlag 넘겨주기
         dialog?.dismiss()
     }
 
