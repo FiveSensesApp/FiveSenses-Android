@@ -23,7 +23,7 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
     private val feedVm: FeedViewModel by viewModels()
 
     private var page: Int = 0
-    private var isLast: Boolean = false
+    private var isLast: Boolean = true
     private var deletedContentId: Int = -1
 
     private lateinit var recordShortAdapter: RecordShortAdapter
@@ -51,6 +51,7 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
 
     private fun initAdapter() {
         recordShortAdapter = RecordShortAdapter(mutableListOf(Record(0, null), Record(2, null)))
+
         recordShortAdapter.setMyClickListener(object : RecordShortAdapter.MyClickListener {
 
             override fun onClick(content: ContentEntity) {
@@ -82,6 +83,7 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
                 }
             }
         })
+
         binding.bySenseRv.adapter = recordShortAdapter
 
         feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), recordShortAdapter.getSenseFilter(), null, null) //시각 기록 총 개수 조회
@@ -94,7 +96,7 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
 
     private fun clearPaging() {
         page = 0
-        isLast = false
+        isLast = true
     }
 
     private fun observe() {

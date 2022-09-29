@@ -3,6 +3,7 @@ package com.mangpo.taste.view
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
@@ -26,10 +27,8 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
     private val mainVm: MainViewModel by activityViewModels()
     private val feedVm: FeedViewModel by viewModels()
 
-    private var isBack: Boolean = false
     private var page: Int = 0
-    private var isLast: Boolean = false
-    private var selectedPosition: Int = 0   //선택한 기록의 아이템 위치를 기록하는 변수
+    private var isLast: Boolean = true
 
     private lateinit var twoBtnDialogFragment: TwoBtnDialogFragment
     private lateinit var recordDetailAdapter: RecordDetailAdapter
@@ -40,27 +39,22 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
 
         updateCompleteLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                // There are no request codes
                 val data: Intent = result.data!!
                 val updatedPost: UpdatePostResEntity = data.getParcelableExtra<UpdatePostResEntity>("updatedPost")!!
-                recordDetailAdapter.updateData(selectedPosition, updatedPost)
+                recordDetailAdapter.updateData(updatedPost)
             }
         }
     }
 
-    override fun initAfterBinding() {
-        if (!isBack) {
-            initTwoBtnDialog()
-            initAdapter()
-            observe()
-            getPosts(page, recordDetailAdapter.getFilter())
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+        initTwoBtnDialog()
+        initAdapter()
+        observe()
     }
 
-    override fun onResume() {
-        super.onResume()
-        binding.timelineRecordRv.scrollToPosition(selectedPosition) //선택한 기록의 아이템 위치로 이동
+    override fun initAfterBinding() {
     }
 
     private fun initTwoBtnDialog() {
@@ -80,9 +74,6 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
 
         recordDetailAdapter.setMyClickListener(object : RecordDetailAdapter.MyClickListener {
             override fun update(content: ContentEntity) {
-                isBack = true
-                selectedPosition = recordDetailAdapter.getPositionByPostId(content.id)
-
                 val intent = Intent(requireContext(), RecordUpdateActivity::class.java)
                 intent.putExtra("content", content)
                 updateCompleteLauncher.launch(intent)
@@ -96,18 +87,12 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
             }
 
             override fun changeSortFilter(sort: String) {   //정렬 필터(최신순, 오래된순)가 바뀔 때 호출되는 함수
-                //page, isLast 초기화
-                page = 0
-                isLast = false
-
-                //정렬 필터에 따라 getPosts API 호출
-                getPosts(page, sort)
+                clearPaging()   //page, isLast 초기화
+                getPosts(page, sort)    //정렬 필터에 따라 getPosts API 호출
             }
 
             override fun callGetPostsAPI(filter: String) {
-                page = 0
-                isLast = false
-
+                clearPaging()
                 getPosts(page, filter)
             }
         })
@@ -127,11 +112,18 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
         })
 
         binding.timelineRecordRv.adapter = recordDetailAdapter
+
+        getPosts(page, recordDetailAdapter.getFilter())
     }
 
     //기록 목록 조회 API 호출
     private fun getPosts(page: Int, sort: String) {
         feedVm.getPosts(SpfUtils.getIntEncryptedSpf("userId"), page, "id,$sort", null, null, null)
+    }
+
+    private fun clearPaging() {
+        page = 0
+        isLast = true
     }
 
     private fun observe() {
@@ -140,8 +132,8 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
             val callGetPostsFlag = it.getContentIfNotHandled()
 
             if (callGetPostsFlag!=null && callGetPostsFlag) {
-                page = 0
-                isLast = false
+                clearPaging()   //페이징 관련 데이터 초기화
+                recordDetailAdapter.clearData() //현재 리사이클러뷰에 있는 content 데이터들 지우기
                 getPosts(page, recordDetailAdapter.getFilter())
             }
         })
@@ -165,21 +157,9 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
             val posts = it.getContentIfNotHandled()
 
             if (posts!=null) {
-                //set page & isLast
                 page = posts.pageNumber
                 isLast = posts.isLast
-
-                if (!posts.empty) {    //빈 데이터가 아니면 adapter 에 데이터 추가
-                    if (page==0) {  //단 첫번재 페이지면 데이터들 모두 싹 지우고 추가
-                        recordDetailAdapter.clearData()
-                    }
-
-                    recordDetailAdapter.addData(posts.content)
-                } else {    //데이터가 비어있을 때
-                    if (page==0) {  //첫번재 페이지면 클리어
-                        recordDetailAdapter.clearData()
-                    }
-                }
+                recordDetailAdapter.addData(posts.content)
             }
         })
 

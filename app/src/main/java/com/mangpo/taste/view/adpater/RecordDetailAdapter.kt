@@ -210,10 +210,12 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    fun updateData(selectedPosition: Int, updatePostResEntity: UpdatePostResEntity) {
+    fun updateData(updatePostResEntity: UpdatePostResEntity) {
         val record: ContentEntity = updatePostResEntity.run {
             ContentEntity(id, category, keyword, star, content, createdDate.split("T")[0])
         }
+
+        val selectedPosition: Int = this.records.indexOf(this.records.find { it.record?.id==record.id })
         this.records[selectedPosition].record = record
         notifyItemChanged(selectedPosition)
     }

@@ -23,7 +23,7 @@ class ByScoreFragment : BaseFragment<FragmentByScoreBinding>(FragmentByScoreBind
     private val feedVm: FeedViewModel by viewModels()
 
     private var page: Int = 0
-    private var isLast: Boolean = false
+    private var isLast: Boolean = true
     private var deletedContentId: Int = -1
 
     private lateinit var recordShortAdapter: RecordShortAdapter
@@ -53,6 +53,7 @@ class ByScoreFragment : BaseFragment<FragmentByScoreBinding>(FragmentByScoreBind
 
     private fun initAdapter() {
         recordShortAdapter = RecordShortAdapter(mutableListOf(Record(1, null), Record(2, null)))
+
         recordShortAdapter.setMyClickListener(object : RecordShortAdapter.MyClickListener {
 
             override fun onClick(content: ContentEntity) {
@@ -70,6 +71,7 @@ class ByScoreFragment : BaseFragment<FragmentByScoreBinding>(FragmentByScoreBind
                 getPosts(page, recordShortAdapter.getScoreFilter())
             }
         })
+
         //무한스크롤 구현
         binding.byScoreRv.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -83,6 +85,7 @@ class ByScoreFragment : BaseFragment<FragmentByScoreBinding>(FragmentByScoreBind
                 }
             }
         })
+
         binding.byScoreRv.adapter = recordShortAdapter
 
         feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, recordShortAdapter.getScoreFilter(), null) //시각 기록 총 개수 조회
@@ -95,7 +98,7 @@ class ByScoreFragment : BaseFragment<FragmentByScoreBinding>(FragmentByScoreBind
 
     private fun clearPaging() {
         page = 0
-        isLast = false
+        isLast = true
     }
 
     private fun observe() {
