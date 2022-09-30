@@ -3,7 +3,6 @@ package com.mangpo.taste.view
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -50,7 +49,6 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d("TimelineFragment", "onViewCreated")
         initTwoBtnDialog()
         initAdapter()
         observe()
@@ -114,7 +112,6 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
         })
 
         binding.timelineRecordRv.adapter = recordDetailAdapter
-
         getPosts(page, recordDetailAdapter.getFilter())
     }
 

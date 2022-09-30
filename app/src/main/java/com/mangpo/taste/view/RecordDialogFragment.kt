@@ -13,7 +13,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
-import androidx.navigation.fragment.navArgs
 import com.mangpo.domain.model.getPosts.ContentEntity
 import com.mangpo.domain.model.updatePost.UpdatePostResEntity
 import com.mangpo.taste.R
@@ -21,18 +20,21 @@ import com.mangpo.taste.databinding.FragmentRecordDialogBinding
 import com.mangpo.taste.util.DialogFragmentUtils
 import com.mangpo.taste.util.fadeIn
 import com.mangpo.taste.util.fadeOut
-import com.mangpo.taste.util.setNavigationResult
 import com.mangpo.taste.view.model.RecordDetailResource
 import com.mangpo.taste.view.model.TwoBtnDialog
 
 class RecordDialogFragment : DialogFragment() {
-    private val args: RecordDialogFragmentArgs by navArgs()
+    interface EventListener {
+        fun close(contentEntity: ContentEntity)
+        fun deleteComplete(contentId: Int)
+    }
 
     private var updateFlag: Boolean = false
 
     private lateinit var binding: FragmentRecordDialogBinding
     private lateinit var twoBtnDialogFragment: TwoBtnDialogFragment
     private lateinit var updateCompleteLauncher: ActivityResultLauncher<Intent>
+    private lateinit var eventListener: EventListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,10 +56,11 @@ class RecordDialogFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentRecordDialogBinding.inflate(inflater, container, false)
+
         binding.apply {
             fragment = this@RecordDialogFragment
-            content = args.content
-            resource = setRecordDetailResource(args.content)
+            content = arguments?.getParcelable("content")
+            resource = setRecordDetailResource(arguments?.getParcelable("content")!!)
         }
 
         dialog?.setCancelable(false)    //외부 화면 눌러서 다이얼로그 사라지는거 막기
@@ -87,8 +90,7 @@ class RecordDialogFragment : DialogFragment() {
         twoBtnDialogFragment.setMyCallback(object : TwoBtnDialogFragment.MyCallback {
             override fun leftAction() { //삭제하기
                 binding.recordDialogBlurredView.visibility = View.INVISIBLE
-
-                this@RecordDialogFragment.setNavigationResult("contentId", binding.content!!.id)    //이전 프래그먼트한테 recordId 넘겨주기
+                eventListener.deleteComplete(binding.content!!.id)
                 dismiss()   //프래그먼트 종료
             }
 
@@ -123,8 +125,12 @@ class RecordDialogFragment : DialogFragment() {
         }
     }
 
+    fun setEventListener(eventListener: EventListener) {
+        this.eventListener = eventListener
+    }
+
     fun close() {
-        this@RecordDialogFragment.setNavigationResult("updatedContent", binding.content)    //이전 프래그먼트한테 updateFlag 넘겨주기
+        eventListener.close(binding.content!!)
         dialog?.dismiss()
     }
 

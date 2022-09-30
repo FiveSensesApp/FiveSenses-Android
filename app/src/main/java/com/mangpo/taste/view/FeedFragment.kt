@@ -4,18 +4,13 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentFeedBinding
@@ -34,12 +29,6 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
     private lateinit var typeIconList: List<Drawable>
     private lateinit var typeTextList: List<String>
     private lateinit var fm: FragmentManager
-//    private lateinit var ft: FragmentTransaction
-    private lateinit var noFeedFragment: NoFeedFragment
-    private lateinit var timelineFragment: TimelineFragment
-    private lateinit var bySenseFragment: BySenseFragment
-    private lateinit var byScoreFragment: ByScoreFragment
-    private lateinit var byCalendarFragment: ByCalendarFragment
 
     var isTypeSelectShown: Boolean = false
     var selectedType = "나의 취향 | 타임라인"
@@ -49,8 +38,6 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d("FeedFragment", "onViewCreated")
-
         binding.apply {
             fragment = this@FeedFragment
             mainVm = this@FeedFragment.mainVm
@@ -58,11 +45,6 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
         }
 
         fm = requireActivity().supportFragmentManager
-        noFeedFragment = NoFeedFragment()
-        timelineFragment = TimelineFragment()
-        bySenseFragment = BySenseFragment()
-        byScoreFragment = ByScoreFragment()
-        byCalendarFragment = ByCalendarFragment()
 
         typeIconList = listOf<Drawable>(ContextCompat.getDrawable(requireContext(), R.drawable.ic_timeline_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_sense_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_calendar_24)!!)
         removedTypeIconList = listOf<Drawable>(ContextCompat.getDrawable(requireContext(), R.drawable.ic_sense_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_24)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_calendar_24)!!)
@@ -154,15 +136,16 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
     private fun observe() {
         //기록 화면이 올라왔을 때/내려왔을 때 typeSelectTouchView 의 활성화/비활성화 여부 Observe
         mainVm.typeSelectTouchViewEnableStatus.observe(viewLifecycleOwner, Observer {
-            /*val typeSelectTouchViewEnableStatus = it.getContentIfNotHandled()
+            val typeSelectTouchViewEnableStatus = it.getContentIfNotHandled()
 
             if (typeSelectTouchViewEnableStatus!=null) {
                 binding.feedTypeSelectTouchView.isEnabled = typeSelectTouchViewEnableStatus
 
-                if (typeSelectTouchViewEnableStatus && mainVm.getIsRecordComplete() && binding.feedFcv.findNavController().currentDestination?.id==R.id.noFeedFragment) {
-                    binding.feedFcv.findNavController().navigate(R.id.action_global_timelineFragment)
+                val fragment = fm.findFragmentById(binding.feedContentFl.id)
+                if (typeSelectTouchViewEnableStatus && mainVm.getIsRecordComplete() && fragment?.javaClass==NoFeedFragment::class.java) {
+                    fm.beginTransaction().replace(binding.feedContentFl.id, TimelineFragment()).commit()
                 }
-            }*/
+            }
         })
 
         feedVm.posts.observe(viewLifecycleOwner, Observer {
@@ -170,14 +153,13 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
 
             if (posts!=null) {
                 if (posts.empty) {
-                    fm.beginTransaction().replace(binding.feedContentFl.id, noFeedFragment).commit()
+                    fm.beginTransaction().replace(binding.feedContentFl.id, NoFeedFragment()).commit()
                 } else {
-                    Log.d("FeedFragment", "posts Observe!! -> $selectedType")
                     when (selectedType) {
-                        "나의 취향 ${getString(R.string.title_timeline)}" -> fm.beginTransaction().replace(binding.feedContentFl.id, timelineFragment).commit()
-                        "나의 취향 ${getString(R.string.title_by_sense)}" -> fm.beginTransaction().replace(binding.feedContentFl.id, bySenseFragment).commit()
-                        "나의 취향 ${getString(R.string.title_by_score)}" -> fm.beginTransaction().replace(binding.feedContentFl.id, byScoreFragment).commit()
-                        "나의 취향 ${getString(R.string.title_by_calendar)}" -> fm.beginTransaction().replace(binding.feedContentFl.id, byCalendarFragment).commit()
+                        "나의 취향 ${getString(R.string.title_timeline)}" -> fm.beginTransaction().replace(binding.feedContentFl.id, TimelineFragment()).commit()
+                        "나의 취향 ${getString(R.string.title_by_sense)}" -> fm.beginTransaction().replace(binding.feedContentFl.id, BySenseFragment()).commit()
+                        "나의 취향 ${getString(R.string.title_by_score)}" -> fm.beginTransaction().replace(binding.feedContentFl.id, ByScoreFragment()).commit()
+                        "나의 취향 ${getString(R.string.title_by_calendar)}" -> fm.beginTransaction().replace(binding.feedContentFl.id, ByCalendarFragment()).commit()
                     }
                 }
             }
@@ -218,10 +200,10 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
         }
 
         when (clickedText) {
-            getString(R.string.title_timeline) -> fm.beginTransaction().replace(binding.feedContentFl.id, timelineFragment).commit()
-            getString(R.string.title_by_sense) -> fm.beginTransaction().replace(binding.feedContentFl.id, bySenseFragment).commit()
-            getString(R.string.title_by_score) -> fm.beginTransaction().replace(binding.feedContentFl.id, byScoreFragment).commit()
-            getString(R.string.title_by_calendar) -> fm.beginTransaction().replace(binding.feedContentFl.id, byCalendarFragment).commit()
+            getString(R.string.title_timeline) -> fm.beginTransaction().replace(binding.feedContentFl.id, TimelineFragment()).commit()
+            getString(R.string.title_by_sense) -> fm.beginTransaction().replace(binding.feedContentFl.id, BySenseFragment()).commit()
+            getString(R.string.title_by_score) -> fm.beginTransaction().replace(binding.feedContentFl.id, ByScoreFragment()).commit()
+            getString(R.string.title_by_calendar) -> fm.beginTransaction().replace(binding.feedContentFl.id, ByCalendarFragment()).commit()
         }
 
         selectedType = "나의 취향 $clickedText"
