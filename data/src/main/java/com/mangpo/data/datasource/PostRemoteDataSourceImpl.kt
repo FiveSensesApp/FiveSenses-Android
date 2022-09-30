@@ -4,6 +4,8 @@ import com.mangpo.data.model.base.BaseResDTO
 import com.mangpo.data.model.createPost.CreatePostReqDTO
 import com.mangpo.data.model.createPost.CreatePostResDTO
 import com.mangpo.data.model.getPosts.GetPostsResDTO
+import com.mangpo.data.model.getPresentPostsBetween.GetPresentPostsBetweenResDTO
+import com.mangpo.data.model.getPresentPostsBetween.GetPresentPostsBetweenResDTOItem
 import com.mangpo.data.model.updatePost.UpdatePostReqDTO
 import com.mangpo.data.model.updatePost.UpdatePostResDTO
 import com.mangpo.data.service.PostService
@@ -28,6 +30,13 @@ class PostRemoteDataSourceImpl @Inject constructor(private val service: PostServ
         createdDate: String?
     ): BaseResDTO<Int> {
         return callApi { service.findCountByParam(userId, category, star, createdDate) }
+    }
+
+    override suspend fun getPresentPostsBetween(
+        startDate: String,
+        endDate: String
+    ): BaseResDTO<List<GetPresentPostsBetweenResDTOItem>> {
+        return callApi { service.getPresentPostsBetween(startDate, endDate) }
     }
 
     override suspend fun createPost(createPostReqDTO: CreatePostReqDTO): BaseResDTO<CreatePostResDTO?> {

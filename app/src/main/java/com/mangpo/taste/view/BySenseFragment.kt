@@ -60,6 +60,9 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
 
             override fun changeFilter(filter: Int) {
             }
+
+            override fun unmarkedDate() {
+            }
         })
 
         //무한스크롤 구현
@@ -89,7 +92,7 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
                 recordShortAdapter.updateData(contentEntity)
             }
 
-            override fun deleteComplete(contentId: Int) {
+            override fun delete(contentId: Int) {
                 deletedContentId = contentId
                 feedVm.deletePost(contentId)
             }

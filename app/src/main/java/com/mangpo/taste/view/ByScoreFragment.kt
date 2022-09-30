@@ -61,6 +61,9 @@ class ByScoreFragment : BaseFragment<FragmentByScoreBinding>(FragmentByScoreBind
                 feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, filter, null)  //선택된 감각의 총 기록 개수 조회
                 getPosts(page, recordShortAdapter.getScoreFilter())
             }
+
+            override fun unmarkedDate() {
+            }
         })
 
         //무한스크롤 구현
@@ -93,7 +96,7 @@ class ByScoreFragment : BaseFragment<FragmentByScoreBinding>(FragmentByScoreBind
                     recordShortAdapter.removeData(contentEntity.id)
             }
 
-            override fun deleteComplete(contentId: Int) {
+            override fun delete(contentId: Int) {
                 deletedContentId = contentId
                 feedVm.deletePost(contentId)
             }
