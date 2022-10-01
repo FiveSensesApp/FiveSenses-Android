@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".view.NoFeedFragment">
 
-    <FrameLayout
+    <!--<FrameLayout
         android:id="@+id/no_feed_filter_fl"
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -205,9 +205,9 @@
                 android:textColor="@color/WH" />
         </RadioGroup>
 
-    </FrameLayout>
+    </FrameLayout>-->
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <!--<androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/no_feed_calendar_cl"
         android:layout_width="match_parent"
         android:layout_height="187dp"
@@ -248,7 +248,7 @@
             android:layout_height="46dp"
             app:layout_constraintBottom_toBottomOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/no_feed_try_cl"
@@ -260,7 +260,7 @@
         android:background="@drawable/bg_gy01_10"
         android:paddingBottom="24dp"
         app:layout_constraintBottom_toTopOf="@+id/no_feed_how_to_use_btn"
-        app:layout_constraintTop_toBottomOf="@+id/no_feed_filter_fl">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/no_feed_try_tv"

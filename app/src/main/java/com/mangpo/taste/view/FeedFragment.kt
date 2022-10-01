@@ -130,7 +130,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
         }
 
         //검색 EditText TextWatcher 등록
-        binding.feedSearchEt.addTextChangedListener(this)
+//        binding.feedSearchEt.addTextChangedListener(this)
     }
 
     private fun observe() {
@@ -199,13 +199,6 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
             }
         }
 
-        when (clickedText) {
-            getString(R.string.title_timeline) -> fm.beginTransaction().replace(binding.feedContentFl.id, TimelineFragment()).commit()
-            getString(R.string.title_by_sense) -> fm.beginTransaction().replace(binding.feedContentFl.id, BySenseFragment()).commit()
-            getString(R.string.title_by_score) -> fm.beginTransaction().replace(binding.feedContentFl.id, ByScoreFragment()).commit()
-            getString(R.string.title_by_calendar) -> fm.beginTransaction().replace(binding.feedContentFl.id, ByCalendarFragment()).commit()
-        }
-
         selectedType = "나의 취향 $clickedText"
 
         //선택한 타입 텍스트&아이콘 제외하고 나머지를 typeSelectLayout 에 보여주기
@@ -213,5 +206,14 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
         removedTypeIconList = typeIconList.filterNot { it == clickedIcon }
 
         binding.invalidateAll()
+
+        if (fm.findFragmentById(binding.feedContentFl.id)?.javaClass!=NoFeedFragment::class.java) {
+            when (clickedText) {
+                getString(R.string.title_timeline) -> fm.beginTransaction().replace(binding.feedContentFl.id, TimelineFragment()).commit()
+                getString(R.string.title_by_sense) -> fm.beginTransaction().replace(binding.feedContentFl.id, BySenseFragment()).commit()
+                getString(R.string.title_by_score) -> fm.beginTransaction().replace(binding.feedContentFl.id, ByScoreFragment()).commit()
+                getString(R.string.title_by_calendar) -> fm.beginTransaction().replace(binding.feedContentFl.id, ByCalendarFragment()).commit()
+            }
+        }
     }
 }
