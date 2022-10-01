@@ -1,16 +1,13 @@
 package com.mangpo.taste.view
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import com.kizitonwose.calendarview.utils.yearMonth
 import com.mangpo.domain.model.getPosts.ContentEntity
-import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentByCalendarBinding
 import com.mangpo.taste.util.SpfUtils
@@ -51,7 +48,6 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
             fragment = this@ByCalendarFragment
         }
 
-        setMyEventListener()
         initCalendarHeader()
         initDayViewContainer()
         initAdapter()
@@ -68,28 +64,6 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
         feedVm.getPresentPostsBetween(sunday, saturday)
     }
 
-    private fun setMyEventListener() {
-        //달력 접기/펼치기 터치뷰 클릭 리스너
-        /*binding.byCalendarArrowTouchView.setOnClickListener {
-            isCalendarOpen = binding.byCalendarArrowIv.tag=="expand"    //현재 열려 있으면 true, 아니면 false
-
-            if (isCalendarOpen) {
-                setCalendarClHeight(convertDpToPx(requireContext(), 187))    //달력 레이아웃 높이 187dp 로
-            } else {
-                setCalendarClHeight(convertDpToPx(requireContext(), 470))    //달력 레이아웃 높이 470dp 로
-            }
-            *//*if (binding.byCalendarArrowIv.tag=="fold") {  //펼쳐져 있을 때 -> 접기
-                setFoldCalendarView()
-            } else {    //접혀 있을 때 -> 펼치기
-                setCalendarClHeight(convertDpToPx(requireContext(), 470))    //달력 레이아웃 높이 470dp 로
-                binding.byCalendarArrowIv.setImageResource(R.drawable.ic_fold_44)  //접기 아이콘으로 변경
-                binding.byCalendarArrowIv.tag = "fold" //이미지뷰 태그를 fold 로
-
-                dayViewContainer.updateMonthConfiguration(6, headerViewContainer.getYearMonth())
-            }*//*
-        }*/
-    }
-
     private fun initCalendarHeader() {
         headerViewContainer = CalendarHeaderViewContainer(binding.byCalendarCv)
         binding.byCalendarCv.monthHeaderBinder = headerViewContainer
@@ -101,7 +75,11 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
             override fun onClick(oldDate: LocalDate, selectedDate: LocalDate) {
                 binding.byCalendarCv.notifyDateChanged(selectedDate)   //현재 선택한 날짜 선택된 UI 로 변경
                 oldDate?.let { binding.byCalendarCv.notifyDateChanged(oldDate) }   //이전에 선택한 날짜 선택하지 않은 UI 로 변경
-                setFoldCalendarView()   //주별 달력으로 변경
+
+                //월별 달력일 경우 주별 달력 상태로 UI 변경
+                if (isCalendarOpen) {
+                    changeCalendar()
+                }
 
                 clearPaging()   //리사이클러뷰 페이징 초기화
                 recordShortAdapter.clearData()  //현재 리사이클러뷰에 보이고 있는 content 데이터 모두 삭제
@@ -151,8 +129,8 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
 
         binding.byCalendarRv.adapter = recordShortAdapter
 
-        feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, null, LocalDate.now().toString()) //시각 기록 총 개수 조회
-        getPosts(page, LocalDate.now().toString())
+        feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, null, LocalDate.now().toString()) //오늘 날짜에 대한 총 기록 개수 조회
+        getPosts(page, LocalDate.now().toString())  //오늘 날짜에 대한 기록 조회
     }
 
     private fun initRecordDialog() {
@@ -176,14 +154,6 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
         binding.byCalendarCalendarCl.layoutParams = params
     }
 
-    private fun setFoldCalendarView() {
-        setCalendarClHeight(convertDpToPx(requireContext(), 187))   //달력 레이아웃 높이 187dp 로
-        binding.byCalendarArrowIv.setImageResource(R.drawable.ic_expand_46)    //펼치기 아이콘으로 변경
-        binding.byCalendarArrowIv.tag = "expand"   //이미지뷰 태그를 expand 로
-
-        dayViewContainer.updateMonthConfiguration(1, null)
-    }
-
     private fun getPosts(page: Int, createDate: String) {
         feedVm.getPosts(SpfUtils.getIntEncryptedSpf("userId"), page, "id,desc", createDate, null, null)
     }
@@ -198,12 +168,22 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
         mainVm.callGetPostsFlag.observe(viewLifecycleOwner, Observer {
             val callGetPostsFlag = it.getContentIfNotHandled()
 
-            if (callGetPostsFlag!=null && callGetPostsFlag && dayViewContainer.getSelectedDate()==LocalDate.now()) {
+            if (callGetPostsFlag!=null && callGetPostsFlag) {
                 clearPaging()   //페이징 관련 데이터 초기화
                 recordShortAdapter.clearData()  //현재 리사이클러뷰에 있는 content 데이터들 지우기
 
-                feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, null, dayViewContainer.getSelectedDate().toString()) //현재 선택돼 있는 감각 필터에 대한 총 기록 개수 조회
-                getPosts(page, dayViewContainer.getSelectedDate().toString())
+                //오늘 날짜와 달력에 선택된 날짜가 다를 경우 오늘 날짜가 보이는 주별 달력 UI 로 변경하기
+                if (dayViewContainer.getSelectedDate()!= LocalDate.now()) {
+                    dayViewContainer.setSelectedDate(LocalDate.now())   //캘린더의 선택된 날짜를 오늘 날짜로 변경
+                    if (isCalendarOpen) {   //월별 달력 UI 였을 경우
+                        changeCalendar()    //주별 달력 UI 로 변경
+                    } else {    //주별 달력 UI 였을 경우
+                        dayViewContainer.updateMonthConfiguration(1, dayViewContainer.getSelectedDate().yearMonth)  //선택된 날짜(=오늘 날짜)의 주별 달력 UI가 보이도록 변경
+                    }
+                }
+
+                feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, null, dayViewContainer.getSelectedDate().toString()) //현재 선택된 날짜(=오늘 날짜)에 대한 총 기록 개수 조회
+                getPosts(page, dayViewContainer.getSelectedDate().toString())   //현재 선택된 날짜(=오늘 날짜)의 기록 데이터 조회 API 요청
             }
         })
 
@@ -228,7 +208,7 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
 
         feedVm.feedCnt.observe(viewLifecycleOwner, Observer {
             val feedCnt = it.getContentIfNotHandled()
-            Log.d("ByCalendarFragment", "feedCnt Observe!! -> $feedCnt")
+
             if (feedCnt!=null) {
                 recordShortAdapter.setCnt(feedCnt)
 
@@ -257,17 +237,16 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
         })
     }
 
-    fun changeCalendar(tag: String) {
-        Log.d("ByCalendarFragment", "changeCalendar -> $tag")
-
-        isCalendarOpen = tag=="expand"    //현재 열려 있으면 true, 아니면 false
-
-        if (isCalendarOpen) {
+    fun changeCalendar() {
+        if (isCalendarOpen) {   //expand
             setCalendarClHeight(convertDpToPx(requireContext(), 187))    //달력 레이아웃 높이 187dp 로
-        } else {
+            dayViewContainer.updateMonthConfiguration(1, dayViewContainer.getSelectedDate().yearMonth)  //선택된 날짜의 주별 달력 UI가 보이도록
+        } else {    //fold
             setCalendarClHeight(convertDpToPx(requireContext(), 470))    //달력 레이아웃 높이 470dp 로
+            dayViewContainer.updateMonthConfiguration(6, headerViewContainer.getYearMonth())    //선택된 날짜의 월별 달력 UI가 보이도록
         }
 
+        isCalendarOpen = !isCalendarOpen
         binding.invalidateAll()
     }
 }

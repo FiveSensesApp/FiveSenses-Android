@@ -1,6 +1,5 @@
 package com.mangpo.taste.view.calendar
 
-import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
@@ -18,7 +17,6 @@ import com.mangpo.taste.util.getDeviceWidth
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
-import java.time.format.DateTimeFormatter
 
 class DayViewContainer(calendarView: CalendarView, recordByDate: List<GetPresentPostsBetweenResEntity>?): DayBinder<DayViewContainer.DayViewContainer> {
     interface OnDayClickListener {
@@ -54,7 +52,8 @@ class DayViewContainer(calendarView: CalendarView, recordByDate: List<GetPresent
     fun setSelectedDate(selectedDate: LocalDate) {
         val oldDate = this.selectedDate  //이전에 선택했던 날짜
         this.selectedDate = selectedDate //현재 선택한 날짜
-        onDayClickListener.onClick(oldDate, selectedDate)
+        calendarView.notifyDateChanged(oldDate)
+        calendarView.notifyDateChanged(this.selectedDate)
     }
 
     fun getSelectedDate(): LocalDate = this.selectedDate
@@ -164,7 +163,8 @@ class DayViewContainer(calendarView: CalendarView, recordByDate: List<GetPresent
 
     fun unMarkDate(date: LocalDate) {
         val index = this.recordByDate?.indexOf(this.recordByDate?.find { it.date==date.toString() })
-        if (index!=null) {
+
+        if (index!=null && index!=-1) {
             this.recordByDate!![index!!].isPresent = false
             calendarView.notifyDateChanged(date)
         }

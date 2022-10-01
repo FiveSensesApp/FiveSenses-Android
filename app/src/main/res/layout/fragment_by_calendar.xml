@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
+
         <variable
             name="fragment"
             type="com.mangpo.taste.view.ByCalendarFragment" />
@@ -41,9 +43,8 @@
                 android:id="@+id/by_calendar_arrow_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{() -> fragment.changeCalendar()}"
                 android:src="@{fragment.isCalendarOpen? @drawable/ic_fold_44: @drawable/ic_expand_46}"
-                android:onClick="@{(ImageView) -> fragment.changeCalendar(byCalendarArrowIv.getTag().toString())}"
-                android:tag="@{fragment.isCalendarOpen? `expand`: `fold`}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
