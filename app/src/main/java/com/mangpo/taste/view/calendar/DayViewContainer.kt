@@ -1,5 +1,6 @@
 package com.mangpo.taste.view.calendar
 
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
@@ -9,6 +10,7 @@ import com.kizitonwose.calendarview.model.DayOwner
 import com.kizitonwose.calendarview.model.InDateStyle
 import com.kizitonwose.calendarview.ui.DayBinder
 import com.kizitonwose.calendarview.ui.ViewContainer
+import com.mangpo.domain.model.getPresentPostsBetween.GetPresentPostsBetweenResEntity
 import com.mangpo.taste.R
 import com.mangpo.taste.databinding.CalendarDayLayoutBinding
 import com.mangpo.taste.util.convertDpToPx
@@ -18,7 +20,7 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
-class DayViewContainer(calendarView: CalendarView, recordedDate: List<String>): DayBinder<DayViewContainer.DayViewContainer> {
+class DayViewContainer(calendarView: CalendarView, recordByDate: List<GetPresentPostsBetweenResEntity>?): DayBinder<DayViewContainer.DayViewContainer> {
     interface OnDayClickListener {
         fun onClick(oldDate: LocalDate, selectedDate: LocalDate)
     }
@@ -35,7 +37,7 @@ class DayViewContainer(calendarView: CalendarView, recordedDate: List<String>): 
 
     private var calendarView: CalendarView = calendarView
     private var selectedDate: LocalDate = LocalDate.now()
-    private var recordedDate: List<String> = recordedDate
+    private var recordByDate: List<GetPresentPostsBetweenResEntity>? = recordByDate
 
     private lateinit var onDayClickListener: OnDayClickListener
 
@@ -55,6 +57,7 @@ class DayViewContainer(calendarView: CalendarView, recordedDate: List<String>): 
         onDayClickListener.onClick(oldDate, selectedDate)
     }
 
+    fun getSelectedDate(): LocalDate = this.selectedDate
 
     fun updateMonthConfiguration(week: Int, yearMonth: YearMonth?) {
         if (week==1) {  //접혀있을 땐 한줄만 보여주기
@@ -109,7 +112,8 @@ class DayViewContainer(calendarView: CalendarView, recordedDate: List<String>): 
             binding.root.layoutParams = params
 
             //해당 날짜에 기록이 있으면 조그만 동그라미 보여주기
-            if (recordedDate.contains(day.date.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"))))
+            val record = recordByDate?.find { it.date==day.date.toString() }
+            if (record!=null && record.isPresent)
                 binding.calendarDaySmallOvalView.visibility = View.VISIBLE
             else
                 binding.calendarDaySmallOvalView.visibility = View.INVISIBLE
@@ -128,7 +132,7 @@ class DayViewContainer(calendarView: CalendarView, recordedDate: List<String>): 
                 } else {    //선택되지 않은 날짜
                     binding.calendarDayOvalView.visibility = View.INVISIBLE  //전체 동그라미 뷰 INVISIBLE
 
-                    if (day.date== LocalDate.now()) //오늘 날짜면
+                    if (day.date==LocalDate.now()) //오늘 날짜면
                         binding.calendarDayTv.setTextColor(ContextCompat.getColor(view.context, R.color.RD_2))    //텍스트 색상 빨간색으로
                     else    //오늘 날짜가 아니면
                         binding.calendarDayTv.setTextColor(ContextCompat.getColor(view.context, R.color.BK))  //텍스트 색상 검정색으로
@@ -142,6 +146,27 @@ class DayViewContainer(calendarView: CalendarView, recordedDate: List<String>): 
                 }
             } else  //이전달 or 다음달
                 binding.root.visibility = View.INVISIBLE  //날짜뷰 INVISIBLE
+        }
+    }
+
+    fun markRecordedDates(recordByDate: List<GetPresentPostsBetweenResEntity>?) {
+        this.recordByDate = recordByDate
+        calendarView.notifyCalendarChanged()
+    }
+
+    fun markDate(date: LocalDate) {
+        val index = this.recordByDate?.indexOf(this.recordByDate?.find { it.date==date.toString() })
+        if (index!=null) {
+            this.recordByDate!![index].isPresent = true
+            calendarView.notifyDateChanged(date)
+        }
+    }
+
+    fun unMarkDate(date: LocalDate) {
+        val index = this.recordByDate?.indexOf(this.recordByDate?.find { it.date==date.toString() })
+        if (index!=null) {
+            this.recordByDate!![index!!].isPresent = false
+            calendarView.notifyDateChanged(date)
         }
     }
 }

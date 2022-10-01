@@ -20,6 +20,7 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
         fun onClick(content: ContentEntity)
         fun changeFilter(filter: String)
         fun changeFilter(filter: Int)
+        fun unmarkedDate()
     }
 
     private lateinit var bySenseFilterBinding: ItemBySenseFilterBinding
@@ -103,6 +104,11 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
         fun setCnt(cnt: Int) {
             this.cnt = cnt
             cntTv.text = "총 ${cnt}개"
+
+            //달력별 취향 보관함일 때 총 개수가 0이 되면 달력에 기록 유무 표시를 지워줘야 함.
+            if (cnt==0) {
+                myClickListener.unmarkedDate()
+            }
         }
 
         fun getCnt(): Int = this.cnt
@@ -223,6 +229,11 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
     fun addData(contentEntities: List<ContentEntity>) {
         this.records.addAll(mapperToRecord(contentEntities))
         notifyItemRangeInserted(this.records.size-contentEntities.size, contentEntities.size)
+    }
+
+    fun addData2(contentEntities: List<ContentEntity>) {
+        this.records.addAll(mapperToRecord(contentEntities))
+        notifyDataSetChanged()
     }
     
     fun clearData() {

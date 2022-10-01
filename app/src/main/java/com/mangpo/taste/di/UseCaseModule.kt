@@ -71,4 +71,9 @@ class UseCaseModule {
     fun provideFindCountByParamUseCase (postRepository: PostRepository): FindCountByParamUseCase {
         return FindCountByParamUseCase(postRepository)
     }
+
+    @Provides
+    fun provideGetPresentPostsBetweenUseCase (postRepository: PostRepository): GetPresentPostsBetweenUseCase {
+        return GetPresentPostsBetweenUseCase(postRepository)
+    }
 }

@@ -8,6 +8,7 @@ import com.mangpo.data.model.updatePost.UpdatePostReqDTO
 import com.mangpo.domain.model.base.BaseResEntity
 import com.mangpo.domain.model.createPost.CreatePostReqEntity
 import com.mangpo.domain.model.getPosts.GetPostsResEntity
+import com.mangpo.domain.model.getPresentPostsBetween.GetPresentPostsBetweenResEntity
 import com.mangpo.domain.model.updatePost.UpdatePostReqEntity
 import com.mangpo.domain.model.updatePost.UpdatePostResEntity
 import com.mangpo.domain.repository.PostRepository
@@ -35,6 +36,15 @@ class PostRepositoryImpl @Inject constructor(private val dataSource: PostRemoteD
         val response = dataSource.findCountByParam(userId, category, star, createdDate)
 
         return sendData(response) {  BaseMapper.mapperToBaseResEntityVerGeneric(response) }
+    }
+
+    override suspend fun getPresentPostsBetween(
+        startDate: String,
+        endDate: String
+    ): BaseResEntity<List<GetPresentPostsBetweenResEntity>> {
+        val response = dataSource.getPresentPostsBetween(startDate, endDate)
+
+        return sendData(response) { PostMapper.mapperToGetPresentPostsBetweenResEntities(response) }
     }
 
     override suspend fun createPost(createPostReqEntity: CreatePostReqEntity): BaseResEntity<Nothing> {

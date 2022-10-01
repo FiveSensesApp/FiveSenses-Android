@@ -9,11 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
-import androidx.navigation.fragment.navArgs
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.mangpo.domain.model.getPosts.ContentEntity
 import com.mangpo.domain.model.updatePost.UpdatePostResEntity
 import com.mangpo.taste.R
@@ -21,18 +23,26 @@ import com.mangpo.taste.databinding.FragmentRecordDialogBinding
 import com.mangpo.taste.util.DialogFragmentUtils
 import com.mangpo.taste.util.fadeIn
 import com.mangpo.taste.util.fadeOut
-import com.mangpo.taste.util.setNavigationResult
 import com.mangpo.taste.view.model.RecordDetailResource
 import com.mangpo.taste.view.model.TwoBtnDialog
+import com.mangpo.taste.viewmodel.FeedViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RecordDialogFragment : DialogFragment() {
-    private val args: RecordDialogFragmentArgs by navArgs()
+    private val feedVm: FeedViewModel by viewModels()
+
+    interface EventListener {
+        fun close(contentEntity: ContentEntity)
+        fun delete(contentId: Int)
+    }
 
     private var updateFlag: Boolean = false
 
     private lateinit var binding: FragmentRecordDialogBinding
     private lateinit var twoBtnDialogFragment: TwoBtnDialogFragment
     private lateinit var updateCompleteLauncher: ActivityResultLauncher<Intent>
+    private lateinit var eventListener: EventListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,10 +64,11 @@ class RecordDialogFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentRecordDialogBinding.inflate(inflater, container, false)
+
         binding.apply {
             fragment = this@RecordDialogFragment
-            content = args.content
-            resource = setRecordDetailResource(args.content)
+            content = arguments?.getParcelable("content")
+            resource = setRecordDetailResource(arguments?.getParcelable("content")!!)
         }
 
         dialog?.setCancelable(false)    //외부 화면 눌러서 다이얼로그 사라지는거 막기
@@ -67,6 +78,7 @@ class RecordDialogFragment : DialogFragment() {
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
 
         initTwoBtnDialog()
+        observe()
 
         return binding.root
     }
@@ -87,8 +99,7 @@ class RecordDialogFragment : DialogFragment() {
         twoBtnDialogFragment.setMyCallback(object : TwoBtnDialogFragment.MyCallback {
             override fun leftAction() { //삭제하기
                 binding.recordDialogBlurredView.visibility = View.INVISIBLE
-
-                this@RecordDialogFragment.setNavigationResult("contentId", binding.content!!.id)    //이전 프래그먼트한테 recordId 넘겨주기
+                eventListener.delete(binding.content!!.id)
                 dismiss()   //프래그먼트 종료
             }
 
@@ -123,8 +134,40 @@ class RecordDialogFragment : DialogFragment() {
         }
     }
 
+    private fun observe() {
+        feedVm.toast.observe(viewLifecycleOwner, Observer {
+            val msg: String? = it.getContentIfNotHandled()
+
+            if (msg!=null)
+                Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+        })
+
+        feedVm.isLoading.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                (requireActivity() as MainActivity).showLoading()
+            } else {
+                (requireActivity() as MainActivity).hideLoading()
+            }
+        })
+
+        feedVm.deletePostResult.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                200 -> {
+                    eventListener.delete(binding.content!!.id)
+                    dialog?.dismiss()
+                }
+                404 -> Toast.makeText(requireContext(), "삭제 중 문제가 발생했습니다.", Toast.LENGTH_SHORT).show()
+                else -> {}
+            }
+        })
+    }
+
+    fun setEventListener(eventListener: EventListener) {
+        this.eventListener = eventListener
+    }
+
     fun close() {
-        this@RecordDialogFragment.setNavigationResult("updatedContent", binding.content)    //이전 프래그먼트한테 updateFlag 넘겨주기
+        eventListener.close(binding.content!!)
         dialog?.dismiss()
     }
 

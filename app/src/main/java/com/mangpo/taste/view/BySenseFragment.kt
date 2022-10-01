@@ -1,12 +1,10 @@
 package com.mangpo.taste.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.mangpo.domain.model.getPosts.ContentEntity
 import com.mangpo.taste.base.BaseFragment
@@ -28,25 +26,14 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
     private var deletedContentId: Int = -1
 
     private lateinit var recordShortAdapter: RecordShortAdapter
+    private lateinit var recordDialogFragment: RecordDialogFragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d("BySenseFragment", "onViewCreated")
-
         initAdapter()
+        initRecordDialog()
         observe()
-
-        //수정된 record 의 데이터를 Observe 하고 있는 라이브 데이터
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<ContentEntity>("updatedContent")?.observe(viewLifecycleOwner) {
-            recordShortAdapter.updateData(it)
-        }
-
-        //삭제된 record 의 position 을 Observe 하고 있는 라이브 데이터
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Int>("contentId")?.observe(viewLifecycleOwner) { contentId ->
-            deletedContentId = contentId
-            feedVm.deletePost(contentId)
-        }
     }
 
     override fun initAfterBinding() {
@@ -58,8 +45,10 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
         recordShortAdapter.setMyClickListener(object : RecordShortAdapter.MyClickListener {
 
             override fun onClick(content: ContentEntity) {
-                val action = BySenseFragmentDirections.actionGlobalRecordDialogFragment(content)
-                findNavController().navigate(action)
+                val bundle: Bundle = Bundle()
+                bundle.putParcelable("content", content)
+                recordDialogFragment.arguments = bundle
+                recordDialogFragment.show(requireActivity().supportFragmentManager, null)
             }
 
             override fun changeFilter(filter: String) {
@@ -70,6 +59,9 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
             }
 
             override fun changeFilter(filter: Int) {
+            }
+
+            override fun unmarkedDate() {
             }
         })
 
@@ -91,6 +83,20 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
 
         feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), recordShortAdapter.getSenseFilter(), null, null) //시각 기록 총 개수 조회
         getPosts(page, recordShortAdapter.getSenseFilter())
+    }
+
+    private fun initRecordDialog() {
+        recordDialogFragment = RecordDialogFragment()
+        recordDialogFragment.setEventListener(object : RecordDialogFragment.EventListener {
+            override fun close(contentEntity: ContentEntity) {
+                recordShortAdapter.updateData(contentEntity)
+            }
+
+            override fun delete(contentId: Int) {
+                deletedContentId = contentId
+                feedVm.deletePost(contentId)
+            }
+        })
     }
 
     private fun getPosts(page: Int, category: String) {

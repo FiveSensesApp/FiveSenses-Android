@@ -4,6 +4,8 @@ import com.mangpo.data.model.base.BaseResDTO
 import com.mangpo.data.model.createPost.CreatePostReqDTO
 import com.mangpo.data.model.createPost.CreatePostResDTO
 import com.mangpo.data.model.getPosts.GetPostsResDTO
+import com.mangpo.data.model.getPresentPostsBetween.GetPresentPostsBetweenResDTO
+import com.mangpo.data.model.getPresentPostsBetween.GetPresentPostsBetweenResDTOItem
 import com.mangpo.data.model.updatePost.UpdatePostReqDTO
 import com.mangpo.data.model.updatePost.UpdatePostResDTO
 import retrofit2.http.*
@@ -14,6 +16,9 @@ interface PostService {
 
     @GET("/api/posts/count")
     suspend fun findCountByParam(@Query("userId") userId: Int, @Query("category") category: String?, @Query("star") star: Int?, @Query("createdDate") createdDate: String?): BaseResDTO<Int>
+
+    @GET("/api/posts/present-between")
+    suspend fun getPresentPostsBetween(@Query("startDate") startDate: String, @Query("endDate") endDate: String): BaseResDTO<List<GetPresentPostsBetweenResDTOItem>>
 
     @POST("/api/posts")
     suspend fun createPost(@Body createPostReqDTO: CreatePostReqDTO): BaseResDTO<CreatePostResDTO?>

@@ -1,15 +1,12 @@
 package com.mangpo.taste.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.mangpo.domain.model.getPosts.ContentEntity
-import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentByScoreBinding
 import com.mangpo.taste.util.SpfUtils
@@ -29,28 +26,14 @@ class ByScoreFragment : BaseFragment<FragmentByScoreBinding>(FragmentByScoreBind
     private var deletedContentId: Int = -1
 
     private lateinit var recordShortAdapter: RecordShortAdapter
+    private lateinit var recordDialogFragment: RecordDialogFragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initAdapter()
+        initRecordDialog()
         observe()
-
-        Log.d("ByScoreFragment", "onViewCreated")
-        //수정된 record 의 데이터를 Observe 하고 있는 라이브 데이터
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<ContentEntity>("updatedContent")?.observe(viewLifecycleOwner) {
-
-            if (it.star==recordShortAdapter.getScoreFilter())   //점수 이외 다른 데이터가 수정됐으면 아이템 업데이트
-                recordShortAdapter.updateData(it)
-            else    //점수가 수정됐으면 리사이클러뷰에서 아이템 삭제
-                recordShortAdapter.removeData(it.id)
-        }
-
-        //삭제된 record 의 position 을 Observe 하고 있는 라이브 데이터
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Int>("contentId")?.observe(viewLifecycleOwner) { contentId ->
-            deletedContentId = contentId
-            feedVm.deletePost(contentId)
-        }
     }
 
     override fun initAfterBinding() {
@@ -63,8 +46,10 @@ class ByScoreFragment : BaseFragment<FragmentByScoreBinding>(FragmentByScoreBind
         recordShortAdapter.setMyClickListener(object : RecordShortAdapter.MyClickListener {
 
             override fun onClick(content: ContentEntity) {
-                val action = BySenseFragmentDirections.actionGlobalRecordDialogFragment(content)
-                findNavController().navigate(action)
+                val bundle: Bundle = Bundle()
+                bundle.putParcelable("content", content)
+                recordDialogFragment.arguments = bundle
+                recordDialogFragment.show(requireActivity().supportFragmentManager, null)
             }
 
             override fun changeFilter(filter: String) {
@@ -75,6 +60,9 @@ class ByScoreFragment : BaseFragment<FragmentByScoreBinding>(FragmentByScoreBind
                 recordShortAdapter.clearData()
                 feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, filter, null)  //선택된 감각의 총 기록 개수 조회
                 getPosts(page, recordShortAdapter.getScoreFilter())
+            }
+
+            override fun unmarkedDate() {
             }
         })
 
@@ -96,6 +84,23 @@ class ByScoreFragment : BaseFragment<FragmentByScoreBinding>(FragmentByScoreBind
 
         feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, recordShortAdapter.getScoreFilter(), null) //시각 기록 총 개수 조회
         getPosts(page, recordShortAdapter.getScoreFilter())
+    }
+
+    private fun initRecordDialog() {
+        recordDialogFragment = RecordDialogFragment()
+        recordDialogFragment.setEventListener(object : RecordDialogFragment.EventListener {
+            override fun close(contentEntity: ContentEntity) {
+                if (contentEntity.star==recordShortAdapter.getScoreFilter())   //점수 이외 다른 데이터가 수정됐으면 아이템 업데이트
+                    recordShortAdapter.updateData(contentEntity)
+                else    //점수가 수정됐으면 리사이클러뷰에서 아이템 삭제
+                    recordShortAdapter.removeData(contentEntity.id)
+            }
+
+            override fun delete(contentId: Int) {
+                deletedContentId = contentId
+                feedVm.deletePost(contentId)
+            }
+        })
     }
 
     private fun getPosts(page: Int, star: Int) {

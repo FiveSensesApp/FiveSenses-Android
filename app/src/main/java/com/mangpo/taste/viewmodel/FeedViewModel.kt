@@ -1,8 +1,10 @@
 package com.mangpo.taste.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mangpo.domain.model.getPosts.GetPostsResEntity
+import com.mangpo.domain.model.getPresentPostsBetween.GetPresentPostsBetweenResEntity
 import com.mangpo.domain.model.updatePost.UpdatePostReqEntity
 import com.mangpo.domain.model.updatePost.UpdatePostResEntity
 import com.mangpo.domain.usecase.*
@@ -12,7 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class FeedViewModel @Inject constructor(private val getUserInfoUseCase: GetUserInfoUseCase, private val getPostsUseCase: GetPostsUseCase, private val deletePostUseCase: DeletePostUseCase, private val updatePostUseCase: UpdatePostUseCase, private val findCountByParamUseCase: FindCountByParamUseCase): BaseViewModel() {
+class FeedViewModel @Inject constructor(private val getUserInfoUseCase: GetUserInfoUseCase, private val getPostsUseCase: GetPostsUseCase, private val deletePostUseCase: DeletePostUseCase, private val updatePostUseCase: UpdatePostUseCase, private val findCountByParamUseCase: FindCountByParamUseCase, private val getPresentPostsBetweenUseCase: GetPresentPostsBetweenUseCase): BaseViewModel() {
     private val _posts: MutableLiveData<Event<GetPostsResEntity>> = MutableLiveData()
     val posts: LiveData<Event<GetPostsResEntity>> get() = _posts
 
@@ -21,6 +23,9 @@ class FeedViewModel @Inject constructor(private val getUserInfoUseCase: GetUserI
 
     private val _feedCnt: MutableLiveData<Event<Int?>> = MutableLiveData()
     val feedCnt: LiveData<Event<Int?>> get() = _feedCnt
+
+    private val _recordByDate: MutableLiveData<List<GetPresentPostsBetweenResEntity>> = MutableLiveData()
+    val recordByDate: LiveData<List<GetPresentPostsBetweenResEntity>> get() = _recordByDate
 
     fun getPosts(userId: Int, page: Int, sort: String, createDate: String?, star: Int?, category: String?) {
         callApi(
@@ -35,6 +40,7 @@ class FeedViewModel @Inject constructor(private val getUserInfoUseCase: GetUserI
     }
 
     fun deletePost(postId: Int) {
+        Log.d("FeedViewModel", "deletePost")
         callApi(
             { deletePostUseCase.invoke(postId) },
             { _deletePostResult.postValue(it.code) },
@@ -69,6 +75,16 @@ class FeedViewModel @Inject constructor(private val getUserInfoUseCase: GetUserI
             { findCountByParamUseCase.invoke(userId, category, star, createdDate) },
             {
                 _feedCnt.postValue(Event(it.data))
+            },
+            true
+        )
+    }
+
+    fun getPresentPostsBetween(startDate: String, endDate: String) {
+        callApi(
+            { getPresentPostsBetweenUseCase.invoke(startDate, endDate) },
+            {
+                _recordByDate.postValue(it.data)
             },
             true
         )
