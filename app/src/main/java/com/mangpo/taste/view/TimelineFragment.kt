@@ -88,6 +88,7 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
 
             override fun changeSortFilter(sort: String) {   //정렬 필터(최신순, 오래된순)가 바뀔 때 호출되는 함수
                 clearPaging()   //page, isLast 초기화
+                feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, null, null)
                 getPosts(page, sort)    //정렬 필터에 따라 getPosts API 호출
             }
 
@@ -112,6 +113,7 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
         })
 
         binding.timelineRecordRv.adapter = recordDetailAdapter
+        feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, null, null)
         getPosts(page, recordDetailAdapter.getFilter())
     }
 
@@ -133,7 +135,9 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
             if (callGetPostsFlag!=null && callGetPostsFlag) {
                 clearPaging()   //페이징 관련 데이터 초기화
                 recordDetailAdapter.clearData() //현재 리사이클러뷰에 있는 content 데이터들 지우기
-                getPosts(page, recordDetailAdapter.getFilter())
+
+                feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, null, null)    //전체 개수 조회 API 호출
+                getPosts(page, recordDetailAdapter.getFilter()) //기록 조회 API 호출
             }
         })
 
@@ -167,6 +171,14 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
                 200 -> recordDetailAdapter.removeData()
                 404 -> showToast("삭제 중 문제가 발생했습니다.")
                 else -> {}
+            }
+        })
+
+        feedVm.feedCnt.observe(viewLifecycleOwner, Observer {
+            val feedCnt = it.getContentIfNotHandled()
+
+            if (feedCnt!=null) {
+                recordDetailAdapter.setCnt(feedCnt)
             }
         })
     }

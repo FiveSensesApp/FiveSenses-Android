@@ -37,6 +37,7 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private lateinit var recordCntBinding: ItemRecordCntBinding
     private lateinit var contentBinding: ItemRecordDetailBinding
     private lateinit var myClickListener: MyClickListener
+    private lateinit var recordCntViewHolder: RecordCntViewHolder
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -49,7 +50,8 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
             ContentViewType.RECORD_CNT.num -> {
                 recordCntBinding = ItemRecordCntBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                RecordCntViewHolder(recordCntBinding)
+                recordCntViewHolder = RecordCntViewHolder(recordCntBinding)
+                recordCntViewHolder
             }
             else -> {
                 contentBinding = ItemRecordDetailBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -96,9 +98,20 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class RecordCntViewHolder(binding: ItemRecordCntBinding): RecyclerView.ViewHolder(binding.root) {
         private val cntTv: TextView = binding.root
+        private var cnt: Int = 0
 
         fun bind() {
-            cntTv.text = "총 0개"
+            cntTv.text = "총 ${cnt}개"
+        }
+
+        fun setCnt(cnt: Int) {
+            this.cnt = cnt
+            cntTv.text = "총 ${this.cnt}개"
+        }
+
+        fun minusCnt() {
+            this.cnt -= 1
+            cntTv.text = "총 ${this.cnt}개"
         }
     }
 
@@ -200,7 +213,7 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
 
         notifyItemRemoved(position) //삭제된 내역 반영
-        notifyItemChanged(1)    //전체 개수 내용 반영(총 n개)
+        recordCntViewHolder.minusCnt()  //전체 개수 - 1
     }
 
     fun clearData() {
@@ -216,5 +229,9 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val selectedPosition: Int = this.records.indexOf(this.records.find { it.record?.id==record.id })
         this.records[selectedPosition].record = record
         notifyItemChanged(selectedPosition)
+    }
+
+    fun setCnt(cnt: Int) {
+        this.recordCntViewHolder.setCnt(cnt)
     }
 }
