@@ -1,6 +1,5 @@
 package com.mangpo.taste.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mangpo.domain.usecase.LostPasswordUseCase

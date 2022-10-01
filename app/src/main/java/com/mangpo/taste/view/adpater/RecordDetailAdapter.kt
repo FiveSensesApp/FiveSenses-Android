@@ -166,11 +166,11 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return records
     }
 
+    private fun getPositionByPostId(postId: Int): Int = records.indexOf(records.find { it.record?.id==postId })
+
     fun setMyClickListener(myClickListener: MyClickListener) {
         this.myClickListener = myClickListener
     }
-
-    fun getSelectedPosition(): Int = selectedPosition
 
     fun getDeletePostId(): Int = deletePostId
 
@@ -190,8 +190,6 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
         }
     }
-
-    fun getPositionByPostId(postId: Int): Int = records.indexOf(records.find { it.record?.id==postId })
 
     fun removeData() {
         val position: Int = getPositionByPostId(this.deletePostId)
@@ -219,6 +217,4 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         this.records[selectedPosition].record = record
         notifyItemChanged(selectedPosition)
     }
-
-    fun getUpdatedPostId(): Int = this.updatePostId
 }

@@ -1,6 +1,5 @@
 package com.mangpo.taste.view.adpater
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.RadioGroup
@@ -172,35 +171,8 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
         return records
     }
 
-    fun setData(records: List<Record>, viewType: Int) {
-        this.baseRecords = records as ArrayList<Record>
-
-        /*if (viewType==ContentViewType.BY_SENSE_FILTER.num)  //감각별 보관함일 때
-            filteredRecords = baseRecords.filter { it.record==null || it.record?.taste==0 } as MutableList<Record>   //디폴트는 시각만 보이도록
-        else if (viewType==ContentViewType.BY_SCORE_FILTER.num) //점수별 보관함일 때
-            filteredRecords = baseRecords.filter { it.record==null || it.record?.star==5f } as MutableList<Record>    //디폴트는 5점만 보이도록*/
-
-        notifyDataSetChanged()
-    }
-
-    fun setData(records: MutableList<Record>) {
-        this.baseRecords = records
-//        this.records = records
-
-        notifyDataSetChanged()
-    }
-
     fun setMyClickListener(myClickListener: MyClickListener) {
         this.myClickListener = myClickListener
-    }
-
-    fun removeItem(position: Int, changedPosition: Int) {
-        baseRecords.removeAt(position)
-        if (baseRecords!= this.records)   //filteredRecords 가 baseRecords 를 참조하는 경우 발생.
-            this.records.removeAt(position)
-
-        notifyItemChanged(changedPosition)    //전체 개수 내용 반영(총 n개)
-        notifyItemRangeRemoved(position, this.records.size)  //삭제 내역 반영
     }
 
     fun getSenseFilter(): String {
@@ -242,7 +214,6 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
     }
 
     fun removeData(contentId: Int) {
-        Log.d("RecordShortAdapter", "removeData records: ${this.records}")
         val position = this.records.indexOf(this.records.find { it.record?.id==contentId })
         this.records.removeAt(position)
         notifyItemRemoved(position) //삭제된 내역 반영

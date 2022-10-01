@@ -1,3 +1,6 @@
 package com.mangpo.data.model.getPresentPostsBetween
 
-class GetPresentPostsBetweenResDTO : ArrayList<GetPresentPostsBetweenResDTOItem>()
+data class GetPresentPostsBetweenResDTO(
+    val date: String,
+    val isPresent: Boolean
+)

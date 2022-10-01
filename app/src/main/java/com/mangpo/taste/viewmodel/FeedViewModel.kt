@@ -1,6 +1,5 @@
 package com.mangpo.taste.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mangpo.domain.model.getPosts.GetPostsResEntity
@@ -40,7 +39,6 @@ class FeedViewModel @Inject constructor(private val getUserInfoUseCase: GetUserI
     }
 
     fun deletePost(postId: Int) {
-        Log.d("FeedViewModel", "deletePost")
         callApi(
             { deletePostUseCase.invoke(postId) },
             { _deletePostResult.postValue(it.code) },

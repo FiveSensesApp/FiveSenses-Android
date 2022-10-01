@@ -4,7 +4,7 @@ import com.mangpo.data.model.base.BaseResDTO
 import com.mangpo.data.model.createPost.CreatePostReqDTO
 import com.mangpo.data.model.getPosts.Content
 import com.mangpo.data.model.getPosts.GetPostsResDTO
-import com.mangpo.data.model.getPresentPostsBetween.GetPresentPostsBetweenResDTOItem
+import com.mangpo.data.model.getPresentPostsBetween.GetPresentPostsBetweenResDTO
 import com.mangpo.data.model.updatePost.UpdatePostReqDTO
 import com.mangpo.data.model.updatePost.UpdatePostResDTO
 import com.mangpo.domain.model.base.BaseResEntity
@@ -60,7 +60,7 @@ object PostMapper {
         }
     }
 
-    fun mapperToGetPresentPostsBetweenResEntities(getPresentPostsBetweenResDTOs: BaseResDTO<List<GetPresentPostsBetweenResDTOItem>>): BaseResEntity<List<GetPresentPostsBetweenResEntity>> {
+    fun mapperToGetPresentPostsBetweenResEntities(getPresentPostsBetweenResDTOs: BaseResDTO<List<GetPresentPostsBetweenResDTO>>): BaseResEntity<List<GetPresentPostsBetweenResEntity>> {
         val getPresentPostsBetweenResEntities: MutableList<GetPresentPostsBetweenResEntity> = mutableListOf()
 
         for (dto in getPresentPostsBetweenResDTOs.data!!) {

@@ -10,5 +10,4 @@ data class TwoBtnDialog (
     val leftAction: String,
     val rightAction: String,
     val background: Int?
-//    val isBlurred: Boolean
 ): Parcelable

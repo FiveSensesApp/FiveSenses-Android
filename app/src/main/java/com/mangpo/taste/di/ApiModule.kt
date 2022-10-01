@@ -1,6 +1,5 @@
 package com.mangpo.taste.di
 
-import android.util.Log
 import com.mangpo.data.service.AuthService
 import com.mangpo.data.service.PostService
 import com.mangpo.data.service.UserService
@@ -23,7 +22,6 @@ class ApiModule {
     @Provides
     @Singleton
     fun getInterceptor(): Interceptor {
-        Log.d("getInterceptor", "getInterceptor")
         return Interceptor {
             val request = it.request().newBuilder().addHeader("Authorization", "Bearer ${SpfUtils.getStrEncryptedSpf("jwt")}")
             val actualRequest = request.build()

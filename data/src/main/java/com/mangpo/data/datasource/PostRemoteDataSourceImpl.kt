@@ -5,7 +5,6 @@ import com.mangpo.data.model.createPost.CreatePostReqDTO
 import com.mangpo.data.model.createPost.CreatePostResDTO
 import com.mangpo.data.model.getPosts.GetPostsResDTO
 import com.mangpo.data.model.getPresentPostsBetween.GetPresentPostsBetweenResDTO
-import com.mangpo.data.model.getPresentPostsBetween.GetPresentPostsBetweenResDTOItem
 import com.mangpo.data.model.updatePost.UpdatePostReqDTO
 import com.mangpo.data.model.updatePost.UpdatePostResDTO
 import com.mangpo.data.service.PostService
@@ -35,7 +34,7 @@ class PostRemoteDataSourceImpl @Inject constructor(private val service: PostServ
     override suspend fun getPresentPostsBetween(
         startDate: String,
         endDate: String
-    ): BaseResDTO<List<GetPresentPostsBetweenResDTOItem>> {
+    ): BaseResDTO<List<GetPresentPostsBetweenResDTO>> {
         return callApi { service.getPresentPostsBetween(startDate, endDate) }
     }
 

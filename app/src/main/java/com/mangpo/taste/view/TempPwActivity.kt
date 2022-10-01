@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
-import android.util.Log
 import android.util.Patterns
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
@@ -18,7 +17,6 @@ import com.mangpo.taste.viewmodel.TempPwViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
-import java.util.regex.Pattern
 
 @AndroidEntryPoint
 class TempPwActivity : BaseActivity<ActivityTempPwBinding>(ActivityTempPwBinding::inflate) {

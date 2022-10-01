@@ -29,8 +29,6 @@ class NoFeedFragment : BaseFragment<FragmentNoFeedBinding>(FragmentNoFeedBinding
     private lateinit var headerViewContainer: CalendarHeaderViewContainer
 
     override fun initAfterBinding() {
-//        initDayViewContainer()
-//        initCalendarHeader()
         setMyEventListener()
         observe()
 
@@ -43,22 +41,6 @@ class NoFeedFragment : BaseFragment<FragmentNoFeedBinding>(FragmentNoFeedBinding
         else
             binding.noFeedHowToUseBtn.visibility = View.VISIBLE
     }
-
-    /*private fun initDayViewContainer() {
-        dayViewContainer = DayViewContainer(binding.noFeedCv)
-        dayViewContainer.setOnDayClickListener(object : DayViewContainer.OnDayClickListener {
-            override fun onClick(oldDate: LocalDate, selectedDate: LocalDate) {
-                binding.noFeedCv.notifyDateChanged(selectedDate)   //현재 선택한 날짜 선택된 UI 로 변경
-                oldDate?.let { binding.noFeedCv.notifyDateChanged(oldDate) }   //이전에 선택한 날짜 선택하지 않은 UI 로 변경
-            }
-        })
-        binding.noFeedCv.dayBinder = dayViewContainer
-    }
-
-    private fun initCalendarHeader() {
-        headerViewContainer = CalendarHeaderViewContainer(binding.noFeedCv)
-        binding.noFeedCv.monthHeaderBinder = headerViewContainer
-    }*/
 
     private fun setMyEventListener() {
         //가이드 버튼 클릭 리스너

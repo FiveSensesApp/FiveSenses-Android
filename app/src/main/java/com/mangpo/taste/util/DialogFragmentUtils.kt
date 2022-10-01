@@ -1,16 +1,11 @@
 package com.mangpo.taste.util
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.Point
 import android.os.Build
-import android.util.DisplayMetrics
-import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 
 object DialogFragmentUtils {
     fun resizeWidth(context: Context, dialogFragment: DialogFragment, width: Float) {

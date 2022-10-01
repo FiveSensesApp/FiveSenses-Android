@@ -1,6 +1,5 @@
 package com.mangpo.taste.view
 
-import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -123,11 +122,4 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         recordFcvMarginTop = margin
         binding.invalidateAll()
     }
-
-    fun changeMenu(menu: Int) {
-        binding.mainBnv.selectedItemId = menu
-    }
-
-    //기록하기 BottomSheet 의 visibility 를 확인하는 함수
-    fun checkRecordFcvVisibility(): Int = binding.mainRecordFcv.visibility
 }

@@ -1,7 +1,6 @@
 package com.mangpo.taste.view.model
 
 import android.os.Parcelable
-import com.mangpo.domain.model.RecordEntity
 import com.mangpo.domain.model.getPosts.ContentEntity
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.RawValue
