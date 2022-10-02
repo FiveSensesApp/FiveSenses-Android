@@ -90,7 +90,7 @@ class RecordDialogFragment : DialogFragment() {
         DialogFragmentUtils.resizeWidth(
             requireContext(),
             this@RecordDialogFragment,
-            0.89f
+            0.86f
         )
     }
 

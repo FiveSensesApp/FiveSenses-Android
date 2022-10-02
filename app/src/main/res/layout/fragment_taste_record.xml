@@ -78,8 +78,9 @@
                 srbEmptyDrawable="@{fragment.ogamSelect.emptyStar}"
                 srbFilledDrawable="@{fragment.ogamSelect.filledStar}"
                 android:layout_width="wrap_content"
-                android:layout_height="34dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:gravity="center"
                 app:layout_constraintBottom_toTopOf="@+id/taste_record_srb_msg_tv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -91,11 +92,14 @@
                 app:srb_minimumStars="0"
                 app:srb_numStars="5"
                 app:srb_scrollable="true"
-                app:srb_starPadding="7dp"
+                app:srb_starHeight="22dp"
+                app:srb_starPadding="3.5dp"
+                app:srb_starWidth="23dp"
                 app:srb_stepSize="1.0" />
 
             <TextView
                 android:id="@+id/taste_record_srb_msg_tv"
+                marginTop="6dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"

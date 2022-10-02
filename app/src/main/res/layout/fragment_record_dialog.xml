@@ -23,9 +23,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_transparent_12"
-        android:paddingHorizontal="20dp"
-        android:paddingBottom="16dp">
+        android:background="@drawable/bg_transparent_12">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -103,7 +101,7 @@
                 android:id="@+id/record_dialog_date_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
+                android:layout_marginStart="20dp"
                 android:text="@{content.createdDate}"
                 android:textAppearance="@style/Body1_M_14"
                 android:textColor="@{resource.dateTextColor}"
@@ -116,10 +114,10 @@
                 srbEmptyDrawable="@{resource.emptyStar}"
                 srbFilledDrawable="@{resource.filledStar}"
                 srbRating="@{content.star}"
-                android:layout_width="157dp"
-                android:layout_height="34dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="18dp"
                 android:layout_marginBottom="24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -130,7 +128,9 @@
                 app:srb_minimumStars="0"
                 app:srb_numStars="5"
                 app:srb_scrollable="false"
-                app:srb_starPadding="7dp"
+                app:srb_starHeight="22dp"
+                app:srb_starPadding="3.5dp"
+                app:srb_starWidth="23dp"
                 app:srb_stepSize="1.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

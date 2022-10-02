@@ -12,14 +12,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(private val getUserInfoUseCase: GetUserInfoUseCase): BaseViewModel() {
-    private val _feedType: MutableLiveData<String> = MutableLiveData()
-    val feedType: LiveData<String> = _feedType
-
     private val _isTasteRecordShown: MutableLiveData<Event<Boolean>> = MutableLiveData()
     val isTasteRecordShown: LiveData<Event<Boolean>> get() = _isTasteRecordShown
-
-    private val _typeSelectTouchViewEnableStatus: MutableLiveData<Event<Boolean>> = MutableLiveData()
-    val typeSelectTouchViewEnableStatus: LiveData<Event<Boolean>> get() = _typeSelectTouchViewEnableStatus
 
     private val _callGetPostsFlag: MutableLiveData<Event<Boolean>> = MutableLiveData()
     val callGetPostsFlag: LiveData<Event<Boolean>> get() = _callGetPostsFlag
@@ -42,10 +36,6 @@ class MainViewModel @Inject constructor(private val getUserInfoUseCase: GetUserI
         )
 
         slogan.postValue(slogans[Random().nextInt(6)])
-    }
-
-    fun setFeedType(feedType: String) {
-        _feedType.value = feedType
     }
 
     fun getUserInfo(userIdx: Int) {
@@ -85,10 +75,6 @@ class MainViewModel @Inject constructor(private val getUserInfoUseCase: GetUserI
     }
 
     fun getIsRecordComplete(): Boolean = this.isRecordComplete
-
-    fun setTypeSelectTouchViewEnableStatus(value: Boolean) {
-        _typeSelectTouchViewEnableStatus.postValue(Event(value))
-    }
 
     fun setCallGetPostsFlag(value: Boolean) {
         _callGetPostsFlag.postValue(Event(value))

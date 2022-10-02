@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
+
         <variable
             name="activity"
             type="com.mangpo.taste.view.MainActivity" />
@@ -31,6 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@color/WH_80"
+            android:clickable="true"
             android:visibility="@{activity.recordFcvVisibility}"
             app:layout_constraintBottom_toTopOf="@+id/main_cl"
             app:layout_constraintTop_toTopOf="parent" />
@@ -38,10 +41,11 @@
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/main_record_fcv"
             android:name="androidx.navigation.fragment.NavHostFragment"
+            marginTop="@{activity.recordFcvMarginTop}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            marginTop="@{activity.recordFcvMarginTop}"
             android:background="@drawable/bg_wh_top30"
+            android:clickable="true"
             android:elevation="250dp"
             android:visibility="@{activity.recordFcvVisibility}"
             app:defaultNavHost="true"

@@ -132,7 +132,7 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
     }
 
     inner class ByScoreFilterViewHolder(binding: ItemByScoreFilterBinding): RecyclerView.ViewHolder(binding.root) {
-        private val filterRg: RadioGroup = binding.root
+        private val filterRg: RadioGroup = binding.byScoreRg
 
         fun bind() {
             filterRg.setOnCheckedChangeListener { radioGroup, i ->

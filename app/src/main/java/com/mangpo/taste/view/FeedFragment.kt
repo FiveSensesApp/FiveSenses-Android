@@ -8,7 +8,6 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.mangpo.taste.R
@@ -17,13 +16,11 @@ import com.mangpo.taste.databinding.FragmentFeedBinding
 import com.mangpo.taste.util.SpfUtils
 import com.mangpo.taste.util.setSpannableText
 import com.mangpo.taste.viewmodel.FeedViewModel
-import com.mangpo.taste.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::inflate), TextWatcher {
     private val feedVm: FeedViewModel by viewModels()
-    private val mainVm: MainViewModel by activityViewModels()
 
     private lateinit var onBackPressedCallback: OnBackPressedCallback
     private lateinit var typeIconList: List<Drawable>
@@ -40,7 +37,6 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
 
         binding.apply {
             fragment = this@FeedFragment
-            mainVm = this@FeedFragment.mainVm
             lifecycleOwner = viewLifecycleOwner
         }
 
@@ -134,20 +130,6 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
     }
 
     private fun observe() {
-        //기록 화면이 올라왔을 때/내려왔을 때 typeSelectTouchView 의 활성화/비활성화 여부 Observe
-        mainVm.typeSelectTouchViewEnableStatus.observe(viewLifecycleOwner, Observer {
-            val typeSelectTouchViewEnableStatus = it.getContentIfNotHandled()
-
-            if (typeSelectTouchViewEnableStatus!=null) {
-                binding.feedTypeSelectTouchView.isEnabled = typeSelectTouchViewEnableStatus
-
-                val fragment = fm.findFragmentById(binding.feedContentFl.id)
-                if (typeSelectTouchViewEnableStatus && mainVm.getIsRecordComplete() && fragment?.javaClass==NoFeedFragment::class.java) {
-                    fm.beginTransaction().replace(binding.feedContentFl.id, TimelineFragment()).commit()
-                }
-            }
-        })
-
         feedVm.posts.observe(viewLifecycleOwner, Observer {
             val posts = it.getContentIfNotHandled()
 
@@ -164,12 +146,6 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
                 }
             }
         })
-    }
-
-    private fun showTasteHeader() {
-        binding.feedMyTasteTv.visibility = View.VISIBLE //나의 취향~ 텍스트뷰 VISIBLE
-        binding.feedToggleIv.visibility = View.VISIBLE //토글 이미지뷰 VISIBLE
-        binding.feedSearchResultTv.visibility = View.GONE   //검색 결과 텍스트뷰 GONE
     }
 
     //나의 취향 터치뷰 클릭 리스너
