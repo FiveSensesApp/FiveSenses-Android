@@ -72,6 +72,9 @@
     <string name="title_privacy_policy_no_blank">개인정보처리방침</string>
     <string name="title_receive_marketing_information">마케팅 정보 수신</string>
     <string name="title_email">이메일</string>
+    <string name="title_acquired_badge">획득한 뱃지</string>
+    <string name="title_distribution_by_sensory">감각별 분포도</string>
+    <string name="title_number_of_records_trend">기록 갯수 추이</string>
 
     <string name="action_logout">로그아웃</string>
     <string name="action_withdrawal">계정 탈퇴</string>

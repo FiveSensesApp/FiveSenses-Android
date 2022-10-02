@@ -12,7 +12,7 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
 
     private fun setMyEventListener() {
         //설정 아이콘 클릭 리스너
-        binding.analysisSettingIv.setOnClickListener {
+        binding.analysisSettingIb.setOnClickListener {
             findNavController().navigate(R.id.action_analysisFragment_to_settingActivity)
         }
     }
