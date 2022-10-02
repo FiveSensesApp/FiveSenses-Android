@@ -14,9 +14,8 @@ import com.mangpo.taste.R
 import com.mangpo.taste.databinding.CalendarDayLayoutBinding
 import com.mangpo.taste.util.convertDpToPx
 import com.mangpo.taste.util.getDeviceWidth
-import java.time.DayOfWeek
-import java.time.LocalDate
-import java.time.YearMonth
+import java.time.*
+import java.time.temporal.ChronoUnit
 
 class DayViewContainer(calendarView: CalendarView, recordByDate: List<GetPresentPostsBetweenResEntity>?): DayBinder<DayViewContainer.DayViewContainer> {
     interface OnDayClickListener {
@@ -58,7 +57,7 @@ class DayViewContainer(calendarView: CalendarView, recordByDate: List<GetPresent
 
     fun getSelectedDate(): LocalDate = this.selectedDate
 
-    fun updateMonthConfiguration(week: Int, yearMonth: YearMonth?) {
+    fun updateMonthConfiguration(week: Int) {
         if (week==1) {  //접혀있을 땐 한줄만 보여주기
             calendarView.updateMonthConfiguration(
                 inDateStyle = InDateStyle.ALL_MONTHS,
@@ -74,22 +73,22 @@ class DayViewContainer(calendarView: CalendarView, recordByDate: List<GetPresent
                 hasBoundaries = true
             )
 
-            initMonthCalendarView(yearMonth!!) //주별 달력에서 현재 보여주고 있는 월의 달력을 보여주기
+            initMonthCalendarView() //주별 달력에서 현재 보여주고 있는 월의 달력을 보여주기
         }
     }
 
     private fun initWeekCalendarView() {
-        val yearMonth = YearMonth.of(selectedDate.year, selectedDate.monthValue)
-        val firstMonth = yearMonth.minusMonths(10)
-        val lastMonth = yearMonth.plusMonths(10)
-
+        val yearMonth = YearMonth.now()
+        val firstMonth = yearMonth.minusMonths(ChronoUnit.MONTHS.between(LocalDate.of(2022, 1, 1), LocalDate.now()))
+        val lastMonth = yearMonth.plusMonths(12)
         calendarView.setup(firstMonth, lastMonth, daysOfWeek.first())
         calendarView.scrollToDate(selectedDate)
     }
 
-    private fun initMonthCalendarView(yearMonth: YearMonth) {
-        val firstMonth = yearMonth.minusMonths(10)
-        val lastMonth = yearMonth.plusMonths(10)
+    private fun initMonthCalendarView() {
+        val yearMonth = YearMonth.now()
+        val firstMonth = yearMonth.minusMonths(ChronoUnit.MONTHS.between(LocalDate.of(2022, 1, 1), LocalDate.now()))
+        val lastMonth = yearMonth.plusMonths(12)
 
         calendarView.setup(firstMonth, lastMonth, daysOfWeek.first())
         calendarView.scrollToMonth(yearMonth)

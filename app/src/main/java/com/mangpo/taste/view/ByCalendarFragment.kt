@@ -6,7 +6,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import com.kizitonwose.calendarview.utils.yearMonth
 import com.mangpo.domain.model.getPosts.ContentEntity
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentByCalendarBinding
@@ -66,10 +65,23 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
 
     private fun initCalendarHeader() {
         headerViewContainer = CalendarHeaderViewContainer(binding.byCalendarCv)
+        headerViewContainer.setChangeDateListener(object : CalendarHeaderViewContainer.ChangeDateListener {
+            override fun change(startDate: String, endDate: String) {
+                feedVm.getPresentPostsBetween(startDate, endDate)
+            }
+        })
         binding.byCalendarCv.monthHeaderBinder = headerViewContainer
     }
 
     private fun initDayViewContainer() {
+        binding.byCalendarCv.monthScrollListener = {
+            if (isCalendarOpen) {
+                feedVm.getPresentPostsBetween(LocalDate.of(it.year, it.month, 1).toString(), it.yearMonth.atEndOfMonth().toString())
+            } else {
+                feedVm.getPresentPostsBetween(it.weekDays[0][0].date.toString(), it.weekDays[0][6].date.toString())
+            }
+        }
+
         dayViewContainer = DayViewContainer(binding.byCalendarCv, null)
         dayViewContainer.setOnDayClickListener(object : DayViewContainer.OnDayClickListener {
             override fun onClick(oldDate: LocalDate, selectedDate: LocalDate) {
@@ -88,7 +100,7 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
             }
         })
         binding.byCalendarCv.dayBinder = dayViewContainer
-        dayViewContainer.updateMonthConfiguration(1, null)    //주별 달력이 현재 날짜로 보이도록 설정
+        dayViewContainer.updateMonthConfiguration(1)    //주별 달력이 현재 날짜로 보이도록 설정
     }
 
     private fun initAdapter() {
@@ -178,7 +190,7 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
                     if (isCalendarOpen) {   //월별 달력 UI 였을 경우
                         changeCalendar()    //주별 달력 UI 로 변경
                     } else {    //주별 달력 UI 였을 경우
-                        dayViewContainer.updateMonthConfiguration(1, dayViewContainer.getSelectedDate().yearMonth)  //선택된 날짜(=오늘 날짜)의 주별 달력 UI가 보이도록 변경
+                        dayViewContainer.updateMonthConfiguration(1)  //선택된 날짜(=오늘 날짜)의 주별 달력 UI가 보이도록 변경
                     }
                 }
 
@@ -240,10 +252,10 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
     fun changeCalendar() {
         if (isCalendarOpen) {   //expand
             setCalendarClHeight(convertDpToPx(requireContext(), 187))    //달력 레이아웃 높이 187dp 로
-            dayViewContainer.updateMonthConfiguration(1, dayViewContainer.getSelectedDate().yearMonth)  //선택된 날짜의 주별 달력 UI가 보이도록
+            dayViewContainer.updateMonthConfiguration(1)  //선택된 날짜의 주별 달력 UI가 보이도록
         } else {    //fold
             setCalendarClHeight(convertDpToPx(requireContext(), 470))    //달력 레이아웃 높이 470dp 로
-            dayViewContainer.updateMonthConfiguration(6, headerViewContainer.getYearMonth())    //선택된 날짜의 월별 달력 UI가 보이도록
+            dayViewContainer.updateMonthConfiguration(6)    //선택된 날짜의 월별 달력 UI가 보이도록
         }
 
         isCalendarOpen = !isCalendarOpen
