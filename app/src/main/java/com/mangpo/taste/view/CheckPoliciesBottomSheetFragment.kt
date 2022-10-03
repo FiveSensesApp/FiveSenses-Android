@@ -14,7 +14,7 @@ import com.mangpo.taste.util.BottomSheetDialogUtils
 
 class CheckPoliciesBottomSheetFragment : BottomSheetDialogFragment() {
     interface Listener {
-        fun finish(allChecked: Boolean, agree: Boolean)
+        fun finish(allChecked: Boolean, agree: Boolean, miIbCheckState: Boolean)
     }
 
     private lateinit var binding: FragmentCheckPoliciesBottomSheetBinding
@@ -116,7 +116,7 @@ class CheckPoliciesBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     fun finish() {
-        listener.finish(allIbCheckState, (tcIbCheckState && ppIbCheckState))
+        listener.finish(allIbCheckState, (tcIbCheckState && ppIbCheckState), miIbCheckState)
         dismiss()
     }
 }

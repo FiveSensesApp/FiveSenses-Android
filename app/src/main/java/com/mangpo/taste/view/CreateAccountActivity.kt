@@ -25,6 +25,7 @@ class CreateAccountActivity : BaseActivity<ActivityCreateAccountBinding>(Activit
     private val createAccountVm: CreateAccountViewModel by viewModels()
 
     private var isAgree: Boolean = false
+    private var miIbCheckState: Boolean = false
 
     private lateinit var checkPoliciesBottomSheetFragment: CheckPoliciesBottomSheetFragment
 
@@ -88,9 +89,10 @@ class CreateAccountActivity : BaseActivity<ActivityCreateAccountBinding>(Activit
     private fun initCheckPoliciesBottomSheetFragment() {
         checkPoliciesBottomSheetFragment = CheckPoliciesBottomSheetFragment()
         checkPoliciesBottomSheetFragment.setMyListener(object : CheckPoliciesBottomSheetFragment.Listener {
-            override fun finish(allChecked: Boolean, agree: Boolean) {
+            override fun finish(allChecked: Boolean, agree: Boolean, miIbCheckState: Boolean) {
                 isAllChecked = allChecked
                 isAgree = agree
+                this@CreateAccountActivity.miIbCheckState = miIbCheckState
                 nextBtnEnable = validate()
                 binding.invalidateAll()
             }
@@ -162,7 +164,7 @@ class CreateAccountActivity : BaseActivity<ActivityCreateAccountBinding>(Activit
 
         createAccountVm.validateDuplicateResult.observe(this, Observer {
             if (it) {
-                val createUserReqEntity: CreateUserReqEntity = CreateUserReqEntity(email = binding.createAccountEmailEt.text.toString(), password = binding.createAccountPw1Et.text.toString())
+                val createUserReqEntity: CreateUserReqEntity = CreateUserReqEntity(email = binding.createAccountEmailEt.text.toString(), password = binding.createAccountPw1Et.text.toString(), isMarketingAllowed = miIbCheckState)
                 val intent = Intent(this, EmailAuthActivity::class.java)
                 intent.putExtra("newUser", createUserReqEntity)
                 startActivity(intent)
@@ -174,6 +176,7 @@ class CreateAccountActivity : BaseActivity<ActivityCreateAccountBinding>(Activit
     fun changeCheckIb() {
         isAllChecked = !isAllChecked
         isAgree = isAllChecked
+        miIbCheckState = true
         nextBtnEnable = validate()
         binding.invalidateAll()
     }

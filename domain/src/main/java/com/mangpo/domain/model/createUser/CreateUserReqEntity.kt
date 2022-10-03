@@ -9,5 +9,6 @@ data class CreateUserReqEntity(
     var email: String = "",
     var isAlarmOn: Boolean = false,
     var nickname: String = "",
-    var password: String = ""
+    var password: String = "",
+    var isMarketingAllowed: Boolean = false
 ) : Parcelable

@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import com.mangpo.domain.model.createUser.CreateUserReqEntity
 import com.mangpo.domain.usecase.CreateUserUseCase
 import com.mangpo.taste.base.BaseViewModel
-import com.mangpo.taste.util.SpfUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -19,16 +18,7 @@ class StartViewModel @Inject constructor(private val createUserUseCase: CreateUs
             { createUserUseCase.invoke(createUserReqEntity) },
             {
                 when (it.code) {
-                    201 -> {
-                        SpfUtils.writeEncryptedSpf("userId", it.data!!.id)
-                        SpfUtils.writeSpf("nickname", it.data!!.nickname)
-                        SpfUtils.writeEncryptedSpf("email", it.data!!.email)
-                        SpfUtils.writeSpf("startDate", it.data!!.startDate)
-                        SpfUtils.writeSpf("isAlarmOn", it.data!!.isAlarmOn)
-                        SpfUtils.writeSpf("alarmTime", it.data!!.alarmDate)
-
-                        _createUserResult.postValue(true)
-                    }
+                    201 -> _createUserResult.postValue(true)
                     400 -> {
                         showToast(it.msg!!)
                         _createUserResult.postValue(false)

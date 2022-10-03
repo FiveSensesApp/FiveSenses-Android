@@ -26,7 +26,7 @@ object AuthMapper {
 
     fun mapperToCreateUserReqDTO(createUserReqEntity: CreateUserReqEntity): CreateUserReqDTO {
         return createUserReqEntity.run {
-            CreateUserReqDTO(alarmDate, email, isAlarmOn, nickname, password)
+            CreateUserReqDTO(alarmDate, email, isAlarmOn, nickname, password, isMarketingAllowed)
         }
     }
 

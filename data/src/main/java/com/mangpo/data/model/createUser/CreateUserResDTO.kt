@@ -8,5 +8,6 @@ data class CreateUserResDTO(
     val id: Int,
     val isAlarmOn: Boolean,
     val modifiedDate: String,
-    val nickname: String
+    val nickname: String,
+    val isMarketingAllowed: Boolean
 )

@@ -5,5 +5,6 @@ data class CreateUserReqDTO(
     val email: String,
     val isAlarmOn: Boolean,
     val nickname: String,
-    val password: String
+    val password: String,
+    val isMarketingAllowed: Boolean
 )
