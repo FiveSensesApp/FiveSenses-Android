@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.mangpo.taste.view.AnalysisFragment" />
+
+        <variable
+            name="userInfo"
+            type="com.mangpo.taste.view.model.AnalysisUserInfo" />
+    </data>
+
     <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -26,6 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
+                    android:onClick="@{() -> fragment.toSettingActivity()}"
                     android:src="@drawable/ic_setting_38"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -36,7 +49,7 @@
                     android:layout_height="31dp"
                     android:gravity="center_vertical"
                     android:includeFontPadding="false"
-                    android:text="워니버니워니버니"
+                    android:text="@{userInfo.nickname}"
                     android:textAppearance="@style/Head_B_26"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/analysis_representative_badge_iv" />
@@ -54,13 +67,12 @@
                 <TextView
                     android:id="@+id/analysis_email_tv"
                     android:layout_width="0dp"
-                    android:layout_height="17dp"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:includeFontPadding="false"
-                    android:text="namartyewon@gmail.com"
+                    android:text="@{userInfo.email}"
                     android:textAppearance="@style/Body1_M_12"
                     android:textColor="@color/GY_03"
-                    app:layout_constraintEnd_toEndOf="@+id/analysis_nickname_edit_ib"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/analysis_nickname_tv" />
 
@@ -89,7 +101,7 @@
                     android:layout_marginStart="4dp"
                     android:gravity="center_vertical"
                     android:includeFontPadding="false"
-                    android:text="기록한지   D+1"
+                    android:text="@{`기록한지   D+` + userInfo.createdDateCnt}"
                     android:textAppearance="@style/Body1_M_14"
                     android:textColor="@color/GY_04"
                     app:layout_constraintBottom_toBottomOf="@+id/analysis_calendar_iv"

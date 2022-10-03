@@ -1,9 +1,6 @@
 package com.mangpo.taste.di
 
-import com.mangpo.data.service.AdminService
-import com.mangpo.data.service.AuthService
-import com.mangpo.data.service.PostService
-import com.mangpo.data.service.UserService
+import com.mangpo.data.service.*
 import com.mangpo.taste.BuildConfig
 import com.mangpo.taste.util.SpfUtils
 import dagger.Module
@@ -72,5 +69,11 @@ class ApiModule {
     @Singleton
     fun provideAdminService(retrofit: Retrofit): AdminService {
         return retrofit.create(AdminService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideStatService(retrofit: Retrofit): StatService {
+        return retrofit.create(StatService::class.java)
     }
 }
