@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.kyleduo.switchbutton.SwitchButton
+import com.mangpo.domain.model.updateUser.UpdateUserReqEntity
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentSettingBinding
@@ -29,7 +31,10 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
         setMyEventListener()
         observe()
 
-        binding.settingAlarmTimeTv.isEnabled = binding.settingAlarmSettingSb.isChecked
+        binding.settingAlarmSettingSb.isChecked = SpfUtils.getBooleanSpf("isAlarmOn", false)
+        binding.settingAlarmTimeTv.isEnabled = SpfUtils.getBooleanSpf("isAlarmOn", false)
+        binding.settingAlarmTimeTv.text = SpfUtils.getStrSpf("alarmTime")
+
     }
 
     private fun initTwoBtnDialog() {
@@ -66,7 +71,8 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
             }
 
             override fun complete(time: String) {
-                binding.settingAlarmTimeTv.text = time
+                val updateUserReqEntity = UpdateUserReqEntity(time, SpfUtils.getBooleanSpf("isAlarmOn", false), SpfUtils.getStrSpf("nickname")!!, SpfUtils.getIntEncryptedSpf("userId"))
+                settingVm.updateUser(updateUserReqEntity)
             }
         })
     }
@@ -78,8 +84,10 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
         }
 
         //알람 설정 스위치버튼 체크리스너
-        binding.settingAlarmSettingSb.setOnCheckedChangeListener { compoundButton, b ->
-            binding.settingAlarmTimeTv.isEnabled = b
+        binding.settingAlarmSettingSb.setOnClickListener {
+            var isChecked: Boolean = (it as SwitchButton).isChecked
+            val updateUserReqEntity = UpdateUserReqEntity(binding.settingAlarmTimeTv.text.toString(), isChecked, SpfUtils.getStrSpf("nickname")!!, SpfUtils.getIntEncryptedSpf("userId"))
+            settingVm.updateUser(updateUserReqEntity)
         }
 
         //알람 시간 텍스트뷰 클릭 리스너
@@ -155,6 +163,16 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
                 goodBye()
             } else {
 
+            }
+        })
+
+        settingVm.updateUserResultCode.observe(viewLifecycleOwner, Observer {
+            val updateUserResultCode = it.getContentIfNotHandled()
+
+            if (updateUserResultCode!=null && updateUserResultCode==200) {
+                binding.settingAlarmSettingSb.isChecked = SpfUtils.getBooleanSpf("isAlarmOn", false)
+                binding.settingAlarmTimeTv.isEnabled = SpfUtils.getBooleanSpf("isAlarmOn", false)
+                binding.settingAlarmTimeTv.text = SpfUtils.getStrSpf("alarmTime")
             }
         })
     }

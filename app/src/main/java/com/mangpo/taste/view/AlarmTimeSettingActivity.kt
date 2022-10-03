@@ -35,6 +35,7 @@ class AlarmTimeSettingActivity : BaseActivity<ActivityAlarmTimeSettingBinding>(A
             }
 
             override fun complete(time: String) {
+                createUserReqEntity.isAlarmOn = true
                 createUserReqEntity.alarmDate = time
 
                 val intent = Intent(this@AlarmTimeSettingActivity, StartActivity::class.java)

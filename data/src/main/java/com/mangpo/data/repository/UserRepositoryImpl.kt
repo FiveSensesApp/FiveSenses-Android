@@ -6,6 +6,7 @@ import com.mangpo.data.mapper.UserMapper
 import com.mangpo.data.model.validateDuplicate.ValidateDuplicateReqDTO
 import com.mangpo.domain.model.base.BaseResEntity
 import com.mangpo.domain.model.getUserInfo.GetUserInfoResEntity
+import com.mangpo.domain.model.updateUser.UpdateUserReqEntity
 import com.mangpo.domain.repository.UserRepository
 import javax.inject.Inject
 
@@ -39,6 +40,13 @@ class UserRepositoryImpl @Inject constructor(private val userRemoteDataSource: U
 
     override suspend fun lostPassword(email: String): BaseResEntity<Nothing> {
         val response = userRemoteDataSource.lostPassword(email)
+
+        return sendData(response) { BaseMapper.mapperToBaseResEntity(response) }
+    }
+
+    override suspend fun updateUser(updateUserReqEntity: UpdateUserReqEntity): BaseResEntity<Nothing> {
+        val request = UserMapper.mapperToUpdateUserReqDTO(updateUserReqEntity)
+        val response = userRemoteDataSource.updateUser(request)
 
         return sendData(response) { BaseMapper.mapperToBaseResEntity(response) }
     }

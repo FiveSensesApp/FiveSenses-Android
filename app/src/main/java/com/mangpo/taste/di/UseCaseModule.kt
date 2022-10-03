@@ -82,4 +82,9 @@ class UseCaseModule {
     fun provideDeleteUserUseCase (adminRepository: AdminRepository): DeleteUserUseCase {
         return DeleteUserUseCase(adminRepository)
     }
+
+    @Provides
+    fun provideUpdateUserUseCase (userRepository: UserRepository): UpdateUserUseCase {
+        return UpdateUserUseCase(userRepository)
+    }
 }
