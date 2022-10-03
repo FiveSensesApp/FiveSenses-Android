@@ -1,5 +1,6 @@
 package com.mangpo.taste.di
 
+import com.mangpo.data.service.AdminService
 import com.mangpo.data.service.AuthService
 import com.mangpo.data.service.PostService
 import com.mangpo.data.service.UserService
@@ -65,5 +66,11 @@ class ApiModule {
     @Singleton
     fun provideUserService(retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAdminService(retrofit: Retrofit): AdminService {
+        return retrofit.create(AdminService::class.java)
     }
 }

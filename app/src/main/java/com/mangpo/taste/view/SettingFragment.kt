@@ -1,6 +1,8 @@
 package com.mangpo.taste.view
 
 import android.os.Bundle
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
@@ -8,8 +10,13 @@ import com.mangpo.taste.databinding.FragmentSettingBinding
 import com.mangpo.taste.util.SpfUtils
 import com.mangpo.taste.util.SpfUtils.clear
 import com.mangpo.taste.view.model.TwoBtnDialog
+import com.mangpo.taste.viewmodel.SettingViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBinding::inflate) {
+    private val settingVm: SettingViewModel by viewModels()
+
     private var dialogType: Int = -1
 
     private lateinit var twoBtnDialogFragment: TwoBtnDialogFragment
@@ -19,6 +26,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
         initTwoBtnDialog()
         setAlarmTimeDialogFragment()
         setMyEventListener()
+        observe()
 
         binding.settingAlarmTimeTv.isEnabled = binding.settingAlarmSettingSb.isChecked
     }
@@ -37,10 +45,11 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
             }
 
             override fun rightAction() {    //예
-                clear()    //Spf 에 있는 모든 내용 초기화
-                SpfUtils.writeSpf("onBoarding", true)   //온보딩 화면은 봤었으니까 다시 설정해주기
-                dialogType = -1 //초기화
-                findNavController().navigate(R.id.action_settingFragment_to_loginActivity)  //LoginActivity 로 이동
+                if (dialogType==0) {    //로그아웃
+                    goodBye()
+                } else {    //회원탈퇴
+                    settingVm.deleteUser(SpfUtils.getIntEncryptedSpf("userId"))
+                }
             }
         })
     }
@@ -114,5 +123,37 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
             twoBtnDialogFragment.arguments = bundle
             twoBtnDialogFragment.show(requireActivity().supportFragmentManager, null)
         }
+    }
+
+    private fun goodBye() {
+        clear()    //Spf 에 있는 모든 내용 초기화
+        SpfUtils.writeSpf("onBoarding", true)   //온보딩 화면은 봤었으니까 다시 설정해주기
+        dialogType = -1 //초기화
+        findNavController().navigate(R.id.action_settingFragment_to_loginActivity)  //LoginActivity 로 이동
+    }
+
+    private fun observe() {
+        settingVm.toast.observe(viewLifecycleOwner, Observer {
+            val msg: String? = it.getContentIfNotHandled()
+
+            if (msg!=null)
+                showToast(msg)
+        })
+
+        settingVm.isLoading.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                (requireActivity() as SettingActivity).showLoading()
+            } else {
+                (requireActivity() as SettingActivity).hideLoading()
+            }
+        })
+
+        settingVm.deleteUserResultCode.observe(viewLifecycleOwner, Observer {
+            if (it==200) {
+                goodBye()
+            } else {
+
+            }
+        })
     }
 }

@@ -1,5 +1,6 @@
 package com.mangpo.taste.di
 
+import com.mangpo.domain.repository.AdminRepository
 import com.mangpo.domain.repository.AuthRepository
 import com.mangpo.domain.repository.PostRepository
 import com.mangpo.domain.repository.UserRepository
@@ -75,5 +76,10 @@ class UseCaseModule {
     @Provides
     fun provideGetPresentPostsBetweenUseCase (postRepository: PostRepository): GetPresentPostsBetweenUseCase {
         return GetPresentPostsBetweenUseCase(postRepository)
+    }
+
+    @Provides
+    fun provideDeleteUserUseCase (adminRepository: AdminRepository): DeleteUserUseCase {
+        return DeleteUserUseCase(adminRepository)
     }
 }
