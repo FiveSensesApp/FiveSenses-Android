@@ -1,5 +1,6 @@
 package com.mangpo.taste.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.auth0.android.jwt.JWT
@@ -21,11 +22,13 @@ class LoginViewModel @Inject constructor(private val authorizeUseCase: Authorize
             callback = {
                 when (it.code) {
                     200 -> {
-                        _loginSuccess.postValue(true)
-
                         val jwt = JWT(it.data!!.token)
                         SpfUtils.writeEncryptedSpf("userId", jwt.getClaim("sub").asString()!!.toInt())
                         SpfUtils.writeEncryptedSpf("jwt", it.data!!.token)
+
+                        Log.d("LoginViewModel", "jwt: ${SpfUtils.getStrEncryptedSpf("jwt")}")
+
+                        _loginSuccess.postValue(true)
                     }
                     401 -> _loginSuccess.postValue(false)
                 }

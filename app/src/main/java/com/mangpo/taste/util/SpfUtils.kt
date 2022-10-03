@@ -29,6 +29,10 @@ object SpfUtils {
         return spf.getString(key, null)
     }
 
+    fun getIntSpf(key: String): Int {
+        return spf.getInt(key, -1)
+    }
+
     fun getBooleanSpf(key: String, defaultValue: Boolean): Boolean {
         return spf.getBoolean(key, defaultValue)
     }

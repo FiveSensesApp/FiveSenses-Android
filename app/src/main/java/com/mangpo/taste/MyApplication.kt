@@ -22,7 +22,7 @@ class MyApplication: Application() {
         val keyGenParameterSpec = MasterKeys.AES256_GCM_SPEC
         val mainKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec)
         encryptedSpf = EncryptedSharedPreferences.create(
-            getString(R.string.app_name),
+            "${getString(R.string.app_name)}_encrypted",
             mainKeyAlias,
             applicationContext,
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,

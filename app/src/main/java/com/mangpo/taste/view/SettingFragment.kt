@@ -9,6 +9,7 @@ import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentSettingBinding
 import com.mangpo.taste.util.SpfUtils
 import com.mangpo.taste.util.SpfUtils.clear
+import com.mangpo.taste.util.SpfUtils.writeSpf
 import com.mangpo.taste.view.model.TwoBtnDialog
 import com.mangpo.taste.viewmodel.SettingViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,6 +51,9 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
                 } else {    //회원탈퇴
                     settingVm.deleteUser(SpfUtils.getIntEncryptedSpf("userId"))
                 }
+
+                findNavController().navigate(R.id.action_settingFragment_to_loginActivity)  //LoginActivity 로 이동
+                dialogType = -1 //초기화
             }
         })
     }
@@ -127,9 +131,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
 
     private fun goodBye() {
         clear()    //Spf 에 있는 모든 내용 초기화
-        SpfUtils.writeSpf("onBoarding", true)   //온보딩 화면은 봤었으니까 다시 설정해주기
-        dialogType = -1 //초기화
-        findNavController().navigate(R.id.action_settingFragment_to_loginActivity)  //LoginActivity 로 이동
+        writeSpf("onBoarding", true)   //온보딩 화면은 봤었으니까 다시 설정해주기
     }
 
     private fun observe() {
