@@ -5,6 +5,10 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
 import com.mangpo.domain.model.getStat.GetStatResEntity
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
@@ -36,6 +40,8 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
     }
 
     override fun initAfterBinding() {
+        val legend: Legend = binding.analysisStackedBarchart.legend
+        legend.orientation = Legend.LegendOrientation.HORIZONTAL
     }
 
     private fun observe() {
@@ -57,6 +63,12 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
 
         analysisVm.getStatResEntity.observe(viewLifecycleOwner, Observer {
             binding.stat = it
+
+            val floatArray: FloatArray = floatArrayOf(it.percentageOfCategory.SIGHT.toFloat(), it.percentageOfCategory.SMELL.toFloat(), it.percentageOfCategory.HEARING.toFloat(), it.percentageOfCategory.TASTE.toFloat(), it.percentageOfCategory.TOUCH.toFloat(), it.percentageOfCategory.AMBIGUOUS.toFloat())
+            val barEntry = BarEntry(0f, floatArray)
+            val barDataSet: BarDataSet = BarDataSet(listOf(barEntry), "")
+            barDataSet.colors = mutableListOf(R.color.RD_2, R.color.GN_2, R.color.BU_2, R.color.YE_2, R.color.PU_2, R.color.GY_03)
+            binding.analysisStackedBarchart.data = BarData(barDataSet)
         })
     }
 
