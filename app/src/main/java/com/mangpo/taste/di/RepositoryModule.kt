@@ -1,13 +1,7 @@
 package com.mangpo.taste.di
 
-import com.mangpo.data.repository.AdminRepositoryImpl
-import com.mangpo.data.repository.AuthRepositoryImpl
-import com.mangpo.data.repository.PostRepositoryImpl
-import com.mangpo.data.repository.UserRepositoryImpl
-import com.mangpo.domain.repository.AdminRepository
-import com.mangpo.domain.repository.AuthRepository
-import com.mangpo.domain.repository.PostRepository
-import com.mangpo.domain.repository.UserRepository
+import com.mangpo.data.repository.*
+import com.mangpo.domain.repository.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -32,4 +26,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindAdminRepository(adminRepositoryImpl: AdminRepositoryImpl): AdminRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindStatRepository(statRepositoryImpl: StatRepositoryImpl): StatRepository
 }

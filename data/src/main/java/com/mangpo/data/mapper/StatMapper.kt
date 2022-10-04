@@ -1,24 +1,32 @@
 package com.mangpo.data.mapper
 
+import com.mangpo.data.model.base.BaseResDTO
 import com.mangpo.data.model.getStat.CountByDayDTO
 import com.mangpo.data.model.getStat.CountByMonthDTO
 import com.mangpo.data.model.getStat.GetStatResDTO
 import com.mangpo.data.model.getStat.MonthlyCategoryDTO
+import com.mangpo.domain.model.base.BaseResEntity
 import com.mangpo.domain.model.getStat.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 object StatMapper {
-    fun mapperToGetStatResEntity(getStatResDTO: GetStatResDTO): GetStatResEntity {
+    fun mapperToGetStatResEntity(getStatResDTO: BaseResDTO<GetStatResDTO>): BaseResEntity<GetStatResEntity> {
         return getStatResDTO.run {
-            GetStatResEntity(
-                totalPost,
-                percentageOfCategory.run {
-                     PercentageOfCategoryEntity(AMBIGUOUS, HEARING, SIGHT, SMELL, TASTE, TOUCH)
-                },
-                mapperToMonthlyCategoryEntities(monthlyCategoryDtoList),
-                mapperToCountByDayEntities(countByDayDtoList),
-                mapperToCountByMonthEntities(countByMonthDtoList)
+            BaseResEntity<GetStatResEntity>(
+                meta.code,
+                meta.msg,
+                data?.run {
+                    GetStatResEntity(
+                        totalPost,
+                        percentageOfCategory.run {
+                            PercentageOfCategoryEntity(AMBIGUOUS, HEARING, SIGHT, SMELL, TASTE, TOUCH)
+                        },
+                        mapperToMonthlyCategoryEntities(monthlyCategoryDtoList),
+                        mapperToCountByDayEntities(countByDayDtoList),
+                        mapperToCountByMonthEntities(countByMonthDtoList)
+                    )
+                }
             )
         }
     }
@@ -40,7 +48,7 @@ object StatMapper {
 
         for (countByDayDTO in countByDayDTOs) {
             countByDayEntities.add(countByDayDTO.run {
-                CountByDayEntity(count, LocalDate.parse(day, DateTimeFormatter.ofPattern("MM/dd")).toString())
+                CountByDayEntity(count, LocalDate.parse(day).format(DateTimeFormatter.ofPattern("MM/dd")))
             })
         }
 
