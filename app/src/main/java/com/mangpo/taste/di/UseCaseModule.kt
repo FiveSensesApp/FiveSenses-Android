@@ -1,9 +1,6 @@
 package com.mangpo.taste.di
 
-import com.mangpo.domain.repository.AdminRepository
-import com.mangpo.domain.repository.AuthRepository
-import com.mangpo.domain.repository.PostRepository
-import com.mangpo.domain.repository.UserRepository
+import com.mangpo.domain.repository.*
 import com.mangpo.domain.usecase.*
 import dagger.Module
 import dagger.Provides
@@ -86,5 +83,10 @@ class UseCaseModule {
     @Provides
     fun provideUpdateUserUseCase (userRepository: UserRepository): UpdateUserUseCase {
         return UpdateUserUseCase(userRepository)
+    }
+
+    @Provides
+    fun provideGetStatUseCase (statRepository: StatRepository): GetStatUseCase {
+        return GetStatUseCase(statRepository)
     }
 }

@@ -3,6 +3,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="fragment"
             type="com.mangpo.taste.view.AnalysisFragment" />
@@ -10,6 +12,10 @@
         <variable
             name="userInfo"
             type="com.mangpo.taste.view.model.AnalysisUserInfo" />
+
+        <variable
+            name="stat"
+            type="com.mangpo.domain.model.getStat.GetStatResEntity" />
     </data>
 
     <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -124,7 +130,7 @@
                     android:layout_marginStart="4dp"
                     android:gravity="center_vertical"
                     android:includeFontPadding="false"
-                    android:text="기록갯수   0개"
+                    android:text="@{`기록갯수   ` + stat.totalPost + `개`}"
                     android:textAppearance="@style/Body1_M_14"
                     android:textColor="@color/GY_04"
                     app:layout_constraintBottom_toBottomOf="@+id/analysis_locker_iv"
@@ -230,7 +236,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/analysis_banner_vp">
 
                 <TextView
-                    android:id="@+id/analysis_distribution_by_sensory_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="22dp"
                     android:layout_marginTop="20dp"
@@ -241,6 +246,74 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="14dp"
+                    android:layout_marginTop="47dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="@{stat.totalPost&lt;10? @string/msg_can_analyze_more_10_records: @string/msg_can_find_out_proportion_of_each_sense}"
+                    android:textAppearance="@style/Body1_M_12"
+                    android:textColor="@{stat.totalPost&lt;10? @color/RD_2: @color/GY_04}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="65dp"
+                    android:src="@drawable/ic_distribution_by_sensory_bar_graph_sample"
+                    android:visibility="@{stat.totalPost&lt;10? View.VISIBLE: View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="37dp"
+                    android:layout_marginHorizontal="22dp"
+                    android:layout_marginBottom="19dp"
+                    android:src="@drawable/ic_distribution_by_sensory_count_sample"
+                    android:visibility="@{stat.totalPost&lt;10? View.VISIBLE: View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginBottom="71dp"
+                    android:background="@color/GY_01"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="70dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/WH_80"
+                    android:visibility="@{stat.totalPost&lt;10? View.VISIBLE: View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/analysis_question_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="33dp"
+                    android:src="@drawable/ic_question_81"
+                    android:visibility="@{stat.totalPost&lt;10? View.VISIBLE: View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -151,6 +151,8 @@
     <string name="msg_write_right_now">바로 써볼까요?</string>
     <string name="msg_sign_up_complete">가입이 완료되었어요. 나만의 취향을 감각해보세요!</string>
     <string name="msg_agree_terms_go_next_step">아래 약관에 동의하시고, 다음 단계로 이동하세요!</string>
+    <string name="msg_can_analyze_more_10_records">기록 10개 이상부터 분석할 수 있어요.</string>
+    <string name="msg_can_find_out_proportion_of_each_sense">각 감각별 갯수와 비율을 알 수 있어요.</string>
 
     <string name="error_check_old_pw">기존 비밀번호를 확인해주세요.</string>
     <string name="error_not_match_pw">비밀번호가 일치하지 않습니다!</string>
