@@ -8,6 +8,7 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.mangpo.taste.R
@@ -16,10 +17,12 @@ import com.mangpo.taste.databinding.FragmentFeedBinding
 import com.mangpo.taste.util.SpfUtils
 import com.mangpo.taste.util.setSpannableText
 import com.mangpo.taste.viewmodel.FeedViewModel
+import com.mangpo.taste.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::inflate), TextWatcher {
+    private val mainVm: MainViewModel by activityViewModels()
     private val feedVm: FeedViewModel by viewModels()
 
     private lateinit var onBackPressedCallback: OnBackPressedCallback
@@ -130,6 +133,14 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
     }
 
     private fun observe() {
+        mainVm.changeFragmentFlag.observe(viewLifecycleOwner, Observer {
+            val changeFragmentFlag = it.getContentIfNotHandled()
+
+            if (changeFragmentFlag!=null && changeFragmentFlag) {
+                changeFragment()
+            }
+        })
+
         feedVm.posts.observe(viewLifecycleOwner, Observer {
             val posts = it.getContentIfNotHandled()
 
@@ -137,12 +148,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
                 if (posts.empty) {
                     fm.beginTransaction().replace(binding.feedContentFl.id, NoFeedFragment()).commit()
                 } else {
-                    when (selectedType) {
-                        "나의 취향 ${getString(R.string.title_timeline)}" -> fm.beginTransaction().replace(binding.feedContentFl.id, TimelineFragment()).commit()
-                        "나의 취향 ${getString(R.string.title_by_sense)}" -> fm.beginTransaction().replace(binding.feedContentFl.id, BySenseFragment()).commit()
-                        "나의 취향 ${getString(R.string.title_by_score)}" -> fm.beginTransaction().replace(binding.feedContentFl.id, ByScoreFragment()).commit()
-                        "나의 취향 ${getString(R.string.title_by_calendar)}" -> fm.beginTransaction().replace(binding.feedContentFl.id, ByCalendarFragment()).commit()
-                    }
+                    changeFragment()
                 }
             }
         })
@@ -184,12 +190,16 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
         binding.invalidateAll()
 
         if (fm.findFragmentById(binding.feedContentFl.id)?.javaClass!=NoFeedFragment::class.java) {
-            when (clickedText) {
-                getString(R.string.title_timeline) -> fm.beginTransaction().replace(binding.feedContentFl.id, TimelineFragment()).commit()
-                getString(R.string.title_by_sense) -> fm.beginTransaction().replace(binding.feedContentFl.id, BySenseFragment()).commit()
-                getString(R.string.title_by_score) -> fm.beginTransaction().replace(binding.feedContentFl.id, ByScoreFragment()).commit()
-                getString(R.string.title_by_calendar) -> fm.beginTransaction().replace(binding.feedContentFl.id, ByCalendarFragment()).commit()
-            }
+            changeFragment()
+        }
+    }
+
+    private fun changeFragment() {
+        when (selectedType) {
+            "나의 취향 ${getString(R.string.title_timeline)}" -> fm.beginTransaction().replace(binding.feedContentFl.id, TimelineFragment()).commit()
+            "나의 취향 ${getString(R.string.title_by_sense)}" -> fm.beginTransaction().replace(binding.feedContentFl.id, BySenseFragment()).commit()
+            "나의 취향 ${getString(R.string.title_by_score)}" -> fm.beginTransaction().replace(binding.feedContentFl.id, ByScoreFragment()).commit()
+            "나의 취향 ${getString(R.string.title_by_calendar)}" -> fm.beginTransaction().replace(binding.feedContentFl.id, ByCalendarFragment()).commit()
         }
     }
 }

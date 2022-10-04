@@ -21,6 +21,9 @@ class MainViewModel @Inject constructor(private val getUserInfoUseCase: GetUserI
     private val _getUserInfoResult: MutableLiveData<Boolean> = MutableLiveData()
     val getUserInfoResult: LiveData<Boolean> get() = _getUserInfoResult
 
+    private val _changeFragmentFlag: MutableLiveData<Event<Boolean>> = MutableLiveData()
+    val changeFragmentFlag: LiveData<Event<Boolean>> get() = _changeFragmentFlag
+
     val slogan: MutableLiveData<String> = MutableLiveData()
 
     private var isRecordComplete: Boolean = false
@@ -78,5 +81,9 @@ class MainViewModel @Inject constructor(private val getUserInfoUseCase: GetUserI
 
     fun setCallGetPostsFlag(value: Boolean) {
         _callGetPostsFlag.postValue(Event(value))
+    }
+
+    fun setChangeFragmentFlag(changeFragmentFlag: Boolean) {
+        _changeFragmentFlag.postValue(Event(changeFragmentFlag))
     }
 }
