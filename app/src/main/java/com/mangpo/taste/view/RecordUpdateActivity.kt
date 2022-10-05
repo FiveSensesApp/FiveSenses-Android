@@ -167,7 +167,7 @@ class RecordUpdateActivity : BaseActivity<ActivityRecordUpdateBinding>(ActivityR
         if (binding.recordUpdateKeywordEt.text.isBlank() || binding.recordUpdateSrb.rating==0f) {
             showToast(getString(R.string.error_keyword_start_essential))
         } else {
-            var content: String? = null
+            var content: String = ""
             if (binding.tasteRecordContentEt.text.isNotBlank()) {
                 content = binding.tasteRecordContentEt.text.replace("\\n".toRegex(), " ").trim()
             }
