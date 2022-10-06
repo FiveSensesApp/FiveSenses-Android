@@ -77,6 +77,7 @@
                     android:id="@+id/main_bnv"
                     android:layout_width="match_parent"
                     android:layout_height="74dp"
+                    android:layout_marginEnd="16dp"
                     app:itemIconSize="44dp"
                     app:itemIconTint="@drawable/selector_menu_color"
                     app:itemRippleColor="@android:color/transparent"

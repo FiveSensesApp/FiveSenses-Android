@@ -1,6 +1,5 @@
 package com.mangpo.taste.view.custom
 
-import android.R
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Canvas
@@ -10,15 +9,20 @@ import android.graphics.Shader
 import android.util.AttributeSet
 import com.github.mikephil.charting.animation.ChartAnimator
 import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.highlight.Range
 import com.github.mikephil.charting.interfaces.dataprovider.BarDataProvider
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
+import com.github.mikephil.charting.model.GradientColor
 import com.github.mikephil.charting.renderer.BarChartRenderer
+import com.github.mikephil.charting.utils.Transformer
 import com.github.mikephil.charting.utils.Utils
 import com.github.mikephil.charting.utils.ViewPortHandler
+import com.mangpo.taste.R
+import kotlin.math.ceil
 
-
-class RoundedBarChart/* : BarChart*/ {
-    /*constructor(context: Context?) : super(context) {}
+class RoundedBarChart : BarChart {
+    constructor(context: Context?) : super(context) {}
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         readRadiusAttr(context, attrs)
     }
@@ -33,7 +37,7 @@ class RoundedBarChart/* : BarChart*/ {
 
     private fun readRadiusAttr(context: Context, attrs: AttributeSet) {
         val a: TypedArray =
-            context.getTheme().obtainStyledAttributes(attrs, R.styleable.RoundedBarChart, 0, 0)
+            context.theme.obtainStyledAttributes(attrs, R.styleable.RoundedBarChart, 0, 0)
         try {
             setRadius(a.getDimensionPixelSize(R.styleable.RoundedBarChart_radius, 0))
         } finally {
@@ -59,14 +63,14 @@ class RoundedBarChart/* : BarChart*/ {
         override fun drawHighlighted(c: Canvas, indices: Array<Highlight?>) {
             val barData = mChart.barData
             for (high in indices) {
-                val set = barData.getDataSetByIndex(high.getDataSetIndex())
+                val set = barData.getDataSetByIndex(high!!.dataSetIndex)
                 if (set == null || !set.isHighlightEnabled) continue
-                val e = set.getEntryForXValue(high.getX(), high.getY())
+                val e = set.getEntryForXValue(high.x, high.y)
                 if (!isInBoundsX(e, set)) continue
-                val trans = mChart.getTransformer(set.axisDependency)
+                val trans: Transformer = mChart.getTransformer(set.axisDependency)
                 mHighlightPaint.color = set.highLightColor
                 mHighlightPaint.alpha = set.highLightAlpha
-                val isStack = high.getStackIndex() >= 0 && e.isStacked
+                val isStack = high!!.stackIndex >= 0 && e.isStacked
                 val y1: Float
                 val y2: Float
                 if (isStack) {
@@ -74,7 +78,7 @@ class RoundedBarChart/* : BarChart*/ {
                         y1 = e.positiveSum
                         y2 = -e.negativeSum
                     } else {
-                        val range: Range = e.ranges[high.getStackIndex()]
+                        val range: Range = e.ranges[high!!.stackIndex]
                         y1 = range.from
                         y2 = range.to
                     }
@@ -89,7 +93,7 @@ class RoundedBarChart/* : BarChart*/ {
         }
 
         override fun drawDataSet(c: Canvas, dataSet: IBarDataSet, index: Int) {
-            val trans = mChart.getTransformer(dataSet.axisDependency)
+            val trans: Transformer = mChart.getTransformer(dataSet.axisDependency)
             mBarBorderPaint.color = dataSet.barBorderColor
             mBarBorderPaint.strokeWidth = Utils.convertDpToPixel(dataSet.barBorderWidth)
             val drawBorder = dataSet.barBorderWidth > 0f
@@ -104,10 +108,8 @@ class RoundedBarChart/* : BarChart*/ {
                 val barWidthHalf = barWidth / 2.0f
                 var x: Float
                 var i = 0
-                val count = Math.min(
-                    Math.ceil((dataSet.entryCount.toFloat() * phaseX).toDouble()).toInt(),
-                    dataSet.entryCount
-                )
+                val count = ceil((dataSet.entryCount.toFloat() * phaseX).toDouble()).toInt()
+                    .coerceAtMost(dataSet.entryCount)
                 while (i < count) {
                     val e = dataSet.getEntryForIndex(i)
                     x = e.x
@@ -156,7 +158,7 @@ class RoundedBarChart/* : BarChart*/ {
                     mRenderPaint.color = dataSet.getColor(j / 4)
                 }
                 if (dataSet.gradientColor != null) {
-                    val gradientColor = dataSet.gradientColor
+                    val gradientColor: GradientColor = dataSet.gradientColor
                     mRenderPaint.shader = LinearGradient(
                         buffer.buffer[j],
                         buffer.buffer[j + 3],
@@ -191,5 +193,5 @@ class RoundedBarChart/* : BarChart*/ {
                 j += 4
             }
         }
-    }*/
+    }
 }

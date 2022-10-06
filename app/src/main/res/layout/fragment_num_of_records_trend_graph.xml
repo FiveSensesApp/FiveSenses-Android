@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="10dp"
     tools:context=".view.NumOfRecordsTrendGraphFragment">
 
-    <com.github.mikephil.charting.charts.BarChart
+    <com.mangpo.taste.view.custom.RoundedBarChart
         android:id="@+id/trend_graph_barchart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="52dp"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="20dp"
+        app:radius="8dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
