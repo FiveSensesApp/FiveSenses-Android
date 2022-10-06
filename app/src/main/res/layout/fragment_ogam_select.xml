@@ -45,192 +45,226 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="264dp"
+            android:layout_height="0dp"
             android:layout_marginHorizontal="28dp"
             app:layout_constraintBottom_toTopOf="@+id/ogam_select_slogan_tv"
             app:layout_constraintTop_toBottomOf="@+id/ogam_select_hello_tv">
 
-            <ImageView
-                android:id="@+id/ogam_select_sight_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:src="@drawable/ic_sight_character_78"
-                app:layout_constraintEnd_toEndOf="@+id/ogam_select_sight_touch_view"
-                app:layout_constraintStart_toStartOf="@+id/ogam_select_sight_touch_view"
-                app:layout_constraintTop_toTopOf="@+id/ogam_select_sight_touch_view" />
-
-            <TextView
-                android:id="@+id/ogam_select_sight_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
-                android:text="@string/title_sight"
-                android:textAppearance="@style/Sub_Head_B_18"
-                android:textColor="@color/RD_3"
-                app:layout_constraintEnd_toEndOf="@+id/ogam_select_sight_iv"
-                app:layout_constraintStart_toStartOf="@+id/ogam_select_sight_iv"
-                app:layout_constraintTop_toBottomOf="@+id/ogam_select_sight_iv" />
-
-            <View
-                android:id="@+id/ogam_select_sight_touch_view"
-                android:layout_width="94dp"
-                android:layout_height="128dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ogam_select_sight_touch_cl"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:onClick="@{() -> fragment.goRecordFragment(R.string.title_sight)}"
+                app:layout_constraintBottom_toTopOf="@+id/ogam_select_taste_touch_cl"
+                app:layout_constraintEnd_toStartOf="@+id/ogam_select_ear_touch_cl"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/ogam_select_ear_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:src="@drawable/ic_ear_character_78"
-                app:layout_constraintEnd_toEndOf="@+id/ogam_select_ear_touch_view"
-                app:layout_constraintStart_toStartOf="@+id/ogam_select_ear_touch_view"
-                app:layout_constraintTop_toTopOf="@+id/ogam_select_ear_touch_view" />
+                <ImageView
+                    android:id="@+id/ogam_select_sight_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_sight_character_78"
+                    app:layout_constraintBottom_toTopOf="@+id/ogam_select_sight_tv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
 
-            <TextView
-                android:id="@+id/ogam_select_ear_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
-                android:text="@string/title_ear"
-                android:textAppearance="@style/Sub_Head_B_18"
-                android:textColor="@color/BU_3"
-                app:layout_constraintEnd_toEndOf="@+id/ogam_select_ear_iv"
-                app:layout_constraintStart_toStartOf="@+id/ogam_select_ear_iv"
-                app:layout_constraintTop_toBottomOf="@+id/ogam_select_ear_iv" />
+                <TextView
+                    android:id="@+id/ogam_select_sight_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:text="@string/title_sight"
+                    android:textAppearance="@style/Sub_Head_B_18"
+                    android:textColor="@color/RD_3"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ogam_select_sight_iv" />
 
-            <View
-                android:id="@+id/ogam_select_ear_touch_view"
-                android:layout_width="94dp"
-                android:layout_height="128dp"
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ogam_select_ear_touch_cl"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:onClick="@{() -> fragment.goRecordFragment(R.string.title_ear)}"
-                app:layout_constraintEnd_toStartOf="@+id/ogam_select_smell_touch_view"
-                app:layout_constraintStart_toEndOf="@+id/ogam_select_sight_touch_view"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintBottom_toTopOf="@+id/ogam_select_touch_touch_cl"
+                app:layout_constraintEnd_toStartOf="@+id/ogam_select_smell_touch_cl"
+                app:layout_constraintStart_toEndOf="@+id/ogam_select_sight_touch_cl"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/ogam_select_smell_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:src="@drawable/ic_smell_character_78"
-                app:layout_constraintEnd_toEndOf="@+id/ogam_select_smell_touch_view"
-                app:layout_constraintStart_toStartOf="@+id/ogam_select_smell_touch_view"
-                app:layout_constraintTop_toTopOf="@+id/ogam_select_smell_touch_view" />
+                <ImageView
+                    android:id="@+id/ogam_select_ear_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_ear_character_78"
+                    app:layout_constraintBottom_toTopOf="@+id/ogam_select_ear_tv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
 
-            <TextView
-                android:id="@+id/ogam_select_smell_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
-                android:text="@string/title_smell"
-                android:textAppearance="@style/Sub_Head_B_18"
-                android:textColor="@color/GN_3"
-                app:layout_constraintEnd_toEndOf="@+id/ogam_select_smell_iv"
-                app:layout_constraintStart_toStartOf="@+id/ogam_select_smell_iv"
-                app:layout_constraintTop_toBottomOf="@+id/ogam_select_smell_iv" />
+                <TextView
+                    android:id="@+id/ogam_select_ear_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:text="@string/title_ear"
+                    android:textAppearance="@style/Sub_Head_B_18"
+                    android:textColor="@color/BU_3"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ogam_select_ear_iv" />
 
-            <View
-                android:id="@+id/ogam_select_smell_touch_view"
-                android:layout_width="94dp"
-                android:layout_height="128dp"
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ogam_select_smell_touch_cl"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:onClick="@{() -> fragment.goRecordFragment(R.string.title_smell)}"
+                app:layout_constraintBottom_toTopOf="@+id/ogam_select_question_touch_cl"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toEndOf="@+id/ogam_select_ear_touch_cl"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/ogam_select_taste_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/ic_taste_character_78"
-                app:layout_constraintEnd_toEndOf="@+id/ogam_select_taste_touch_view"
-                app:layout_constraintStart_toStartOf="@+id/ogam_select_taste_touch_view"
-                app:layout_constraintTop_toTopOf="@+id/ogam_select_taste_touch_view" />
+                <ImageView
+                    android:id="@+id/ogam_select_smell_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_smell_character_78"
+                    app:layout_constraintBottom_toTopOf="@+id/ogam_select_smell_tv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
 
-            <TextView
-                android:id="@+id/ogam_select_taste_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
-                android:text="@string/title_taste"
-                android:textAppearance="@style/Sub_Head_B_18"
-                android:textColor="@color/YE_2"
-                app:layout_constraintEnd_toEndOf="@+id/ogam_select_taste_iv"
-                app:layout_constraintStart_toStartOf="@+id/ogam_select_taste_iv"
-                app:layout_constraintTop_toBottomOf="@+id/ogam_select_taste_iv" />
+                <TextView
+                    android:id="@+id/ogam_select_smell_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:text="@string/title_smell"
+                    android:textAppearance="@style/Sub_Head_B_18"
+                    android:textColor="@color/GN_3"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ogam_select_smell_iv" />
 
-            <View
-                android:id="@+id/ogam_select_taste_touch_view"
-                android:layout_width="94dp"
-                android:layout_height="128dp"
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ogam_select_taste_touch_cl"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:onClick="@{() -> fragment.goRecordFragment(R.string.title_taste)}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintEnd_toStartOf="@+id/ogam_select_touch_touch_cl"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ogam_select_sight_touch_cl">
 
-            <ImageView
-                android:id="@+id/ogam_select_touch_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/ic_touch_character_78"
-                app:layout_constraintEnd_toEndOf="@+id/ogam_select_touch_touch_view"
-                app:layout_constraintStart_toStartOf="@+id/ogam_select_touch_touch_view"
-                app:layout_constraintTop_toTopOf="@+id/ogam_select_touch_touch_view" />
+                <ImageView
+                    android:id="@+id/ogam_select_taste_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_taste_character_78"
+                    app:layout_constraintBottom_toTopOf="@+id/ogam_select_taste_tv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
 
-            <TextView
-                android:id="@+id/ogam_select_touch_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
-                android:text="@string/title_touch"
-                android:textAppearance="@style/Sub_Head_B_18"
-                android:textColor="@color/PU_3"
-                app:layout_constraintEnd_toEndOf="@+id/ogam_select_touch_iv"
-                app:layout_constraintStart_toStartOf="@+id/ogam_select_touch_iv"
-                app:layout_constraintTop_toBottomOf="@+id/ogam_select_touch_iv" />
+                <TextView
+                    android:id="@+id/ogam_select_taste_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:text="@string/title_taste"
+                    android:textAppearance="@style/Sub_Head_B_18"
+                    android:textColor="@color/YE_2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ogam_select_taste_iv" />
 
-            <View
-                android:id="@+id/ogam_select_touch_touch_view"
-                android:layout_width="94dp"
-                android:layout_height="128dp"
-                android:onClick="@{() -> fragment.goRecordFragment(R.string.title_touch)}"
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ogam_select_touch_touch_cl"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:onClick="@{() -> fragment.goRecordFragment(R.string.title_taste)}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/ogam_select_question_touch_view"
-                app:layout_constraintStart_toEndOf="@+id/ogam_select_taste_touch_view" />
+                app:layout_constraintEnd_toStartOf="@+id/ogam_select_question_touch_cl"
+                app:layout_constraintStart_toEndOf="@+id/ogam_select_taste_touch_cl"
+                app:layout_constraintTop_toBottomOf="@+id/ogam_select_ear_touch_cl">
 
-            <ImageView
-                android:id="@+id/ogam_select_question_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/ic_question_character_78"
-                app:layout_constraintEnd_toEndOf="@+id/ogam_select_question_touch_view"
-                app:layout_constraintStart_toStartOf="@+id/ogam_select_question_touch_view"
-                app:layout_constraintTop_toTopOf="@+id/ogam_select_question_touch_view" />
+                <ImageView
+                    android:id="@+id/ogam_select_touch_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_touch_character_78"
+                    app:layout_constraintBottom_toTopOf="@+id/ogam_select_touch_tv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
 
-            <TextView
-                android:id="@+id/ogam_select_question_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
-                android:text="@string/title_question"
-                android:textAppearance="@style/Sub_Head_B_18"
-                android:textColor="@color/GY_04"
-                app:layout_constraintEnd_toEndOf="@+id/ogam_select_question_iv"
-                app:layout_constraintStart_toStartOf="@+id/ogam_select_question_iv"
-                app:layout_constraintTop_toBottomOf="@+id/ogam_select_question_iv" />
+                <TextView
+                    android:id="@+id/ogam_select_touch_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:text="@string/title_touch"
+                    android:textAppearance="@style/Sub_Head_B_18"
+                    android:textColor="@color/PU_3"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ogam_select_touch_iv" />
 
-            <View
-                android:id="@+id/ogam_select_question_touch_view"
-                android:layout_width="94dp"
-                android:layout_height="128dp"
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ogam_select_question_touch_cl"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:onClick="@{() -> fragment.goRecordFragment(R.string.title_question)}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/ogam_select_touch_touch_cl"
+                app:layout_constraintTop_toBottomOf="@+id/ogam_select_smell_touch_cl">
+
+                <ImageView
+                    android:id="@+id/ogam_select_question_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_question_character_78"
+                    app:layout_constraintBottom_toTopOf="@+id/ogam_select_question_tv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/ogam_select_question_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:text="@string/title_question"
+                    android:textAppearance="@style/Sub_Head_B_18"
+                    android:textColor="@color/GY_04"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ogam_select_question_iv" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -259,12 +293,12 @@
             android:layout_height="67dp"
             android:layout_marginBottom="21dp"
             android:clickable="true"
+            android:onClick="@{() -> mainVm.setIsTasteRecordShown(false)}"
             android:src="@drawable/ic_close_21"
             app:backgroundTint="@color/BK"
             app:borderWidth="0dp"
             app:elevation="0dp"
             app:fabCustomSize="67dp"
-            android:onClick="@{() -> mainVm.setIsTasteRecordShown(false)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

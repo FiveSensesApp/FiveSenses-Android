@@ -48,7 +48,7 @@ object StatMapper {
 
         for (countByDayDTO in countByDayDTOs) {
             countByDayEntities.add(countByDayDTO.run {
-                CountByDayEntity(count, LocalDate.parse(day).format(DateTimeFormatter.ofPattern("MM/dd")))
+                CountByDayEntity(count, LocalDate.parse(day).format(DateTimeFormatter.ofPattern("M/d")))
             })
         }
 

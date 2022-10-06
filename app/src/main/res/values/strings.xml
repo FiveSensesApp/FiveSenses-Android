@@ -75,6 +75,7 @@
     <string name="title_acquired_badge">획득한 뱃지</string>
     <string name="title_distribution_by_sensory">감각별 분포도</string>
     <string name="title_number_of_records_trend">기록 갯수 추이</string>
+    <string name="title_sense_of_the_month">이 달의 감각</string>
 
     <string name="action_logout">로그아웃</string>
     <string name="action_withdrawal">계정 탈퇴</string>
@@ -153,6 +154,8 @@
     <string name="msg_agree_terms_go_next_step">아래 약관에 동의하시고, 다음 단계로 이동하세요!</string>
     <string name="msg_can_analyze_more_10_records">기록 10개 이상부터 분석할 수 있어요.</string>
     <string name="msg_can_find_out_proportion_of_each_sense">각 감각별 갯수와 비율을 알 수 있어요.</string>
+    <string name="msg_can_see_senses_most_by_month">월 별로 가장 많이 기록한 감각을 볼 수 있어요.</string>
+    <string name="msg_can_see_trend_number_of_keywords">기록한 키워드 개수의 추이를 볼 수 있어요.</string>
 
     <string name="error_check_old_pw">기존 비밀번호를 확인해주세요.</string>
     <string name="error_not_match_pw">비밀번호가 일치하지 않습니다!</string>
@@ -160,4 +163,6 @@
     <string name="error_email_not_subscribed">가입되지 않은 이메일입니다!</string>
     <string name="error_enter_authentication_code_again">* 인증코드를 다시 입력해주세요.</string>
     <string name="error_contains_unacceptable_characters">* 허용되지 않는 문자가 포함되어있습니다!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
