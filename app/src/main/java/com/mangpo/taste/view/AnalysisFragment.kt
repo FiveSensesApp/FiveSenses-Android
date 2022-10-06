@@ -76,7 +76,7 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
         analysisVm.getStatResEntity.observe(viewLifecycleOwner, Observer {
             binding.stat = it
 
-            numOfRecordsTrendVPAdapter.setData(it.countByDayEntities)
+            numOfRecordsTrendVPAdapter.setData(it.countByDayEntities.subList(5, 11))
 
             /*val floatArray: FloatArray = floatArrayOf(it.percentageOfCategory.SIGHT.toFloat(), it.percentageOfCategory.SMELL.toFloat(), it.percentageOfCategory.HEARING.toFloat(), it.percentageOfCategory.TASTE.toFloat(), it.percentageOfCategory.TOUCH.toFloat(), it.percentageOfCategory.AMBIGUOUS.toFloat())
             val barEntry = BarEntry(0f, floatArray)

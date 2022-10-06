@@ -13,6 +13,6 @@ class NumOfRecordsTrendVPAdapter(fragment: Fragment): FragmentStateAdapter(fragm
     override fun createFragment(position: Int): Fragment = fragments[position]
 
     fun setData(data: List<CountByDayEntity>) {
-        (fragments[0] as NumOfRecordsTrendGraphFragment).setData(data)
+        (fragments[0] as NumOfRecordsTrendGraphFragment).drawGraph(data)
     }
 }
