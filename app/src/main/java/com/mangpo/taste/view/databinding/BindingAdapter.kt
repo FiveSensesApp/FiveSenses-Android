@@ -1,9 +1,12 @@
 package com.mangpo.taste.view.databinding
 
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.mangpo.taste.util.convertDpToPx
 import com.willy.ratingbar.BaseRatingBar
 
@@ -36,4 +39,16 @@ fun setSrbFilledSetting(view: BaseRatingBar, filledDrawable: Drawable) {
 @BindingAdapter("srbRating")
 fun setSrbRatingSetting(view: BaseRatingBar, star: Int) {
     view.rating = star.toFloat()
+}
+
+@BindingAdapter(value = ["svg", "defaultDrawable"], requireAll = false)
+fun setSvg(view: ImageView, svg: String?, defaultDrawable: Drawable) {
+    if (svg==null) {
+        view.setImageDrawable(defaultDrawable)
+    } else {
+        GlideToVectorYou
+            .init()
+            .with(view.context)
+            .load(Uri.parse(svg), view)
+    }
 }

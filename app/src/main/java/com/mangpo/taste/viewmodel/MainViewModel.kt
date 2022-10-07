@@ -52,6 +52,7 @@ class MainViewModel @Inject constructor(private val getUserInfoUseCase: GetUserI
                         SpfUtils.writeSpf("startDayCnt", it.data!!.startDayCnt)
                         SpfUtils.writeSpf("isAlarmOn", it.data!!.isAlarmOn)
                         SpfUtils.writeSpf("alarmTime", it.data!!.alarmTime)
+                        SpfUtils.writeSpf("badgeRepresent", it.data!!.badgeRepresent)
 
                         _getUserInfoResult.postValue(true)
                     }

@@ -140,6 +140,9 @@ dependencies {
     //MpAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
+    //GlideToVectorYou
+    implementation 'com.github.corouteam:GlideToVectorYou:v2.0.0'
+
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

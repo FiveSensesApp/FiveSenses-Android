@@ -6,5 +6,6 @@ data class GetUserInfoResEntity(
     val email: String,
     val startDayCnt: Int,
     val isAlarmOn: Boolean,
-    val alarmTime: String
+    val alarmTime: String,
+    val badgeRepresent: String?,
 )

@@ -15,7 +15,7 @@ object UserMapper {
                 BaseResEntity<GetUserInfoResEntity?>(meta.code, meta.msg, null)
             else
                 BaseResEntity<GetUserInfoResEntity?>(meta.code, meta.msg, data.run {
-                    GetUserInfoResEntity(id, nickname, email, calDate(createdDate), isAlarmOn, alarmDate)
+                    GetUserInfoResEntity(id, nickname, email, calDate(createdDate), isAlarmOn, alarmDate, badgeRepresent)
                 })
         }
     }

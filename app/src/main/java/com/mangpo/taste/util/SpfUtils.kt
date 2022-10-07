@@ -4,7 +4,7 @@ import com.mangpo.taste.MyApplication.Companion.encryptedSpf
 import com.mangpo.taste.MyApplication.Companion.spf
 
 object SpfUtils {
-    fun writeSpf(key: String, value: String) {
+    fun writeSpf(key: String, value: String?) {
         with(spf.edit()) {
             putString(key, value)
             apply()
