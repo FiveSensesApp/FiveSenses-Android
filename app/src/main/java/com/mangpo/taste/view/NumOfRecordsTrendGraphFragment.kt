@@ -1,42 +1,43 @@
 package com.mangpo.taste.view
 
 import android.content.Context
+import android.graphics.Canvas
 import android.graphics.Color
-import android.util.Log
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.setPadding
 import com.github.mikephil.charting.components.AxisBase
+import com.github.mikephil.charting.components.MarkerView
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
+import com.github.mikephil.charting.utils.MPPointF
 import com.mangpo.domain.model.getStat.CountByDayEntity
 import com.mangpo.domain.model.getStat.CountByMonthEntity
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentNumOfRecordsTrendGraphBinding
+import com.mangpo.taste.util.convertDpToPx
 
 class NumOfRecordsTrendGraphFragment() : BaseFragment<FragmentNumOfRecordsTrendGraphBinding>(FragmentNumOfRecordsTrendGraphBinding::inflate) {
     override fun initAfterBinding() {
-        showToast(arguments?.getString("TEST", "NULL").toString())
         val dayData = arguments?.getParcelableArrayList<CountByDayEntity>("dayData")
         if (dayData!=null) {
-            Log.d("NumOfRecordsTrendGraphFragment", "initAfterBinding")
             drawGraphByDay(requireContext(), dayData)
         }
 
         val monthData = arguments?.getParcelableArrayList<CountByMonthEntity>("monthData")
         if (monthData!=null) {
-            Log.d("NumOfRecordsTrendGraphFragment", "initAfterBinding")
             drawGraphByMonth(requireContext(), monthData)
         }
-    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.d("NumOfRecordsTrendGraphFragment", "onDestroyView")
+        binding.trendGraphBarchart.setOnChartValueSelectedListener(OnValueSelectedListener(requireContext()))
     }
 
     private fun initGraph(xAxisValueFormatter: Array<String>, maxValue: Float) {
@@ -46,6 +47,7 @@ class NumOfRecordsTrendGraphFragment() : BaseFragment<FragmentNumOfRecordsTrendG
             setPinchZoom(false) // 핀치줌(두손가락으로 줌인 줌 아웃하는것) 설정
             setScaleEnabled(false)  // 핀치줌(두손가락으로 줌인 줌 아웃하는것) 설정
             legend.isEnabled = false  //범례 설명 보여주는 기능 비활성화
+            marker = MonthlyMarkerView(requireContext(), R.layout.trend_graph_marker_tv)
 
             //왼쪽 y축
             axisLeft.run{
@@ -74,7 +76,7 @@ class NumOfRecordsTrendGraphFragment() : BaseFragment<FragmentNumOfRecordsTrendG
         }
     }
 
-    fun drawGraphByDay(context: Context, data: List<CountByDayEntity>) {
+    private fun drawGraphByDay(context: Context, data: List<CountByDayEntity>) {
         val values: ArrayList<BarEntry> = ArrayList()
         val xAxisValueFormat: MutableList<String> = mutableListOf()
         val maxValue = data.maxOf { it.count }.toFloat()
@@ -86,7 +88,6 @@ class NumOfRecordsTrendGraphFragment() : BaseFragment<FragmentNumOfRecordsTrendG
             xAxisValueFormat.add(d.day)
 
             val set1: BarDataSet = BarDataSet(values, "")
-            set1.setDrawIcons(false)
             set1.barShadowColor = ContextCompat.getColor(context, R.color.GY_01)
             if (data.lastIndex==index) {
                 colorList.add(ContextCompat.getColor(context, R.color.RD_2))
@@ -94,19 +95,18 @@ class NumOfRecordsTrendGraphFragment() : BaseFragment<FragmentNumOfRecordsTrendG
                 colorList.add(ContextCompat.getColor(context, R.color.GY_03))
             }
             set1.colors = colorList
+            set1.highLightColor = Color.TRANSPARENT
             dataSets.add(set1)
         }
 
         val barData = BarData(dataSets)
         barData.barWidth = 0.4f
-        barData.setValueTextColor(Color.TRANSPARENT)
-
         binding.trendGraphBarchart.data = barData
 
         initGraph(xAxisValueFormat.toTypedArray(), maxValue)
     }
 
-    fun drawGraphByMonth(context: Context, data: List<CountByMonthEntity>) {
+    private fun drawGraphByMonth(context: Context, data: List<CountByMonthEntity>) {
         val values: ArrayList<BarEntry> = ArrayList()
         val xAxisValueFormat: MutableList<String> = mutableListOf()
         val maxValue = data.maxOf { it.count }.toFloat()
@@ -119,6 +119,7 @@ class NumOfRecordsTrendGraphFragment() : BaseFragment<FragmentNumOfRecordsTrendG
 
             val set1: BarDataSet = BarDataSet(values, "")
             set1.setDrawIcons(false)
+            set1.highLightAlpha = 0
             set1.barShadowColor = ContextCompat.getColor(context, R.color.GY_01)
             if (data.lastIndex==index) {
                 colorList.add(ContextCompat.getColor(context, R.color.RD_2))
@@ -167,5 +168,50 @@ class NumOfRecordsTrendGraphFragment() : BaseFragment<FragmentNumOfRecordsTrendG
         override fun getAxisLabel(value: Float, axis: AxisBase?): String {
             return values.getOrNull(value.toInt())!!
         }
+    }
+
+    inner class OnValueSelectedListener(private val context: Context): OnChartValueSelectedListener {
+        override fun onValueSelected(e: Entry?, h: Highlight?) {
+            /*binding.trendGraphBarchart.onTouchListener.setLastHighlighted(null)
+            binding.trendGraphBarchart.highlightValue(null)*/
+
+            val colorList: ArrayList<Int> = arrayListOf()
+            for (i in 0 until binding.trendGraphBarchart.data.dataSets.size) {
+                if (i==e!!.x.toInt()) {
+                    colorList.add(ContextCompat.getColor(context, R.color.RD_2))
+                } else {
+                    colorList.add(ContextCompat.getColor(context, R.color.GY_03))
+                }
+                (binding.trendGraphBarchart.data.dataSets[i] as BarDataSet).colors = colorList
+            }
+        }
+
+        override fun onNothingSelected() {
+        }
+
+    }
+
+    inner class MonthlyMarkerView(context: Context?, layoutResource: Int) : MarkerView(context, layoutResource) {
+
+        private var tvContent: TextView = findViewById(R.id.trend_graph_marker_tv)
+
+        /*// draw override를 사용해 marker의 위치 조정 (bar의 상단 중앙)
+        override fun draw(canvas: Canvas?) {
+            canvas!!.translate(-(width / 2).toFloat(), -height.toFloat() )
+
+            super.draw(canvas)
+        }*/
+
+        // entry를 content의 텍스트에 지정
+        override fun refreshContent(e: Entry?, highlight: Highlight?) {
+            tvContent.text = "${e?.y?.toInt()}개"
+
+            super.refreshContent(e, highlight)
+        }
+
+        override fun getOffset(): MPPointF {
+            return MPPointF((-(width / 2)).toFloat(), (-height).toFloat())
+        }
+
     }
 }
