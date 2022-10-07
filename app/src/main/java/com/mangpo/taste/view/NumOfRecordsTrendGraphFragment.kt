@@ -1,7 +1,6 @@
 package com.mangpo.taste.view
 
 import android.content.Context
-import android.graphics.Canvas
 import android.graphics.Color
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -23,7 +22,6 @@ import com.mangpo.domain.model.getStat.CountByMonthEntity
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentNumOfRecordsTrendGraphBinding
-import com.mangpo.taste.util.convertDpToPx
 
 class NumOfRecordsTrendGraphFragment() : BaseFragment<FragmentNumOfRecordsTrendGraphBinding>(FragmentNumOfRecordsTrendGraphBinding::inflate) {
     override fun initAfterBinding() {
@@ -43,6 +41,7 @@ class NumOfRecordsTrendGraphFragment() : BaseFragment<FragmentNumOfRecordsTrendG
     private fun initGraph(xAxisValueFormatter: Array<String>, maxValue: Float) {
         binding.trendGraphBarchart.run {
             setDrawBarShadow(true)
+            extraTopOffset = 35f
             description.isEnabled = false //차트 옆에 별도로 표기되는 description
             setPinchZoom(false) // 핀치줌(두손가락으로 줌인 줌 아웃하는것) 설정
             setScaleEnabled(false)  // 핀치줌(두손가락으로 줌인 줌 아웃하는것) 설정
@@ -51,6 +50,7 @@ class NumOfRecordsTrendGraphFragment() : BaseFragment<FragmentNumOfRecordsTrendG
 
             //왼쪽 y축
             axisLeft.run{
+                setPadding(0, 10, 0, 0)
                 axisMinimum = 0f // 최소값 0
                 axisMaximum = maxValue
                 setDrawLabels(false)    //라벨 유무
@@ -65,7 +65,6 @@ class NumOfRecordsTrendGraphFragment() : BaseFragment<FragmentNumOfRecordsTrendG
                 setPadding(50)
                 position = XAxis.XAxisPosition.BOTTOM   //X축을 아래에다가 둔다.
                 valueFormatter = MyXAxisFormatter(xAxisValueFormatter)  //Ex. 9/24, 9/26 ...
-//                textColor = ContextCompat.getColor(requireContext(), R.color.GY_04) //라벨 텍스트 색상
                 textSize = 12f  //라벨 텍스트 크기
             }
 
@@ -95,13 +94,16 @@ class NumOfRecordsTrendGraphFragment() : BaseFragment<FragmentNumOfRecordsTrendG
                 colorList.add(ContextCompat.getColor(context, R.color.GY_03))
             }
             set1.colors = colorList
-            set1.highLightColor = Color.TRANSPARENT
+            set1.highLightAlpha = 0
             dataSets.add(set1)
         }
 
         val barData = BarData(dataSets)
         barData.barWidth = 0.4f
+        barData.setValueTextColor(Color.TRANSPARENT)
         binding.trendGraphBarchart.data = barData
+
+        binding.trendGraphBarchart.highlightValue((barData.entryCount-1).toFloat(), dataSets.size-1)
 
         initGraph(xAxisValueFormat.toTypedArray(), maxValue)
     }
@@ -119,7 +121,6 @@ class NumOfRecordsTrendGraphFragment() : BaseFragment<FragmentNumOfRecordsTrendG
 
             val set1: BarDataSet = BarDataSet(values, "")
             set1.setDrawIcons(false)
-            set1.highLightAlpha = 0
             set1.barShadowColor = ContextCompat.getColor(context, R.color.GY_01)
             if (data.lastIndex==index) {
                 colorList.add(ContextCompat.getColor(context, R.color.RD_2))
@@ -127,14 +128,16 @@ class NumOfRecordsTrendGraphFragment() : BaseFragment<FragmentNumOfRecordsTrendG
                 colorList.add(ContextCompat.getColor(context, R.color.GY_03))
             }
             set1.colors = colorList
+            set1.highLightAlpha = 0
             dataSets.add(set1)
         }
 
         val barData = BarData(dataSets)
         barData.barWidth = 0.4f
         barData.setValueTextColor(Color.TRANSPARENT)
-
         binding.trendGraphBarchart.data = barData
+
+        binding.trendGraphBarchart.highlightValue((barData.entryCount-1).toFloat(), dataSets.size-1)
 
         initGraph(xAxisValueFormat.toTypedArray(), maxValue)
     }
@@ -172,9 +175,6 @@ class NumOfRecordsTrendGraphFragment() : BaseFragment<FragmentNumOfRecordsTrendG
 
     inner class OnValueSelectedListener(private val context: Context): OnChartValueSelectedListener {
         override fun onValueSelected(e: Entry?, h: Highlight?) {
-            /*binding.trendGraphBarchart.onTouchListener.setLastHighlighted(null)
-            binding.trendGraphBarchart.highlightValue(null)*/
-
             val colorList: ArrayList<Int> = arrayListOf()
             for (i in 0 until binding.trendGraphBarchart.data.dataSets.size) {
                 if (i==e!!.x.toInt()) {
@@ -187,22 +187,18 @@ class NumOfRecordsTrendGraphFragment() : BaseFragment<FragmentNumOfRecordsTrendG
         }
 
         override fun onNothingSelected() {
+            val colorList: ArrayList<Int> = arrayListOf()
+            for (i in 0 until binding.trendGraphBarchart.data.dataSets.size) {
+                colorList.add(ContextCompat.getColor(context, R.color.GY_03))
+                (binding.trendGraphBarchart.data.dataSets[i] as BarDataSet).colors = colorList
+            }
         }
 
     }
 
     inner class MonthlyMarkerView(context: Context?, layoutResource: Int) : MarkerView(context, layoutResource) {
-
         private var tvContent: TextView = findViewById(R.id.trend_graph_marker_tv)
 
-        /*// draw override를 사용해 marker의 위치 조정 (bar의 상단 중앙)
-        override fun draw(canvas: Canvas?) {
-            canvas!!.translate(-(width / 2).toFloat(), -height.toFloat() )
-
-            super.draw(canvas)
-        }*/
-
-        // entry를 content의 텍스트에 지정
         override fun refreshContent(e: Entry?, highlight: Highlight?) {
             tvContent.text = "${e?.y?.toInt()}개"
 
@@ -210,8 +206,7 @@ class NumOfRecordsTrendGraphFragment() : BaseFragment<FragmentNumOfRecordsTrendG
         }
 
         override fun getOffset(): MPPointF {
-            return MPPointF((-(width / 2)).toFloat(), (-height).toFloat())
+            return MPPointF((-(width / 2)).toFloat(), (-binding.trendGraphBarchart.height).toFloat())
         }
-
     }
 }

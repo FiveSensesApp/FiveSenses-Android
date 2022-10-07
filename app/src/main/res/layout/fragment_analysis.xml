@@ -443,6 +443,7 @@
                     android:layout_height="0dp"
                     android:layout_marginTop="131dp"
                     android:layout_marginBottom="10dp"
+                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -450,10 +451,10 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="131dp"
+                    android:layout_marginTop="136dp"
                     android:layout_marginBottom="10dp"
                     android:background="@color/WH_80"
-                    android:visibility="@{stat.totalPost&gt;10? View.VISIBLE: View.GONE}"
+                    android:visibility="@{stat.totalPost&lt;10? View.VISIBLE: View.GONE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -464,7 +465,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="210dp"
                     android:src="@drawable/ic_question_81"
-                    android:visibility="@{stat.totalPost&gt;10? View.VISIBLE: View.GONE}"
+                    android:visibility="@{stat.totalPost&lt;10? View.VISIBLE: View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

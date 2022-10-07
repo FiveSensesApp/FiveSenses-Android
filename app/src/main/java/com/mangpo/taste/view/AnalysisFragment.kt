@@ -2,15 +2,12 @@ package com.mangpo.taste.view
 
 import android.os.Bundle
 import android.os.Parcelable
-import android.util.Log
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.components.Legend
 import com.google.android.material.tabs.TabLayoutMediator
-import com.mangpo.domain.model.getStat.CountByDayEntity
 import com.mangpo.domain.model.getStat.GetStatResEntity
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
@@ -20,10 +17,6 @@ import com.mangpo.taste.view.adpater.NumOfRecordsTrendVPAdapter
 import com.mangpo.taste.view.model.AnalysisUserInfo
 import com.mangpo.taste.viewmodel.AnalysisViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
@@ -84,19 +77,21 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
 
         analysisVm.getStatResEntity.observe(viewLifecycleOwner, Observer {
             binding.stat = it
+            binding.invalidateAll()
 
-            val fragment1 = NumOfRecordsTrendGraphFragment()
-            val bundle1: Bundle = Bundle()
-            bundle1.putParcelableArrayList("dayData", it.countByDayEntities as ArrayList<out Parcelable>)
-            fragment1.arguments = bundle1
+            if (it.totalPost>=10) {
+                val fragment1 = NumOfRecordsTrendGraphFragment()
+                val bundle1: Bundle = Bundle()
+                bundle1.putParcelableArrayList("dayData", it.countByDayEntities as ArrayList<out Parcelable>)
+                fragment1.arguments = bundle1
 
-            val fragment2 = NumOfRecordsTrendGraphFragment()
-            val bundle2: Bundle = Bundle()
-            bundle2.putParcelableArrayList("monthData", it.countByMonthEntities as ArrayList<out Parcelable>)
-            fragment2.arguments = bundle2
+                val fragment2 = NumOfRecordsTrendGraphFragment()
+                val bundle2: Bundle = Bundle()
+                bundle2.putParcelableArrayList("monthData", it.countByMonthEntities as ArrayList<out Parcelable>)
+                fragment2.arguments = bundle2
 
-            numOfRecordsTrendVPAdapter.setFragments(mutableListOf(fragment1, fragment2))
-
+                numOfRecordsTrendVPAdapter.setFragments(mutableListOf(fragment1, fragment2))
+            }
 
             /*val floatArray: FloatArray = floatArrayOf(it.percentageOfCategory.SIGHT.toFloat(), it.percentageOfCategory.SMELL.toFloat(), it.percentageOfCategory.HEARING.toFloat(), it.percentageOfCategory.TASTE.toFloat(), it.percentageOfCategory.TOUCH.toFloat(), it.percentageOfCategory.AMBIGUOUS.toFloat())
             val barEntry = BarEntry(0f, floatArray)
