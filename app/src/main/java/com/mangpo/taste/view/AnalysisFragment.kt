@@ -37,7 +37,6 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("AnalysisFragment", "onViewCreated")
 
         userInfo = AnalysisUserInfo(SpfUtils.getStrSpf("nickname")!!, SpfUtils.getStrEncryptedSpf("email")!!, SpfUtils.getIntSpf("startDayCnt")!!)
         binding.apply {
@@ -58,7 +57,6 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
 
     private fun initTabLayout() {
         numOfRecordsTrendVPAdapter = NumOfRecordsTrendVPAdapter(this@AnalysisFragment)
-//        numOfRecordsTrendVPAdapter.setFragments(mutableListOf(NumOfRecordsTrendGraphFragment(), NumOfRecordsTrendGraphFragment()))
         binding.analysisVp.adapter = numOfRecordsTrendVPAdapter
 
         val tabTitles: Array<String> = arrayOf("일간", "월간")
@@ -87,24 +85,17 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
         analysisVm.getStatResEntity.observe(viewLifecycleOwner, Observer {
             binding.stat = it
 
-            Log.d("AnalysisFragment", "getStatResEntity Observe!! -> ${it.countByDayEntities}")
             val fragment1 = NumOfRecordsTrendGraphFragment()
             val bundle1: Bundle = Bundle()
-            bundle1.putParcelableArrayList("dayData", it.countByDayEntities as java.util.ArrayList<out Parcelable>)
+            bundle1.putParcelableArrayList("dayData", it.countByDayEntities as ArrayList<out Parcelable>)
             fragment1.arguments = bundle1
 
             val fragment2 = NumOfRecordsTrendGraphFragment()
             val bundle2: Bundle = Bundle()
-            bundle2.putParcelableArrayList("monthData", it.countByMonthEntities as java.util.ArrayList<out Parcelable>)
+            bundle2.putParcelableArrayList("monthData", it.countByMonthEntities as ArrayList<out Parcelable>)
             fragment2.arguments = bundle2
 
             numOfRecordsTrendVPAdapter.setFragments(mutableListOf(fragment1, fragment2))
-            /*numOfRecordsTrendVPAdapter.setData(requireContext(), it.countByDayEntities.subList(5, 12))
-            CoroutineScope(Dispatchers.Main).launch {
-                delay(5000L)
-
-
-            }*/
 
 
             /*val floatArray: FloatArray = floatArrayOf(it.percentageOfCategory.SIGHT.toFloat(), it.percentageOfCategory.SMELL.toFloat(), it.percentageOfCategory.HEARING.toFloat(), it.percentageOfCategory.TASTE.toFloat(), it.percentageOfCategory.TOUCH.toFloat(), it.percentageOfCategory.AMBIGUOUS.toFloat())
