@@ -10,8 +10,16 @@
             type="com.mangpo.taste.view.AnalysisFragment" />
 
         <variable
+            name="vm"
+            type="com.mangpo.taste.viewmodel.AnalysisViewModel" />
+
+        <variable
             name="userInfo"
             type="com.mangpo.taste.view.model.AnalysisUserInfo" />
+
+        <variable
+            name="percentageOfCategory"
+            type="java.util.List&lt;com.mangpo.taste.view.model.PercentageOfCategory&gt;" />
 
         <variable
             name="stat"
@@ -65,6 +73,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:background="@null"
+                    android:onClick="@{() -> fragment.toUpdateNicknameActivity()}"
                     android:src="@drawable/ic_pencil_30"
                     app:layout_constraintBottom_toBottomOf="@+id/analysis_nickname_tv"
                     app:layout_constraintStart_toEndOf="@+id/analysis_nickname_tv"
@@ -90,7 +99,7 @@
                     app:defaultDrawable="@{@drawable/ic_no_badge_120}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/analysis_setting_ib"
-                    app:svg="@{userInfo.badgeRepresent}" />
+                    app:svg="@{vm.representativeBadge.imgUrl}" />
 
                 <ImageView
                     android:id="@+id/analysis_calendar_iv"
@@ -177,33 +186,33 @@
                     android:layout_marginStart="13.5dp"
                     android:layout_marginTop="21dp"
                     android:layout_marginBottom="17dp"
-                    android:src="@drawable/ic_no_badge1_65"
                     app:layout_constraintBottom_toBottomOf="@+id/analysis_badge_view"
                     app:layout_constraintEnd_toStartOf="@+id/analysis_badge2_iv"
                     app:layout_constraintStart_toStartOf="@+id/analysis_badge_view"
-                    app:layout_constraintTop_toBottomOf="@+id/analysis_acquired_badge_tv" />
+                    app:layout_constraintTop_toBottomOf="@+id/analysis_acquired_badge_tv"
+                    app:svg="@{vm.acquiredBadges[0].imgUrl}" />
 
                 <ImageView
                     android:id="@+id/analysis_badge2_iv"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginStart="11dp"
-                    android:src="@drawable/ic_no_badge2_65"
                     app:layout_constraintBottom_toBottomOf="@+id/analysis_badge1_iv"
                     app:layout_constraintEnd_toStartOf="@+id/analysis_badge3_iv"
                     app:layout_constraintStart_toEndOf="@+id/analysis_badge1_iv"
-                    app:layout_constraintTop_toTopOf="@+id/analysis_badge1_iv" />
+                    app:layout_constraintTop_toTopOf="@+id/analysis_badge1_iv"
+                    app:svg="@{vm.acquiredBadges[1].imgUrl}" />
 
                 <ImageView
                     android:id="@+id/analysis_badge3_iv"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginStart="11dp"
-                    android:src="@drawable/ic_no_badge3_65"
                     app:layout_constraintBottom_toBottomOf="@+id/analysis_badge1_iv"
                     app:layout_constraintEnd_toStartOf="@+id/analysis_badge4_iv"
                     app:layout_constraintStart_toEndOf="@+id/analysis_badge2_iv"
-                    app:layout_constraintTop_toTopOf="@+id/analysis_badge1_iv" />
+                    app:layout_constraintTop_toTopOf="@+id/analysis_badge1_iv"
+                    app:svg="@{vm.acquiredBadges[2].imgUrl}" />
 
                 <ImageView
                     android:id="@+id/analysis_badge4_iv"
@@ -211,11 +220,11 @@
                     android:layout_height="0dp"
                     android:layout_marginStart="11dp"
                     android:layout_marginEnd="13.5dp"
-                    android:src="@drawable/ic_no_badge4_65"
                     app:layout_constraintBottom_toBottomOf="@+id/analysis_badge1_iv"
                     app:layout_constraintEnd_toEndOf="@+id/analysis_badge_view"
                     app:layout_constraintStart_toEndOf="@+id/analysis_badge3_iv"
-                    app:layout_constraintTop_toTopOf="@+id/analysis_badge1_iv" />
+                    app:layout_constraintTop_toTopOf="@+id/analysis_badge1_iv"
+                    app:svg="@{vm.acquiredBadges[3].imgUrl}" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -235,6 +244,15 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/bg_wh_12"
                 app:layout_constraintTop_toBottomOf="@+id/analysis_banner_vp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_distribution_by_sensory_sample"
+                    android:visibility="@{stat.totalPost&lt;10? View.VISIBLE: View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -261,35 +279,24 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="65dp"
-                    android:src="@drawable/ic_distribution_by_sensory_bar_graph_sample"
-                    android:visibility="@{stat.totalPost&lt;10? View.VISIBLE: View.GONE}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <com.github.mikephil.charting.charts.BarChart
+                <!--<com.mangpo.taste.view.custom.RoundedHorizontalBarChart
+                    app:rrrr="15dp"
                     android:id="@+id/analysis_stacked_barchart"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
+                    android:background="@color/black"
                     android:layout_marginHorizontal="14dp"
                     android:layout_marginTop="76dp"
-                    android:background="@drawable/bg_transparent_15"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent" />-->
 
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="37dp"
-                    android:layout_marginHorizontal="22dp"
-                    android:layout_marginBottom="19dp"
-                    android:src="@drawable/ic_distribution_by_sensory_count_sample"
-                    android:visibility="@{stat.totalPost&lt;10? View.VISIBLE: View.GONE}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                <com.github.mikephil.charting.charts.HorizontalBarChart
+                    android:id="@+id/analysis_stacked_barchart"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginHorizontal="14dp"
+                    android:layout_marginTop="76dp"
+                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <View
                     android:layout_width="0dp"
@@ -301,29 +308,280 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="70dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@color/WH_80"
-                    android:visibility="@{stat.totalPost&lt;10? View.VISIBLE: View.GONE}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="37dp"
+                    android:layout_marginHorizontal="22dp"
+                    android:layout_marginBottom="19dp"
+                    android:orientation="horizontal"
+                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="parent">
 
-                <ImageView
-                    android:id="@+id/analysis_question_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="33dp"
-                    android:src="@drawable/ic_question_81"
-                    android:visibility="@{stat.totalPost&lt;10? View.VISIBLE: View.GONE}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/analysis_distribution_cnt_tv1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="17dp"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:text="0"
+                            android:textAppearance="@style/Sub_Head_B_14"
+                            android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/analysis_distribution_character_iv1"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:src="@{percentageOfCategory[0].character}"
+                            app:layout_constraintBottom_toBottomOf="@+id/analysis_distribution_sense_tv1"
+                            app:layout_constraintEnd_toStartOf="@+id/analysis_distribution_sense_tv1"
+                            app:layout_constraintHorizontal_chainStyle="packed"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/analysis_distribution_sense_tv1" />
+
+                        <TextView
+                            android:id="@+id/analysis_distribution_sense_tv1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="18dp"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:text="@{percentageOfCategory[0].sense}"
+                            android:textAppearance="@style/Body1_M_12"
+                            android:textColor="@{percentageOfCategory[0].color}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/analysis_distribution_character_iv1" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <TextView
+                            android:id="@+id/analysis_distribution_cnt_tv2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="17dp"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:text="00"
+                            android:textAppearance="@style/Sub_Head_B_14"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/analysis_distribution_character_iv2"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:src="@{percentageOfCategory[1].character}"
+                            app:layout_constraintBottom_toBottomOf="@+id/analysis_distribution_sense_tv2"
+                            app:layout_constraintEnd_toStartOf="@+id/analysis_distribution_sense_tv2"
+                            app:layout_constraintHorizontal_chainStyle="packed"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/analysis_distribution_sense_tv2" />
+
+                        <TextView
+                            android:id="@+id/analysis_distribution_sense_tv2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="18dp"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:text="@{percentageOfCategory[1].sense}"
+                            android:textAppearance="@style/Body1_M_12"
+                            android:textColor="@{percentageOfCategory[1].color}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/analysis_distribution_character_iv2" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <TextView
+                            android:id="@+id/analysis_distribution_cnt_tv3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="17dp"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:text="000"
+                            android:textAppearance="@style/Sub_Head_B_14"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/analysis_distribution_character_iv3"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:src="@{percentageOfCategory[2].character}"
+                            app:layout_constraintBottom_toBottomOf="@+id/analysis_distribution_sense_tv3"
+                            app:layout_constraintEnd_toStartOf="@+id/analysis_distribution_sense_tv3"
+                            app:layout_constraintHorizontal_chainStyle="packed"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/analysis_distribution_sense_tv3" />
+
+                        <TextView
+                            android:id="@+id/analysis_distribution_sense_tv3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="18dp"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:text="@{percentageOfCategory[2].sense}"
+                            android:textAppearance="@style/Body1_M_12"
+                            android:textColor="@{percentageOfCategory[2].color}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/analysis_distribution_character_iv3" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <TextView
+                            android:id="@+id/analysis_distribution_cnt_tv4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="17dp"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:text="0000"
+                            android:textAppearance="@style/Sub_Head_B_14"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/analysis_distribution_character_iv4"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:src="@{percentageOfCategory[3].character}"
+                            app:layout_constraintBottom_toBottomOf="@+id/analysis_distribution_sense_tv4"
+                            app:layout_constraintEnd_toStartOf="@+id/analysis_distribution_sense_tv4"
+                            app:layout_constraintHorizontal_chainStyle="packed"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/analysis_distribution_sense_tv4" />
+
+                        <TextView
+                            android:id="@+id/analysis_distribution_sense_tv4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="18dp"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:text="@{percentageOfCategory[3].sense}"
+                            android:textAppearance="@style/Body1_M_12"
+                            android:textColor="@{percentageOfCategory[3].color}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/analysis_distribution_character_iv4" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <TextView
+                            android:id="@+id/analysis_distribution_cnt_tv5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="17dp"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:text="00000"
+                            android:textAppearance="@style/Sub_Head_B_14"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/analysis_distribution_character_iv5"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:src="@{percentageOfCategory[4].character}"
+                            app:layout_constraintBottom_toBottomOf="@+id/analysis_distribution_sense_tv5"
+                            app:layout_constraintEnd_toStartOf="@+id/analysis_distribution_sense_tv5"
+                            app:layout_constraintHorizontal_chainStyle="packed"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/analysis_distribution_sense_tv5" />
+
+                        <TextView
+                            android:id="@+id/analysis_distribution_sense_tv5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="18dp"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:text="@{percentageOfCategory[4].sense}"
+                            android:textAppearance="@style/Body1_M_12"
+                            android:textColor="@{percentageOfCategory[4].color}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/analysis_distribution_character_iv5" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <TextView
+                            android:id="@+id/analysis_distribution_cnt_tv6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="17dp"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:text="000000"
+                            android:textAppearance="@style/Sub_Head_B_14"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/analysis_distribution_character_iv6"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:src="@{percentageOfCategory[5].character}"
+                            app:layout_constraintBottom_toBottomOf="@+id/analysis_distribution_sense_tv6"
+                            app:layout_constraintEnd_toStartOf="@+id/analysis_distribution_sense_tv6"
+                            app:layout_constraintHorizontal_chainStyle="packed"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/analysis_distribution_sense_tv6" />
+
+                        <TextView
+                            android:id="@+id/analysis_distribution_sense_tv6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="18dp"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:text="@{percentageOfCategory[5].sense}"
+                            android:textAppearance="@style/Body1_M_12"
+                            android:textColor="@{percentageOfCategory[5].color}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/analysis_distribution_character_iv6" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -335,6 +593,15 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/bg_wh_12"
                 app:layout_constraintTop_toBottomOf="@+id/analysis_distribution_by_sensory_cl">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_sense_of_month_sample"
+                    android:visibility="@{stat.totalPost&lt;10? View.VISIBLE: View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -361,29 +628,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="70dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@color/WH_80"
-                    android:visibility="@{stat.totalPost&lt;10? View.VISIBLE: View.GONE}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="104dp"
-                    android:src="@drawable/ic_question_81"
-                    android:visibility="@{stat.totalPost&lt;10? View.VISIBLE: View.GONE}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -396,6 +640,15 @@
                 android:background="@drawable/bg_wh_12"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/analysis_sense_of_the_month_cl">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_number_of_records_trend_sample"
+                    android:visibility="@{stat.totalPost&lt;10? View.VISIBLE: View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/analysis_number_of_records_trend_tv"
@@ -446,29 +699,6 @@
                     android:layout_marginBottom="10dp"
                     android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="136dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@color/WH_80"
-                    android:visibility="@{stat.totalPost&lt;10? View.VISIBLE: View.GONE}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="210dp"
-                    android:src="@drawable/ic_question_81"
-                    android:visibility="@{stat.totalPost&lt;10? View.VISIBLE: View.GONE}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

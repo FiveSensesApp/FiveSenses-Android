@@ -76,4 +76,10 @@ class ApiModule {
     fun provideStatService(retrofit: Retrofit): StatService {
         return retrofit.create(StatService::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideBadgeService(retrofit: Retrofit): BadgeService {
+        return retrofit.create(BadgeService::class.java)
+    }
 }

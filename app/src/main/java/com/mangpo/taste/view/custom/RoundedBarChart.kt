@@ -45,7 +45,7 @@ class RoundedBarChart : BarChart {
         }
     }
 
-    fun setRadius(radius: Int) {
+    private fun setRadius(radius: Int) {
         renderer = RoundedBarChartRenderer(
             this,
             animator, viewPortHandler, radius

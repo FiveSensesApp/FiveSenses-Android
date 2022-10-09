@@ -89,4 +89,9 @@ class UseCaseModule {
     fun provideGetStatUseCase (statRepository: StatRepository): GetStatUseCase {
         return GetStatUseCase(statRepository)
     }
+
+    @Provides
+    fun provideGetUserBadgesByUserUseCase (badgeRepository: BadgeRepository): GetUserBadgesByUserUseCase {
+        return GetUserBadgesByUserUseCase(badgeRepository)
+    }
 }

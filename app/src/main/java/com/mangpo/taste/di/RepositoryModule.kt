@@ -30,4 +30,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindStatRepository(statRepositoryImpl: StatRepositoryImpl): StatRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindBadgeRepository(badgeRepositoryImpl: BadgeRepositoryImpl): BadgeRepository
 }

@@ -29,4 +29,8 @@ abstract class DataSourceModule {
     @Binds
     @Singleton
     abstract fun bindStatRemoteDataSource(statRemoteDataSourceImpl: StatRemoteDataSourceImpl): StatRemoteDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindBadgeRemoteDataSource(badgeRemoteDataSourceImpl: BadgeRemoteDataSourceImpl): BadgeRemoteDataSource
 }

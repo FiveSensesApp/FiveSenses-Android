@@ -42,7 +42,7 @@ fun setSrbRatingSetting(view: BaseRatingBar, star: Int) {
 }
 
 @BindingAdapter(value = ["svg", "defaultDrawable"], requireAll = false)
-fun setSvg(view: ImageView, svg: String?, defaultDrawable: Drawable) {
+fun setSvg(view: ImageView, svg: String?, defaultDrawable: Drawable?) {
     if (svg==null) {
         view.setImageDrawable(defaultDrawable)
     } else {

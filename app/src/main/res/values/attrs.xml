@@ -3,4 +3,7 @@
     <declare-styleable name="RoundedBarChart">
         <attr name="radius" format="dimension" />
     </declare-styleable>
+    <declare-styleable name="RoundedHorizontalBarChart">
+        <attr name="rrrr" format="dimension" />
+    </declare-styleable>
 </resources>
