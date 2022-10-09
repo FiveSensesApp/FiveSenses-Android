@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Body2_R_10" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/pretendard_regular</item>
         <item name="android:textSize">10dp</item>
     </style>
+
     <style name="Body2_R_12" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/pretendard_regular</item>
         <item name="android:textSize">12dp</item>
     </style>
+
     <style name="Body2_R_14" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/pretendard_regular</item>
         <item name="android:textSize">14dp</item>
@@ -17,10 +20,12 @@
         <item name="fontFamily">@font/pretendard_medium</item>
         <item name="android:textSize">12dp</item>
     </style>
+
     <style name="Body1_M_14" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/pretendard_medium</item>
         <item name="android:textSize">14dp</item>
     </style>
+
     <style name="Body1_M_16" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/pretendard_medium</item>
         <item name="android:textSize">16dp</item>
@@ -35,10 +40,17 @@
         <item name="fontFamily">@font/pretendard_bold</item>
         <item name="android:textSize">12dp</item>
     </style>
+
+    <style name="Sub_Head_B_14" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/pretendard_bold</item>
+        <item name="android:textSize">14dp</item>
+    </style>
+
     <style name="Sub_Head_B_16" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/pretendard_bold</item>
         <item name="android:textSize">16dp</item>
     </style>
+
     <style name="Sub_Head_B_18" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/pretendard_bold</item>
         <item name="android:textSize">18dp</item>
@@ -48,6 +60,7 @@
         <item name="fontFamily">@font/pretendard_bold</item>
         <item name="android:textSize">20dp</item>
     </style>
+
     <style name="Head_B_26" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/pretendard_bold</item>
         <item name="android:textSize">26dp</item>

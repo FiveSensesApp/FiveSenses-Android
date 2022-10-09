@@ -14,14 +14,22 @@
         android:id="@+id/analysisFragment"
         android:name="com.mangpo.taste.view.AnalysisFragment"
         android:label="fragment_analysis"
-        tools:layout="@layout/fragment_analysis" >
+        tools:layout="@layout/fragment_analysis">
         <action
             android:id="@+id/action_analysisFragment_to_settingActivity"
             app:destination="@id/settingActivity" />
+        <action
+            android:id="@+id/action_analysisFragment_to_updateNicknameActivity"
+            app:destination="@id/updateNicknameActivity" />
     </fragment>
     <activity
         android:id="@+id/settingActivity"
         android:name="com.mangpo.taste.view.SettingActivity"
         android:label="activity_setting"
         tools:layout="@layout/activity_setting" />
+    <activity
+        android:id="@+id/updateNicknameActivity"
+        android:name="com.mangpo.taste.view.UpdateNicknameActivity"
+        android:label="activity_update_nickname"
+        tools:layout="@layout/activity_update_nickname" />
 </navigation>

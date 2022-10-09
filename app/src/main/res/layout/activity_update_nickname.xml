@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="22dp"
+        tools:context=".view.UpdateNicknameActivity">
+
+        <ImageButton
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:src="@drawable/ic_back_bk_38"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="74dp"
+            android:layout_height="38dp"
+            android:background="@drawable/selector_update_nickname_complete_btn"
+            android:gravity="center"
+            android:text="@string/action_complete"
+            android:textAppearance="@style/Sub_Head_B_18"
+            android:textColor="@color/WH"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="31dp"
+            android:layout_marginTop="85dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@string/title_nickname_update"
+            android:textAppearance="@style/Head_B_26"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
+            android:layout_marginTop="140dp"
+            android:background="@drawable/bg_gy01_12"
+            android:gravity="center_vertical"
+            android:inputType="text"
+            android:lines="1"
+            android:maxLength="8"
+            android:paddingHorizontal="22dp"
+            android:textAppearance="@style/Sub_Head_B_16"
+            android:textColor="@color/GY_04"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="200dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@string/error_nickname_validation"
+            android:textAppearance="@style/Body2_R_12"
+            android:textColor="@color/RD_2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
