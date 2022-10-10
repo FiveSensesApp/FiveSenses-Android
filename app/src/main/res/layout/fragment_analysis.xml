@@ -628,6 +628,132 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="134dp"
+                    android:layout_marginHorizontal="37dp"
+                    android:layout_marginTop="75dp"
+                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="17dp"
+                    android:layout_marginTop="216dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:textAppearance="@style/Sub_Head_B_14"
+                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="14dp"
+                    android:layout_marginTop="243dp"
+                    android:background="@color/GY_01"
+                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginBottom="58dp"
+                    android:background="@null"
+                    android:src="@drawable/ic_left_arrow_44"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <ImageView
+                    android:id="@+id/analysis_sense_of_month_card_iv1"
+                    android:layout_width="63dp"
+                    android:layout_height="76dp"
+                    android:layout_marginStart="52dp"
+                    android:layout_marginBottom="42dp"
+                    android:background="@drawable/bg_gy01_8"
+                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/analysis_sense_of_month_card_iv2"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="17dp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="-"
+                    android:textAppearance="@style/Sub_Head_B_14"
+                    android:textColor="@color/GY_04"
+                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    app:layout_constraintEnd_toEndOf="@+id/analysis_sense_of_month_card_iv1"
+                    app:layout_constraintStart_toStartOf="@+id/analysis_sense_of_month_card_iv1"
+                    app:layout_constraintTop_toBottomOf="@+id/analysis_sense_of_month_card_iv1" />
+
+                <ImageView
+                    android:id="@+id/analysis_sense_of_month_card_iv2"
+                    android:layout_width="63dp"
+                    android:layout_height="76dp"
+                    android:layout_marginBottom="42dp"
+                    android:background="@drawable/bg_gy01_8"
+                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/analysis_sense_of_month_card_iv3"
+                    app:layout_constraintStart_toEndOf="@+id/analysis_sense_of_month_card_iv1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="17dp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="-"
+                    android:textAppearance="@style/Sub_Head_B_14"
+                    android:textColor="@color/GY_04"
+                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    app:layout_constraintEnd_toEndOf="@+id/analysis_sense_of_month_card_iv2"
+                    app:layout_constraintStart_toStartOf="@+id/analysis_sense_of_month_card_iv2"
+                    app:layout_constraintTop_toBottomOf="@+id/analysis_sense_of_month_card_iv2" />
+
+                <ImageView
+                    android:id="@+id/analysis_sense_of_month_card_iv3"
+                    android:layout_width="63dp"
+                    android:layout_height="76dp"
+                    android:layout_marginEnd="52dp"
+                    android:layout_marginBottom="42dp"
+                    android:background="@drawable/bg_gy01_8"
+                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/analysis_sense_of_month_card_iv2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="17dp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="-"
+                    android:textAppearance="@style/Sub_Head_B_14"
+                    android:textColor="@color/GY_04"
+                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    app:layout_constraintEnd_toEndOf="@+id/analysis_sense_of_month_card_iv3"
+                    app:layout_constraintStart_toStartOf="@+id/analysis_sense_of_month_card_iv3"
+                    app:layout_constraintTop_toBottomOf="@+id/analysis_sense_of_month_card_iv3" />
+
+                <ImageButton
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginBottom="58dp"
+                    android:background="@null"
+                    android:src="@drawable/ic_right_arrow_44"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -636,7 +762,7 @@
                 android:layout_height="380dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="140dp"
+                android:layout_marginBottom="51dp"
                 android:background="@drawable/bg_wh_12"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/analysis_sense_of_the_month_cl">

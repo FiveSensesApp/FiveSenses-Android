@@ -36,7 +36,15 @@ object StatMapper {
 
         for (monthlyCategoryDTO in monthlyCategoryDTOs.reversed()) {
             monthlyCategoryEntities.add(monthlyCategoryDTO.run {
-                MonthlyCategoryEntity(category, "${LocalDate.parse(month).monthValue}월")
+                var categoryKr = when (category) {
+                    "SIGHT" -> "시각"
+                    "SMELL" -> "후각"
+                    "TASTE" -> "미각"
+                    "HEARING" -> "청각"
+                    "TOUCH" -> "촉각"
+                    else -> "기타"
+                }
+                MonthlyCategoryEntity(categoryKr, "${LocalDate.parse(month).monthValue}월")
             })
         }
 
