@@ -43,8 +43,7 @@
         <activity
             android:name=".view.CreateAccountActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.OnBoardingActivity"
             android:exported="false" />

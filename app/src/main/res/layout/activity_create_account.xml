@@ -22,10 +22,10 @@
 
         <ImageView
             android:id="@+id/create_account_step_iv"
-            android:layout_marginTop="74dp"
             marginTop="@{activity.isKeyboardVisible? 36 : 74}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="74dp"
             android:src="@drawable/ic_sign_up1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -199,26 +199,10 @@
             android:text="@string/action_next"
             android:textAppearance="@style/Sub_Head_B_18"
             android:textColor="@drawable/selector_sign_up_text"
-            app:layout_constraintTop_toBottomOf="@+id/create_account_line_view"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <!--<androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/create_account_next_btn"
-            marginBottom="@{activity.isKeyboardVisible? 15: 122}"
-            android:layout_width="189dp"
-            android:layout_height="46dp"
-            android:background="@drawable/selector_sign_up_btn"
-            android:enabled="@{activity.nextBtnEnable}"
-            android:onClick="@{() -> activity.validateDuplicate(createAccountEmailEt.getText().toString())}"
-            android:stateListAnimator="@null"
-            android:text="@string/action_next"
-            android:textAppearance="@style/Sub_Head_B_18"
-            android:textColor="@drawable/selector_sign_up_text"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />-->
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/create_account_line_view" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
