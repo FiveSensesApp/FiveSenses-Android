@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="activity"
+            type="com.mangpo.taste.view.UpdateNicknameActivity" />
+
+        <variable
+            name="nickname"
+            type="String" />
+
+        <variable
+            name="isValid"
+            type="Boolean" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -13,6 +30,7 @@
         <ImageButton
             android:layout_width="38dp"
             android:layout_height="38dp"
+            android:onClick="@{() -> activity.back()}"
             android:src="@drawable/ic_back_bk_38"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -21,7 +39,9 @@
             android:layout_width="74dp"
             android:layout_height="38dp"
             android:background="@drawable/selector_update_nickname_complete_btn"
+            android:enabled="@{isValid}"
             android:gravity="center"
+            android:onClick="@{(EditText) -> activity.updateNickname(updateNicknameNicknameEt.getText().toString())}"
             android:text="@string/action_complete"
             android:textAppearance="@style/Sub_Head_B_18"
             android:textColor="@color/WH"
@@ -40,6 +60,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
+            android:id="@+id/update_nickname_nickname_et"
             android:layout_width="match_parent"
             android:layout_height="51dp"
             android:layout_marginTop="140dp"
@@ -49,6 +70,7 @@
             android:lines="1"
             android:maxLength="8"
             android:paddingHorizontal="22dp"
+            android:text="@{nickname}"
             android:textAppearance="@style/Sub_Head_B_16"
             android:textColor="@color/GY_04"
             app:layout_constraintTop_toTopOf="parent" />
@@ -62,6 +84,7 @@
             android:text="@string/error_nickname_validation"
             android:textAppearance="@style/Body2_R_12"
             android:textColor="@color/RD_2"
+            android:visibility="@{isValid? View.INVISIBLE: View.VISIBLE}"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

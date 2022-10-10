@@ -40,7 +40,7 @@ class SettingViewModel @Inject constructor(private val deleteUserUseCase: Delete
                 when (it.code) {
                     200 -> {
                         SpfUtils.writeSpf("alarmTime", updateUserReqEntity.alarmDate)
-                        SpfUtils.writeSpf("isAlarmOn", updateUserReqEntity.isAlarmOn)
+                        SpfUtils.writeSpf("isAlarmOn", updateUserReqEntity.isAlarmOn!!)
                     }
                     404 -> showToast(it.msg!!)
                 }

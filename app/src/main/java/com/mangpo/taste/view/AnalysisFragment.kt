@@ -36,10 +36,8 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        userInfo = AnalysisUserInfo(SpfUtils.getStrSpf("nickname")!!, SpfUtils.getStrEncryptedSpf("email")!!, SpfUtils.getIntSpf("startDayCnt")!!, SpfUtils.getStrSpf("badgeRepresent"))
         binding.apply {
             fragment = this@AnalysisFragment
-            userInfo = this@AnalysisFragment.userInfo
             vm = analysisVm
             lifecycleOwner = viewLifecycleOwner
         }
@@ -54,6 +52,8 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
     override fun initAfterBinding() {
         val legend: Legend = binding.analysisStackedBarchart.legend
         legend.orientation = Legend.LegendOrientation.HORIZONTAL
+
+        binding.userInfo = AnalysisUserInfo(SpfUtils.getStrSpf("nickname")!!, SpfUtils.getStrEncryptedSpf("email")!!, SpfUtils.getIntSpf("startDayCnt")!!, SpfUtils.getStrSpf("badgeRepresent"))
     }
 
     private fun initTabLayout() {
