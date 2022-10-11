@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.kyleduo.switchbutton.SwitchButton
 import com.mangpo.domain.model.updateUser.UpdateUserReqEntity
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
@@ -31,6 +30,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
         setMyEventListener()
         observe()
 
+        binding.settingAlarmSettingSb.setCheckedImmediately(false)  //처음 데이터 바인딩 되면서 변경된 사항은 반영되지 않도록
         binding.settingAlarmSettingSb.isChecked = SpfUtils.getBooleanSpf("isAlarmOn", false)
         binding.settingAlarmTimeTv.isEnabled = SpfUtils.getBooleanSpf("isAlarmOn", false)
         binding.settingAlarmTimeTv.text = SpfUtils.getStrSpf("alarmTime")
@@ -84,9 +84,8 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
         }
 
         //알람 설정 스위치버튼 체크리스너
-        binding.settingAlarmSettingSb.setOnClickListener {
-            var isChecked: Boolean = (it as SwitchButton).isChecked
-            val updateUserReqEntity = UpdateUserReqEntity(binding.settingAlarmTimeTv.text.toString(), isChecked, SpfUtils.getStrSpf("nickname")!!, SpfUtils.getIntEncryptedSpf("userId"))
+        binding.settingAlarmSettingSb.setOnCheckedChangeListener { compoundButton, b ->
+            val updateUserReqEntity = UpdateUserReqEntity(binding.settingAlarmTimeTv.text.toString(), b, SpfUtils.getStrSpf("nickname")!!, SpfUtils.getIntEncryptedSpf("userId"))
             settingVm.updateUser(updateUserReqEntity)
         }
 
