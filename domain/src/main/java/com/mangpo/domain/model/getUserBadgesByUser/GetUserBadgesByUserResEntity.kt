@@ -1,5 +1,9 @@
 package com.mangpo.domain.model.getUserBadgesByUser
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class GetUserBadgesByUserResEntity(
     val description: String,
     val id: String,
@@ -8,4 +12,4 @@ data class GetUserBadgesByUserResEntity(
     val name: String,
     val reqConditionShort: String,
     val seqNum: Int
-)
+) : Parcelable

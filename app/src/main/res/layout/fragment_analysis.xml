@@ -176,6 +176,7 @@
                     android:layout_marginEnd="2dp"
                     android:background="@null"
                     android:src="@drawable/ic_right_arrow_44"
+                    android:onClick="@{() -> fragment.goBadgeActivity(vm.representativeBadge)}"
                     app:layout_constraintEnd_toEndOf="@+id/analysis_badge_view"
                     app:layout_constraintTop_toTopOf="@+id/analysis_badge_view" />
 

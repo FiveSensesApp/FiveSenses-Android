@@ -16,8 +16,8 @@ class AnalysisViewModel @Inject constructor(private val getStatUseCase: GetStatU
     private val _getStatResEntity: MutableLiveData<GetStatResEntity> = MutableLiveData()
     val getStatResEntity: LiveData<GetStatResEntity> get() = _getStatResEntity
 
+    private var badges: List<GetUserBadgesByUserResEntity> = listOf()
     val representativeBadge: MutableLiveData<GetUserBadgesByUserResEntity?> = MutableLiveData()
-
     val acquiredBadges: MutableLiveData<List<GetUserBadgesByUserResEntity>> = MutableLiveData()
 
     fun getStat(userId: Int) {
@@ -36,6 +36,7 @@ class AnalysisViewModel @Inject constructor(private val getStatUseCase: GetStatU
             {
                 if (it.data!=null) {
                     val names: List<String> = listOf("첫 감각의 설렘", "공유하는 기쁨", "투머치토커", "프로미각러")
+                    badges = it.data!!
                     representativeBadge.postValue(it.data?.find { it.id== SpfUtils.getStrSpf("badgeRepresent") })
                     acquiredBadges.postValue(it.data?.filter { names.contains(it.name) }?.sortedBy { it.seqNum })
                 }
@@ -43,4 +44,6 @@ class AnalysisViewModel @Inject constructor(private val getStatUseCase: GetStatU
             true
         )
     }
+
+    fun getBadges(): List<GetUserBadgesByUserResEntity> = badges
 }

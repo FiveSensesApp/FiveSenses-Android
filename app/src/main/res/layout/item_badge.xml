@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="badge"
+            type="com.mangpo.domain.model.getUserBadgesByUser.GetUserBadgesByUserResEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="27dp">
+
+        <ImageView
+            android:id="@+id/badge_item_iv"
+            svg="@{badge.imgUrl}"
+            android:layout_width="82dp"
+            android:layout_height="82dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@{badge.name}"
+            android:textAppearance="@style/Body1_M_14"
+            app:layout_constraintEnd_toEndOf="@+id/badge_item_iv"
+            app:layout_constraintStart_toStartOf="@+id/badge_item_iv"
+            app:layout_constraintTop_toBottomOf="@+id/badge_item_iv" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

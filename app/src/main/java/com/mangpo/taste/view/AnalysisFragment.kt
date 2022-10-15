@@ -15,6 +15,7 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.android.material.tabs.TabLayoutMediator
+import com.mangpo.domain.model.getUserBadgesByUser.GetUserBadgesByUserResEntity
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentAnalysisBinding
@@ -175,5 +176,10 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
 
     fun toUpdateNicknameActivity() {
         findNavController().navigate(R.id.action_analysisFragment_to_updateNicknameActivity)
+    }
+
+    fun goBadgeActivity(representativeBadge: GetUserBadgesByUserResEntity?) {
+        val action = AnalysisFragmentDirections.actionAnalysisFragmentToBadgeActivity(representativeBadge, analysisVm.getBadges().toTypedArray())
+        findNavController().navigate(action)
     }
 }

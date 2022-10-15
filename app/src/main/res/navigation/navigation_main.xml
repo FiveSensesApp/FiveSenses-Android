@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_analysisFragment_to_updateNicknameActivity"
             app:destination="@id/updateNicknameActivity" />
+        <action
+            android:id="@+id/action_analysisFragment_to_badgeActivity"
+            app:destination="@id/badgeActivity" />
     </fragment>
     <activity
         android:id="@+id/settingActivity"
@@ -32,4 +35,16 @@
         android:name="com.mangpo.taste.view.UpdateNicknameActivity"
         android:label="activity_update_nickname"
         tools:layout="@layout/activity_update_nickname" />
+    <activity
+        android:id="@+id/badgeActivity"
+        android:name="com.mangpo.taste.view.BadgeActivity"
+        android:label="BadgeActivity">
+        <argument
+            android:name="representativeBadge"
+            app:argType="com.mangpo.domain.model.getUserBadgesByUser.GetUserBadgesByUserResEntity"
+            app:nullable="true" />
+        <argument
+            android:name="badges"
+            app:argType="com.mangpo.domain.model.getUserBadgesByUser.GetUserBadgesByUserResEntity[]" />
+    </activity>
 </navigation>

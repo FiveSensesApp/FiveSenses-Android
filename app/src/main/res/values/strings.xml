@@ -78,6 +78,7 @@
     <string name="title_sense_of_the_month">이 달의 감각</string>
     <string name="title_etc">기타</string>
     <string name="title_nickname_update">닉네임 수정</string>
+    <string name="title_representative_badge">대표 뱃지 |</string>
 
     <string name="action_logout">로그아웃</string>
     <string name="action_withdrawal">계정 탈퇴</string>
@@ -158,6 +159,9 @@
     <string name="msg_can_find_out_proportion_of_each_sense">각 감각별 갯수와 비율을 알 수 있어요.</string>
     <string name="msg_can_see_senses_most_by_month">월 별로 가장 많이 기록한 감각을 볼 수 있어요.</string>
     <string name="msg_can_see_trend_number_of_keywords">기록한 키워드 개수의 추이를 볼 수 있어요.</string>
+    <string name="msg_empty">비어있어요</string>
+    <string name="msg_setup_signature_badge">취향을 기록해 대표 뱃지를 설정해보세요!</string>
+    <string name="msg_acquisition_conditions_in_advance">획득 조건은 미리 볼 수 있어요.</string>
 
     <string name="error_check_old_pw">기존 비밀번호를 확인해주세요.</string>
     <string name="error_not_match_pw">비밀번호가 일치하지 않습니다!</string>
