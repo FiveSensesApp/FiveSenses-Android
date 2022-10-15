@@ -86,11 +86,6 @@ class RecordUpdateActivity : BaseActivity<ActivityRecordUpdateBinding>(ActivityR
     }
 
     private fun setMyEventListener() {
-        //뒤로가기 이미지뷰 클릭 리스너 등록
-        binding.recordUpdateBackIv.setOnClickListener {
-            onBackPressed()
-        }
-
         //내용 EditText TextWatcher 등록
         binding.tasteRecordContentEt.addTextChangedListener(this)
 
