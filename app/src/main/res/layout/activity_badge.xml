@@ -10,6 +10,10 @@
         <variable
             name="representativeBadge"
             type="com.mangpo.domain.model.getUserBadgesByUser.GetUserBadgesByUserResEntity" />
+
+        <variable
+            name="size"
+            type="Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -117,6 +121,7 @@
             android:layout_marginTop="337dp"
             android:gravity="center"
             android:includeFontPadding="false"
+            android:text="@{`(` + size + `/15)`}"
             android:textAppearance="@style/Body0_SB_16"
             android:textColor="@color/GY_04"
             app:layout_constraintEnd_toEndOf="parent"
@@ -127,7 +132,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="385dp"
-            android:paddingHorizontal="14dp"
+            android:paddingHorizontal="4dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"

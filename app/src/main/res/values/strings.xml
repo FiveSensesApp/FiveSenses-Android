@@ -102,6 +102,10 @@
     <string name="action_start">시작하기</string>
     <string name="action_all_agree">전체동의</string>
     <string name="action_confirm_complete">확인 완료</string>
+    <string name="action_set_representative_badge">대표 뱃지로 설정</string>
+    <string name="action_save_image">이미지 저장</string>
+    <string name="action_record">기록 쓰러가기</string>
+    <string name="action_leave_review">리뷰 남기기</string>
 
     <string name="msg_logout">정말 로그아웃 하시겠습니까?</string>
     <string name="msg_really_withdrawal">정말 탈퇴하실 건가요?</string>

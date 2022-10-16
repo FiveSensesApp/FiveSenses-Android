@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="badge"
+            type="com.mangpo.domain.model.getUserBadgesByUser.GetUserBadgesByUserResEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.BadgeInfoBottomSheetFragment">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@{badge.name}"
+            android:textAppearance="@style/Head_B_20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/badge_info_condition_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:layout_marginTop="48dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@{badge.reqConditionShort}"
+            android:textAppearance="@style/Body2_R_12"
+            android:textColor="@color/GY_04"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            svg="@{badge.imgUrl}"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginVertical="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/badge_info_description_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/badge_info_condition_tv" />
+
+        <TextView
+            android:id="@+id/badge_info_description_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="21dp"
+            android:layout_marginBottom="86dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@{badge.description}"
+            android:textAppearance="@style/Body1_M_14"
+            android:textColor="@color/GY_04"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="161dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="31dp"
+            android:layout_marginBottom="22dp"
+            android:background="@drawable/bg_gy04_22p5"
+            android:text="@string/action_set_representative_badge"
+            android:textAppearance="@style/Sub_Head_B_18"
+            android:textColor="@color/WH"
+            android:visibility="@{badge.before? View.INVISIBLE: View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="124dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="31dp"
+            android:layout_marginBottom="22dp"
+            android:background="@drawable/bg_bk_22p5"
+            android:text="@string/action_save_image"
+            android:textAppearance="@style/Sub_Head_B_18"
+            android:textColor="@color/WH"
+            android:visibility="@{badge.before? View.INVISIBLE: View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="161dp"
+            android:layout_height="44dp"
+            android:layout_marginBottom="22dp"
+            android:background="@drawable/bg_bk_22p5"
+            android:text="@{badge.seqNum==3? @string/action_leave_review: @string/action_record}"
+            android:textAppearance="@style/Sub_Head_B_18"
+            android:textColor="@color/WH"
+            android:visibility="@{badge.before? View.VISIBLE: View.INVISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

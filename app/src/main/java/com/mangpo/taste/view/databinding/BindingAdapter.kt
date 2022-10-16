@@ -52,3 +52,17 @@ fun setSvg(view: ImageView, svg: String?, defaultDrawable: Drawable?) {
             .load(Uri.parse(svg), view)
     }
 }
+
+@BindingAdapter("width")
+fun setWidth(view: View, width: Int) {
+    val params = view.layoutParams
+    params.width = width
+    view.layoutParams = params
+}
+
+@BindingAdapter("height")
+fun setHeight(view: View, height: Int) {
+    val params = view.layoutParams
+    params.height = height
+    view.layoutParams = params
+}

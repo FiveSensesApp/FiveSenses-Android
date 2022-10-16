@@ -6,18 +6,30 @@
         <variable
             name="badge"
             type="com.mangpo.domain.model.getUserBadgesByUser.GetUserBadgesByUserResEntity" />
+
+        <variable
+            name="size"
+            type="Integer" />
+
+        <variable
+            name="viewHolder"
+            type="com.mangpo.taste.view.adpater.BadgeRVAdapter.BadgeViewHolder" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="@{() -> viewHolder.click(badge)}"
         android:paddingBottom="27dp">
 
         <ImageView
             android:id="@+id/badge_item_iv"
+            height="@{size}"
             svg="@{badge.imgUrl}"
-            android:layout_width="82dp"
-            android:layout_height="82dp"
+            width="@{size}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
