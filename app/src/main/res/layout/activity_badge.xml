@@ -65,7 +65,7 @@
             android:layout_marginTop="216dp"
             android:gravity="center"
             android:includeFontPadding="false"
-            android:text="@{representativeBadge==null? @string/msg_empty: representativeBadge.name}"
+            android:text="@{representativeBadge==null? ` ` + @string/msg_empty: ` ` + representativeBadge.name}"
             android:textAppearance="@style/Sub_Head_B_16"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/badge_representative_badge_title_tv"
