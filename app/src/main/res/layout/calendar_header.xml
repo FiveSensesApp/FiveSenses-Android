@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:src="@drawable/ic_left_arrow_44"
+        android:src="@drawable/ic_left_arrow_gy04_44"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,7 +28,7 @@
         android:id="@+id/calendar_header_right_arrow_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_right_arrow_44"
+        android:src="@drawable/ic_right_arrow_gy04_44"
         app:layout_constraintBottom_toBottomOf="@+id/calendar_header_left_arrow_iv"
         app:layout_constraintStart_toEndOf="@+id/calendar_header_year_month_tv"
         app:layout_constraintTop_toTopOf="@+id/calendar_header_left_arrow_iv" />
