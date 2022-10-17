@@ -15,6 +15,7 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.android.material.tabs.TabLayoutMediator
+import com.mangpo.domain.model.getStat.MonthlyCategoryEntity
 import com.mangpo.domain.model.getUserBadgesByUser.GetUserBadgesByUserResEntity
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
@@ -22,6 +23,7 @@ import com.mangpo.taste.databinding.FragmentAnalysisBinding
 import com.mangpo.taste.util.SpfUtils
 import com.mangpo.taste.view.adpater.NumOfRecordsTrendVPAdapter
 import com.mangpo.taste.view.model.AnalysisUserInfo
+import com.mangpo.taste.view.model.MonthlyCategory
 import com.mangpo.taste.view.model.PercentageOfCategory
 import com.mangpo.taste.viewmodel.AnalysisViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -110,6 +112,9 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
                 fragment2.arguments = bundle2
 
                 numOfRecordsTrendVPAdapter.setFragments(mutableListOf(fragment1, fragment2))
+
+                binding.monthlyCategoryMain = mapperToMonthlyCategory(true, it.monthlyCategoryEntities[0])
+                drawMonthlyCategories(it.monthlyCategoryEntities, it.monthlyCategoryEntities[0])
             }
         })
 
@@ -164,6 +169,55 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
         }
     }
 
+    private fun drawMonthlyCategories(monthlyCategoryEntities: List<MonthlyCategoryEntity>, firstMonthlyCategoryEntity: MonthlyCategoryEntity) {
+        val firstIndex = monthlyCategoryEntities.indexOf(firstMonthlyCategoryEntity)
+        var leftArrowEnableStatus: Boolean = true
+        var rightArrowEnableStatus: Boolean = true
+
+        if (firstIndex + 3 < monthlyCategoryEntities.size) {
+            leftArrowEnableStatus = true
+            rightArrowEnableStatus = firstIndex != 0
+
+        } else {
+            leftArrowEnableStatus = false
+            rightArrowEnableStatus = firstIndex != 0
+        }
+
+        val monthlyCategories: MutableList<MonthlyCategory> = mutableListOf()
+        for (i in firstIndex until firstIndex + 3) {
+            if (i<=monthlyCategoryEntities.lastIndex) {
+                monthlyCategories.add(mapperToMonthlyCategory(false, monthlyCategoryEntities[i]))
+            }
+        }
+
+        binding.apply {
+            this.monthlyCategories = monthlyCategories
+            this.monthlyCategoryCurrentIndex = firstIndex
+            this.leftArrowEnableStatus = leftArrowEnableStatus
+            this.rightArrowEnableStatus = rightArrowEnableStatus
+        }
+    }
+
+    private fun mapperToMonthlyCategory(isMain: Boolean, monthlyCategoryEntity: MonthlyCategoryEntity): MonthlyCategory {
+        if (isMain) {
+            return when (monthlyCategoryEntity.category) {
+                getString(R.string.title_sight) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_sight)!!, monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.RD_2), monthlyCategoryEntity.category)
+                getString(R.string.title_ear) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_ear)!!, monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.BU_2), monthlyCategoryEntity.category)
+                getString(R.string.title_touch) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_touch)!!, monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.PU_2), monthlyCategoryEntity.category)
+                getString(R.string.title_smell) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_smell)!!, monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.GN_3), monthlyCategoryEntity.category)
+                else -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_taste)!!, monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.YE_2), monthlyCategoryEntity.category)
+            }
+        } else {
+            return when (monthlyCategoryEntity.category) {
+                getString(R.string.title_sight) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_sight)!!, monthlyCategoryEntity.month)
+                getString(R.string.title_ear) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_ear)!!, monthlyCategoryEntity.month)
+                getString(R.string.title_touch) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_touch)!!, monthlyCategoryEntity.month)
+                getString(R.string.title_smell) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_smell)!!, monthlyCategoryEntity.month)
+                else -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_taste)!!, monthlyCategoryEntity.month)
+            }
+        }
+    }
+
     inner class MyXAxisFormatter() : ValueFormatter(){
         override fun getFormattedValue(value: Float): String {
             return "${value.toInt()}%"!!
@@ -181,5 +235,13 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
     fun goBadgeActivity(representativeBadge: GetUserBadgesByUserResEntity?) {
         val action = AnalysisFragmentDirections.actionAnalysisFragmentToBadgeActivity(representativeBadge, analysisVm.getBadges().toTypedArray())
         findNavController().navigate(action)
+    }
+
+    fun clickedAtLeftArrowIb(monthlyCategoryEntities: List<MonthlyCategoryEntity>, index: Int) {
+        drawMonthlyCategories(monthlyCategoryEntities, monthlyCategoryEntities[index+3])
+    }
+
+    fun clickedAtRightArrowIb(monthlyCategoryEntities: List<MonthlyCategoryEntity>, index: Int) {
+        drawMonthlyCategories(monthlyCategoryEntities, monthlyCategoryEntities[index-3])
     }
 }

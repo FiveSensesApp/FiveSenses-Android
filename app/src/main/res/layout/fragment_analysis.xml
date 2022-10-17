@@ -5,6 +5,8 @@
 
         <import type="android.view.View" />
 
+        <import type="java.util.List" />
+
         <variable
             name="fragment"
             type="com.mangpo.taste.view.AnalysisFragment" />
@@ -24,6 +26,26 @@
         <variable
             name="stat"
             type="com.mangpo.domain.model.getStat.GetStatResEntity" />
+
+        <variable
+            name="monthlyCategoryMain"
+            type="com.mangpo.taste.view.model.MonthlyCategory" />
+
+        <variable
+            name="monthlyCategories"
+            type="List&lt;com.mangpo.taste.view.model.MonthlyCategory&gt;" />
+
+        <variable
+            name="leftArrowEnableStatus"
+            type="Boolean" />
+
+        <variable
+            name="rightArrowEnableStatus"
+            type="Boolean" />
+
+        <variable
+            name="monthlyCategoryCurrentIndex"
+            type="Integer" />
     </data>
 
     <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -175,8 +197,8 @@
                     android:layout_marginTop="6dp"
                     android:layout_marginEnd="2dp"
                     android:background="@null"
-                    android:src="@drawable/ic_right_arrow_44"
                     android:onClick="@{() -> fragment.goBadgeActivity(vm.representativeBadge)}"
+                    android:src="@drawable/ic_right_arrow_gy04_44"
                     app:layout_constraintEnd_toEndOf="@+id/analysis_badge_view"
                     app:layout_constraintTop_toTopOf="@+id/analysis_badge_view" />
 
@@ -634,6 +656,7 @@
                     android:layout_height="134dp"
                     android:layout_marginHorizontal="37dp"
                     android:layout_marginTop="75dp"
+                    android:src="@{monthlyCategoryMain.character}"
                     android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -643,7 +666,9 @@
                     android:layout_marginTop="216dp"
                     android:gravity="center"
                     android:includeFontPadding="false"
+                    android:text="@{monthlyCategoryMain.sense + ` |`}"
                     android:textAppearance="@style/Sub_Head_B_14"
+                    android:textColor="@{monthlyCategoryMain.textColor}"
                     android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -664,7 +689,10 @@
                     android:layout_marginStart="3dp"
                     android:layout_marginBottom="58dp"
                     android:background="@null"
-                    android:src="@drawable/ic_left_arrow_44"
+                    android:clickable="@{leftArrowEnableStatus}"
+                    android:onClick="@{() -> fragment.clickedAtLeftArrowIb(stat.monthlyCategoryEntities, monthlyCategoryCurrentIndex)}"
+                    android:src="@{leftArrowEnableStatus? @drawable/ic_left_arrow_gy04_44: @drawable/ic_left_arrow_gy02_44}"
+                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -674,7 +702,7 @@
                     android:layout_height="76dp"
                     android:layout_marginStart="52dp"
                     android:layout_marginBottom="42dp"
-                    android:background="@drawable/bg_gy01_8"
+                    android:src="@{monthlyCategories.size()&lt;=2? @drawable/bg_gy01_8: monthlyCategories[2].character}"
                     android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/analysis_sense_of_month_card_iv2"
@@ -686,7 +714,7 @@
                     android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:includeFontPadding="false"
-                    android:text="-"
+                    android:text="@{monthlyCategories.size()&lt;=2? `-`: monthlyCategories[2].month}"
                     android:textAppearance="@style/Sub_Head_B_14"
                     android:textColor="@color/GY_04"
                     android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
@@ -699,7 +727,7 @@
                     android:layout_width="63dp"
                     android:layout_height="76dp"
                     android:layout_marginBottom="42dp"
-                    android:background="@drawable/bg_gy01_8"
+                    android:src="@{monthlyCategories.size()&lt;=1? @drawable/bg_gy01_8: monthlyCategories[1].character}"
                     android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/analysis_sense_of_month_card_iv3"
@@ -711,7 +739,7 @@
                     android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:includeFontPadding="false"
-                    android:text="-"
+                    android:text="@{monthlyCategories.size()&lt;=1? `-`: monthlyCategories[1].month}"
                     android:textAppearance="@style/Sub_Head_B_14"
                     android:textColor="@color/GY_04"
                     android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
@@ -725,7 +753,7 @@
                     android:layout_height="76dp"
                     android:layout_marginEnd="52dp"
                     android:layout_marginBottom="42dp"
-                    android:background="@drawable/bg_gy01_8"
+                    android:src="@{monthlyCategories.size()==0? @drawable/bg_gy01_8: monthlyCategories[0].character}"
                     android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -737,7 +765,7 @@
                     android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:includeFontPadding="false"
-                    android:text="-"
+                    android:text="@{monthlyCategories.size()==0? `-`: monthlyCategories[0].month}"
                     android:textAppearance="@style/Sub_Head_B_14"
                     android:textColor="@color/GY_04"
                     android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
@@ -751,7 +779,10 @@
                     android:layout_marginEnd="3dp"
                     android:layout_marginBottom="58dp"
                     android:background="@null"
-                    android:src="@drawable/ic_right_arrow_44"
+                    android:clickable="@{rightArrowEnableStatus}"
+                    android:onClick="@{() -> fragment.clickedAtRightArrowIb(stat.monthlyCategoryEntities, monthlyCategoryCurrentIndex)}"
+                    android:src="@{rightArrowEnableStatus? @drawable/ic_right_arrow_gy04_44: @drawable/ic_right_arrow_gy02_44}"
+                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 
