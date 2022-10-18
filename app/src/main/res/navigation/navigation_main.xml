@@ -38,13 +38,5 @@
     <activity
         android:id="@+id/badgeActivity"
         android:name="com.mangpo.taste.view.BadgeActivity"
-        android:label="BadgeActivity">
-        <argument
-            android:name="representativeBadge"
-            app:argType="com.mangpo.domain.model.getUserBadgesByUser.GetUserBadgesByUserResEntity"
-            app:nullable="true" />
-        <argument
-            android:name="badges"
-            app:argType="com.mangpo.domain.model.getUserBadgesByUser.GetUserBadgesByUserResEntity[]" />
-    </activity>
+        android:label="BadgeActivity" />
 </navigation>

@@ -1,11 +1,15 @@
 package com.mangpo.taste.view
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -26,13 +30,16 @@ import com.mangpo.taste.view.model.AnalysisUserInfo
 import com.mangpo.taste.view.model.MonthlyCategory
 import com.mangpo.taste.view.model.PercentageOfCategory
 import com.mangpo.taste.viewmodel.AnalysisViewModel
+import com.mangpo.taste.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisBinding::inflate) {
     private val analysisVm: AnalysisViewModel by viewModels()
+    private val mainVm: MainViewModel by activityViewModels()
 
     private lateinit var numOfRecordsTrendVPAdapter: NumOfRecordsTrendVPAdapter
+    private lateinit var activityResultLauncher : ActivityResultLauncher<Intent>
 
     lateinit var userInfo: AnalysisUserInfo
 
@@ -45,6 +52,7 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
             lifecycleOwner = viewLifecycleOwner
         }
 
+        initActivityResultLaunch()
         initTabLayout()
         observe()
 
@@ -57,6 +65,14 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
         legend.orientation = Legend.LegendOrientation.HORIZONTAL
 
         binding.userInfo = AnalysisUserInfo(SpfUtils.getStrSpf("nickname")!!, SpfUtils.getStrEncryptedSpf("email")!!, SpfUtils.getIntSpf("startDayCnt")!!, SpfUtils.getStrSpf("badgeRepresent"))
+    }
+
+    private fun initActivityResultLaunch() {
+        activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            val returnValue = it.data?.getBooleanExtra("goRecord", false)
+            if (returnValue!=null)
+                mainVm.setIsTasteRecordShown(returnValue)
+        }
     }
 
     private fun initTabLayout() {
@@ -233,8 +249,10 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
     }
 
     fun goBadgeActivity(representativeBadge: GetUserBadgesByUserResEntity?) {
-        val action = AnalysisFragmentDirections.actionAnalysisFragmentToBadgeActivity(representativeBadge, analysisVm.getBadges().toTypedArray())
-        findNavController().navigate(action)
+        val intent: Intent = Intent(requireContext(), BadgeActivity::class.java)
+        intent.putExtra("representativeBadge", representativeBadge)
+        intent.putExtra("badges", analysisVm.getBadges().toTypedArray())
+        activityResultLauncher.launch(intent)
     }
 
     fun clickedAtLeftArrowIb(monthlyCategoryEntities: List<MonthlyCategoryEntity>, index: Int) {

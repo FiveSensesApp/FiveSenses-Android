@@ -12,7 +12,12 @@ import com.mangpo.taste.databinding.FragmentBadgeInfoBottomSheetBinding
 import com.mangpo.taste.util.BottomSheetDialogUtils
 
 class BadgeInfoBottomSheetFragment : BottomSheetDialogFragment() {
+    interface EventListener {
+        fun goRecord()
+    }
+
     private lateinit var binding: FragmentBadgeInfoBottomSheetBinding
+    private lateinit var eventListener: EventListener
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
@@ -38,9 +43,24 @@ class BadgeInfoBottomSheetFragment : BottomSheetDialogFragment() {
     ): View? {
         binding = FragmentBadgeInfoBottomSheetBinding.inflate(inflater, container, false)
         binding.apply {
+            fragment = this@BadgeInfoBottomSheetFragment
             badge = arguments?.getParcelable("badge")
         }
 
         return binding.root
+    }
+
+    fun setEventListener(eventListener: EventListener) {
+        this.eventListener = eventListener
+    }
+
+    fun clickedBtnAfter(seqNum: Int) {
+        dismiss()
+
+        if (seqNum==3) {
+
+        } else {
+            eventListener.goRecord()
+        }
     }
 }
