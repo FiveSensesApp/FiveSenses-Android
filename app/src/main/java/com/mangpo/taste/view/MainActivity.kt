@@ -12,7 +12,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseActivity
 import com.mangpo.taste.databinding.ActivityMainBinding
-import com.mangpo.taste.util.SpfUtils
 import com.mangpo.taste.util.SpfUtils.clear
 import com.mangpo.taste.util.SpfUtils.getIntEncryptedSpf
 import com.mangpo.taste.util.SpfUtils.writeSpf
@@ -121,5 +120,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     fun setRecordFcvTopMargin(margin: Int) {
         recordFcvMarginTop = margin
         binding.invalidateAll()
+    }
+
+    fun changeNavigationMenu(menuId: Int) {
+        binding.mainBnv.selectedItemId = menuId
     }
 }

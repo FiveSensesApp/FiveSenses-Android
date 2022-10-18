@@ -122,6 +122,7 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
                 findNavController().popBackStack()  //뒤로 가기 -> 다시 기록하기 Bottom Sheet 가 올라왔을 때 OgamSelectFragment 가 보일 수 있도록 뒤로 가놓기
 
                 if (isComplete) {   //기록 완료 -> 보관함 가기
+                    (requireActivity() as MainActivity).changeNavigationMenu(R.id.feedFragment) //네비게이션 메뉴를 FeedFragment 로
                     mainVm.setIsTasteRecordShown(false) //TasteRecordFragment 닫기
                 }
 
