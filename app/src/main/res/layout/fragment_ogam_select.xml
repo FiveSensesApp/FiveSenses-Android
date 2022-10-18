@@ -198,7 +198,7 @@
                 android:id="@+id/ogam_select_touch_touch_cl"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:onClick="@{() -> fragment.goRecordFragment(R.string.title_taste)}"
+                android:onClick="@{() -> fragment.goRecordFragment(R.string.title_touch)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/ogam_select_question_touch_cl"
                 app:layout_constraintStart_toEndOf="@+id/ogam_select_taste_touch_cl"
