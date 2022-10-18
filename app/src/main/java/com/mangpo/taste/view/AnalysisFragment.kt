@@ -25,6 +25,7 @@ import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentAnalysisBinding
 import com.mangpo.taste.util.SpfUtils
+import com.mangpo.taste.view.adpater.AnalysisBannerVPAdapter
 import com.mangpo.taste.view.adpater.NumOfRecordsTrendVPAdapter
 import com.mangpo.taste.view.model.AnalysisUserInfo
 import com.mangpo.taste.view.model.MonthlyCategory
@@ -40,6 +41,7 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
 
     private lateinit var numOfRecordsTrendVPAdapter: NumOfRecordsTrendVPAdapter
     private lateinit var activityResultLauncher : ActivityResultLauncher<Intent>
+    private lateinit var bannerVPAdapter: AnalysisBannerVPAdapter
 
     lateinit var userInfo: AnalysisUserInfo
 
@@ -54,6 +56,7 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
 
         initActivityResultLaunch()
         initTabLayout()
+        initVPAdapter()
         observe()
 
         analysisVm.getBadges(SpfUtils.getIntEncryptedSpf("userId"))
@@ -83,6 +86,11 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
         TabLayoutMediator(binding.analysisTl, binding.analysisVp) { tab, position ->
             tab.text = tabTitles[position]
         }.attach()
+    }
+
+    private fun initVPAdapter() {
+        bannerVPAdapter = AnalysisBannerVPAdapter(this)
+        binding.analysisBannerVp.adapter = bannerVPAdapter
     }
 
     private fun observe() {
