@@ -45,6 +45,9 @@
         <action
             android:id="@+id/action_settingFragment_to_loginActivity"
             app:destination="@id/loginActivity" />
+        <action
+            android:id="@+id/action_settingFragment_to_supportActivity"
+            app:destination="@id/supportActivity" />
     </fragment>
     <fragment
         android:id="@+id/pwResettingFragment"
@@ -56,4 +59,8 @@
         android:name="com.mangpo.taste.view.OpenSourceFragment"
         android:label="fragment_open_source"
         tools:layout="@layout/fragment_open_source" />
+    <activity
+        android:id="@+id/supportActivity"
+        android:name="com.mangpo.taste.view.SupportActivity"
+        android:label="SupportActivity" />
 </navigation>

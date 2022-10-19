@@ -81,6 +81,9 @@
     <string name="title_representative_badge">대표 뱃지 |</string>
     <string name="title_private_policy_terms">개인정보 수집 및 이용약관</string>
     <string name="title_consenting_marketing_information">마케팅 정보 수신동의</string>
+    <string name="title_supporters">텀블벅 후원해주신 분들</string>
+    <string name="title_funding_to_launch">펀딩부터 출시까지</string>
+    <string name="title_thanks_to">Thanks to -</string>
 
     <string name="action_logout">로그아웃</string>
     <string name="action_withdrawal">계정 탈퇴</string>
@@ -168,6 +171,7 @@
     <string name="msg_empty">비어있어요</string>
     <string name="msg_setup_signature_badge">취향을 기록해 대표 뱃지를 설정해보세요!</string>
     <string name="msg_acquisition_conditions_in_advance">획득 조건은 미리 볼 수 있어요.</string>
+    <string name="msg_thanks">떡잎부터 알아봐주신 여러분 덕분에\n‘오감’이 세상 밖으로 나올 수 있었습니다!</string>
 
     <string name="error_check_old_pw">기존 비밀번호를 확인해주세요.</string>
     <string name="error_not_match_pw">비밀번호가 일치하지 않습니다!</string>

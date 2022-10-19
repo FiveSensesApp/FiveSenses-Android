@@ -113,6 +113,11 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
             findNavController().navigate(R.id.action_settingFragment_to_openSourceFragment)
         }
 
+        //후원자 목록 텍스트뷰 클릭 리스너
+        binding.settingSupportView.setOnClickListener {
+            findNavController().navigate(R.id.action_settingFragment_to_supportActivity)
+        }
+
         //로그아웃 텍스트뷰 클릭리스너
         binding.settingLogoutTv.setOnClickListener {
             dialogType = 0

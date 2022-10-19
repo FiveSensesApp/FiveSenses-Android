@@ -249,6 +249,43 @@
                 app:layout_constraintEnd_toEndOf="@+id/setting_info_view"
                 app:layout_constraintStart_toStartOf="@+id/setting_info_view" />
 
+            <View
+                android:id="@+id/setting_support_view"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/bg_rd2_12"
+                app:layout_constraintTop_toBottomOf="@+id/setting_communication_view" />
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginStart="22dp"
+                android:src="@drawable/ic_sight_character_wh_22"
+                app:layout_constraintBottom_toBottomOf="@+id/setting_support_view"
+                app:layout_constraintStart_toStartOf="@+id/setting_support_view"
+                app:layout_constraintTop_toTopOf="@+id/setting_support_view" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:text="@string/title_supporters"
+                android:textAppearance="@style/Sub_Head_B_18"
+                android:textColor="@color/WH"
+                app:layout_constraintBottom_toBottomOf="@+id/setting_support_view"
+                app:layout_constraintStart_toStartOf="@+id/setting_support_view"
+                app:layout_constraintTop_toTopOf="@+id/setting_support_view" />
+
+            <ImageView
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                android:layout_marginEnd="18dp"
+                android:src="@drawable/ic_right_arrow_wh_33"
+                app:layout_constraintBottom_toBottomOf="@+id/setting_support_view"
+                app:layout_constraintEnd_toEndOf="@+id/setting_support_view"
+                app:layout_constraintTop_toTopOf="@+id/setting_support_view" />
+
             <TextView
                 android:id="@+id/setting_logout_tv"
                 android:layout_width="match_parent"
@@ -258,7 +295,7 @@
                 android:paddingVertical="13dp"
                 android:text="@string/action_logout"
                 android:textAppearance="@style/Body1_M_16"
-                app:layout_constraintTop_toBottomOf="@+id/setting_communication_view" />
+                app:layout_constraintTop_toBottomOf="@+id/setting_support_view" />
 
             <TextView
                 android:id="@+id/setting_withdrawal_tv"
