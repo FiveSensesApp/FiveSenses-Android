@@ -79,6 +79,8 @@
     <string name="title_etc">기타</string>
     <string name="title_nickname_update">닉네임 수정</string>
     <string name="title_representative_badge">대표 뱃지 |</string>
+    <string name="title_private_policy_terms">개인정보 수집 및 이용약관</string>
+    <string name="title_consenting_marketing_information">마케팅 정보 수신동의</string>
 
     <string name="action_logout">로그아웃</string>
     <string name="action_withdrawal">계정 탈퇴</string>

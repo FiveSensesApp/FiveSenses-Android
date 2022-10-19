@@ -3,9 +3,8 @@ package com.mangpo.taste.view
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseActivity
 import com.mangpo.taste.databinding.ActivityPolicyBinding
+import com.mangpo.taste.util.readTxtFile
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.IOException
-import java.io.InputStream
 
 @AndroidEntryPoint
 class PolicyActivity : BaseActivity<ActivityPolicyBinding>(ActivityPolicyBinding::inflate) {
@@ -25,14 +24,8 @@ class PolicyActivity : BaseActivity<ActivityPolicyBinding>(ActivityPolicyBinding
     }
 
     private fun setText(raw: Int) {
-        try {
-            val inputStream: InputStream = resources.openRawResource(raw)
-            val b = ByteArray(inputStream.available())
-            inputStream.read(b)
-
-            binding.policyContentTv.text = String(b)
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
+        val text = readTxtFile(baseContext, raw)
+        if (text!=null)
+            binding.policyContentTv.text = text
     }
 }

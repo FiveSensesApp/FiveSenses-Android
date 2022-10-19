@@ -36,7 +36,7 @@
         android:gravity="center_vertical"
         android:paddingStart="17dp"
         android:paddingEnd="10dp"
-        android:text="@string/title_terms_of_service"
+        android:text="@string/title_ogam_terms"
         android:textAppearance="@style/Sub_Head_B_18"
         app:layout_constraintTop_toBottomOf="@+id/terms_terms_tv" />
 
@@ -59,8 +59,31 @@
         android:gravity="center_vertical"
         android:paddingStart="17dp"
         android:paddingEnd="10dp"
-        android:text="@string/title_privacy_policy"
+        android:text="@string/title_private_policy_terms"
         android:textAppearance="@style/Sub_Head_B_18"
         app:layout_constraintTop_toBottomOf="@+id/terms_line_view" />
+
+    <View
+        android:id="@+id/terms_line_view2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="9dp"
+        android:background="@color/GY_02"
+        app:layout_constraintTop_toBottomOf="@+id/terms_privacy_policy_tv" />
+
+    <TextView
+        android:id="@+id/title_consenting_marketing_information"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="29dp"
+        android:layout_marginTop="9dp"
+        android:drawableEnd="@drawable/ic_ingress_30"
+        android:gravity="center_vertical"
+        android:paddingStart="17dp"
+        android:paddingEnd="10dp"
+        android:text="@string/title_private_policy_terms"
+        android:textAppearance="@style/Sub_Head_B_18"
+        app:layout_constraintTop_toBottomOf="@+id/terms_line_view2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

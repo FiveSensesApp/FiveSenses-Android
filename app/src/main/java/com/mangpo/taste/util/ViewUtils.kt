@@ -20,6 +20,8 @@ import androidx.navigation.fragment.findNavController
 import com.mangpo.taste.R
 import com.willy.ratingbar.BaseRatingBar
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
+import java.io.IOException
+import java.io.InputStream
 import kotlin.math.roundToInt
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
@@ -84,3 +86,16 @@ fun Activity.setKeyboardVisibilityEvent(iv: ImageView, btn: AppCompatButton) {
 }
 
 fun matchRegex(text: String, regex: Regex): Boolean = text.matches(regex)
+
+fun readTxtFile(context: Context, raw: Int): String? {
+    return try {
+        val inputStream: InputStream = context.resources.openRawResource(raw)
+        val b = ByteArray(inputStream.available())
+        inputStream.read(b)
+
+        String(b)
+    } catch (e: IOException) {
+        e.printStackTrace()
+        null
+    }
+}

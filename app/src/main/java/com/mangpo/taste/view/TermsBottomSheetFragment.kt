@@ -11,6 +11,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mangpo.taste.R
 import com.mangpo.taste.databinding.FragmentTermsBottomSheetBinding
 import com.mangpo.taste.util.BottomSheetDialogUtils
+import com.mangpo.taste.util.readTxtFile
 
 class TermsBottomSheetFragment : BottomSheetDialogFragment() {
     private val args: TermsBottomSheetFragmentArgs by navArgs()
@@ -35,10 +36,20 @@ class TermsBottomSheetFragment : BottomSheetDialogFragment() {
     ): View? {
         binding = FragmentTermsBottomSheetBinding.inflate(inflater, container, false)
 
-        if (args.type==0)   //서비스 이용약관
-            binding.termsTermsTitleTv.text = getString(R.string.title_terms_of_service)
-        else    //개인정보 처리 방침
-            binding.termsTermsTitleTv.text = getString(R.string.title_privacy_policy)
+        when (args.type) {
+            0 -> {
+                binding.termsTermsTitleTv.text = getString(R.string.title_ogam_terms)
+                setText(R.raw.terms_and_conditions)
+            }
+            1 -> {
+                binding.termsTermsTitleTv.text = getString(R.string.title_private_policy_terms)
+                setText(R.raw.privacy_policy)
+            }
+            2 -> {
+                binding.termsTermsTitleTv.text = getString(R.string.title_private_policy_terms)
+                setText(R.raw.receive_marketing_information)
+            }
+        }
 
         setMyEventListener()
 
@@ -55,5 +66,11 @@ class TermsBottomSheetFragment : BottomSheetDialogFragment() {
         binding.termsCloseIv.setOnClickListener {
             dismiss()
         }
+    }
+
+    private fun setText(raw: Int) {
+        val text = readTxtFile(requireContext(), raw)
+        if (text!=null)
+            binding.termsTermsContentTv.text = text
     }
 }

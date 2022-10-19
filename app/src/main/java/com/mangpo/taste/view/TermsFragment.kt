@@ -26,5 +26,11 @@ class TermsFragment : BaseFragment<FragmentTermsBinding>(FragmentTermsBinding::i
             val action = TermsFragmentDirections.actionTermsFragmentToTermsBottomSheetFragment(1)
             findNavController().navigate(action)
         }
+
+        //마케팅 정보 수신동의 텍스트뷰 클릭 리스너
+        binding.titleConsentingMarketingInformation.setOnClickListener {
+            val action = TermsFragmentDirections.actionTermsFragmentToTermsBottomSheetFragment(2)
+            findNavController().navigate(action)
+        }
     }
 }
