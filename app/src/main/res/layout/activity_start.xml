@@ -49,7 +49,8 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:src="@drawable/ic_start_ogam"
+            android:layout_margin="20dp"
+            android:src="@drawable/ic_characters_big"
             app:layout_constraintBottom_toTopOf="@+id/start_start_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
