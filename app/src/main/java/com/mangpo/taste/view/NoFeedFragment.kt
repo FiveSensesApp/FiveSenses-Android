@@ -1,5 +1,7 @@
 package com.mangpo.taste.view
 
+import android.content.Intent
+import android.net.Uri
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
@@ -12,6 +14,7 @@ import com.mangpo.taste.databinding.FragmentNoFeedBinding
 import com.mangpo.taste.util.SpfUtils.getStrSpf
 import com.mangpo.taste.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class NoFeedFragment : BaseFragment<FragmentNoFeedBinding>(FragmentNoFeedBinding::inflate) {
@@ -34,10 +37,12 @@ class NoFeedFragment : BaseFragment<FragmentNoFeedBinding>(FragmentNoFeedBinding
     private fun setMyEventListener() {
         //가이드 버튼 클릭 리스너
         binding.noFeedHowToUseBtn.setOnClickListener {
-            /*//가이드 노션 페이지로 이동(나중에)
-            it.visibility = View.INVISIBLE  //visibility 를 INVISIBLE
+            /*it.visibility = View.INVISIBLE  //visibility 를 INVISIBLE
             //클릭 여부를 SharedPreferences 에 저장하기
             SpfUtils.writeSpf("isGuideClicked", true)*/
+            //가이드 노션 페이지로 이동(나중에)
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.notion.so/5gaam/5gaam-3b45d6083ad044ab869f0df6378933de"))
+            startActivity(intent)
         }
     }
 
