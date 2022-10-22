@@ -1,6 +1,7 @@
 package com.mangpo.data.datasource
 
 import com.mangpo.data.model.base.BaseResDTO
+import com.mangpo.data.model.changePassword.ChangePasswordReqDTO
 import com.mangpo.data.model.getUserInfo.GetUserInfoResDTO
 import com.mangpo.data.model.updateUser.UpdateUserReqDTO
 import com.mangpo.data.model.validateDuplicate.ValidateDuplicateReqDTO
@@ -30,5 +31,9 @@ class UserRemoteDataSourceImpl @Inject constructor(private val service: UserServ
 
     override suspend fun updateUser(updateUserReqDTO: UpdateUserReqDTO): BaseResDTO<Nothing> {
         return callApi { service.updateUser(updateUserReqDTO.userId, updateUserReqDTO) }
+    }
+
+    override suspend fun changePassword(changePasswordReqDTO: ChangePasswordReqDTO): BaseResDTO<Nothing> {
+        return callApi { service.changePassword(changePasswordReqDTO) }
     }
 }

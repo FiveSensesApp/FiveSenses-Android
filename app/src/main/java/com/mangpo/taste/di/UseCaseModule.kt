@@ -94,4 +94,9 @@ class UseCaseModule {
     fun provideGetUserBadgesByUserUseCase (badgeRepository: BadgeRepository): GetUserBadgesByUserUseCase {
         return GetUserBadgesByUserUseCase(badgeRepository)
     }
+
+    @Provides
+    fun provideChangePasswordUseCase (userRepository: UserRepository): ChangePasswordUseCase {
+        return ChangePasswordUseCase(userRepository)
+    }
 }
