@@ -71,8 +71,8 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
             }
 
             override fun complete(time: String) {
-                val updateUserReqEntity = UpdateUserReqEntity(time, SpfUtils.getBooleanSpf("isAlarmOn", false), SpfUtils.getStrSpf("nickname")!!, SpfUtils.getIntEncryptedSpf("userId"))
-                settingVm.updateUser(updateUserReqEntity)
+                /*val updateUserReqEntity = UpdateUserReqEntity(time, SpfUtils.getBooleanSpf("isAlarmOn", false), SpfUtils.getStrSpf("nickname")!!, SpfUtils.getIntEncryptedSpf("userId"))
+                settingVm.updateUser(updateUserReqEntity)*/
             }
         })
     }
@@ -85,8 +85,8 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
 
         //알람 설정 스위치버튼 체크리스너
         binding.settingAlarmSettingSb.setOnCheckedChangeListener { compoundButton, b ->
-            val updateUserReqEntity = UpdateUserReqEntity(binding.settingAlarmTimeTv.text.toString(), b, SpfUtils.getStrSpf("nickname")!!, SpfUtils.getIntEncryptedSpf("userId"))
-            settingVm.updateUser(updateUserReqEntity)
+            /*val updateUserReqEntity = UpdateUserReqEntity(binding.settingAlarmTimeTv.text.toString(), b, SpfUtils.getStrSpf("nickname")!!, SpfUtils.getIntEncryptedSpf("userId"))
+            settingVm.updateUser(updateUserReqEntity)*/
         }
 
         //알람 시간 텍스트뷰 클릭 리스너

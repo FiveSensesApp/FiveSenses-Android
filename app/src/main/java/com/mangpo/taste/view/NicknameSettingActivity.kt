@@ -69,7 +69,11 @@ class NicknameSettingActivity : BaseActivity<ActivityNicknameSettingBinding>(Act
     fun goNextActivity(nickname: String) {
         createUserReqEntity.nickname = nickname
 
-        val intent = Intent(this, AlarmTimeSettingActivity::class.java)
+        /*val intent = Intent(this, AlarmTimeSettingActivity::class.java)
+        intent.putExtra("newUser", createUserReqEntity)
+        startActivity(intent)*/
+
+        val intent = Intent(this, StartActivity::class.java)
         intent.putExtra("newUser", createUserReqEntity)
         startActivity(intent)
     }

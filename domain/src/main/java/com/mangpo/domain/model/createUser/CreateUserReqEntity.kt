@@ -5,7 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class CreateUserReqEntity(
-    var alarmDate: String = "",
+    var alarmDate: String = "오후 10:00",
     var email: String = "",
     var isAlarmOn: Boolean = false,
     var nickname: String = "",
