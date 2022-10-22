@@ -13,7 +13,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
@@ -43,8 +42,6 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
     private lateinit var activityResultLauncher : ActivityResultLauncher<Intent>
     private lateinit var bannerVPAdapter: AnalysisBannerVPAdapter
 
-    lateinit var userInfo: AnalysisUserInfo
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -53,6 +50,8 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
             vm = analysisVm
             lifecycleOwner = viewLifecycleOwner
         }
+
+        binding.analysisDistributionBySensoryBarGraph2.clipToOutline = true
 
         initActivityResultLaunch()
         initTabLayout()
@@ -64,9 +63,6 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
     }
 
     override fun initAfterBinding() {
-        val legend: Legend = binding.analysisStackedBarchart.legend
-        legend.orientation = Legend.LegendOrientation.HORIZONTAL
-
         binding.userInfo = AnalysisUserInfo(SpfUtils.getStrSpf("nickname")!!, SpfUtils.getStrEncryptedSpf("email")!!, SpfUtils.getIntSpf("startDayCnt")!!, SpfUtils.getStrSpf("badgeRepresent"))
     }
 
@@ -115,12 +111,12 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
 
             if (it.totalPost>=10) {
                 val percentageOfCategories: MutableList<PercentageOfCategory> = arrayListOf()
-                percentageOfCategories.add(PercentageOfCategory(getString(R.string.title_sight), it.percentageOfCategory.SIGHT, ContextCompat.getColor(requireContext(), R.color.RD_2), ContextCompat.getDrawable(requireContext(), R.drawable.ic_sight_character_12)!!))
-                percentageOfCategories.add(PercentageOfCategory(getString(R.string.title_smell), it.percentageOfCategory.SMELL, ContextCompat.getColor(requireContext(), R.color.GN), ContextCompat.getDrawable(requireContext(), R.drawable.ic_smell_character_12)!!))
-                percentageOfCategories.add(PercentageOfCategory(getString(R.string.title_ear), it.percentageOfCategory.HEARING, ContextCompat.getColor(requireContext(), R.color.BU_2), ContextCompat.getDrawable(requireContext(), R.drawable.ic_ear_character_12)!!))
-                percentageOfCategories.add(PercentageOfCategory(getString(R.string.title_taste), it.percentageOfCategory.TASTE, ContextCompat.getColor(requireContext(), R.color.YE_2), ContextCompat.getDrawable(requireContext(), R.drawable.ic_taste_character_12)!!))
-                percentageOfCategories.add(PercentageOfCategory(getString(R.string.title_touch), it.percentageOfCategory.TOUCH, ContextCompat.getColor(requireContext(), R.color.PU_2), ContextCompat.getDrawable(requireContext(), R.drawable.ic_touch_character_12)!!))
-                percentageOfCategories.add(PercentageOfCategory(getString(R.string.title_etc), it.percentageOfCategory.AMBIGUOUS, ContextCompat.getColor(requireContext(), R.color.GY_03), ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_character_12)!!))
+                percentageOfCategories.add(PercentageOfCategory(getString(R.string.title_sight), it.percentageOfCategory.SIGHT, ContextCompat.getColor(requireContext(), R.color.RD), ContextCompat.getDrawable(requireContext(), R.drawable.ic_sight_character_12)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_bar_graph_sight)!!))
+                percentageOfCategories.add(PercentageOfCategory(getString(R.string.title_smell), it.percentageOfCategory.SMELL, ContextCompat.getColor(requireContext(), R.color.GN), ContextCompat.getDrawable(requireContext(), R.drawable.ic_smell_character_12)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_bar_graph_smell)!!))
+                percentageOfCategories.add(PercentageOfCategory(getString(R.string.title_ear), it.percentageOfCategory.HEARING, ContextCompat.getColor(requireContext(), R.color.Shadow_BU), ContextCompat.getDrawable(requireContext(), R.drawable.ic_ear_character_12)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_bar_graph_ear)!!))
+                percentageOfCategories.add(PercentageOfCategory(getString(R.string.title_taste), it.percentageOfCategory.TASTE, ContextCompat.getColor(requireContext(), R.color.YE), ContextCompat.getDrawable(requireContext(), R.drawable.ic_taste_character_12)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_bar_graph_taste)!!))
+                percentageOfCategories.add(PercentageOfCategory(getString(R.string.title_touch), it.percentageOfCategory.TOUCH, ContextCompat.getColor(requireContext(), R.color.Shadow_PU), ContextCompat.getDrawable(requireContext(), R.drawable.ic_touch_character_12)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_bar_graph_touch)!!))
+                percentageOfCategories.add(PercentageOfCategory(getString(R.string.title_etc), it.percentageOfCategory.AMBIGUOUS, ContextCompat.getColor(requireContext(), R.color.GY_04), ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_character_12)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_bar_graph_question)!!))
                 percentageOfCategories.sortByDescending { it.percentage }
                 binding.percentageOfCategory = percentageOfCategories
                 drawStackedBarGraph(percentageOfCategories)
@@ -158,39 +154,6 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
         barData.setValueTextColor(Color.WHITE)
         barData.setValueTextSize(10f)
         barData.setValueTypeface(Typeface.defaultFromStyle(Typeface.BOLD))
-
-        binding.analysisStackedBarchart.data = barData
-
-        initGraph()
-    }
-
-    private fun initGraph() {
-        binding.analysisStackedBarchart.run {
-            setMaxVisibleValueCount(100)
-            setPinchZoom(false) // 핀치줌(두손가락으로 줌인 줌 아웃하는것) 설정
-            setScaleEnabled(false)  // 핀치줌(두손가락으로 줌인 줌 아웃하는것) 설정
-            description.isEnabled = false
-            setTouchEnabled(false)
-            setDrawGridBackground(false)
-            setDrawBarShadow(false)
-            setDrawValueAboveBar(false)
-            isHighlightFullBarEnabled = false
-            //왼쪽 y축
-            axisLeft.run{
-                axisMinimum = 0f // 최소값 0
-                axisMaximum = 100f
-                isEnabled = false
-            }
-            xAxis.isEnabled = false //x축
-            axisRight.isEnabled = false //오른쪽 y축
-            legend.isEnabled = false
-            minOffset = 0f
-
-            /*val roundedBarChartRenderer = RoundedHorizontalBarChartRenderer(this, animator, viewPortHandler)
-            roundedBarChartRenderer.setmRadius(15f)
-            renderer = roundedBarChartRenderer*/
-            invalidate()    //설정한 것들 반영
-        }
     }
 
     private fun drawMonthlyCategories(monthlyCategoryEntities: List<MonthlyCategoryEntity>, firstMonthlyCategoryEntity: MonthlyCategoryEntity) {

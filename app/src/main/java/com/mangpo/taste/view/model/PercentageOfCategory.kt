@@ -6,5 +6,6 @@ data class PercentageOfCategory (
     val sense: String,
     val percentage: Int,
     val color: Int,
-    val character: Drawable
+    val character: Drawable,
+    val graph: Drawable
 )
