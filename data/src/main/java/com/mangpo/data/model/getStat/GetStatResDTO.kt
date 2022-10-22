@@ -5,5 +5,6 @@ data class GetStatResDTO(
     val countByMonthDtoList: List<CountByMonthDTO>,
     val monthlyCategoryDtoList: List<MonthlyCategoryDTO>,
     val percentageOfCategory: PercentageOfCategoryDTO,
+    val cntOfCategory: PercentageOfCategoryDTO,
     val totalPost: Int
 )

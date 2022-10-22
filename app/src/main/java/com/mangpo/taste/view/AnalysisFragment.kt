@@ -111,12 +111,12 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
 
             if (it.totalPost>=10) {
                 val percentageOfCategories: MutableList<PercentageOfCategory> = arrayListOf()
-                percentageOfCategories.add(PercentageOfCategory(getString(R.string.title_sight), it.percentageOfCategory.SIGHT, ContextCompat.getColor(requireContext(), R.color.RD), ContextCompat.getDrawable(requireContext(), R.drawable.ic_sight_character_12)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_bar_graph_sight)!!))
-                percentageOfCategories.add(PercentageOfCategory(getString(R.string.title_smell), it.percentageOfCategory.SMELL, ContextCompat.getColor(requireContext(), R.color.GN), ContextCompat.getDrawable(requireContext(), R.drawable.ic_smell_character_12)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_bar_graph_smell)!!))
-                percentageOfCategories.add(PercentageOfCategory(getString(R.string.title_ear), it.percentageOfCategory.HEARING, ContextCompat.getColor(requireContext(), R.color.Shadow_BU), ContextCompat.getDrawable(requireContext(), R.drawable.ic_ear_character_12)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_bar_graph_ear)!!))
-                percentageOfCategories.add(PercentageOfCategory(getString(R.string.title_taste), it.percentageOfCategory.TASTE, ContextCompat.getColor(requireContext(), R.color.YE), ContextCompat.getDrawable(requireContext(), R.drawable.ic_taste_character_12)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_bar_graph_taste)!!))
-                percentageOfCategories.add(PercentageOfCategory(getString(R.string.title_touch), it.percentageOfCategory.TOUCH, ContextCompat.getColor(requireContext(), R.color.Shadow_PU), ContextCompat.getDrawable(requireContext(), R.drawable.ic_touch_character_12)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_bar_graph_touch)!!))
-                percentageOfCategories.add(PercentageOfCategory(getString(R.string.title_etc), it.percentageOfCategory.AMBIGUOUS, ContextCompat.getColor(requireContext(), R.color.GY_04), ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_character_12)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_bar_graph_question)!!))
+                percentageOfCategories.add(PercentageOfCategory(getString(R.string.title_sight), it.percentageOfCategory.SIGHT, ContextCompat.getColor(requireContext(), R.color.RD), ContextCompat.getDrawable(requireContext(), R.drawable.ic_sight_character_12)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_bar_graph_sight)!!, it.cntOfCategory.SIGHT))
+                percentageOfCategories.add(PercentageOfCategory(getString(R.string.title_smell), it.percentageOfCategory.SMELL, ContextCompat.getColor(requireContext(), R.color.GN), ContextCompat.getDrawable(requireContext(), R.drawable.ic_smell_character_12)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_bar_graph_smell)!!, it.cntOfCategory.SMELL))
+                percentageOfCategories.add(PercentageOfCategory(getString(R.string.title_ear), it.percentageOfCategory.HEARING, ContextCompat.getColor(requireContext(), R.color.Shadow_BU), ContextCompat.getDrawable(requireContext(), R.drawable.ic_ear_character_12)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_bar_graph_ear)!!, it.cntOfCategory.HEARING))
+                percentageOfCategories.add(PercentageOfCategory(getString(R.string.title_taste), it.percentageOfCategory.TASTE, ContextCompat.getColor(requireContext(), R.color.YE), ContextCompat.getDrawable(requireContext(), R.drawable.ic_taste_character_12)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_bar_graph_taste)!!, it.cntOfCategory.TASTE))
+                percentageOfCategories.add(PercentageOfCategory(getString(R.string.title_touch), it.percentageOfCategory.TOUCH, ContextCompat.getColor(requireContext(), R.color.Shadow_PU), ContextCompat.getDrawable(requireContext(), R.drawable.ic_touch_character_12)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_bar_graph_touch)!!, it.cntOfCategory.TOUCH))
+                percentageOfCategories.add(PercentageOfCategory(getString(R.string.title_etc), it.percentageOfCategory.AMBIGUOUS, ContextCompat.getColor(requireContext(), R.color.GY_04), ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_character_12)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_bar_graph_question)!!, it.cntOfCategory.AMBIGUOUS))
                 percentageOfCategories.sortByDescending { it.percentage }
                 binding.percentageOfCategory = percentageOfCategories
                 drawStackedBarGraph(percentageOfCategories)
@@ -188,11 +188,11 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
     private fun mapperToMonthlyCategory(isMain: Boolean, monthlyCategoryEntity: MonthlyCategoryEntity): MonthlyCategory {
         if (isMain) {
             return when (monthlyCategoryEntity.category) {
-                getString(R.string.title_sight) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_sight)!!, monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.RD_2), monthlyCategoryEntity.category)
-                getString(R.string.title_ear) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_ear)!!, monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.BU_2), monthlyCategoryEntity.category)
-                getString(R.string.title_touch) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_touch)!!, monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.PU_2), monthlyCategoryEntity.category)
-                getString(R.string.title_smell) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_smell)!!, monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.GN_3), monthlyCategoryEntity.category)
-                else -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_taste)!!, monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.YE_2), monthlyCategoryEntity.category)
+                getString(R.string.title_sight) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_sight)!!, monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.RD_2), monthlyCategoryEntity.category, monthlyCategoryEntity.cnt)
+                getString(R.string.title_ear) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_ear)!!, monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.BU_2), monthlyCategoryEntity.category, monthlyCategoryEntity.cnt)
+                getString(R.string.title_touch) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_touch)!!, monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.PU_2), monthlyCategoryEntity.category, monthlyCategoryEntity.cnt)
+                getString(R.string.title_smell) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_smell)!!, monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.GN_3), monthlyCategoryEntity.category, monthlyCategoryEntity.cnt)
+                else -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_taste)!!, monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.YE_2), monthlyCategoryEntity.category, monthlyCategoryEntity.cnt)
             }
         } else {
             return when (monthlyCategoryEntity.category) {
@@ -200,7 +200,8 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
                 getString(R.string.title_ear) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_ear)!!, monthlyCategoryEntity.month)
                 getString(R.string.title_touch) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_touch)!!, monthlyCategoryEntity.month)
                 getString(R.string.title_smell) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_smell)!!, monthlyCategoryEntity.month)
-                else -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_taste)!!, monthlyCategoryEntity.month)
+                getString(R.string.title_taste) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_taste)!!, monthlyCategoryEntity.month)
+                else -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.bg_gy01_8)!!, monthlyCategoryEntity.month)
             }
         }
     }

@@ -307,7 +307,6 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="14dp"
                     android:layout_marginTop="76dp"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -520,7 +519,7 @@
                             android:layout_height="17dp"
                             android:gravity="center"
                             android:includeFontPadding="false"
-                            android:text="0"
+                            android:text="@{Integer.toString(percentageOfCategory[0].cnt)}"
                             android:textAppearance="@style/Sub_Head_B_14"
                             android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -565,7 +564,7 @@
                             android:layout_height="17dp"
                             android:gravity="center"
                             android:includeFontPadding="false"
-                            android:text="00"
+                            android:text="@{Integer.toString(percentageOfCategory[1].cnt)}"
                             android:textAppearance="@style/Sub_Head_B_14"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -609,7 +608,7 @@
                             android:layout_height="17dp"
                             android:gravity="center"
                             android:includeFontPadding="false"
-                            android:text="000"
+                            android:text="@{Integer.toString(percentageOfCategory[2].cnt)}"
                             android:textAppearance="@style/Sub_Head_B_14"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -653,7 +652,7 @@
                             android:layout_height="17dp"
                             android:gravity="center"
                             android:includeFontPadding="false"
-                            android:text="0000"
+                            android:text="@{Integer.toString(percentageOfCategory[3].cnt)}"
                             android:textAppearance="@style/Sub_Head_B_14"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -697,7 +696,7 @@
                             android:layout_height="17dp"
                             android:gravity="center"
                             android:includeFontPadding="false"
-                            android:text="00000"
+                            android:text="@{Integer.toString(percentageOfCategory[4].cnt)}"
                             android:textAppearance="@style/Sub_Head_B_14"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -741,7 +740,7 @@
                             android:layout_height="17dp"
                             android:gravity="center"
                             android:includeFontPadding="false"
-                            android:text="000000"
+                            android:text="@{Integer.toString(percentageOfCategory[5].cnt)}"
                             android:textAppearance="@style/Sub_Head_B_14"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -830,17 +829,34 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/analysis_sense_of_the_month_sense_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="17dp"
                     android:layout_marginTop="216dp"
                     android:gravity="center"
                     android:includeFontPadding="false"
-                    android:text="@{monthlyCategoryMain.sense + ` |`}"
+                    android:text="@{monthlyCategoryMain.sense + ` | `}"
                     android:textAppearance="@style/Sub_Head_B_14"
                     android:textColor="@{monthlyCategoryMain.textColor}"
                     android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/analysis_sense_of_the_month_cnt_tv"
+                    app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/analysis_sense_of_the_month_cnt_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="17dp"
+                    android:layout_marginTop="216dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="@{`신규 기록 ` + monthlyCategoryMain.cnt + `개!`}"
+                    android:textAppearance="@style/Sub_Head_B_14"
+                    android:textColor="@color/GY_04"
+                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/analysis_sense_of_the_month_sense_tv"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <View

@@ -24,7 +24,10 @@ object StatMapper {
                         },
                         mapperToMonthlyCategoryEntities(monthlyCategoryDtoList),
                         mapperToCountByDayEntities(countByDayDtoList),
-                        mapperToCountByMonthEntities(countByMonthDtoList)
+                        mapperToCountByMonthEntities(countByMonthDtoList),
+                        cntOfCategory.run {
+                            PercentageOfCategoryEntity(AMBIGUOUS, HEARING, SIGHT, SMELL, TASTE, TOUCH)
+                        }
                     )
                 }
             )
@@ -44,7 +47,7 @@ object StatMapper {
                     "TOUCH" -> "촉각"
                     else -> "기타"
                 }
-                MonthlyCategoryEntity(categoryKr, "${LocalDate.parse(month).monthValue}월")
+                MonthlyCategoryEntity(categoryKr, "${LocalDate.parse(month).monthValue}월", cnt)
             })
         }
 
