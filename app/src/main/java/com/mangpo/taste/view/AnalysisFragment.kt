@@ -58,12 +58,12 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
         initVPAdapter()
         observe()
 
-        analysisVm.getBadges(SpfUtils.getIntEncryptedSpf("userId"))
         analysisVm.getStat(SpfUtils.getIntEncryptedSpf("userId"))
     }
 
     override fun initAfterBinding() {
         binding.userInfo = AnalysisUserInfo(SpfUtils.getStrSpf("nickname")!!, SpfUtils.getStrEncryptedSpf("email")!!, SpfUtils.getIntSpf("startDayCnt")!!, SpfUtils.getStrSpf("badgeRepresent"))
+        analysisVm.getBadges(SpfUtils.getIntEncryptedSpf("userId"))
     }
 
     private fun initActivityResultLaunch() {

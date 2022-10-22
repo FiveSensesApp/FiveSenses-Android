@@ -6,13 +6,16 @@ import com.mangpo.domain.model.getUserBadgesByUser.GetUserBadgesByUserResEntity
 import com.mangpo.taste.base.BaseActivity
 import com.mangpo.taste.databinding.ActivityBadgeBinding
 import com.mangpo.taste.view.adpater.BadgeRVAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class BadgeActivity : BaseActivity<ActivityBadgeBinding>(ActivityBadgeBinding::inflate) {
     private lateinit var badgeInfoBottomSheetFragment: BadgeInfoBottomSheetFragment
     private lateinit var badgeRVAdapter: BadgeRVAdapter
+    private lateinit var badges: MutableList<GetUserBadgesByUserResEntity>
 
     override fun initAfterBinding() {
-        val badges = (intent.getParcelableArrayExtra("badges")?.toMutableList() as MutableList<GetUserBadgesByUserResEntity>)
+        badges = (intent.getParcelableArrayExtra("badges")?.toMutableList() as MutableList<GetUserBadgesByUserResEntity>)
 
         binding.apply {
             activity = this@BadgeActivity
@@ -34,6 +37,9 @@ class BadgeActivity : BaseActivity<ActivityBadgeBinding>(ActivityBadgeBinding::i
                 finish()
             }
 
+            override fun changeRepresentativeBadge(badgeId: String) {
+                binding.representativeBadge = badges.find { it.id==badgeId }
+            }
         })
     }
 

@@ -10,6 +10,10 @@
             type="com.mangpo.taste.view.BadgeInfoBottomSheetFragment" />
 
         <variable
+            name="vm"
+            type="com.mangpo.taste.viewmodel.BadgeInfoViewModel" />
+
+        <variable
             name="badge"
             type="com.mangpo.domain.model.getUserBadgesByUser.GetUserBadgesByUserResEntity" />
     </data>
@@ -78,6 +82,7 @@
             android:background="@drawable/bg_gy04_22p5"
             android:stateListAnimator="@null"
             android:text="@string/action_set_representative_badge"
+            android:onClick="@{() -> vm.updateBadge(badge)}"
             android:textAppearance="@style/Sub_Head_B_18"
             android:textColor="@color/WH"
             android:visibility="@{badge.before? View.INVISIBLE: View.VISIBLE}"

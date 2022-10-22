@@ -22,7 +22,7 @@ object UserMapper {
 
     fun mapperToUpdateUserReqDTO(updateUserReqEntity: UpdateUserReqEntity): UpdateUserReqDTO {
         return updateUserReqEntity.run {
-            UpdateUserReqDTO(alarmDate, isAlarmOn, nickname, userId)
+            UpdateUserReqDTO(alarmDate, isAlarmOn, nickname, badgeRepresent, userId)
         }
     }
 }
