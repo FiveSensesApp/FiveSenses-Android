@@ -7,6 +7,8 @@ import javax.inject.Inject
 
 class BadgeRemoteDataSourceImpl @Inject constructor(private val service: BadgeService): BaseRemoteDataSource(), BadgeRemoteDataSource {
     override suspend fun getUserBadgesByUser(userId: Int): BaseResDTO<List<GetUserBadgesByUserResDTO>?> {
-        return callApi { service.getUserBadgesByUser(userId) }
+        return callApi {
+            service.checkUpdates()
+            service.getUserBadgesByUser(userId) }
     }
 }
