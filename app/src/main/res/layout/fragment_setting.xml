@@ -190,7 +190,7 @@
                 android:gravity="center_vertical"
                 android:paddingStart="17dp"
                 android:paddingEnd="9dp"
-                android:text="@string/title_app_version"
+                android:text="@string/app_version"
                 android:textAppearance="@style/Sub_Head_B_18"
                 app:layout_constraintBottom_toBottomOf="@+id/setting_info_view"
                 app:layout_constraintEnd_toEndOf="@+id/setting_info_view"

@@ -1,10 +1,11 @@
 package com.mangpo.taste.view
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.mangpo.domain.model.updateUser.UpdateUserReqEntity
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentSettingBinding
@@ -111,6 +112,19 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
         //오픈소스 라이선스 텍스트뷰 클릭 리스너
         binding.settingOpensourceTv.setOnClickListener {
             findNavController().navigate(R.id.action_settingFragment_to_openSourceFragment)
+        }
+
+        //공식 SNS 이동 텍스트뷰 클릭 리스너
+        binding.settingSnsTv.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/5gaam_app"))
+            startActivity(intent)
+        }
+
+        binding.settingInquiryRequestTv.setOnClickListener {
+            val emailIntent: Intent = Intent(Intent.ACTION_SEND)
+            emailIntent.type = "message/rfc822"
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.app_email)))
+            startActivity(emailIntent)
         }
 
         //후원자 목록 텍스트뷰 클릭 리스너
