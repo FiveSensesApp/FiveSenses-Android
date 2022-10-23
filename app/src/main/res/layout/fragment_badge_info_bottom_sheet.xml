@@ -75,21 +75,24 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/badge_info_set_representative_badge_btn"
             android:layout_width="161dp"
             android:layout_height="44dp"
             android:layout_marginStart="31dp"
             android:layout_marginBottom="22dp"
             android:background="@drawable/bg_gy04_22p5"
+            android:onClick="@{() -> vm.updateBadge(badge)}"
             android:stateListAnimator="@null"
             android:text="@string/action_set_representative_badge"
-            android:onClick="@{() -> vm.updateBadge(badge)}"
             android:textAppearance="@style/Sub_Head_B_18"
             android:textColor="@color/WH"
-            android:visibility="@{badge.before? View.INVISIBLE: View.VISIBLE}"
+            android:visibility="@{badge.before? View.GONE: View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/badge_info_save_as_img_btn"
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/badge_info_save_as_img_btn"
             android:layout_width="124dp"
             android:layout_height="44dp"
             android:layout_marginEnd="31dp"
@@ -99,9 +102,10 @@
             android:text="@string/action_save_image"
             android:textAppearance="@style/Sub_Head_B_18"
             android:textColor="@color/WH"
-            android:visibility="@{badge.before? View.INVISIBLE: View.VISIBLE}"
+            android:visibility="@{badge.before? View.GONE: View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/badge_info_set_representative_badge_btn" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="161dp"
@@ -113,7 +117,7 @@
             android:text="@{badge.seqNum==3? @string/action_leave_review: @string/action_record}"
             android:textAppearance="@style/Sub_Head_B_18"
             android:textColor="@color/WH"
-            android:visibility="@{badge.before? View.VISIBLE: View.INVISIBLE}"
+            android:visibility="@{badge.before? View.VISIBLE: View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

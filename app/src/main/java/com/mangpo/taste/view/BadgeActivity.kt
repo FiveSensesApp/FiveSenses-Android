@@ -45,6 +45,7 @@ class BadgeActivity : BaseActivity<ActivityBadgeBinding>(ActivityBadgeBinding::i
 
     private fun initAdapter(badges: MutableList<GetUserBadgesByUserResEntity>) {
         badgeRVAdapter = BadgeRVAdapter()
+        badgeRVAdapter.setBadges(badges)
         badgeRVAdapter.setEventListener(object : BadgeRVAdapter.EventListener {
             override fun onClick(badge: GetUserBadgesByUserResEntity) {
                 val bundle: Bundle = Bundle()
@@ -56,6 +57,5 @@ class BadgeActivity : BaseActivity<ActivityBadgeBinding>(ActivityBadgeBinding::i
         })
 
         binding.badgeRv.adapter = badgeRVAdapter
-        badgeRVAdapter.setBadges(badges)
     }
 }

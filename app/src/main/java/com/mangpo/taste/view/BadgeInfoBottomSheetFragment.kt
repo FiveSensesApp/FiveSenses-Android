@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -24,7 +24,7 @@ class BadgeInfoBottomSheetFragment : BottomSheetDialogFragment() {
         fun changeRepresentativeBadge(badgeId: String)
     }
 
-    private val vm: BadgeInfoViewModel by viewModels()
+    private val vm: BadgeInfoViewModel by activityViewModels()
 
     private lateinit var binding: FragmentBadgeInfoBottomSheetBinding
     private lateinit var eventListener: EventListener
@@ -52,16 +52,21 @@ class BadgeInfoBottomSheetFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentBadgeInfoBottomSheetBinding.inflate(inflater, container, false)
+
+        observe()
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         binding.apply {
             fragment = this@BadgeInfoBottomSheetFragment
             vm = this@BadgeInfoBottomSheetFragment.vm
             lifecycleOwner = viewLifecycleOwner
             badge = arguments?.getParcelable("badge")
         }
-
-        observe()
-
-        return binding.root
     }
 
     private fun observe() {
@@ -82,7 +87,9 @@ class BadgeInfoBottomSheetFragment : BottomSheetDialogFragment() {
         })
 
         vm.updateBadgeResult.observe(viewLifecycleOwner, Observer {
-            if (it == 200) {
+            val updateBadgeResult = it.getContentIfNotHandled()
+
+            if (updateBadgeResult!=null && updateBadgeResult==200) {
                 eventListener.changeRepresentativeBadge(SpfUtils.getStrSpf("badgeRepresent")!!)
                 dismiss()
             }
