@@ -82,7 +82,7 @@
         android:gravity="center_vertical"
         android:paddingStart="17dp"
         android:paddingEnd="10dp"
-        android:text="@string/title_private_policy_terms"
+        android:text="@string/title_consenting_marketing_information"
         android:textAppearance="@style/Sub_Head_B_18"
         app:layout_constraintTop_toBottomOf="@+id/terms_line_view2" />
 

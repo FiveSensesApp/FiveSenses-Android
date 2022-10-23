@@ -46,7 +46,7 @@ class TermsBottomSheetFragment : BottomSheetDialogFragment() {
                 setText(R.raw.privacy_policy)
             }
             2 -> {
-                binding.termsTermsTitleTv.text = getString(R.string.title_private_policy_terms)
+                binding.termsTermsTitleTv.text = getString(R.string.title_consenting_marketing_information)
                 setText(R.raw.receive_marketing_information)
             }
         }
