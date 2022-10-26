@@ -1,7 +1,6 @@
 package com.mangpo.taste.view
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -31,11 +30,11 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
         setMyEventListener()
         observe()
 
-        binding.settingAlarmSettingSb.setCheckedImmediately(false)  //처음 데이터 바인딩 되면서 변경된 사항은 반영되지 않도록
+        /*binding.settingAlarmSettingSb.setCheckedImmediately(false)  //처음 데이터 바인딩 되면서 변경된 사항은 반영되지 않도록
         binding.settingAlarmSettingSb.isChecked = SpfUtils.getBooleanSpf("isAlarmOn", false)
         binding.settingAlarmTimeTv.isEnabled = SpfUtils.getBooleanSpf("isAlarmOn", false)
         binding.settingAlarmTimeTv.text = SpfUtils.getStrSpf("alarmTime")
-
+*/
     }
 
     private fun initTwoBtnDialog() {
@@ -85,23 +84,28 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
         }
 
         //알람 설정 스위치버튼 체크리스너
-        binding.settingAlarmSettingSb.setOnCheckedChangeListener { compoundButton, b ->
-            /*val updateUserReqEntity = UpdateUserReqEntity(binding.settingAlarmTimeTv.text.toString(), b, SpfUtils.getStrSpf("nickname")!!, SpfUtils.getIntEncryptedSpf("userId"))
-            settingVm.updateUser(updateUserReqEntity)*/
-        }
+        /*binding.settingAlarmSettingSb.setOnCheckedChangeListener { compoundButton, b ->
+            val updateUserReqEntity = UpdateUserReqEntity(binding.settingAlarmTimeTv.text.toString(), b, SpfUtils.getStrSpf("nickname")!!, SpfUtils.getIntEncryptedSpf("userId"))
+            settingVm.updateUser(updateUserReqEntity)
+        }*/
 
         //알람 시간 텍스트뷰 클릭 리스너
-        binding.settingAlarmTimeTv.setOnClickListener {
+        /*binding.settingAlarmTimeTv.setOnClickListener {
             val bundle: Bundle = Bundle()
             bundle.putString("time", binding.settingAlarmTimeTv.text.toString())
 
             alarmTimeDialogFragment.arguments = bundle
             alarmTimeDialogFragment.show(requireActivity().supportFragmentManager, null)
-        }
+        }*/
 
         //비밀번호 재설정 버튼 클릭리스너
         binding.settingPwResettingBtn.setOnClickListener {
             findNavController().navigate(R.id.action_settingFragment_to_pwResettingFragment)
+        }
+
+        //공지사항 텍스트뷰 클릭 리스너
+        binding.settingNoticeTv.setOnClickListener {
+            goUrlPage("https://5gaam.notion.site/a9d6cc445d4e4adab7bc50ab79969c7a")
         }
 
         //이용약관 텍스트뷰 클릭 리스너
@@ -116,8 +120,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
 
         //공식 SNS 이동 텍스트뷰 클릭 리스너
         binding.settingSnsTv.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/5gaam_app"))
-            startActivity(intent)
+            goUrlPage("https://www.instagram.com/5gaam_app")
         }
 
         binding.settingInquiryRequestTv.setOnClickListener {
@@ -184,7 +187,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
             }
         })
 
-        settingVm.updateUserResultCode.observe(viewLifecycleOwner, Observer {
+        /*settingVm.updateUserResultCode.observe(viewLifecycleOwner, Observer {
             val updateUserResultCode = it.getContentIfNotHandled()
 
             if (updateUserResultCode!=null && updateUserResultCode==200) {
@@ -192,6 +195,6 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
                 binding.settingAlarmTimeTv.isEnabled = SpfUtils.getBooleanSpf("isAlarmOn", false)
                 binding.settingAlarmTimeTv.text = SpfUtils.getStrSpf("alarmTime")
             }
-        })
+        })*/
     }
 }

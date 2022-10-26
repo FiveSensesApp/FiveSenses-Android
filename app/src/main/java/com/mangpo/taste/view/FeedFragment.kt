@@ -118,7 +118,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
 
     private fun setMyEventListener() {
         //오른쪽 검색 아이콘 클릭 리스너
-        binding.feedSearchRightIv.setOnClickListener {
+        /*binding.feedSearchRightIv.setOnClickListener {
             isTypeSelectShown = false
             binding.invalidateAll()
 
@@ -126,7 +126,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(FragmentFeedBinding::infl
 
             binding.feedSearchLeftIv.visibility = View.VISIBLE  //왼쪽 검색 아이콘 VISIBLE
             binding.feedSearchEt.visibility = View.VISIBLE  //검색 EditText VISIBLE
-        }
+        }*/
 
         //검색 EditText TextWatcher 등록
 //        binding.feedSearchEt.addTextChangedListener(this)

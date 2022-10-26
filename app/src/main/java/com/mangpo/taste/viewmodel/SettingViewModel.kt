@@ -2,12 +2,9 @@ package com.mangpo.taste.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.mangpo.domain.model.updateUser.UpdateUserReqEntity
 import com.mangpo.domain.usecase.DeleteUserUseCase
 import com.mangpo.domain.usecase.UpdateUserUseCase
 import com.mangpo.taste.base.BaseViewModel
-import com.mangpo.taste.base.Event
-import com.mangpo.taste.util.SpfUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -16,8 +13,8 @@ class SettingViewModel @Inject constructor(private val deleteUserUseCase: Delete
     private val _deleteUserResultCode: MutableLiveData<Int> = MutableLiveData()
     val deleteUserResultCode: LiveData<Int> get() = _deleteUserResultCode
 
-    private val _updateUserResultCode: MutableLiveData<Event<Int>> = MutableLiveData()
-    val updateUserResultCode: LiveData<Event<Int>> get() = _updateUserResultCode
+   /* private val _updateUserResultCode: MutableLiveData<Event<Int>> = MutableLiveData()
+    val updateUserResultCode: LiveData<Event<Int>> get() = _updateUserResultCode*/
 
     fun deleteUser(userId: Int) {
         callApi(
@@ -33,7 +30,7 @@ class SettingViewModel @Inject constructor(private val deleteUserUseCase: Delete
         )
     }
 
-    fun updateUser(updateUserReqEntity: UpdateUserReqEntity) {
+    /*fun updateUser(updateUserReqEntity: UpdateUserReqEntity) {
         callApi(
             { updateUserUseCase.invoke(updateUserReqEntity) },
             {
@@ -48,5 +45,5 @@ class SettingViewModel @Inject constructor(private val deleteUserUseCase: Delete
                 _updateUserResultCode.postValue(Event(it.code))
             }
         )
-    }
+    }*/
 }

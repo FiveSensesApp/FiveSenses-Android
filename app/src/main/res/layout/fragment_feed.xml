@@ -25,7 +25,20 @@
             android:elevation="15dp"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
+            <ImageButton
+                android:id="@+id/feed_info_ib"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="44dp"
+                android:layout_marginEnd="18dp"
+                android:background="@android:color/transparent"
+                android:padding="10dp"
+                android:src="@drawable/ic_info_28"
+                android:onClick="@{() -> fragment.goUrlPage(`https://www.notion.so/5gaam/5gaam-3b45d6083ad044ab869f0df6378933de`)}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!--<ImageView
                 android:id="@+id/feed_search_left_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -65,7 +78,7 @@
                 android:layout_marginEnd="20dp"
                 android:src="@drawable/ic_magnifying_glass_44"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />-->
 
             <TextView
                 android:id="@+id/feed_my_taste_tv"

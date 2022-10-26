@@ -41,7 +41,7 @@
             android:layout_height="match_parent"
             android:paddingBottom="52dp">
 
-            <View
+            <!--<View
                 android:id="@+id/setting_alarm_view"
                 android:layout_width="match_parent"
                 android:layout_height="134dp"
@@ -111,10 +111,23 @@
                 android:textColor="@color/WH"
                 app:layout_constraintBottom_toBottomOf="@+id/setting_alarm_time_setting_tv"
                 app:layout_constraintEnd_toEndOf="@+id/setting_alarm_time_setting_tv"
-                app:layout_constraintTop_toTopOf="@+id/setting_alarm_time_setting_tv" />
-
+                app:layout_constraintTop_toTopOf="@+id/setting_alarm_time_setting_tv" />-->
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/setting_pw_resetting_btn"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                android:background="@drawable/bg_gy01_12"
+                android:drawableEnd="@drawable/ic_ingress_30"
+                android:gravity="center_vertical"
+                android:paddingStart="26dp"
+                android:paddingEnd="17dp"
+                android:stateListAnimator="@null"
+                android:text="@string/title_pw_resetting"
+                android:textAppearance="@style/Sub_Head_B_18"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!--<androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/setting_pw_resetting_btn"
                 android:layout_width="match_parent"
                 android:layout_height="68dp"
@@ -127,7 +140,8 @@
                 android:stateListAnimator="@null"
                 android:text="@string/title_pw_resetting"
                 android:textAppearance="@style/Sub_Head_B_18"
-                app:layout_constraintTop_toBottomOf="@+id/setting_alarm_view" />
+                app:layout_constraintTop_toBottomOf="@+id/setting_alarm_view" />-->
+
 
             <View
                 android:id="@+id/setting_info_view"
