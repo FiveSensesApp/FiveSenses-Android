@@ -22,6 +22,8 @@ import com.willy.ratingbar.BaseRatingBar
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import java.io.IOException
 import java.io.InputStream
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
@@ -98,4 +100,8 @@ fun readTxtFile(context: Context, raw: Int): String? {
         e.printStackTrace()
         null
     }
+}
+
+fun formatDate(date: String, format: String): String {
+    return LocalDate.parse(date).format(DateTimeFormatter.ofPattern(format))
 }
