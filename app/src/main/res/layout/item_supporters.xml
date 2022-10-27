@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="nickname"
+            type="String" />
+
+        <variable
+            name="size"
+            type="Integer" />
+    </data>
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        height="@{size}"
+        width="@{size}"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="13dp"
+        android:background="@drawable/bg_gy01_oval"
+        android:gravity="center"
+        android:text="@{nickname}"
+        android:textAppearance="@style/Body1_M_12" />
+</layout>

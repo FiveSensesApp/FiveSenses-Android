@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.contains
+import androidx.core.widget.NestedScrollView
 import androidx.viewbinding.ViewBinding
 import com.mangpo.taste.R
 import com.mangpo.taste.util.NetworkManager
@@ -27,7 +28,12 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
         setContentView(binding.root)
 
         imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager?
-        loading = layoutInflater.inflate(R.layout.view_loading, binding.root as ConstraintLayout, false)
+        try {
+            loading = layoutInflater.inflate(R.layout.view_loading, binding.root as ConstraintLayout, false)
+        } catch (e: ClassCastException) {
+            loading = layoutInflater.inflate(R.layout.view_loading, binding.root as NestedScrollView, false)
+        }
+
 
         initAfterBinding()
     }
