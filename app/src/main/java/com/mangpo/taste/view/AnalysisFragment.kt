@@ -1,8 +1,6 @@
 package com.mangpo.taste.view
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
@@ -13,9 +11,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mangpo.domain.model.getStat.MonthlyCategoryEntity
@@ -119,7 +114,6 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
                 percentageOfCategories.add(PercentageOfCategory(getString(R.string.title_etc), it.percentageOfCategory.AMBIGUOUS, ContextCompat.getColor(requireContext(), R.color.GY_04), ContextCompat.getDrawable(requireContext(), R.drawable.ic_question_character_12)!!, ContextCompat.getDrawable(requireContext(), R.drawable.ic_bar_graph_question)!!, it.cntOfCategory.AMBIGUOUS))
                 percentageOfCategories.sortByDescending { it.percentage }
                 binding.percentageOfCategory = percentageOfCategories
-                drawStackedBarGraph(percentageOfCategories)
 
                 val fragment1 = NumOfRecordsTrendGraphFragment()
                 val bundle1: Bundle = Bundle()
@@ -139,21 +133,6 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
         })
 
         binding.invalidateAll()
-    }
-
-    private fun drawStackedBarGraph(data: MutableList<PercentageOfCategory>) {
-        val values: ArrayList<BarEntry> = ArrayList()
-        values.add(BarEntry(0f, data.filter { it.percentage!=0 }.map { it.percentage.toFloat() }.toFloatArray()))
-
-        var set1: BarDataSet = BarDataSet(values, "")
-        set1.setDrawIcons(false)
-        set1.colors = data.filter { it.percentage!=0 }.map { it.color }
-
-        val barData = BarData(set1)
-        barData.setValueFormatter(MyXAxisFormatter())
-        barData.setValueTextColor(Color.WHITE)
-        barData.setValueTextSize(10f)
-        barData.setValueTypeface(Typeface.defaultFromStyle(Typeface.BOLD))
     }
 
     private fun drawMonthlyCategories(monthlyCategoryEntities: List<MonthlyCategoryEntity>, firstMonthlyCategoryEntity: MonthlyCategoryEntity) {

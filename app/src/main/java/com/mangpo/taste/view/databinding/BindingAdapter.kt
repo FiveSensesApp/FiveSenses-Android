@@ -70,7 +70,7 @@ fun setHeight(view: View, height: Int) {
 }
 
 @BindingAdapter(value = ["ratio", "minusWidth"], requireAll = false)
-fun setWidthByRadio(view: View, ratio: Int, minusWidth: Int) {
+fun setWidthByRatio(view: View, ratio: Int, minusWidth: Int) {
     val params = view.layoutParams
     params.width = ((getDeviceWidth() - convertDpToPx(view.context, minusWidth)) * (ratio / 100f)).toInt()
     view.layoutParams = params
