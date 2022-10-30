@@ -103,7 +103,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     mainVm.setIsRecordComplete(false)   //기록하러 가는 중이니까 기록 완료 플래그를 false 로 변경
                 } else {    //기록 화면을 내리고 싶다
                     hideBottomSheet()   //기록 화면을 내린다
-                    mainVm.setCallGetPostsFlag(mainVm.getIsRecordComplete())    //TimelineFragment, ByScoreFragment, BySenseFragment, ByCalendarFragment 에게 getPosts API 를 호출할지 말지 선택할 수 있는 플래그 변수 postValue
+                    if (binding.mainBnv.selectedItemId==R.id.feedFragment) {
+                        mainVm.setCallGetPostsFlag(mainVm.getIsRecordComplete())    //TimelineFragment, ByScoreFragment, BySenseFragment, ByCalendarFragment 에게 getPosts API 를 호출할지 말지 선택할 수 있는 플래그 변수 postValue
+                    } else {
+                        mainVm.setCallGetStatFlag(mainVm.getIsRecordComplete()) //AnalysisFragment 에게 getStat API 를 호출할지 결정할 수 있도록 하는 Flag 변수
+                    }
                 }
             }
         })

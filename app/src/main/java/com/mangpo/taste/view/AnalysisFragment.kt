@@ -85,6 +85,15 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
     }
 
     private fun observe() {
+        //기록 조회 API 호출 여부를 판단하기 위한 LiveData Observing
+        mainVm.callGetStatFlag.observe(viewLifecycleOwner, Observer {
+            val callGetStatFlag = it.getContentIfNotHandled()
+
+            if (callGetStatFlag!=null && callGetStatFlag) {
+                analysisVm.getStat(SpfUtils.getIntEncryptedSpf("userId"))
+            }
+        })
+
         analysisVm.toast.observe(viewLifecycleOwner, Observer {
             val toast = it.getContentIfNotHandled()
 
