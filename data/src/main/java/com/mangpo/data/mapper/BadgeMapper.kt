@@ -6,6 +6,20 @@ import com.mangpo.domain.model.base.BaseResEntity
 import com.mangpo.domain.model.getUserBadgesByUser.GetUserBadgesByUserResEntity
 
 object BadgeMapper {
+    fun mapperToGetUserBadgesByUserResEntity(getUserBadgesByUserResDTO: BaseResDTO<GetUserBadgesByUserResDTO?>): BaseResEntity<GetUserBadgesByUserResEntity?> {
+        return if (getUserBadgesByUserResDTO.data==null) {
+            getUserBadgesByUserResDTO.run {
+                BaseResEntity<GetUserBadgesByUserResEntity?>(meta.code, meta.msg, null)
+            }
+        } else {
+            getUserBadgesByUserResDTO.run {
+                BaseResEntity<GetUserBadgesByUserResEntity?>(meta.code, meta.msg, data!!.run {
+                    GetUserBadgesByUserResEntity(description, id, imgUrl, isBefore, name, reqConditionShort, seqNum)
+                })
+            }
+        }
+    }
+
     fun mapperToGetUserBadgesByUserResEntities(getUserBadgesByUserResDTOs: BaseResDTO<List<GetUserBadgesByUserResDTO>?>): BaseResEntity<List<GetUserBadgesByUserResEntity>?> {
         if (getUserBadgesByUserResDTOs.data==null) {
             return getUserBadgesByUserResDTOs.run {

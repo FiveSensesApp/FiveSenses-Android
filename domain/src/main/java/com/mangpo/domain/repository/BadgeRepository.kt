@@ -4,5 +4,6 @@ import com.mangpo.domain.model.base.BaseResEntity
 import com.mangpo.domain.model.getUserBadgesByUser.GetUserBadgesByUserResEntity
 
 interface BadgeRepository {
+    suspend fun checkThanks(): BaseResEntity<GetUserBadgesByUserResEntity?>
     suspend fun getUserBadgesByUser(userId: Int): BaseResEntity<List<GetUserBadgesByUserResEntity>?>
 }

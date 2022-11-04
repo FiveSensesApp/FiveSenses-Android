@@ -1,6 +1,7 @@
 package com.mangpo.taste.base
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.*
@@ -63,30 +64,6 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
     //네트워크 연결 유무 확인
     fun checkNetwork(): Boolean = NetworkManager.checkNetworkState(applicationContext)
 
-    //상태바 숨기기
-    /*fun hideStatusBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.insetsController?.hide(WindowInsets.Type.statusBars())
-        } else {
-            window.setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN ,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN
-            )
-        }
-    }*/
-
-    //상태바 투명하게
-    /*fun transparentStatusBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.insetsController?.show(WindowInsets.Type.statusBars())
-        } else {
-            window.setFlags(
-                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-            )
-        }
-    }*/
-
     fun showStatusBarText() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.insetsController?.setSystemBarsAppearance(
@@ -115,5 +92,10 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
         if ((binding.root as ConstraintLayout).contains(loading)) {
             (binding.root as ConstraintLayout).removeView(loading)
         }
+    }
+
+    fun goUrlPage(url: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        startActivity(intent)
     }
 }

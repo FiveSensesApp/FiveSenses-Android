@@ -8,6 +8,11 @@ import com.mangpo.domain.repository.BadgeRepository
 import javax.inject.Inject
 
 class BadgeRepositoryImpl @Inject constructor(private val badgeRemoteDataSource: BadgeRemoteDataSource): BaseRepository(), BadgeRepository {
+    override suspend fun checkThanks(): BaseResEntity<GetUserBadgesByUserResEntity?> {
+        val response = badgeRemoteDataSource.checkThanks()
+        return sendData(response) { BadgeMapper.mapperToGetUserBadgesByUserResEntity(response) }
+    }
+
     override suspend fun getUserBadgesByUser(userId: Int): BaseResEntity<List<GetUserBadgesByUserResEntity>?> {
         val response = badgeRemoteDataSource.getUserBadgesByUser(userId)
         return sendData(response) { BadgeMapper.mapperToGetUserBadgesByUserResEntities(response) }

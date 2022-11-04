@@ -38,6 +38,7 @@ import java.time.LocalDate
 class BadgeInfoBottomSheetFragment : BottomSheetDialogFragment() {
     interface EventListener {
         fun goRecord()
+        fun goReview()
         fun changeRepresentativeBadge(badgeId: String)
     }
 
@@ -122,7 +123,7 @@ class BadgeInfoBottomSheetFragment : BottomSheetDialogFragment() {
         dismiss()
 
         if (seqNum == 3) {
-
+            eventListener.goReview()
         } else {
             eventListener.goRecord()
         }

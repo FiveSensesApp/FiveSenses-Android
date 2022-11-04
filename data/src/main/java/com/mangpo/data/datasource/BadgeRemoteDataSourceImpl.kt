@@ -6,6 +6,10 @@ import com.mangpo.data.service.BadgeService
 import javax.inject.Inject
 
 class BadgeRemoteDataSourceImpl @Inject constructor(private val service: BadgeService): BaseRemoteDataSource(), BadgeRemoteDataSource {
+    override suspend fun checkThanks(): BaseResDTO<GetUserBadgesByUserResDTO?> {
+        return callApi { service.checkThanks() }
+    }
+
     override suspend fun getUserBadgesByUser(userId: Int): BaseResDTO<List<GetUserBadgesByUserResDTO>?> {
         return callApi {
             service.checkUpdates()

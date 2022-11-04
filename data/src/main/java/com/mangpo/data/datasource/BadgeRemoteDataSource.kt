@@ -4,5 +4,6 @@ import com.mangpo.data.model.base.BaseResDTO
 import com.mangpo.data.model.getUserBadgesByUser.GetUserBadgesByUserResDTO
 
 interface BadgeRemoteDataSource {
+    suspend fun checkThanks(): BaseResDTO<GetUserBadgesByUserResDTO?>
     suspend fun getUserBadgesByUser(userId: Int): BaseResDTO<List<GetUserBadgesByUserResDTO>?>
 }

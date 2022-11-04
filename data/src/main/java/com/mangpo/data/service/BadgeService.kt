@@ -10,6 +10,9 @@ interface BadgeService {
     @POST("/api/badges/check-updates")
     suspend fun checkUpdates()
 
+    @POST("/api/badges/check-thanks")
+    suspend fun checkThanks(): BaseResDTO<GetUserBadgesByUserResDTO?>
+
     @GET("/api/users/{userId}/badges")
     suspend fun getUserBadgesByUser(@Path("userId") userId: Int): BaseResDTO<List<GetUserBadgesByUserResDTO>?>
 }

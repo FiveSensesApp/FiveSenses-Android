@@ -2,14 +2,18 @@ package com.mangpo.taste.view
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import com.mangpo.domain.model.getUserBadgesByUser.GetUserBadgesByUserResEntity
 import com.mangpo.taste.base.BaseActivity
 import com.mangpo.taste.databinding.ActivityBadgeBinding
 import com.mangpo.taste.view.adpater.BadgeRVAdapter
+import com.mangpo.taste.viewmodel.BadgeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class BadgeActivity : BaseActivity<ActivityBadgeBinding>(ActivityBadgeBinding::inflate) {
+    private val badgeVm: BadgeViewModel by viewModels()
+
     private lateinit var badgeInfoBottomSheetFragment: BadgeInfoBottomSheetFragment
     private lateinit var badgeRVAdapter: BadgeRVAdapter
     private lateinit var badges: MutableList<GetUserBadgesByUserResEntity>
@@ -35,6 +39,11 @@ class BadgeActivity : BaseActivity<ActivityBadgeBinding>(ActivityBadgeBinding::i
                 intent.putExtra("goRecord", true)
                 setResult(1, intent)
                 finish()
+            }
+
+            override fun goReview() {
+                goUrlPage("https://play.google.com/store/apps/details?id=com.mangpo.taste")
+                badgeVm.checkThanks()
             }
 
             override fun changeRepresentativeBadge(badgeId: String) {

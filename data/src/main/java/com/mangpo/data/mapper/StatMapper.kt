@@ -26,7 +26,7 @@ object StatMapper {
                         mapperToCountByDayEntities(countByDayDtoList),
                         mapperToCountByMonthEntities(countByMonthDtoList),
                         cntOfCategory.run {
-                            PercentageOfCategoryEntity(AMBIGUOUS, HEARING, SIGHT, SMELL, TASTE, TOUCH)
+                            CntOfCategoryEntity(AMBIGUOUS, HEARING, SIGHT, SMELL, TASTE, TOUCH)
                         }
                     )
                 }
