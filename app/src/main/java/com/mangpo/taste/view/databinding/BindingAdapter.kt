@@ -5,11 +5,11 @@ import android.net.Uri
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.google.android.material.imageview.ShapeableImageView
 import com.mangpo.taste.util.convertDpToPx
-import com.mangpo.taste.util.getDeviceWidth
 import com.willy.ratingbar.BaseRatingBar
 
 @BindingAdapter("marginTop")
@@ -69,13 +69,6 @@ fun setHeight(view: View, height: Int) {
     view.layoutParams = params
 }
 
-@BindingAdapter(value = ["ratio", "minusWidth"], requireAll = false)
-fun setWidthByRatio(view: View, ratio: Int, minusWidth: Int) {
-    val params = view.layoutParams
-    params.width = ((getDeviceWidth() - convertDpToPx(view.context, minusWidth)) * (ratio / 100f)).toInt()
-    view.layoutParams = params
-}
-
 @BindingAdapter(value = ["rt", "rb", "lt", "lb"], requireAll = false)
 fun setLeftRadiusOfShapeableImageView(iv: ShapeableImageView, rt: Int=0, rb: Int=0, lt: Int=0, lb: Int=0) {
     val builder = iv.shapeAppearanceModel.toBuilder()
@@ -86,4 +79,11 @@ fun setLeftRadiusOfShapeableImageView(iv: ShapeableImageView, rt: Int=0, rb: Int
         setTopRightCornerSize(convertDpToPx(iv.context, rt).toFloat())
     }
     iv.shapeAppearanceModel = builder.build()
+}
+
+@BindingAdapter("widthPercentage")
+fun setWidthPercentage(view: ShapeableImageView, widthPercentage: Float) {
+    val params = (view.layoutParams as ConstraintLayout.LayoutParams)
+    params.matchConstraintPercentWidth = widthPercentage
+    view.layoutParams = params
 }

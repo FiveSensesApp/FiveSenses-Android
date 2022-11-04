@@ -6,5 +6,5 @@ data class GetStatResEntity(
     val monthlyCategoryEntities: List<MonthlyCategoryEntity>,
     val countByDayEntities: List<CountByDayEntity>,
     val countByMonthEntities: List<CountByMonthEntity>,
-    val cntOfCategory: PercentageOfCategoryEntity
+    val cntOfCategory: CntOfCategoryEntity
 )
