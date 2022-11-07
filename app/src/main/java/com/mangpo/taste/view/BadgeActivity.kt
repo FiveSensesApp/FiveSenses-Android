@@ -44,6 +44,7 @@ class BadgeActivity : BaseActivity<ActivityBadgeBinding>(ActivityBadgeBinding::i
             override fun goReview() {
                 goUrlPage("https://play.google.com/store/apps/details?id=com.mangpo.taste")
                 badgeVm.checkThanks()
+                finish()
             }
 
             override fun changeRepresentativeBadge(badgeId: String) {
