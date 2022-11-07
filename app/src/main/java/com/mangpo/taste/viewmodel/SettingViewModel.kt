@@ -2,6 +2,7 @@ package com.mangpo.taste.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.mangpo.domain.usecase.CheckThanksUseCase
 import com.mangpo.domain.usecase.DeleteUserUseCase
 import com.mangpo.domain.usecase.UpdateUserUseCase
 import com.mangpo.taste.base.BaseViewModel
@@ -9,7 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SettingViewModel @Inject constructor(private val deleteUserUseCase: DeleteUserUseCase, private val updateUserUseCase: UpdateUserUseCase): BaseViewModel() {
+class SettingViewModel @Inject constructor(private val deleteUserUseCase: DeleteUserUseCase, private val checkThanksUseCase: CheckThanksUseCase, private val updateUserUseCase: UpdateUserUseCase): BaseViewModel() {
     private val _deleteUserResultCode: MutableLiveData<Int> = MutableLiveData()
     val deleteUserResultCode: LiveData<Int> get() = _deleteUserResultCode
 
@@ -27,6 +28,14 @@ class SettingViewModel @Inject constructor(private val deleteUserUseCase: Delete
                 }
             },
             true
+        )
+    }
+
+    fun checkThanks() {
+        callApi(
+            { checkThanksUseCase.invoke() },
+            {},
+            false
         )
     }
 

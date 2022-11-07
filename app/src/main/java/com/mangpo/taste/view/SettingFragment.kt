@@ -118,6 +118,12 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
             findNavController().navigate(R.id.action_settingFragment_to_openSourceFragment)
         }
 
+        //앱 리뷰 남기기 텍스트뷰 클릭 리스너
+        binding.settingReviewTv.setOnClickListener {
+            goUrlPage("https://play.google.com/store/apps/details?id=com.mangpo.taste")
+            settingVm.checkThanks()
+        }
+
         //공식 SNS 이동 텍스트뷰 클릭 리스너
         binding.settingSnsTv.setOnClickListener {
             goUrlPage("https://www.instagram.com/5gaam_app")
