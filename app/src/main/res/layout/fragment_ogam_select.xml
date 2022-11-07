@@ -25,30 +25,36 @@
         <TextView
             android:id="@+id/ogam_select_date_tv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="19dp"
             android:layout_marginStart="34dp"
-            android:layout_marginTop="35dp"
             android:layout_marginEnd="9dp"
+            android:includeFontPadding="false"
             android:textAppearance="@style/Sub_Head_B_16"
             android:textColor="@color/GY_02"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.07" />
 
         <TextView
             android:id="@+id/ogam_select_hello_tv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="62dp"
             android:layout_marginStart="34dp"
-            android:layout_marginTop="22dp"
             android:layout_marginEnd="9dp"
+            android:includeFontPadding="false"
             android:textAppearance="@style/Head_B_26"
-            app:layout_constraintTop_toBottomOf="@+id/ogam_select_date_tv" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.17" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ogam_select_select_cl"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginHorizontal="28dp"
-            app:layout_constraintBottom_toTopOf="@+id/ogam_select_slogan_tv"
-            app:layout_constraintTop_toBottomOf="@+id/ogam_select_hello_tv">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHeight_percent="0.43"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/ogam_select_sight_touch_cl"
@@ -62,11 +68,13 @@
 
                 <ImageView
                     android:id="@+id/ogam_select_sight_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="8dp"
                     android:src="@drawable/ic_sight_character_78"
                     app:layout_constraintBottom_toTopOf="@+id/ogam_select_sight_tv"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_percent="0.6"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_chainStyle="packed" />
@@ -98,11 +106,13 @@
 
                 <ImageView
                     android:id="@+id/ogam_select_ear_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="8dp"
                     android:src="@drawable/ic_ear_character_78"
                     app:layout_constraintBottom_toTopOf="@+id/ogam_select_ear_tv"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_percent="0.6"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_chainStyle="packed" />
@@ -134,11 +144,13 @@
 
                 <ImageView
                     android:id="@+id/ogam_select_smell_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="8dp"
                     android:src="@drawable/ic_smell_character_78"
                     app:layout_constraintBottom_toTopOf="@+id/ogam_select_smell_tv"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_percent="0.6"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_chainStyle="packed" />
@@ -170,11 +182,13 @@
 
                 <ImageView
                     android:id="@+id/ogam_select_taste_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="8dp"
                     android:src="@drawable/ic_taste_character_78"
                     app:layout_constraintBottom_toTopOf="@+id/ogam_select_taste_tv"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_percent="0.6"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_chainStyle="packed" />
@@ -206,11 +220,13 @@
 
                 <ImageView
                     android:id="@+id/ogam_select_touch_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="8dp"
                     android:src="@drawable/ic_touch_character_78"
                     app:layout_constraintBottom_toTopOf="@+id/ogam_select_touch_tv"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_percent="0.6"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_chainStyle="packed" />
@@ -242,11 +258,13 @@
 
                 <ImageView
                     android:id="@+id/ogam_select_question_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="8dp"
                     android:src="@drawable/ic_question_character_78"
                     app:layout_constraintBottom_toTopOf="@+id/ogam_select_question_tv"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_percent="0.6"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_chainStyle="packed" />
@@ -271,13 +289,15 @@
         <TextView
             android:id="@+id/ogam_select_slogan_tv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="21dp"
+            android:layout_height="24dp"
             android:gravity="center"
+            android:includeFontPadding="false"
             android:text="@{mainVm.slogan}"
             android:textAppearance="@style/Body1_M_16"
             android:textColor="@color/GY_04"
-            app:layout_constraintBottom_toTopOf="@+id/ogam_select_fab" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.8" />
 
         <View
             android:id="@+id/ogam_select_line_view"
