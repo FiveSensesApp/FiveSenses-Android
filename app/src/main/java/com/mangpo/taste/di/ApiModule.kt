@@ -1,5 +1,7 @@
 package com.mangpo.taste.di
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.mangpo.data.service.*
 import com.mangpo.taste.BuildConfig
 import com.mangpo.taste.util.SpfUtils
@@ -39,10 +41,20 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(client: OkHttpClient): Retrofit {
+    fun provideGson(): Gson {
+        return GsonBuilder()
+            .serializeNulls()
+            .serializeSpecialFloatingPointValues()
+            .setLenient()
+            .create()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(client: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.BASEURL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .client(client)
             .build()
     }
