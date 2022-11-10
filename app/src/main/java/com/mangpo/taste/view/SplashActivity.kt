@@ -1,5 +1,6 @@
 package com.mangpo.taste.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.mangpo.taste.base.BaseActivity
@@ -20,7 +21,16 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     override fun initAfterBinding() {
         when {
             !getBooleanSpf("onBoarding", false) -> goNextActivity(OnBoardingActivity::class.java)
-            getStrEncryptedSpf("jwt")==null -> goNextActivity(LoginActivity::class.java)
+            getStrEncryptedSpf("jwt")==null -> {
+                lifecycleScope.launch(Dispatchers.Main) {
+                    delay(5000L)
+
+                    val intent: Intent = Intent(this@SplashActivity, OnBoardingActivity::class.java)
+                    intent.putExtra("currentItem", 3)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                }
+            }
             else -> goNextActivity(MainActivity::class.java)
         }
     }

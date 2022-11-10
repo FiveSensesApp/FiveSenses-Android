@@ -8,6 +8,7 @@ import android.text.style.UnderlineSpan
 import android.view.View
 import android.view.WindowInsetsController
 import androidx.appcompat.widget.AppCompatButton
+import androidx.core.view.doOnAttach
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -39,7 +40,7 @@ class OnBoardingActivity : FragmentActivity() {
 
         }
 
-        initVP()
+        initVP(intent.getIntExtra("currentItem", 0))
         setEventListener()
 
         val dontKnowEmailTvText = SpannableString(binding.onBoardingLoginTv.text.toString())
@@ -47,7 +48,7 @@ class OnBoardingActivity : FragmentActivity() {
         binding.onBoardingLoginTv.text = dontKnowEmailTvText
     }
 
-    private fun initVP() {
+    private fun initVP(currentItem: Int) {
         onBoardingVPAdapter = OnBoardingVPAdapter(this)
         binding.onBoardingPiv.count = onBoardingVPAdapter.itemCount
         binding.onBoardingVp.adapter = onBoardingVPAdapter
@@ -66,6 +67,9 @@ class OnBoardingActivity : FragmentActivity() {
                 }
             }
         })
+        binding.onBoardingVp.doOnAttach  {
+            binding.onBoardingVp.setCurrentItem(currentItem, false)
+        }
     }
 
     private fun setEventListener() {
