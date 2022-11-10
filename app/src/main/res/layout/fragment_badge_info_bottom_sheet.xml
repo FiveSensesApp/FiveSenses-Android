@@ -122,7 +122,7 @@
             android:text="@{badge.seqNum==3? @string/action_leave_review: @string/action_record}"
             android:textAppearance="@style/Sub_Head_B_18"
             android:textColor="@color/WH"
-            android:visibility="@{badge.before? View.VISIBLE: View.GONE}"
+            android:visibility="@{badge.before &amp;&amp; badge.seqNum!=16? View.VISIBLE: View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
