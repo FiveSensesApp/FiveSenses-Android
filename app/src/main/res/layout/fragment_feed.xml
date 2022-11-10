@@ -32,9 +32,9 @@
                 android:layout_marginTop="44dp"
                 android:layout_marginEnd="18dp"
                 android:background="@android:color/transparent"
+                android:onClick="@{() -> fragment.goUrlPage(`https://www.notion.so/5gaam/5gaam-3b45d6083ad044ab869f0df6378933de`)}"
                 android:padding="10dp"
                 android:src="@drawable/ic_info_28"
-                android:onClick="@{() -> fragment.goUrlPage(`https://www.notion.so/5gaam/5gaam-3b45d6083ad044ab869f0df6378933de`)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -278,6 +278,7 @@
             android:alpha="0.8"
             android:background="@color/WH"
             android:clickable="true"
+            android:onClick="@{(ConstraintLayout) -> fragment.onClickTypeSelectTouchView(feedTypeSelectLayout.getVisibility())}"
             android:visibility="@{fragment.isTypeSelectShown? View.VISIBLE: View.GONE}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
