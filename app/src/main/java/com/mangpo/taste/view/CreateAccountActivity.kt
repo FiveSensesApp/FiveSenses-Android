@@ -148,10 +148,22 @@ class CreateAccountActivity : BaseActivity<ActivityCreateAccountBinding>(Activit
                 binding.createAccountPw1Et.text.isNotBlank() &&
                 binding.createAccountPw2Et.text.isNotBlank() &&
                 matchRegex(binding.createAccountEmailEt.text.toString(), Patterns.EMAIL_ADDRESS.toRegex()) &&
-                matchRegex(binding.createAccountPw1Et.text.toString(), "^(?=.*[a-zA-Z0-9])(?=.*[a-zA-Z!@#\$%^&*])(?=.*[0-9!@#\$%^&*]).{10,30}\$".toRegex()) &&
-                matchRegex(binding.createAccountPw2Et.text.toString(), "^(?=.*[a-zA-Z0-9])(?=.*[a-zA-Z!@#\$%^&*])(?=.*[0-9!@#\$%^&*]).{10,30}\$".toRegex()) &&
+                validatePw(binding.createAccountPw1Et.text.toString()) &&
                 binding.createAccountPw1Et.text.toString()==binding.createAccountPw2Et.text.toString() &&
                 isAgree
+    }
+
+    private fun validatePw(pw: String): Boolean {
+        if (pw.length < 10) {
+            return false
+        }
+
+        val notPermitChar = pw.replace("[\\da-zA-Z!@#\$&*]".toRegex(), "")
+        if (notPermitChar.isNotBlank()) {
+            return false
+        }
+
+        return matchRegex(pw, "^(?=.+[a-zA-Z0-9])(?=.+[a-zA-Z!@#\$&*])(?=.+[0-9!@#\$&*])(?=.+[0-9a-zA-Z!@#\$&*]).{10,}\$".toRegex())
     }
 
     private fun observe() {
