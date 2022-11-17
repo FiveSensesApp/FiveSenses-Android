@@ -1,6 +1,7 @@
 package com.mangpo.taste.view
 
 import android.content.Intent
+import android.os.Build
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.core.content.ContextCompat
@@ -69,11 +70,13 @@ class NicknameSettingActivity : BaseActivity<ActivityNicknameSettingBinding>(Act
     fun goNextActivity(nickname: String) {
         createUserReqEntity.nickname = nickname
 
-        /*val intent = Intent(this, AlarmTimeSettingActivity::class.java)
-        intent.putExtra("newUser", createUserReqEntity)
-        startActivity(intent)*/
+        //알람 권한 체크(Android 13 Version 이상)
+        var intent: Intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Intent(this, AlarmTimeSettingActivity::class.java)
+        } else {
+            Intent(this, StartActivity::class.java)
+        }
 
-        val intent = Intent(this, StartActivity::class.java)
         intent.putExtra("newUser", createUserReqEntity)
         startActivity(intent)
     }

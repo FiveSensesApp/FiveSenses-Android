@@ -83,11 +83,12 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
             requireActivity().onBackPressed()
         }
 
-        //알람 설정 스위치버튼 체크리스너
-        /*binding.settingAlarmSettingSb.setOnCheckedChangeListener { compoundButton, b ->
-            val updateUserReqEntity = UpdateUserReqEntity(binding.settingAlarmTimeTv.text.toString(), b, SpfUtils.getStrSpf("nickname")!!, SpfUtils.getIntEncryptedSpf("userId"))
-            settingVm.updateUser(updateUserReqEntity)
-        }*/
+        binding.settingAlarmBtn.setOnClickListener {
+            val intent = Intent()
+            intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
+            intent.putExtra("android.provider.extra.APP_PACKAGE", requireActivity().packageName)
+            startActivity(intent)
+        }
 
         //알람 시간 텍스트뷰 클릭 리스너
         /*binding.settingAlarmTimeTv.setOnClickListener {

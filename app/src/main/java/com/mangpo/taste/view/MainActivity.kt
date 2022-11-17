@@ -69,6 +69,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         binding.mainRecordFcv.startAnimation(translateDown)   //아래 -> 위로 올라오는 애니메이션
     }
 
+    private fun showBottomSheet() {
+        mainVm.setRandomSloganIdx()  //OgamSelectFragment 의 슬로건 idx 를 랜덤하게 뽑기 위해 라이브데이터 사용
+
+        recordFcvVisibility = View.VISIBLE
+        binding.invalidateAll()
+        binding.mainRecordFcv.startAnimation(translateUp)   //아래 -> 위로 올라오는 애니메이션
+    }
+
     private fun observe() {
         mainVm.isLoading.observe(this, Observer {
             if (it) {
@@ -111,14 +119,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 }
             }
         })
-    }
-
-    private fun showBottomSheet() {
-        mainVm.setRandomSloganIdx()  //OgamSelectFragment 의 슬로건 idx 를 랜덤하게 뽑기 위해 라이브데이터 사용
-
-        recordFcvVisibility = View.VISIBLE
-        binding.invalidateAll()
-        binding.mainRecordFcv.startAnimation(translateUp)   //아래 -> 위로 올라오는 애니메이션
     }
 
     fun setRecordFcvTopMargin(margin: Int) {
