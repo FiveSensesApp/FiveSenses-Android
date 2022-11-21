@@ -24,12 +24,14 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     interface MyClickListener {
         fun update(content: ContentEntity)
         fun delete()
+        fun share()
         fun changeSortFilter(sort: String)
         fun callGetPostsAPI(filter: String)
     }
 
     private var deletePostId: Int = -1
     private var updatePostId: Int = -1
+    private var sharedPostId: Int = -1
     private var selectedPosition: Int = 0
     private var records: MutableList<Record> = mutableListOf(Record(0, null), Record(1, null))
 
@@ -162,6 +164,12 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             fadeOut(context, menuCl)
             updatePostId = id
             myClickListener.update(this@RecordDetailAdapter.records.find { it.record?.id==id }?.record!!)
+        }
+
+        fun shareFeed(id: Int) {
+            fadeOut(context, menuCl)
+            sharedPostId = id
+            myClickListener.share()
         }
     }
 

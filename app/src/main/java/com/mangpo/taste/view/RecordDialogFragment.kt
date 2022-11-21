@@ -97,14 +97,27 @@ class RecordDialogFragment : DialogFragment() {
     private fun initTwoBtnDialog() {
         twoBtnDialogFragment = TwoBtnDialogFragment()
         twoBtnDialogFragment.setMyCallback(object : TwoBtnDialogFragment.MyCallback {
-            override fun leftAction() { //삭제하기
-                binding.recordDialogBlurredView.visibility = View.INVISIBLE
-                eventListener.delete(binding.content!!.id)
+            override fun leftAction(action: String) { //삭제하기, 이미지 저장
+                when (action) {
+                    getString(R.string.action_delete_long) -> {
+                        binding.recordDialogBlurredView.visibility = View.INVISIBLE
+                        eventListener.delete(binding.content!!.id)
+                    }
+                    getString(R.string.action_save_image) -> {
+
+                    }
+                }
+
                 dismiss()   //프래그먼트 종료
             }
 
-            override fun rightAction() {    //뒤로가기
-                binding.recordDialogBlurredView.visibility = View.INVISIBLE
+            override fun rightAction(action: String) {    //뒤로가기, SNS 공유
+                when (action) {
+                    getString(R.string.action_go_back) -> binding.recordDialogBlurredView.visibility = View.INVISIBLE
+                    getString(R.string.action_share_SNS) -> {
+
+                    }
+                }
             }
         })
     }
@@ -186,7 +199,7 @@ class RecordDialogFragment : DialogFragment() {
         updateCompleteLauncher.launch(intent)
     }
 
-    fun clickDeleteClickView(contentEntity: ContentEntity) {
+    fun clickShareAndDeleteClickView(contentEntity: ContentEntity, type: String) {
         if (contentEntity.content==null)
             binding.recordDialogBlurredView.setBackgroundResource(R.drawable.ic_delete_bg_small)
         else
@@ -195,9 +208,12 @@ class RecordDialogFragment : DialogFragment() {
         fadeOut(requireContext(), binding.recordDialogMenuCl)   //메뉴 레이아웃 fadeOut
         binding.recordDialogBlurredView.visibility = View.VISIBLE   //블러처리 화면 VISIBLE
 
-        //삭제 관련 TwoBtnDialog 띄우기
         val bundle: Bundle = Bundle()
-        bundle.putParcelable("data", TwoBtnDialog(getString(R.string.msg_really_delete), getString(R.string.msg_cannot_recover), getString(R.string.action_delete_long), getString(R.string.action_go_back), null))
+        if (type=="share") {    //공유 관련 TwoBtnDialog 띄우기
+            bundle.putParcelable("data", TwoBtnDialog(getString(R.string.action_sharing), getString(R.string.msg_share_your_preferences), getString(R.string.action_save_image), getString(R.string.action_share_SNS), null))
+        } else {    //삭제 관련 TwoBtnDialog 띄우기
+            bundle.putParcelable("data", TwoBtnDialog(getString(R.string.msg_really_delete), getString(R.string.msg_cannot_recover), getString(R.string.action_delete_long), getString(R.string.action_go_back), null))
+        }
 
         twoBtnDialogFragment.arguments = bundle
         twoBtnDialogFragment.show(requireActivity().supportFragmentManager, null)

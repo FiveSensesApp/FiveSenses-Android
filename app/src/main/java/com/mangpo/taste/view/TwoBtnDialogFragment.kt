@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.mangpo.taste.R
@@ -13,8 +14,8 @@ import com.mangpo.taste.view.model.TwoBtnDialog
 
 class TwoBtnDialogFragment : DialogFragment() {
     interface MyCallback {
-        fun leftAction()
-        fun rightAction()
+        fun leftAction(action: String)
+        fun rightAction(action: String)
     }
 
     private lateinit var binding: FragmentTwoBtnDialogBinding
@@ -50,12 +51,12 @@ class TwoBtnDialogFragment : DialogFragment() {
     private fun setEventListener() {
         binding.twoBtnLeftBtn.setOnClickListener {
             dismiss()
-            myCallback.leftAction()
+            myCallback.leftAction((it as AppCompatButton).text.toString())
         }
 
         binding.twoBtnRightBtn.setOnClickListener {
             dismiss()
-            myCallback.rightAction()
+            myCallback.rightAction((it as AppCompatButton).text.toString())
         }
     }
 
