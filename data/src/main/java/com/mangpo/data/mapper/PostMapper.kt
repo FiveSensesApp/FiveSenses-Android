@@ -21,7 +21,7 @@ object PostMapper {
 
         for (contentDTO in contentDTOs) {
             val contentEntity: ContentEntity = contentDTO.run {
-                ContentEntity(id, category, keyword, star, content, createdDate.split("T")[0])
+                ContentEntity(id, category, keyword, star, content, createdDate.split("T")[0].replace("-", "."))
             }
 
             contentEntities.add(contentEntity)
