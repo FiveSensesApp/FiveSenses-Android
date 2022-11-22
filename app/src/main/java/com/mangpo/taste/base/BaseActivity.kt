@@ -56,6 +56,11 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
         startActivity(intent)
     }
 
+    // 키보드 보이기
+    fun showKeyboard(v: View){
+        imm?.showSoftInput(v, 0)
+    }
+
     // 키보드 숨기기
     fun hideKeyboard(v: View){
         imm?.hideSoftInputFromWindow(v.windowToken, 0)

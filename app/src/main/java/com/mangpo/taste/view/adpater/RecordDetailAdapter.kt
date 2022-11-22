@@ -163,7 +163,7 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun updateFeed(id: Int) {
             fadeOut(context, menuCl)
             updatePostId = id
-            myClickListener.update(this@RecordDetailAdapter.records.find { it.record?.id==id }?.record!!)
+            myClickListener.update(getContentById(id))
         }
 
         fun shareFeed(id: Int) {
@@ -231,7 +231,7 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun updateData(updatePostResEntity: UpdatePostResEntity) {
         val record: ContentEntity = updatePostResEntity.run {
-            ContentEntity(id, category, keyword, star, content, createdDate.split("T")[0])
+            ContentEntity(id, category, keyword, star, content, createdDate.split("T")[0].replace("-", "."))
         }
 
         val selectedPosition: Int = this.records.indexOf(this.records.find { it.record?.id==record.id })
@@ -242,4 +242,8 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     fun setCnt(cnt: Int) {
         this.recordCntViewHolder.setCnt(cnt)
     }
+
+    fun getContentById(id: Int): ContentEntity = this@RecordDetailAdapter.records.find { it.record?.id==id }?.record!!
+
+    fun getSharedPostId(): Int = sharedPostId
 }

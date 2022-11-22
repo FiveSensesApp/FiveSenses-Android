@@ -12,6 +12,22 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.mangpo.taste.util.convertDpToPx
 import com.willy.ratingbar.BaseRatingBar
 
+@BindingAdapter("marginStart")
+fun setLayoutMarginStart(view: View, dimen: Int) {
+    (view.layoutParams as ViewGroup.MarginLayoutParams).let {
+        it.marginStart = convertDpToPx(view.context, dimen)
+        view.layoutParams = it
+    }
+}
+
+@BindingAdapter("marginEnd")
+fun setLayoutMarginEnd(view: View, dimen: Int) {
+    (view.layoutParams as ViewGroup.MarginLayoutParams).let {
+        it.marginEnd = convertDpToPx(view.context, dimen)
+        view.layoutParams = it
+    }
+}
+
 @BindingAdapter("marginTop")
 fun setLayoutMarginTop(view: View, dimen: Int) {
     (view.layoutParams as ViewGroup.MarginLayoutParams).let {
@@ -65,7 +81,7 @@ fun setWidth(view: View, width: Int) {
 @BindingAdapter("height")
 fun setHeight(view: View, height: Int) {
     val params = view.layoutParams
-    params.height = height
+    params.height = convertDpToPx(view.context, height)
     view.layoutParams = params
 }
 

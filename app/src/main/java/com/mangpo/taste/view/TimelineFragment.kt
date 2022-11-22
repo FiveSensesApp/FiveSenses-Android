@@ -84,7 +84,11 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
 
                     }
                     getString(R.string.action_share_SNS) -> {
+                        val content: ContentEntity = recordDetailAdapter.getContentById(recordDetailAdapter.getSharedPostId())
 
+                        val intent: Intent = Intent(requireContext(), PreviewActivity::class.java)
+                        intent.putExtra("content", content)
+                        startActivity(intent)
                     }
                 }
             }

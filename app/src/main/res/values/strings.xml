@@ -84,6 +84,11 @@
     <string name="title_supporters">텀블벅 후원해주신 분들</string>
     <string name="title_funding_to_launch">펀딩부터 출시까지</string>
     <string name="title_thanks_to">Thanks to -</string>
+    <string name="title_preview">미리보기</string>
+    <string name="title_icon_custom">아이콘 커스텀</string>
+    <string name="title_5gaam_character">오감 캐릭터</string>
+    <string name="title_emoji">이모지</string>
+    <string name="title_only_text">텍스트만</string>
 
     <string name="action_logout">로그아웃</string>
     <string name="action_withdrawal">계정 탈퇴</string>
@@ -113,6 +118,7 @@
     <string name="action_leave_review">리뷰 남기기</string>
     <string name="action_sharing">공유하기</string>
     <string name="action_share_SNS">SNS 공유</string>
+    <string name="action_customizing">커스텀하기</string>
 
     <string name="msg_logout">정말 로그아웃 하시겠습니까?</string>
     <string name="msg_really_withdrawal">정말 탈퇴하실 건가요?</string>
