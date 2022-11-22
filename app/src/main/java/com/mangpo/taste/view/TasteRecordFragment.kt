@@ -102,7 +102,7 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
     private fun initDialog() {
         twoBtnDialogFragment = TwoBtnDialogFragment()
         twoBtnDialogFragment.setMyCallback(object : TwoBtnDialogFragment.MyCallback {
-            override fun leftAction() {
+            override fun leftAction(action: String) {
                 //다이얼로그 화면 뒤에 투명 뷰 없애기
                 isDialogShown = false
                 binding.invalidateAll()
@@ -114,7 +114,7 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
                 isComplete = false  //기록 완료가 끝났으니까 플래그를 False 로 설정
             }
 
-            override fun rightAction() {
+            override fun rightAction(action: String) {
                 //다이얼로그 화면 뒤에 투명 뷰 없애기
                 isDialogShown = false
                 binding.invalidateAll()
