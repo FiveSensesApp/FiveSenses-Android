@@ -1,5 +1,6 @@
 package com.mangpo.taste.view
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
@@ -16,11 +17,13 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.mangpo.domain.model.getPosts.ContentEntity
 import com.mangpo.domain.model.updatePost.UpdatePostResEntity
 import com.mangpo.taste.R
 import com.mangpo.taste.databinding.FragmentRecordDialogBinding
 import com.mangpo.taste.util.DialogFragmentUtils
+import com.mangpo.taste.util.checkPermission
 import com.mangpo.taste.util.fadeIn
 import com.mangpo.taste.util.fadeOut
 import com.mangpo.taste.view.model.RecordDetailResource
@@ -102,21 +105,17 @@ class RecordDialogFragment : DialogFragment() {
                     getString(R.string.action_delete_long) -> {
                         binding.recordDialogBlurredView.visibility = View.INVISIBLE
                         eventListener.delete(binding.content!!.id)
-                    }
-                    getString(R.string.action_save_image) -> {
 
+                        dismiss()   //프래그먼트 종료
                     }
+                    getString(R.string.action_save_image) -> checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "이미지 저장을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 0) }
                 }
-
-                dismiss()   //프래그먼트 종료
             }
 
             override fun rightAction(action: String) {    //뒤로가기, SNS 공유
                 when (action) {
                     getString(R.string.action_go_back) -> binding.recordDialogBlurredView.visibility = View.INVISIBLE
-                    getString(R.string.action_share_SNS) -> {
-
-                    }
+                    getString(R.string.action_share_SNS) -> checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "공유하기 기능을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 1) }
                 }
             }
         })
@@ -145,6 +144,22 @@ class RecordDialogFragment : DialogFragment() {
                 RecordDetailResource(ContextCompat.getColor(context, R.color.GY_04), ContextCompat.getDrawable(context, R.drawable.ic_question_character_72), ContextCompat.getDrawable(context, R.drawable.ic_more_gy04_44), ContextCompat.getDrawable(context, R.drawable.ic_star_empty_gy04_23), ContextCompat.getDrawable(context, R.drawable.ic_star_fill_gy04_23))
             }
         }
+    }
+
+    private fun afterCheckPermission(isGranted: Boolean, action: Int) {
+        if (isGranted) {
+            goPreviewActivity(action)
+        }
+
+        dismiss()   //프래그먼트 종료
+    }
+
+    private fun goPreviewActivity(action: Int) {
+        val intent: Intent = Intent(requireContext(), PreviewActivity::class.java)
+        intent.putExtra("content", binding.content)
+        intent.putExtra("action", action)
+
+        startActivity(intent)
     }
 
     private fun observe() {
