@@ -1,11 +1,12 @@
 package com.mangpo.taste.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseActivity
 import com.mangpo.taste.databinding.ActivityPreviewBinding
-import com.mangpo.taste.util.SpfUtils
+import com.mangpo.taste.util.*
 import com.mangpo.taste.view.model.PreviewResource
 
 class PreviewActivity : BaseActivity<ActivityPreviewBinding>(ActivityPreviewBinding::inflate) {
@@ -20,6 +21,13 @@ class PreviewActivity : BaseActivity<ActivityPreviewBinding>(ActivityPreviewBind
             resource = getResource(content!!.category)
             nickname = SpfUtils.getStrSpf("nickname")!!
             customType = 0
+        }
+
+        binding.previewCl.viewTreeObserver.addOnGlobalLayoutListener {
+            if (intent.getIntExtra("action", 0)==0) {   //이미지 저장일 경우
+                val bitmap = getBitmapFromView(binding.previewCl.measuredWidth, binding.previewCl.measuredHeight, binding.previewCl, ContextCompat.getColor(baseContext, R.color.GY_01))
+                saveImage(bitmap!!, baseContext, getString(R.string.app_name)) { afterSaveImage(it) }
+            }
         }
     }
 
@@ -55,11 +63,30 @@ class PreviewActivity : BaseActivity<ActivityPreviewBinding>(ActivityPreviewBind
         })
     }
 
+    private fun afterSaveImage(result: Boolean) {
+        if (!result) {
+            showToast("이미지 저장 중 문제가 발생했습니다.")
+        }
+
+        finish()
+    }
+
     fun showIconCustomBottomSheet() {
         val bundle: Bundle = Bundle()
         bundle.putInt("customType", binding.customType!!)
 
         iconCustomBottomSheetFragment.arguments = bundle
         iconCustomBottomSheetFragment.show(supportFragmentManager, null)
+    }
+
+    fun share() {
+        val bitmap = getBitmapFromView(binding.previewCl.measuredWidth, binding.previewCl.measuredHeight, binding.previewCl, ContextCompat.getColor(baseContext, R.color.GY_01))
+        val screenshotUri = getImageUri(baseContext, bitmap)
+
+        val sharingIntent = Intent(Intent.ACTION_SEND)
+        sharingIntent.type = "image/*"
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri)
+
+        startActivity(Intent.createChooser(sharingIntent, ""))
     }
 }

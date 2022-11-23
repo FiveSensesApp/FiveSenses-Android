@@ -102,7 +102,7 @@
             android:layout_marginEnd="31dp"
             android:layout_marginBottom="22dp"
             android:background="@drawable/bg_bk_22p5"
-            android:onClick="@{() -> fragment.saveAsImage(badge)}"
+            android:onClick="@{() -> fragment.saveAsImage()}"
             android:stateListAnimator="@null"
             android:text="@string/action_save_image"
             android:textAppearance="@style/Sub_Head_B_18"

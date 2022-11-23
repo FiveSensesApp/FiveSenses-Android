@@ -1,20 +1,16 @@
 package com.mangpo.taste.view
 
+import android.Manifest
 import android.app.Activity
-import android.content.ContentValues
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.mangpo.domain.model.getPosts.ContentEntity
 import com.mangpo.domain.model.updatePost.UpdatePostResEntity
@@ -22,14 +18,12 @@ import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentTimelineBinding
 import com.mangpo.taste.util.SpfUtils
+import com.mangpo.taste.util.checkPermission
 import com.mangpo.taste.view.adpater.RecordDetailAdapter
 import com.mangpo.taste.view.model.TwoBtnDialog
 import com.mangpo.taste.viewmodel.FeedViewModel
 import com.mangpo.taste.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.IOException
 
 @AndroidEntryPoint
 class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineBinding::inflate) {
@@ -72,9 +66,7 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
             override fun leftAction(action: String) { //삭제하기, 이미지 저장
                 when (action) {
                     getString(R.string.action_delete_long) -> feedVm.deletePost(recordDetailAdapter.getDeletePostId())
-                    getString(R.string.action_save_image) -> {
-
-                    }
+                    getString(R.string.action_save_image) -> checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "이미지 저장을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 0) }
                 }
             }
 
@@ -83,13 +75,7 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
                     getString(R.string.action_go_back) -> {
 
                     }
-                    getString(R.string.action_share_SNS) -> {
-                        val content: ContentEntity = recordDetailAdapter.getContentById(recordDetailAdapter.getSharedPostId())
-
-                        val intent: Intent = Intent(requireContext(), PreviewActivity::class.java)
-                        intent.putExtra("content", content)
-                        startActivity(intent)
-                    }
+                    getString(R.string.action_share_SNS) -> checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "공유하기 기능을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 1) }
                 }
             }
         })
@@ -160,73 +146,20 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
         isLast = true
     }
 
-    private fun getBitmapFromView(view: View): Bitmap? {
-        //Define a bitmap with the same size as the view
-        val returnedBitmap = Bitmap.createBitmap(view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_8888)
-
-        //Bind a canvas to it
-        val canvas = Canvas(returnedBitmap)
-
-        //Get the view's background
-        val bgDrawable = view.background
-        if (bgDrawable != null) {   //has background drawable, then draw it on the canvas
-            bgDrawable.draw(canvas)
-        } else {    //does not have background drawable, then draw white background on the canvas
-            canvas.drawColor(Color.WHITE)
+    private fun afterCheckPermission(isGranted: Boolean, action: Int) {
+        if (isGranted) {
+            goPreviewActivity(action)
         }
-
-        // draw the view on the canvas
-        view.draw(canvas)
-
-        //return the bitmap
-        return returnedBitmap
     }
 
-    //Android Q (Android 10, API 29 이상에서는 이 메서드를 통해서 이미지를 저장한다.)
-    private fun saveImageOnAboveAndroidQ(bitmap: Bitmap): Uri? {
-        val fileName = System.currentTimeMillis().toString() + ".png" // 파일이름 현재시간.png
+    private fun goPreviewActivity(action: Int) {
+        val content: ContentEntity = recordDetailAdapter.getContentById(recordDetailAdapter.getSharedPostId())
 
-        /*
-        * ContentValues() 객체 생성.
-        * ContentValues는 ContentResolver가 처리할 수 있는 값을 저장해둘 목적으로 사용된다.
-        * */
-        val contentValues = ContentValues()
-        contentValues.apply {
-            put(MediaStore.Images.Media.RELATIVE_PATH, "DCIM/ImageSave") // 경로 설정
-            put(MediaStore.Images.Media.DISPLAY_NAME, fileName) // 파일이름을 put해준다.
-            put(MediaStore.Images.Media.MIME_TYPE, "image/png")
-            put(MediaStore.Images.Media.IS_PENDING, 1) // 현재 is_pending 상태임을 만들어준다.
-            // 다른 곳에서 이 데이터를 요구하면 무시하라는 의미로, 해당 저장소를 독점할 수 있다.
-        }
+        val intent: Intent = Intent(requireContext(), PreviewActivity::class.java)
+        intent.putExtra("content", content)
+        intent.putExtra("action", action)
 
-        // 이미지를 저장할 uri를 미리 설정해놓는다.
-        val uri = requireContext().contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-
-        try {
-            if(uri != null) {
-                val image = requireContext().contentResolver.openFileDescriptor(uri, "w", null)
-                // write 모드로 file을 open한다.
-
-                if(image != null) {
-                    val fos = FileOutputStream(image.fileDescriptor)
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
-                    //비트맵을 FileOutputStream를 통해 compress한다.
-                    fos.close()
-
-                    contentValues.clear()
-                    contentValues.put(MediaStore.Images.Media.IS_PENDING, 0) // 저장소 독점을 해제한다.
-                    requireContext().contentResolver.update(uri, contentValues, null, null)
-                }
-            }
-        } catch(e: FileNotFoundException) {
-            e.printStackTrace()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        return uri
+        startActivity(intent)
     }
 
     private fun observe() {

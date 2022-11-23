@@ -103,3 +103,10 @@ fun setWidthPercentage(view: ShapeableImageView, widthPercentage: Float) {
     params.matchConstraintPercentWidth = widthPercentage
     view.layoutParams = params
 }
+
+@BindingAdapter("heightPercentage")
+fun setHeightPercentage(view: View, heightPercentage: Float) {
+    val params = (view.layoutParams as ConstraintLayout.LayoutParams)
+    params.matchConstraintPercentHeight = heightPercentage
+    view.layoutParams = params
+}
