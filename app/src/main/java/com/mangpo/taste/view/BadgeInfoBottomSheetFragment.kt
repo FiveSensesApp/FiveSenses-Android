@@ -123,7 +123,7 @@ class BadgeInfoBottomSheetFragment : BottomSheetDialogFragment() {
         if (isGranted) {
             binding.cl.visibility = View.VISIBLE
             val bitmap = getBitmapFromView(binding.cl.measuredWidth, binding.cl.measuredHeight, binding.cl, Color.WHITE)
-            saveImage(bitmap!!, requireContext(), getString(R.string.app_name)) { afterSaveImage(it) }
+            saveImage(bitmap!!, requireContext(), getString(R.string.app_name)) { result, uri -> afterSaveImage(result) }
         }
     }
 

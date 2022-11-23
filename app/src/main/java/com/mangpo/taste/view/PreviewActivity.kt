@@ -26,7 +26,7 @@ class PreviewActivity : BaseActivity<ActivityPreviewBinding>(ActivityPreviewBind
         binding.previewCl.viewTreeObserver.addOnGlobalLayoutListener {
             if (intent.getIntExtra("action", 0)==0) {   //이미지 저장일 경우
                 val bitmap = getBitmapFromView(binding.previewCl.measuredWidth, binding.previewCl.measuredHeight, binding.previewCl, ContextCompat.getColor(baseContext, R.color.GY_01))
-                saveImage(bitmap!!, baseContext, getString(R.string.app_name)) { afterSaveImage(it) }
+                saveImage(bitmap!!, baseContext, getString(R.string.app_name)) { result, uri -> afterSaveImage(result) }
             }
         }
     }
@@ -81,12 +81,16 @@ class PreviewActivity : BaseActivity<ActivityPreviewBinding>(ActivityPreviewBind
 
     fun share() {
         val bitmap = getBitmapFromView(binding.previewCl.measuredWidth, binding.previewCl.measuredHeight, binding.previewCl, ContextCompat.getColor(baseContext, R.color.GY_01))
-        val screenshotUri = getImageUri(baseContext, bitmap)
+        saveImage(bitmap!!, baseContext, getString(R.string.app_name)) { result, uri ->
+            if (result) {
+                val sharingIntent = Intent(Intent.ACTION_SEND)
+                sharingIntent.type = "image/png"
+                sharingIntent.putExtra(Intent.EXTRA_STREAM, uri)
 
-        val sharingIntent = Intent(Intent.ACTION_SEND)
-        sharingIntent.type = "image/*"
-        sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri)
-
-        startActivity(Intent.createChooser(sharingIntent, ""))
+                startActivity(Intent.createChooser(sharingIntent, ""))
+            } else {
+                showToast("공유 중 문제가 발생했습니다.")
+            }
+        }
     }
 }
