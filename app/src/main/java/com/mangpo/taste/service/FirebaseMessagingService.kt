@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
+import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.mangpo.taste.R
 import com.mangpo.taste.util.SpfUtils
@@ -21,11 +22,10 @@ class FirebaseMessagingService: FirebaseMessagingService() {
     }
 
     private fun sendDataMessage(title: String, body: String) {
-        var intent: Intent
-        if (SpfUtils.getBooleanSpf("onBoarding", false)) {
-            intent = Intent(this, MainActivity::class.java)
+        var intent: Intent = if (SpfUtils.getBooleanSpf("onBoarding", false)) {
+            Intent(this, MainActivity::class.java)
         } else {
-            intent = Intent(this, OnBoardingActivity::class.java)
+            Intent(this, OnBoardingActivity::class.java)
         }
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
