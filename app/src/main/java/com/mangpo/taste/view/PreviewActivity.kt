@@ -2,18 +2,25 @@ package com.mangpo.taste.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.InputFilter
+import android.text.TextWatcher
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseActivity
 import com.mangpo.taste.databinding.ActivityPreviewBinding
 import com.mangpo.taste.util.*
+import com.mangpo.taste.view.custom.EmojiInputFilter
 import com.mangpo.taste.view.model.PreviewResource
 
-class PreviewActivity : BaseActivity<ActivityPreviewBinding>(ActivityPreviewBinding::inflate) {
+class PreviewActivity : BaseActivity<ActivityPreviewBinding>(ActivityPreviewBinding::inflate), TextWatcher {
     private lateinit var iconCustomBottomSheetFragment: IconCustomBottomSheetFragment
+    private lateinit var emojiInputFilter: EmojiInputFilter
 
     override fun initAfterBinding() {
         initIconCustomBottomSheetFragment()
+        initEmojiFilter()
 
         binding.apply {
             activity = this@PreviewActivity
@@ -29,6 +36,23 @@ class PreviewActivity : BaseActivity<ActivityPreviewBinding>(ActivityPreviewBind
                 saveImage(bitmap!!, baseContext, getString(R.string.app_name)) { result, uri -> afterSaveImage(result) }
             }
         }
+
+        binding.previewEmojiEt.filters = arrayOf(InputFilter.LengthFilter(2), emojiInputFilter)
+        binding.previewEmojiEt.addTextChangedListener(this)
+    }
+
+    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+    }
+
+    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        if (p0!=null && p0.isNotBlank()) {
+            binding.previewEmojiEt.background = null
+        } else {
+            binding.previewEmojiEt.background = ContextCompat.getDrawable(baseContext, R.drawable.ic_icon_custom_emoji_default)
+        }
+    }
+
+    override fun afterTextChanged(p0: Editable?) {
     }
 
     private fun getResource(category: String): PreviewResource {
@@ -59,6 +83,15 @@ class PreviewActivity : BaseActivity<ActivityPreviewBinding>(ActivityPreviewBind
 
                     }
                 }
+            }
+        })
+    }
+
+    private fun initEmojiFilter() {
+        emojiInputFilter = EmojiInputFilter()
+        emojiInputFilter.setCallbackListener(object : EmojiInputFilter.CallbackListener {
+            override fun showToast(msg: String) {
+                Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
             }
         })
     }
