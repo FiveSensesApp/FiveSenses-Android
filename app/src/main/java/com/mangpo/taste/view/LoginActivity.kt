@@ -99,6 +99,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
 
         //로그인 버튼 클릭 리스너
         binding.loginLoginBtn.setOnClickListener {
+            hideKeyboard(binding.root)
             loginVm.authorize(AuthorizeReqEntity(binding.loginEmailEt.text.toString(), binding.loginPwEt.text.toString()))
         }
     }
