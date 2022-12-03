@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.mangpo.taste.view.IconCustomBottomSheetFragment" />
+
+        <variable
+            name="customType"
+            type="Integer" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.IconCustomBottomSheetFragment">
+
+        <TextView
+            android:id="@+id/icon_custom_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginTop="25dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@string/title_icon_custom"
+            android:textAppearance="@style/Head_B_20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:checkedButton="@{customType}"
+            android:gravity="center"
+            android:onCheckedChanged="@{fragment.onSplitTypeChanged}"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/icon_custom_title_tv">
+
+            <RadioButton
+                android:id="@+id/icon_custom_5gaam_character_rb"
+                android:layout_width="0dp"
+                android:layout_height="71dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:drawableTop="@drawable/selector_icon_custom_5gaam_character"
+                android:gravity="center"
+                android:text="@string/title_5gaam_character"
+                android:textAppearance="@style/Body1_M_14"
+                android:textColor="@drawable/selector_icon_custom_rb_text" />
+
+            <RadioButton
+                android:id="@+id/icon_custom_emoji_rb"
+                android:layout_width="0dp"
+                android:layout_height="71dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:drawableTop="@drawable/selector_icon_custom_emoji"
+                android:gravity="center"
+                android:text="@string/title_emoji"
+                android:textAppearance="@style/Body1_M_14"
+                android:textColor="@drawable/selector_icon_custom_rb_text" />
+
+            <RadioButton
+                android:id="@+id/icon_custom_only_text_rb"
+                android:layout_width="0dp"
+                android:layout_height="71dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:drawableTop="@drawable/selector_icon_custom_only_text"
+                android:gravity="center"
+                android:text="@string/title_only_text"
+                android:textAppearance="@style/Body1_M_14"
+                android:textColor="@drawable/selector_icon_custom_rb_text" />
+        </RadioGroup>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

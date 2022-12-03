@@ -55,7 +55,7 @@ class RecordUpdateActivity : BaseActivity<ActivityRecordUpdateBinding>(ActivityR
 
     private fun bind(content: ContentEntity) {
         val context = this@RecordUpdateActivity
-        val date: LocalDate = LocalDate.parse(content.createdDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+        val date: LocalDate = LocalDate.parse(content.createdDate, DateTimeFormatter.ofPattern("yyyy.MM.dd"))
 
         when (content.category) {
             "SIGHT" -> {  //시각

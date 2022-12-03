@@ -2,16 +2,8 @@ package com.mangpo.taste.view
 
 import android.Manifest
 import android.app.Dialog
-import android.content.ContentValues
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.Color
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,17 +13,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.gun0912.tedpermission.coroutine.TedPermission
-import com.mangpo.domain.model.getUserBadgesByUser.GetUserBadgesByUserResEntity
 import com.mangpo.taste.R
 import com.mangpo.taste.databinding.FragmentBadgeInfoBottomSheetBinding
 import com.mangpo.taste.util.*
 import com.mangpo.taste.viewmodel.BadgeInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import java.io.*
-import java.io.File.separator
 import java.time.LocalDate
 
 @AndroidEntryPoint
@@ -129,97 +115,24 @@ class BadgeInfoBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-    fun saveAsImage(b: GetUserBadgesByUserResEntity) {
-        lifecycleScope.launch {
-            val permissionResult = lifecycleScope.async {
-                TedPermission.create()
-                    .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    .setDeniedMessage("이미지 저장을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.")
-                    .check()
-            }
+    fun saveAsImage() {
+        checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "이미지 저장을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it) }
+    }
 
-            if (permissionResult.await().isGranted) {
-                binding.cl.visibility = View.VISIBLE
-                val bitmap = getBitmapFromView(binding.cl)
-                saveImage(bitmap!!, requireContext(), getString(R.string.app_name))
-            }
+    private fun afterCheckPermission(isGranted: Boolean) {
+        if (isGranted) {
+            binding.cl.visibility = View.VISIBLE
+            val bitmap = getBitmapFromView(binding.cl.measuredWidth, binding.cl.measuredHeight, binding.cl, Color.WHITE)
+            saveImage(bitmap!!, requireContext(), getString(R.string.app_name)) { result, uri -> afterSaveImage(result) }
         }
     }
 
-    private fun getBitmapFromView(view: View): Bitmap? {
-        //Define a bitmap with the same size as the view
-        val returnedBitmap = Bitmap.createBitmap(binding.cl.measuredWidth, binding.cl.measuredHeight, Bitmap.Config.ARGB_8888)
-
-        //Bind a canvas to it
-        val canvas = Canvas(returnedBitmap)
-
-        //Get the view's background
-        val bgDrawable = view.background
-        if (bgDrawable != null) {   //has background drawable, then draw it on the canvas
-            bgDrawable.draw(canvas)
-        } else {    //does not have background drawable, then draw white background on the canvas
-            canvas.drawColor(Color.WHITE)
-        }
-
-        // draw the view on the canvas
-        view.draw(canvas)
-
-        //return the bitmap
-        return returnedBitmap
-    }
-
-    /// @param folderName can be your app's name
-    private fun saveImage(bitmap: Bitmap, context: Context, folderName: String) {
-        if (Build.VERSION.SDK_INT >= 29) {  // RELATIVE_PATH and IS_PENDING are introduced in API 29.
-            val values = contentValues()
-            values.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/$folderName")
-            values.put(MediaStore.Images.Media.IS_PENDING, true)
-
-            val uri: Uri? = context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
-            if (uri != null) {
-                saveImageToStream(bitmap, context.contentResolver.openOutputStream(uri))
-                values.put(MediaStore.Images.Media.IS_PENDING, false)
-                context.contentResolver.update(uri, values, null, null)
-            }
-        } else {    // getExternalStorageDirectory is deprecated in API 29
-            val directory = File(Environment.getExternalStorageDirectory().toString() + separator + folderName)
-
-            if (!directory.exists()) {
-                directory.mkdirs()
-            }
-
-            val fileName = System.currentTimeMillis().toString() + ".png"
-            val file = File(directory, fileName)
-            saveImageToStream(bitmap, FileOutputStream(file))
-
-            if (file.absolutePath != null) {
-                val values = contentValues()
-                values.put(MediaStore.Images.Media.DATA, file.absolutePath) // .DATA is deprecated in API 29
-                context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
-            }
+    private fun afterSaveImage(result: Boolean) {
+        if (!result) {
+            Toast.makeText(requireContext(), "이미지 저장 중 문제가 발생했습니다.", Toast.LENGTH_SHORT).show()
         }
 
         binding.cl.visibility = View.INVISIBLE
         dismiss()
-    }
-
-    private fun contentValues() : ContentValues {
-        val values = ContentValues()
-        values.put(MediaStore.Images.Media.MIME_TYPE, "image/png")
-        values.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000)
-        values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis())
-
-        return values
-    }
-
-    private fun saveImageToStream(bitmap: Bitmap, outputStream: OutputStream?) {
-        if (outputStream != null) {
-            try {
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-                outputStream.close()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
     }
 }

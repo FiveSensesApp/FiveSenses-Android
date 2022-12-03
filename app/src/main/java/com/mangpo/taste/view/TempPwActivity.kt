@@ -60,10 +60,10 @@ class TempPwActivity : BaseActivity<ActivityTempPwBinding>(ActivityTempPwBinding
 
         twoBtnDialogFragment = TwoBtnDialogFragment()
         twoBtnDialogFragment.setMyCallback(object : TwoBtnDialogFragment.MyCallback {
-            override fun leftAction() { //뒤로 가기
+            override fun leftAction(action: String) { //뒤로 가기
             }
 
-            override fun rightAction() {    //문의 메일
+            override fun rightAction(action: String) {    //문의 메일
                 val emailIntent: Intent = Intent(Intent.ACTION_SEND)
                 emailIntent.type = "message/rfc822"
                 emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.app_email)))

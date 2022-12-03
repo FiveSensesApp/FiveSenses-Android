@@ -32,6 +32,10 @@
         </service>
 
         <activity
+            android:name=".view.PreviewActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".view.SupportActivity"
             android:exported="false"
             android:screenOrientation="portrait" />

@@ -40,7 +40,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
     private fun initTwoBtnDialog() {
         twoBtnDialogFragment = TwoBtnDialogFragment()
         twoBtnDialogFragment.setMyCallback(object : TwoBtnDialogFragment.MyCallback {
-            override fun leftAction() { //아니요
+            override fun leftAction(action: String) { //아니요
                 if (dialogType==0) {    //로그아웃
 
                 } else {    //회원탈퇴
@@ -50,7 +50,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
                 dialogType = -1 //초기화
             }
 
-            override fun rightAction() {    //예
+            override fun rightAction(action: String) {    //예
                 if (dialogType==0) {    //로그아웃
                     goodBye()
                 } else {    //회원탈퇴

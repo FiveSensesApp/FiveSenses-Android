@@ -1,5 +1,6 @@
 package com.mangpo.taste.view
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.mangpo.domain.model.getPosts.ContentEntity
 import com.mangpo.domain.model.updatePost.UpdatePostResEntity
@@ -16,6 +18,7 @@ import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentTimelineBinding
 import com.mangpo.taste.util.SpfUtils
+import com.mangpo.taste.util.checkPermission
 import com.mangpo.taste.view.adpater.RecordDetailAdapter
 import com.mangpo.taste.view.model.TwoBtnDialog
 import com.mangpo.taste.viewmodel.FeedViewModel
@@ -60,11 +63,20 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
     private fun initTwoBtnDialog() {
         twoBtnDialogFragment = TwoBtnDialogFragment()
         twoBtnDialogFragment.setMyCallback(object : TwoBtnDialogFragment.MyCallback {
-            override fun leftAction() {
-                feedVm.deletePost(recordDetailAdapter.getDeletePostId())
+            override fun leftAction(action: String) { //삭제하기, 이미지 저장
+                when (action) {
+                    getString(R.string.action_delete_long) -> feedVm.deletePost(recordDetailAdapter.getDeletePostId())
+                    getString(R.string.action_save_image) -> checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "이미지 저장을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 0) }
+                }
             }
 
-            override fun rightAction() {
+            override fun rightAction(action: String) {    //뒤로가기, SNS 공유
+                when (action) {
+                    getString(R.string.action_go_back) -> {
+
+                    }
+                    getString(R.string.action_share_SNS) -> checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "공유하기 기능을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 1) }
+                }
             }
         })
     }
@@ -82,6 +94,13 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
             override fun delete() {
                 val bundle: Bundle = Bundle()
                 bundle.putParcelable("data", TwoBtnDialog(getString(R.string.msg_really_delete), getString(R.string.msg_cannot_recover), getString(R.string.action_delete_long), getString(R.string.action_go_back), R.drawable.bg_gy01_12))
+                twoBtnDialogFragment.arguments = bundle
+                twoBtnDialogFragment.show(requireActivity().supportFragmentManager, null)
+            }
+
+            override fun share() {
+                val bundle: Bundle = Bundle()
+                bundle.putParcelable("data", TwoBtnDialog(getString(R.string.action_sharing), getString(R.string.msg_share_your_preferences), getString(R.string.action_save_image), getString(R.string.action_share_SNS), R.drawable.bg_gy01_12))
                 twoBtnDialogFragment.arguments = bundle
                 twoBtnDialogFragment.show(requireActivity().supportFragmentManager, null)
             }
@@ -125,6 +144,22 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
     private fun clearPaging() {
         page = 0
         isLast = true
+    }
+
+    private fun afterCheckPermission(isGranted: Boolean, action: Int) {
+        if (isGranted) {
+            goPreviewActivity(action)
+        }
+    }
+
+    private fun goPreviewActivity(action: Int) {
+        val content: ContentEntity = recordDetailAdapter.getContentById(recordDetailAdapter.getSharedPostId())
+
+        val intent: Intent = Intent(requireContext(), PreviewActivity::class.java)
+        intent.putExtra("content", content)
+        intent.putExtra("action", action)
+
+        startActivity(intent)
     }
 
     private fun observe() {
