@@ -33,6 +33,11 @@ fun convertDpToPx(context: Context, dp: Int): Int {
     return (dp * density).roundToInt()
 }
 
+fun convertPxToDp(context: Context, px: Int): Int {
+    val density = context.resources.displayMetrics.density
+    return (px / density).roundToInt()
+}
+
 fun getDeviceWidth(): Int = Resources.getSystem().displayMetrics.widthPixels
 
 fun getDeviceHeight(): Int = Resources.getSystem().displayMetrics.heightPixels

@@ -81,7 +81,7 @@ fun setWidth(view: View, width: Int) {
 @BindingAdapter("height")
 fun setHeight(view: View, height: Int) {
     val params = view.layoutParams
-    params.height = convertDpToPx(view.context, height)
+    params.height = height
     view.layoutParams = params
 }
 
@@ -109,4 +109,9 @@ fun setHeightPercentage(view: View, heightPercentage: Float) {
     val params = (view.layoutParams as ConstraintLayout.LayoutParams)
     params.matchConstraintPercentHeight = heightPercentage
     view.layoutParams = params
+}
+
+@BindingAdapter("imgUri")
+fun setImgUri(view: ImageView, uri: Uri?) {
+    view.setImageURI(uri)
 }

@@ -30,6 +30,18 @@
         <variable
             name="emoji"
             type="Integer" />
+
+        <variable
+            name="backgroundUri"
+            type="android.net.Uri" />
+
+        <variable
+            name="isSharing"
+            type="Boolean" />
+
+        <variable
+            name="previewClMarginTop"
+            type="Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -40,12 +52,19 @@
         tools:context=".view.PreviewActivity">
 
         <ImageView
+            imgUri="@{backgroundUri}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY" />
+
+        <ImageView
             android:layout_width="38dp"
             android:layout_height="38dp"
             android:layout_marginStart="21dp"
             android:layout_marginTop="44dp"
             android:onClick="@{() -> activity.finish()}"
             android:src="@drawable/ic_back_bk_38"
+            android:visibility="@{isSharing? View.INVISIBLE: View.VISIBLE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -58,16 +77,32 @@
             android:includeFontPadding="false"
             android:text="@string/title_preview"
             android:textAppearance="@style/Head_B_26"
+            android:visibility="@{isSharing? View.INVISIBLE: View.VISIBLE}"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="104dp"
+            android:layout_height="34dp"
+            android:layout_marginTop="105dp"
+            android:layout_marginEnd="19dp"
+            android:background="@drawable/bg_wh_22p5_gy03_1"
+            android:onClick="@{() -> activity.addBackground()}"
+            android:stateListAnimator="@null"
+            android:text="@string/action_add_background"
+            android:textAppearance="@style/Body0_SB_16"
+            android:textColor="@color/GY_04"
+            android:visibility="@{isSharing? View.INVISIBLE: View.VISIBLE}"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/preview_cl"
             heightPercentage="@{content.content==null || TextUtils.isEmpty(content.content)? 0.25f: 0.45f}"
+            marginTop="@{previewClMarginTop}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginHorizontal="21dp"
-            android:layout_marginTop="163dp"
             android:background="@drawable/bg_gy01_12"
             android:elevation="15dp"
             app:cardCornerRadius="12dp"
@@ -226,6 +261,7 @@
             android:text="@string/action_customizing"
             android:textAppearance="@style/Sub_Head_B_18"
             android:textColor="@color/WH"
+            android:visibility="@{isSharing? View.INVISIBLE: View.VISIBLE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/preview_cl" />
 
@@ -241,6 +277,7 @@
             android:text="@string/action_sharing"
             android:textAppearance="@style/Sub_Head_B_18"
             android:textColor="@color/WH"
+            android:visibility="@{isSharing? View.INVISIBLE: View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/preview_cl" />
 

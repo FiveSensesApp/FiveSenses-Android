@@ -119,6 +119,7 @@
     <string name="action_sharing">공유하기</string>
     <string name="action_share_SNS">SNS 공유</string>
     <string name="action_customizing">커스텀하기</string>
+    <string name="action_add_background">+ 배경 추가</string>
 
     <string name="msg_logout">정말 로그아웃 하시겠습니까?</string>
     <string name="msg_really_withdrawal">정말 탈퇴하실 건가요?</string>

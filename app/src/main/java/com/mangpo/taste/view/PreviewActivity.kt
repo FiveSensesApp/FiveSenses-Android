@@ -1,5 +1,6 @@
 package com.mangpo.taste.view
 
+import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -7,12 +8,19 @@ import android.text.InputFilter
 import android.text.TextWatcher
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseActivity
 import com.mangpo.taste.databinding.ActivityPreviewBinding
 import com.mangpo.taste.util.*
 import com.mangpo.taste.view.custom.EmojiInputFilter
 import com.mangpo.taste.view.model.PreviewResource
+import gun0912.tedimagepicker.builder.TedImagePicker
+import gun0912.tedimagepicker.builder.type.MediaType
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class PreviewActivity : BaseActivity<ActivityPreviewBinding>(ActivityPreviewBinding::inflate), TextWatcher {
     private lateinit var iconCustomBottomSheetFragment: IconCustomBottomSheetFragment
@@ -24,10 +32,11 @@ class PreviewActivity : BaseActivity<ActivityPreviewBinding>(ActivityPreviewBind
 
         binding.apply {
             activity = this@PreviewActivity
+            previewClMarginTop = 163
+            customType = 0
             content = intent.getParcelableExtra("content")
             resource = getResource(content!!.category)
             nickname = SpfUtils.getStrSpf("nickname")!!
-            customType = 0
         }
 
         binding.previewCl.viewTreeObserver.addOnGlobalLayoutListener {
@@ -59,8 +68,8 @@ class PreviewActivity : BaseActivity<ActivityPreviewBinding>(ActivityPreviewBind
         return when (category) {
             "SIGHT" -> PreviewResource(" '${getString(R.string.title_sight)}'", ContextCompat.getDrawable(baseContext, R.drawable.ic_5gaam_rd2)!!, ContextCompat.getDrawable(baseContext, R.drawable.ic_sight_character_72)!!, ContextCompat.getColor(baseContext, R.color.RD_2))
             "HEARING" -> PreviewResource(" '${getString(R.string.title_ear)}'", ContextCompat.getDrawable(baseContext, R.drawable.ic_5gaam_bu2)!!, ContextCompat.getDrawable(baseContext, R.drawable.ic_ear_character_72)!!, ContextCompat.getColor(baseContext, R.color.BU_2))
-            "SMELL" -> PreviewResource(" '${getString(R.string.title_smell)}'", ContextCompat.getDrawable(baseContext, R.drawable.ic_5gaam_gn2)!!, ContextCompat.getDrawable(baseContext, R.drawable.ic_smell_character_72)!!, ContextCompat.getColor(baseContext, R.color.GN_3))
-            "TASTE" -> PreviewResource(" '${getString(R.string.title_taste)}'", ContextCompat.getDrawable(baseContext, R.drawable.ic_5gaam_ye2)!!, ContextCompat.getDrawable(baseContext, R.drawable.ic_taste_character_72)!!, ContextCompat.getColor(baseContext, R.color.YE_3))
+            "SMELL" -> PreviewResource(" '${getString(R.string.title_smell)}'", ContextCompat.getDrawable(baseContext, R.drawable.ic_5gaam_gn)!!, ContextCompat.getDrawable(baseContext, R.drawable.ic_smell_character_72)!!, ContextCompat.getColor(baseContext, R.color.GN_3))
+            "TASTE" -> PreviewResource(" '${getString(R.string.title_taste)}'", ContextCompat.getDrawable(baseContext, R.drawable.ic_5gaam_ye)!!, ContextCompat.getDrawable(baseContext, R.drawable.ic_taste_character_72)!!, ContextCompat.getColor(baseContext, R.color.YE_3))
             "TOUCH" -> PreviewResource(" '${getString(R.string.title_touch)}'", ContextCompat.getDrawable(baseContext, R.drawable.ic_5gaam_pu2)!!, ContextCompat.getDrawable(baseContext, R.drawable.ic_touch_character_72)!!, ContextCompat.getColor(baseContext, R.color.PU_2))
             else -> PreviewResource("", ContextCompat.getDrawable(baseContext, R.drawable.ic_5gaam_gy04)!!, ContextCompat.getDrawable(baseContext, R.drawable.ic_question_character_72)!!, ContextCompat.getColor(baseContext, R.color.GY_04))
         }
@@ -113,16 +122,39 @@ class PreviewActivity : BaseActivity<ActivityPreviewBinding>(ActivityPreviewBind
     }
 
     fun share() {
-        val bitmap = getBitmapFromView(binding.previewCl.measuredWidth, binding.previewCl.measuredHeight, binding.previewCl, ContextCompat.getColor(baseContext, R.color.GY_01))
-        saveImage(bitmap!!, baseContext, getString(R.string.app_name)) { result, uri ->
-            if (result) {
-                val sharingIntent = Intent(Intent.ACTION_SEND)
-                sharingIntent.type = "image/png"
-                sharingIntent.putExtra(Intent.EXTRA_STREAM, uri)
+        CoroutineScope(Dispatchers.Main).launch {
+            binding.isSharing = true
+            binding.previewClMarginTop = convertPxToDp(baseContext, (getDeviceHeight() - binding.previewCl.measuredHeight) / 2)
 
-                startActivity(Intent.createChooser(sharingIntent, ""))
-            } else {
-                showToast("공유 중 문제가 발생했습니다.")
+            delay(100L)
+
+            val bitmap = getBitmapFromView(getDeviceWidth(), getDeviceHeight(), binding.root, ContextCompat.getColor(baseContext, R.color.WH))
+            saveImage(bitmap!!, baseContext, getString(R.string.app_name)) { result, uri ->
+                if (result) {
+                    val sharingIntent = Intent(Intent.ACTION_SEND)
+                    sharingIntent.type = "image/png"
+                    sharingIntent.putExtra(Intent.EXTRA_STREAM, uri)
+
+                    startActivity(Intent.createChooser(sharingIntent, ""))
+                } else {
+                    showToast("공유 중 문제가 발생했습니다.")
+                }
+
+                binding.apply {
+                    isSharing = false
+                    previewClMarginTop = 163
+                }
+            }
+        }
+    }
+
+    fun addBackground() {
+        checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "갤러리 접근 권한이 필요합니다. 권한을 허용해주세요.") {
+            if (it) {
+                TedImagePicker.with(this)
+                    .mediaType(MediaType.IMAGE)
+                    .savedDirectoryName(getString(R.string.app_name))
+                    .start { uri -> binding.backgroundUri = uri }
             }
         }
     }
