@@ -158,6 +158,7 @@ class CreateAccountActivity : BaseActivity<ActivityCreateAccountBinding>(Activit
             return false
         }
 
+        //특수문자는 !@#$&* 만 가능
         val notPermitChar = pw.replace("[\\da-zA-Z!@#\$&*]".toRegex(), "")
         if (notPermitChar.isNotBlank()) {
             return false
