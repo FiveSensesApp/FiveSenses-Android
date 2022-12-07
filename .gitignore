@@ -226,6 +226,7 @@ fabric.properties
 /app/src/main/res/font/
 /app/src/main/res/xml/network_security_config.xml
 /app/src/main/res/raw/
+/app/src/main/res/drawable/*.png
 /app/src/main/res/*/ic_launcher.png
 /app/src/main/res/*/ic_launcher_round.png
 /app/src/main/ic_launcher-playstore.png
