@@ -2,11 +2,14 @@ package com.mangpo.taste.view
 
 import android.Manifest
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.mangpo.taste.R
@@ -15,8 +18,6 @@ import com.mangpo.taste.databinding.ActivityPreviewBinding
 import com.mangpo.taste.util.*
 import com.mangpo.taste.view.custom.EmojiInputFilter
 import com.mangpo.taste.view.model.PreviewResource
-import gun0912.tedimagepicker.builder.TedImagePicker
-import gun0912.tedimagepicker.builder.type.MediaType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -25,6 +26,11 @@ import kotlinx.coroutines.launch
 class PreviewActivity : BaseActivity<ActivityPreviewBinding>(ActivityPreviewBinding::inflate), TextWatcher {
     private lateinit var iconCustomBottomSheetFragment: IconCustomBottomSheetFragment
     private lateinit var emojiInputFilter: EmojiInputFilter
+
+    private val pickMultipleMedia =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            binding.backgroundUri = uri
+        }
 
     override fun initAfterBinding() {
         initIconCustomBottomSheetFragment()
@@ -113,6 +119,12 @@ class PreviewActivity : BaseActivity<ActivityPreviewBinding>(ActivityPreviewBind
         finish()
     }
 
+    private fun showGallery(isGrated: Boolean) {
+        if (isGrated) {
+            pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+    }
+
     fun showIconCustomBottomSheet() {
         val bundle: Bundle = Bundle()
         bundle.putInt("customType", binding.customType!!)
@@ -149,13 +161,10 @@ class PreviewActivity : BaseActivity<ActivityPreviewBinding>(ActivityPreviewBind
     }
 
     fun addBackground() {
-        checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "갤러리 접근 권한이 필요합니다. 권한을 허용해주세요.") {
-            if (it) {
-                TedImagePicker.with(this)
-                    .mediaType(MediaType.IMAGE)
-                    .savedDirectoryName(getString(R.string.app_name))
-                    .start { uri -> binding.backgroundUri = uri }
-            }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "갤러리 접근을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { showGallery(it) }
+        } else {
+            checkPermission(lifecycleScope, Manifest.permission.READ_MEDIA_IMAGES, "갤러리 접근을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { showGallery(it) }
         }
     }
 }
