@@ -23,11 +23,6 @@ class AlarmTimeSettingActivity : BaseActivity<ActivityAlarmTimeSettingBinding>(A
     private fun setEventLister() {
         binding.alarmTimeSettingNextBtn.setOnClickListener {
             checkNotificationPermission()   //알람 권한 체크(Android 13 Version 이상)
-            /*val bundle: Bundle = Bundle()
-            bundle.putString("time", "오후 10:00")
-
-            alarmTimeDialogFragment.arguments = bundle
-            alarmTimeDialogFragment.show(supportFragmentManager, null)*/
         }
     }
 

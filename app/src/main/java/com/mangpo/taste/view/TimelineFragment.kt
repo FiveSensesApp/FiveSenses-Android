@@ -3,6 +3,7 @@ package com.mangpo.taste.view
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
@@ -66,7 +67,13 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
             override fun leftAction(action: String) { //삭제하기, 이미지 저장
                 when (action) {
                     getString(R.string.action_delete_long) -> feedVm.deletePost(recordDetailAdapter.getDeletePostId())
-                    getString(R.string.action_save_image) -> checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "이미지 저장을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 0) }
+                    getString(R.string.action_save_image) -> {
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+                            checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "이미지 저장을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 0) }
+                        } else {
+                            checkPermission(lifecycleScope, Manifest.permission.READ_MEDIA_IMAGES, "이미지 저장을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 0) }
+                        }
+                    }
                 }
             }
 
@@ -75,7 +82,13 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
                     getString(R.string.action_go_back) -> {
 
                     }
-                    getString(R.string.action_share_SNS) -> checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "공유하기 기능을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 1) }
+                    getString(R.string.action_share_SNS) -> {
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+                            checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "공유하기 기능을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 1) }
+                        } else {
+                            checkPermission(lifecycleScope, Manifest.permission.READ_MEDIA_IMAGES, "공유하기 기능을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 1) }
+                        }
+                    }
                 }
             }
         })

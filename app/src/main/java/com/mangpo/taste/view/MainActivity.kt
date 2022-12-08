@@ -1,14 +1,18 @@
 package com.mangpo.taste.view
 
+import android.Manifest
+import android.os.Build
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.gun0912.tedpermission.coroutine.TedPermission
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseActivity
 import com.mangpo.taste.databinding.ActivityMainBinding
@@ -17,6 +21,7 @@ import com.mangpo.taste.util.SpfUtils.getIntEncryptedSpf
 import com.mangpo.taste.util.SpfUtils.writeSpf
 import com.mangpo.taste.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
@@ -34,6 +39,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             activity = this@MainActivity
             vm = mainVm
             lifecycleOwner = this@MainActivity
+        }
+
+        //Android 13 이상부턴 알람 권한 체크 필요
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            checkAlarmPermission()
         }
 
         //애니메이션 초기화
@@ -60,6 +70,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             }
         } else {    //기록하기 바텀 시트가 올라와 있지 않을 때 앱 종료
             finishAffinity()
+        }
+    }
+
+    private fun checkAlarmPermission() {
+        lifecycleScope.launch {
+            TedPermission.create()
+                .setPermissions(Manifest.permission.POST_NOTIFICATIONS)
+                .check()
         }
     }
 
