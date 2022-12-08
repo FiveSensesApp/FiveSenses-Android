@@ -491,6 +491,7 @@
                     android:layout_marginHorizontal="10dp"
                     android:layout_marginBottom="71dp"
                     android:background="@color/GY_01"
+                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
