@@ -124,7 +124,7 @@
     <string name="msg_logout">정말 로그아웃 하시겠습니까?</string>
     <string name="msg_really_withdrawal">정말 탈퇴하실 건가요?</string>
     <string name="msg_all_records_lost">그동안의 기록들이 모두 사라져요.</string>
-    <string name="msg_pw_conditions">(영문, 숫자, 특수문자 중 2개 조합 10자 이상)</string>
+    <string name="msg_pw_conditions">영문, 숫자, 특수문자(!@#$&amp;*) 중 2개 조합 10자 이상</string>
     <string name="msg_when_to_go">언제로 이동할까요?</string>
     <string name="msg_go_to_login">로그인 화면으로 이동합니다.</string>
     <string name="msg_taste_input_complete">취향 입력이 완료되었어요.</string>
