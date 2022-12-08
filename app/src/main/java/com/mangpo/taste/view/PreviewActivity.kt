@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
+import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -45,12 +46,16 @@ class PreviewActivity : BaseActivity<ActivityPreviewBinding>(ActivityPreviewBind
             nickname = SpfUtils.getStrSpf("nickname")!!
         }
 
-        binding.previewCl.viewTreeObserver.addOnGlobalLayoutListener {
-            if (intent.getIntExtra("action", 0)==0) {   //이미지 저장일 경우
-                val bitmap = getBitmapFromView(binding.previewCl.measuredWidth, binding.previewCl.measuredHeight, binding.previewCl, ContextCompat.getColor(baseContext, R.color.GY_01))
-                saveImage(bitmap!!, baseContext, getString(R.string.app_name)) { result, uri -> afterSaveImage(result) }
+        binding.previewCl.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                if (intent.getIntExtra("action", 0)==0) {   //이미지 저장일 경우
+                    val bitmap = getBitmapFromView(binding.previewCl.measuredWidth, binding.previewCl.measuredHeight, binding.previewCl, ContextCompat.getColor(baseContext, R.color.GY_01))
+                    saveImage(bitmap!!, baseContext, getString(R.string.app_name)) { result, uri -> afterSaveImage(result) }
+                }
+
+                binding.previewCl.viewTreeObserver.removeOnGlobalLayoutListener(this)
             }
-        }
+        })
 
         binding.previewEmojiEt.filters = arrayOf(InputFilter.LengthFilter(2), emojiInputFilter)
         binding.previewEmojiEt.addTextChangedListener(this)
@@ -112,7 +117,9 @@ class PreviewActivity : BaseActivity<ActivityPreviewBinding>(ActivityPreviewBind
     }
 
     private fun afterSaveImage(result: Boolean) {
-        if (!result) {
+        if (result) {
+            showToast(getString(R.string.msg_success_save_image))
+        } else {
             showToast("이미지 저장 중 문제가 발생했습니다.")
         }
 

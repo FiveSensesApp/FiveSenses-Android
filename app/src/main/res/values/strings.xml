@@ -182,6 +182,7 @@
     <string name="msg_acquisition_conditions_in_advance">획득 조건은 미리 볼 수 있어요.</string>
     <string name="msg_thanks">떡잎부터 알아봐주신 여러분 덕분에\n‘오감’이 세상 밖으로 나올 수 있었습니다!</string>
     <string name="msg_share_your_preferences">취향을 널리 공유해보세요!</string>
+    <string name="msg_success_save_image">이미지가 저장되었습니다.</string>
 
     <string name="error_check_old_pw">기존 비밀번호를 확인해주세요.</string>
     <string name="error_not_match_pw">비밀번호가 일치하지 않습니다!</string>
