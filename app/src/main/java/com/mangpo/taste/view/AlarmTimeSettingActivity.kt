@@ -3,11 +3,10 @@ package com.mangpo.taste.view
 import android.Manifest
 import android.content.Intent
 import androidx.lifecycle.lifecycleScope
-import com.gun0912.tedpermission.coroutine.TedPermission
 import com.mangpo.domain.model.createUser.CreateUserReqEntity
 import com.mangpo.taste.base.BaseActivity
 import com.mangpo.taste.databinding.ActivityAlarmTimeSettingBinding
-import kotlinx.coroutines.launch
+import com.mangpo.taste.util.checkPermission
 
 class AlarmTimeSettingActivity : BaseActivity<ActivityAlarmTimeSettingBinding>(ActivityAlarmTimeSettingBinding::inflate) {
     private lateinit var alarmTimeDialogFragment: AlarmTimeDialogFragment
@@ -22,19 +21,11 @@ class AlarmTimeSettingActivity : BaseActivity<ActivityAlarmTimeSettingBinding>(A
 
     private fun setEventLister() {
         binding.alarmTimeSettingNextBtn.setOnClickListener {
-            checkNotificationPermission()   //알람 권한 체크(Android 13 Version 이상)
-        }
-    }
-
-    private fun checkNotificationPermission() {
-        lifecycleScope.launch {
-            TedPermission.create()
-                .setPermissions(Manifest.permission.POST_NOTIFICATIONS)
-                .check()
-
-            val intent = Intent(this@AlarmTimeSettingActivity, StartActivity::class.java)
-            intent.putExtra("newUser", createUserReqEntity)
-            startActivity(intent)
+            checkPermission(lifecycleScope, Manifest.permission.POST_NOTIFICATIONS, "푸시 알림 권한을 거부하셨어요. 나중에도 [설정-알림설정]에서 알림을 변경할 수 있어요!") {
+                val intent = Intent(this@AlarmTimeSettingActivity, StartActivity::class.java)
+                intent.putExtra("newUser", createUserReqEntity)
+                startActivity(intent)
+            }
         }
     }
 
