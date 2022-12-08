@@ -27,6 +27,8 @@ import com.mangpo.taste.view.model.PercentageOfCategory
 import com.mangpo.taste.viewmodel.AnalysisViewModel
 import com.mangpo.taste.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisBinding::inflate) {
@@ -36,6 +38,7 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
     private lateinit var numOfRecordsTrendVPAdapter: NumOfRecordsTrendVPAdapter
     private lateinit var activityResultLauncher : ActivityResultLauncher<Intent>
     private lateinit var bannerVPAdapter: AnalysisBannerVPAdapter
+    private lateinit var bannerTimer: Timer
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,6 +62,16 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
     override fun initAfterBinding() {
         binding.userInfo = AnalysisUserInfo(SpfUtils.getStrSpf("nickname")!!, SpfUtils.getStrEncryptedSpf("email")!!, SpfUtils.getIntSpf("startDayCnt")!!, SpfUtils.getStrSpf("badgeRepresent"))
         analysisVm.getBadges(SpfUtils.getIntEncryptedSpf("userId"))
+
+        startBannerTimer()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        if (::bannerTimer.isInitialized) {
+            bannerTimer.cancel()
+        }
     }
 
     private fun initActivityResultLaunch() {
@@ -82,6 +95,23 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
     private fun initVPAdapter() {
         bannerVPAdapter = AnalysisBannerVPAdapter(this)
         binding.analysisBannerVp.adapter = bannerVPAdapter
+    }
+
+    private fun startBannerTimer() {
+        bannerTimer = Timer()
+        bannerTimer.schedule(object : TimerTask() {
+            override fun run() {
+                requireActivity().runOnUiThread {
+                    val currentItem = binding.analysisBannerVp.currentItem
+
+                    if (currentItem==2) {
+                        binding.analysisBannerVp.setCurrentItem(0, true)
+                    } else {
+                        binding.analysisBannerVp.setCurrentItem(currentItem+1, true)
+                    }
+                }
+            }
+        }, 3000, 3000)
     }
 
     private fun observe() {

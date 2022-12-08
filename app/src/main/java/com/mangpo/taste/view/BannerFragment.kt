@@ -16,12 +16,12 @@ class BannerFragment() : BaseFragment<FragmentBannerBinding>(FragmentBannerBindi
 
         binding.root.setOnClickListener {
             when (arguments?.getInt("image")!!) {
-                R.drawable.ic_banner1 -> goUrlPage("https://www.notion.so/5gaam/5gaam-3b45d6083ad044ab869f0df6378933de")
-                R.drawable.ic_banner2 -> {
+                R.drawable.banner1 -> goUrlPage("https://www.notion.so/5gaam/5gaam-3b45d6083ad044ab869f0df6378933de")
+                R.drawable.banner2 -> {
                     goUrlPage("https://play.google.com/store/apps/details?id=com.mangpo.taste")
                     badgeVm.checkThanks()
                 }
-                R.drawable.ic_banner3 -> goUrlPage("https://www.instagram.com/5gaam_app")
+                R.drawable.banner3 -> goUrlPage("https://www.instagram.com/5gaam_app")
             }
         }
     }
