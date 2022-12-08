@@ -56,9 +56,6 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
                 } else {    //회원탈퇴
                     settingVm.deleteUser(SpfUtils.getIntEncryptedSpf("userId"))
                 }
-
-                findNavController().navigate(R.id.action_settingFragment_to_loginActivity)  //LoginActivity 로 이동
-                dialogType = -1 //초기화
             }
         })
     }
@@ -168,6 +165,15 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
     private fun goodBye() {
         clear()    //Spf 에 있는 모든 내용 초기화
         writeSpf("onBoarding", true)   //온보딩 화면은 봤었으니까 다시 설정해주기
+
+        //OnBoardingActivity 의 맨 마지막 화면(로그인/회원가입)으로 이동
+        val intent: Intent = Intent(requireActivity(), OnBoardingActivity::class.java)
+        intent.putExtra("currentItem", 3)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+
+        //초기화
+        dialogType = -1
     }
 
     private fun observe() {
