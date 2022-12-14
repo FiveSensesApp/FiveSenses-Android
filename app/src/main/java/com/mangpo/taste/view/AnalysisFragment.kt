@@ -206,11 +206,12 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
     private fun mapperToMonthlyCategory(isMain: Boolean, monthlyCategoryEntity: MonthlyCategoryEntity): MonthlyCategory {
         if (isMain) {
             return when (monthlyCategoryEntity.category) {
-                getString(R.string.title_sight) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_sight)!!, monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.RD_2), monthlyCategoryEntity.category, monthlyCategoryEntity.cnt)
-                getString(R.string.title_ear) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_ear)!!, monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.BU_2), monthlyCategoryEntity.category, monthlyCategoryEntity.cnt)
-                getString(R.string.title_touch) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_touch)!!, monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.PU_2), monthlyCategoryEntity.category, monthlyCategoryEntity.cnt)
-                getString(R.string.title_smell) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_smell)!!, monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.GN_3), monthlyCategoryEntity.category, monthlyCategoryEntity.cnt)
-                else -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_taste)!!, monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.YE_2), monthlyCategoryEntity.category, monthlyCategoryEntity.cnt)
+                getString(R.string.title_sight) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_sight), monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.RD_2), monthlyCategoryEntity.category, monthlyCategoryEntity.cnt)
+                getString(R.string.title_ear) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_ear), monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.BU_2), monthlyCategoryEntity.category, monthlyCategoryEntity.cnt)
+                getString(R.string.title_touch) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_touch), monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.PU_2), monthlyCategoryEntity.category, monthlyCategoryEntity.cnt)
+                getString(R.string.title_smell) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_smell), monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.GN_3), monthlyCategoryEntity.category, monthlyCategoryEntity.cnt)
+                getString(R.string.title_taste) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_taste), monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.YE_2), monthlyCategoryEntity.category, monthlyCategoryEntity.cnt)
+                else -> MonthlyCategory(character=ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_no_records), month=monthlyCategoryEntity.month)
             }
         } else {
             return when (monthlyCategoryEntity.category) {
