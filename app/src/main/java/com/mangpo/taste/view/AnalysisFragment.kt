@@ -27,6 +27,8 @@ import com.mangpo.taste.view.model.PercentageOfCategory
 import com.mangpo.taste.viewmodel.AnalysisViewModel
 import com.mangpo.taste.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisBinding::inflate) {
@@ -36,6 +38,7 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
     private lateinit var numOfRecordsTrendVPAdapter: NumOfRecordsTrendVPAdapter
     private lateinit var activityResultLauncher : ActivityResultLauncher<Intent>
     private lateinit var bannerVPAdapter: AnalysisBannerVPAdapter
+    private lateinit var bannerTimer: Timer
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,6 +62,16 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
     override fun initAfterBinding() {
         binding.userInfo = AnalysisUserInfo(SpfUtils.getStrSpf("nickname")!!, SpfUtils.getStrEncryptedSpf("email")!!, SpfUtils.getIntSpf("startDayCnt")!!, SpfUtils.getStrSpf("badgeRepresent"))
         analysisVm.getBadges(SpfUtils.getIntEncryptedSpf("userId"))
+
+        startBannerTimer()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        if (::bannerTimer.isInitialized) {
+            bannerTimer.cancel()
+        }
     }
 
     private fun initActivityResultLaunch() {
@@ -82,6 +95,23 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
     private fun initVPAdapter() {
         bannerVPAdapter = AnalysisBannerVPAdapter(this)
         binding.analysisBannerVp.adapter = bannerVPAdapter
+    }
+
+    private fun startBannerTimer() {
+        bannerTimer = Timer()
+        bannerTimer.schedule(object : TimerTask() {
+            override fun run() {
+                requireActivity().runOnUiThread {
+                    val currentItem = binding.analysisBannerVp.currentItem
+
+                    if (currentItem==2) {
+                        binding.analysisBannerVp.setCurrentItem(0, true)
+                    } else {
+                        binding.analysisBannerVp.setCurrentItem(currentItem+1, true)
+                    }
+                }
+            }
+        }, 3000, 3000)
     }
 
     private fun observe() {
@@ -176,11 +206,12 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
     private fun mapperToMonthlyCategory(isMain: Boolean, monthlyCategoryEntity: MonthlyCategoryEntity): MonthlyCategory {
         if (isMain) {
             return when (monthlyCategoryEntity.category) {
-                getString(R.string.title_sight) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_sight)!!, monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.RD_2), monthlyCategoryEntity.category, monthlyCategoryEntity.cnt)
-                getString(R.string.title_ear) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_ear)!!, monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.BU_2), monthlyCategoryEntity.category, monthlyCategoryEntity.cnt)
-                getString(R.string.title_touch) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_touch)!!, monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.PU_2), monthlyCategoryEntity.category, monthlyCategoryEntity.cnt)
-                getString(R.string.title_smell) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_smell)!!, monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.GN_3), monthlyCategoryEntity.category, monthlyCategoryEntity.cnt)
-                else -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_taste)!!, monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.YE_2), monthlyCategoryEntity.category, monthlyCategoryEntity.cnt)
+                getString(R.string.title_sight) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_sight), monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.RD_2), monthlyCategoryEntity.category, monthlyCategoryEntity.cnt)
+                getString(R.string.title_ear) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_ear), monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.BU_2), monthlyCategoryEntity.category, monthlyCategoryEntity.cnt)
+                getString(R.string.title_touch) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_touch), monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.PU_2), monthlyCategoryEntity.category, monthlyCategoryEntity.cnt)
+                getString(R.string.title_smell) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_smell), monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.GN_3), monthlyCategoryEntity.category, monthlyCategoryEntity.cnt)
+                getString(R.string.title_taste) -> MonthlyCategory(ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_taste), monthlyCategoryEntity.month, ContextCompat.getColor(requireContext(), R.color.YE_2), monthlyCategoryEntity.category, monthlyCategoryEntity.cnt)
+                else -> MonthlyCategory(character=ContextCompat.getDrawable(requireContext(), R.drawable.ic_monthly_category_main_no_records), month=monthlyCategoryEntity.month)
             }
         } else {
             return when (monthlyCategoryEntity.category) {

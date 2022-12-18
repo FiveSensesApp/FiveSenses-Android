@@ -12,7 +12,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.gun0912.tedpermission.coroutine.TedPermission
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseActivity
 import com.mangpo.taste.databinding.ActivityMainBinding
@@ -21,7 +20,6 @@ import com.mangpo.taste.util.SpfUtils.getIntEncryptedSpf
 import com.mangpo.taste.util.SpfUtils.writeSpf
 import com.mangpo.taste.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
@@ -74,11 +72,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     private fun checkAlarmPermission() {
-        lifecycleScope.launch {
-            TedPermission.create()
-                .setPermissions(Manifest.permission.POST_NOTIFICATIONS)
-                .check()
-        }
+        com.mangpo.taste.util.checkPermission(
+            lifecycleScope,
+            Manifest.permission.POST_NOTIFICATIONS,
+            "푸시 알림 권한을 거부하셨어요. 나중에도 [설정-알림설정]에서 알림을 변경할 수 있어요!"
+        ) {}
     }
 
     private fun hideBottomSheet() {

@@ -257,9 +257,10 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/analysis_banner_vp"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="0dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
+                app:layout_constraintDimensionRatio="3:1"
                 app:layout_constraintTop_toBottomOf="@+id/analysis_profile_cl" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -491,6 +492,7 @@
                     android:layout_marginHorizontal="10dp"
                     android:layout_marginBottom="71dp"
                     android:background="@color/GY_01"
+                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -831,7 +833,7 @@
                     android:layout_marginTop="216dp"
                     android:gravity="center"
                     android:includeFontPadding="false"
-                    android:text="@{monthlyCategoryMain.sense + ` | `}"
+                    android:text="@{monthlyCategoryMain.sense==null? ``: monthlyCategoryMain.sense + ` | `}"
                     android:textAppearance="@style/Sub_Head_B_14"
                     android:textColor="@{monthlyCategoryMain.textColor}"
                     android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
@@ -847,7 +849,7 @@
                     android:layout_marginTop="216dp"
                     android:gravity="center"
                     android:includeFontPadding="false"
-                    android:text="@{`신규 기록 ` + monthlyCategoryMain.cnt + `개!`}"
+                    android:text="@{monthlyCategoryMain.cnt==0? `아직 이번 달에 작성한 기록이 없어요`: `신규 기록 ` + monthlyCategoryMain.cnt + `개!`}"
                     android:textAppearance="@style/Sub_Head_B_14"
                     android:textColor="@color/GY_04"
                     android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"

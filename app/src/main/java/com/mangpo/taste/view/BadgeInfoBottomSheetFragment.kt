@@ -133,7 +133,9 @@ class BadgeInfoBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun afterSaveImage(result: Boolean) {
-        if (!result) {
+        if (result) {
+            Toast.makeText(requireContext(), getString(R.string.msg_success_save_image), Toast.LENGTH_SHORT).show()
+        } else {
             Toast.makeText(requireContext(), "이미지 저장 중 문제가 발생했습니다.", Toast.LENGTH_SHORT).show()
         }
 
