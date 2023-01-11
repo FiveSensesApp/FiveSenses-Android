@@ -14,11 +14,28 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 class ApiModule {
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class InterceptorOkHttpClient
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class NoInterceptorOkHttpClient
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class InterceptorRetrofit
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class NoInterceptorRetrofit
+
     @Provides
     @Singleton
     fun getInterceptor(): Interceptor {
@@ -29,9 +46,20 @@ class ApiModule {
         }
     }
 
+    @NoInterceptorOkHttpClient
     @Provides
     @Singleton
-    fun provideOkHttpClient(interceptor: Interceptor): OkHttpClient {
+    fun provideOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder()
+            .readTimeout(30000, TimeUnit.MILLISECONDS)
+            .connectTimeout(30000, TimeUnit.MILLISECONDS)
+            .build()
+    }
+
+    @InterceptorOkHttpClient
+    @Provides
+    @Singleton
+    fun provideInterceptorOkHttpClient(interceptor: Interceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .readTimeout(30000, TimeUnit.MILLISECONDS)
             .connectTimeout(30000, TimeUnit.MILLISECONDS)
@@ -49,9 +77,21 @@ class ApiModule {
             .create()
     }
 
+    @NoInterceptorRetrofit
     @Provides
     @Singleton
-    fun provideRetrofit(client: OkHttpClient, gson: Gson): Retrofit {
+    fun provideRetrofit(@NoInterceptorOkHttpClient client: OkHttpClient, gson: Gson): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BuildConfig.BASEURL)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .client(client)
+            .build()
+    }
+
+    @InterceptorRetrofit
+    @Provides
+    @Singleton
+    fun provideInterceptorRetrofit(@InterceptorOkHttpClient client: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.BASEURL)
             .addConverterFactory(GsonConverterFactory.create(gson))
@@ -61,37 +101,43 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun provideAuthService(retrofit: Retrofit): AuthService {
+    fun provideAuthService(@NoInterceptorRetrofit retrofit: Retrofit): AuthService {
         return retrofit.create(AuthService::class.java)
     }
 
     @Provides
     @Singleton
-    fun providePostService(retrofit: Retrofit): PostService {
+    fun providePostService(@InterceptorRetrofit retrofit: Retrofit): PostService {
         return retrofit.create(PostService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideUserService(retrofit: Retrofit): UserService {
+    fun provideUserService(@InterceptorRetrofit retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideAdminService(retrofit: Retrofit): AdminService {
+    fun provideNoInterceptorUserService(@NoInterceptorRetrofit retrofit: Retrofit): NoInterceptorUserService {
+        return retrofit.create(NoInterceptorUserService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAdminService(@InterceptorRetrofit retrofit: Retrofit): AdminService {
         return retrofit.create(AdminService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideStatService(retrofit: Retrofit): StatService {
+    fun provideStatService(@InterceptorRetrofit retrofit: Retrofit): StatService {
         return retrofit.create(StatService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideBadgeService(retrofit: Retrofit): BadgeService {
+    fun provideBadgeService(@InterceptorRetrofit retrofit: Retrofit): BadgeService {
         return retrofit.create(BadgeService::class.java)
     }
 }
