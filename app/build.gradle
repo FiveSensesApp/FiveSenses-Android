@@ -21,18 +21,18 @@ android {
         applicationId "com.mangpo.taste"
         minSdk 26
         targetSdk 33
-        versionCode 18
-        versionName "1.1.0"
+        versionCode 20
+        versionName "1.1.2"
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
     signingConfigs {
         releaseWithSignedKey {
-            /*storeFile file(properties['keystore.path'])
+            storeFile file(properties['keystore.path'])
             storePassword properties['keystore.password']
             keyAlias properties['keystore.alias']
-            keyPassword properties['keystore.password']*/
+            keyPassword properties['keystore.password']
         }
     }
 
