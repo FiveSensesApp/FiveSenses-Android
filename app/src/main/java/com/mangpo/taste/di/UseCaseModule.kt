@@ -104,4 +104,14 @@ class UseCaseModule {
     fun provideCheckThanksUseCase (badgeRepository: BadgeRepository): CheckThanksUseCase {
         return CheckThanksUseCase(badgeRepository)
     }
+
+    @Provides
+    fun provideReissueUseCase (authRepository: AuthRepository): ReissueUseCase {
+        return ReissueUseCase(authRepository)
+    }
+
+    @Provides
+    fun provideAuthorizeNewUseCase (authRepository: AuthRepository): AuthorizeNewUseCase {
+        return AuthorizeNewUseCase(authRepository)
+    }
 }

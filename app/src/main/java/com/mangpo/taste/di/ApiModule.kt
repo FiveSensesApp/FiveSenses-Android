@@ -2,7 +2,9 @@ package com.mangpo.taste.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.mangpo.taste.interceptor.TokenInterceptor
 import com.mangpo.data.service.*
+import com.mangpo.domain.repository.AuthRepository
 import com.mangpo.taste.BuildConfig
 import com.mangpo.taste.util.SpfUtils
 import dagger.Module
@@ -46,6 +48,12 @@ class ApiModule {
         }
     }
 
+    @Provides
+    @Singleton
+    fun getTokenInterceptor(authRepository: AuthRepository): TokenInterceptor {
+        return TokenInterceptor(authRepository)
+    }
+
     @NoInterceptorOkHttpClient
     @Provides
     @Singleton
@@ -59,11 +67,12 @@ class ApiModule {
     @InterceptorOkHttpClient
     @Provides
     @Singleton
-    fun provideInterceptorOkHttpClient(interceptor: Interceptor): OkHttpClient {
+    fun provideInterceptorOkHttpClient(interceptor: Interceptor, tokenInterceptor: TokenInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .readTimeout(30000, TimeUnit.MILLISECONDS)
             .connectTimeout(30000, TimeUnit.MILLISECONDS)
-            .addInterceptor(interceptor)
+            /*.addInterceptor(interceptor)*/
+            .addInterceptor(tokenInterceptor)
             .build()
     }
 

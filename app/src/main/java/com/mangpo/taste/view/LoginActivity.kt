@@ -11,7 +11,7 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import com.mangpo.domain.model.authorize.AuthorizeReqEntity
+import com.mangpo.domain.model.authorizeNew.AuthorizeNewReqEntity
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseActivity
 import com.mangpo.taste.databinding.ActivityLoginBinding
@@ -100,7 +100,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
         //로그인 버튼 클릭 리스너
         binding.loginLoginBtn.setOnClickListener {
             hideKeyboard(binding.root)
-            loginVm.authorize(AuthorizeReqEntity(binding.loginEmailEt.text.toString(), binding.loginPwEt.text.toString()))
+            loginVm.authorizeNew(AuthorizeNewReqEntity(binding.loginEmailEt.text.toString(), binding.loginPwEt.text.toString()))
         }
     }
 

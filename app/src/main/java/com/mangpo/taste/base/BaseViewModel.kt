@@ -5,9 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mangpo.domain.model.base.BaseResEntity
+import com.mangpo.domain.usecase.ReissueUseCase
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
 open class BaseViewModel(): ViewModel() {
+    @Inject
+    lateinit var reissueUseCase: ReissueUseCase
+
     lateinit var job: Job
 
     private val _isLoading by lazy { MutableLiveData(false) }

@@ -1,5 +1,6 @@
 package com.mangpo.taste.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mangpo.domain.usecase.GetUserInfoUseCase
@@ -48,6 +49,7 @@ class MainViewModel @Inject constructor(private val getUserInfoUseCase: GetUserI
         callApi(
             { getUserInfoUseCase.invoke(userIdx) },
             {
+                Log.d("TOKEN", "getUserInfo response: $it")
                 when(it.code) {
                     200 -> {
                         SpfUtils.writeSpf("nickname", it.data!!.nickname)

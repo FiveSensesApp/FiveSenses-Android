@@ -2,6 +2,7 @@ package com.mangpo.taste.view
 
 import android.Manifest
 import android.os.Build
+import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -112,9 +113,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         mainVm.getUserInfoResult.observe(this, Observer {
             //유저 정보 조회 실패 -> 401, 500 ~~~ (대부분 401일걸?)
             if (!it) {
+                Log.d("TOKEN", "getUserInfoResult 실패")
                 clear()    //Spf 초기화
                 writeSpf("onBoarding", true)   //온보딩 화면은 봤었으니까 다시 설정해주기
                 startActivityWithClear(LoginActivity::class.java)   //다시 로그인하라고 로그인 액티비티로 이동
+            } else {
+                Log.d("TOKEN", "getUserInfoResult 성공")
             }
         })
 
