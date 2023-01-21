@@ -11,7 +11,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mangpo.domain.model.getStat.MonthlyCategoryEntity
 import com.mangpo.domain.model.getUserBadgesByUser.GetUserBadgesByUserResEntity
@@ -31,8 +30,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
-class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisBinding::inflate) {
-    private val analysisVm: AnalysisViewModel by viewModels()
+class AnalysisFragment : BaseFragment<FragmentAnalysisBinding, AnalysisViewModel>(FragmentAnalysisBinding::inflate) {
+    override val viewModel: AnalysisViewModel by viewModels()
     private val mainVm: MainViewModel by activityViewModels()
 
     private lateinit var numOfRecordsTrendVPAdapter: NumOfRecordsTrendVPAdapter
@@ -45,7 +44,7 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
 
         binding.apply {
             fragment = this@AnalysisFragment
-            vm = analysisVm
+            vm = viewModel
             lifecycleOwner = viewLifecycleOwner
         }
 
@@ -56,12 +55,12 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
         initVPAdapter()
         observe()
 
-        analysisVm.getStat(SpfUtils.getIntEncryptedSpf("userId"))
+        viewModel.getStat(SpfUtils.getIntEncryptedSpf("userId"))
     }
 
     override fun initAfterBinding() {
         binding.userInfo = AnalysisUserInfo(SpfUtils.getStrSpf("nickname")!!, SpfUtils.getStrEncryptedSpf("email")!!, SpfUtils.getIntSpf("startDayCnt")!!, SpfUtils.getStrSpf("badgeRepresent"))
-        analysisVm.getBadges(SpfUtils.getIntEncryptedSpf("userId"))
+        viewModel.getBadges(SpfUtils.getIntEncryptedSpf("userId"))
 
         startBannerTimer()
     }
@@ -120,27 +119,11 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
             val callGetStatFlag = it.getContentIfNotHandled()
 
             if (callGetStatFlag!=null && callGetStatFlag) {
-                analysisVm.getStat(SpfUtils.getIntEncryptedSpf("userId"))
+                viewModel.getStat(SpfUtils.getIntEncryptedSpf("userId"))
             }
         })
 
-        analysisVm.toast.observe(viewLifecycleOwner, Observer {
-            val toast = it.getContentIfNotHandled()
-
-            if (toast!=null) {
-                showToast(toast)
-            }
-        })
-
-        analysisVm.isLoading.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                (requireActivity() as MainActivity).showLoading()
-            } else {
-                (requireActivity() as MainActivity).hideLoading()
-            }
-        })
-
-        analysisVm.getStatResEntity.observe(viewLifecycleOwner, Observer {
+        viewModel.getStatResEntity.observe(viewLifecycleOwner, Observer {
             binding.stat = it
 
             if (it.totalPost>=10) {
@@ -225,12 +208,6 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
         }
     }
 
-    inner class MyXAxisFormatter() : ValueFormatter(){
-        override fun getFormattedValue(value: Float): String {
-            return "${value.toInt()}%"!!
-        }
-    }
-
     fun toSettingActivity() {
         findNavController().navigate(R.id.action_analysisFragment_to_settingActivity)
     }
@@ -242,7 +219,7 @@ class AnalysisFragment : BaseFragment<FragmentAnalysisBinding>(FragmentAnalysisB
     fun goBadgeActivity(representativeBadge: GetUserBadgesByUserResEntity?) {
         val intent: Intent = Intent(requireContext(), BadgeActivity::class.java)
         intent.putExtra("representativeBadge", representativeBadge)
-        intent.putExtra("badges", analysisVm.getBadges().toTypedArray())
+        intent.putExtra("badges", viewModel.getBadges().toTypedArray())
         activityResultLauncher.launch(intent)
     }
 

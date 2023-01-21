@@ -17,9 +17,9 @@ import com.mangpo.taste.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBinding::inflate) {
+class BySenseFragment : BaseFragment<FragmentBySenseBinding, FeedViewModel>(FragmentBySenseBinding::inflate) {
     private val mainVm: MainViewModel by activityViewModels()
-    private val feedVm: FeedViewModel by viewModels()
+    override val viewModel: FeedViewModel by viewModels()
 
     private var page: Int = 0
     private var isLast: Boolean = true
@@ -54,7 +54,7 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
             override fun changeFilter(filter: String) {
                 recordShortAdapter.clearData()
                 clearPaging()   //페이징 관련 데이터 초기화
-                feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), filter, null, null)  //선택된 감각의 총 기록 개수 조회
+                viewModel.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), filter, null, null)  //선택된 감각의 총 기록 개수 조회
                 getPosts(page, recordShortAdapter.getSenseFilter())
             }
 
@@ -81,7 +81,7 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
 
         binding.bySenseRv.adapter = recordShortAdapter
 
-        feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), recordShortAdapter.getSenseFilter(), null, null) //시각 기록 총 개수 조회
+        viewModel.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), recordShortAdapter.getSenseFilter(), null, null) //시각 기록 총 개수 조회
         getPosts(page, recordShortAdapter.getSenseFilter())
     }
 
@@ -94,13 +94,13 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
 
             override fun delete(contentId: Int) {
                 deletedContentId = contentId
-                feedVm.deletePost(contentId)
+                viewModel.deletePost(contentId)
             }
         })
     }
 
     private fun getPosts(page: Int, category: String) {
-        feedVm.getPosts(SpfUtils.getIntEncryptedSpf("userId"), page, "id,desc", null, null, category)
+        viewModel.getPosts(SpfUtils.getIntEncryptedSpf("userId"), page, "id,desc", null, null, category)
     }
 
     private fun clearPaging() {
@@ -117,27 +117,12 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
                 clearPaging()   //페이징 관련 데이터 초기화
                 recordShortAdapter.clearData()  //현재 리사이클러뷰에 있는 content 데이터들 지우기
 
-                feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), recordShortAdapter.getSenseFilter(), null, null) //현재 선택돼 있는 감각 필터에 대한 총 기록 개수 조회
+                viewModel.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), recordShortAdapter.getSenseFilter(), null, null) //현재 선택돼 있는 감각 필터에 대한 총 기록 개수 조회
                 getPosts(page, recordShortAdapter.getSenseFilter())
             }
         })
 
-        feedVm.toast.observe(viewLifecycleOwner, Observer {
-            val msg: String? = it.getContentIfNotHandled()
-
-            if (msg!=null)
-                showToast(msg)
-        })
-
-        feedVm.isLoading.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                (requireActivity() as MainActivity).showLoading()
-            } else {
-                (requireActivity() as MainActivity).hideLoading()
-            }
-        })
-
-        feedVm.posts.observe(viewLifecycleOwner, Observer {
+        viewModel.posts.observe(viewLifecycleOwner, Observer {
             val posts = it.getContentIfNotHandled()
 
             if (posts!=null) {
@@ -147,7 +132,7 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
             }
         })
 
-        feedVm.feedCnt.observe(viewLifecycleOwner, Observer {
+        viewModel.feedCnt.observe(viewLifecycleOwner, Observer {
             val feedCnt = it.getContentIfNotHandled()
 
             if (feedCnt!=null) {
@@ -155,7 +140,7 @@ class BySenseFragment : BaseFragment<FragmentBySenseBinding>(FragmentBySenseBind
             }
         })
 
-        feedVm.deletePostResult.observe(viewLifecycleOwner, Observer {
+        viewModel.deletePostResult.observe(viewLifecycleOwner, Observer {
             when (it) {
                 200 -> recordShortAdapter.removeData(deletedContentId)
                 404 -> showToast("삭제 중 문제가 발생했습니다.")

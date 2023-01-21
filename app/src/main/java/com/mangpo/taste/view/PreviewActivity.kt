@@ -14,7 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.mangpo.taste.R
-import com.mangpo.taste.base.BaseActivity
+import com.mangpo.taste.base.BaseNoVMActivity
 import com.mangpo.taste.databinding.ActivityPreviewBinding
 import com.mangpo.taste.util.*
 import com.mangpo.taste.view.custom.EmojiInputFilter
@@ -24,7 +24,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class PreviewActivity : BaseActivity<ActivityPreviewBinding>(ActivityPreviewBinding::inflate), TextWatcher {
+class PreviewActivity : BaseNoVMActivity<ActivityPreviewBinding>(ActivityPreviewBinding::inflate), TextWatcher {
     private lateinit var iconCustomBottomSheetFragment: IconCustomBottomSheetFragment
     private lateinit var emojiInputFilter: EmojiInputFilter
 

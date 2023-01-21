@@ -25,9 +25,9 @@ import java.time.temporal.TemporalAdjusters
 import java.time.temporal.WeekFields
 
 @AndroidEntryPoint
-class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCalendarBinding::inflate) {
+class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding, FeedViewModel>(FragmentByCalendarBinding::inflate) {
     private val mainVm: MainViewModel by activityViewModels()
-    private val feedVm: FeedViewModel by viewModels()
+    override val viewModel: FeedViewModel by viewModels()
 
     private var page: Int = 0
     private var isLast: Boolean = true
@@ -60,14 +60,14 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
         val week = now.get(WeekFields.ISO.weekOfYear())
         val sunday = now.with(IsoFields.WEEK_OF_WEEK_BASED_YEAR, week.toLong()).with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)).toString()
         val saturday = now.with(IsoFields.WEEK_OF_WEEK_BASED_YEAR, week.toLong()).with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY)).toString()
-        feedVm.getPresentPostsBetween(sunday, saturday)
+        viewModel.getPresentPostsBetween(sunday, saturday)
     }
 
     private fun initCalendarHeader() {
         headerViewContainer = CalendarHeaderViewContainer(binding.byCalendarCv)
         headerViewContainer.setChangeDateListener(object : CalendarHeaderViewContainer.ChangeDateListener {
             override fun change(startDate: String, endDate: String) {
-                feedVm.getPresentPostsBetween(startDate, endDate)
+                viewModel.getPresentPostsBetween(startDate, endDate)
             }
         })
         binding.byCalendarCv.monthHeaderBinder = headerViewContainer
@@ -76,9 +76,9 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
     private fun initDayViewContainer() {
         binding.byCalendarCv.monthScrollListener = {
             if (isCalendarOpen) {
-                feedVm.getPresentPostsBetween(LocalDate.of(it.year, it.month, 1).toString(), it.yearMonth.atEndOfMonth().toString())
+                viewModel.getPresentPostsBetween(LocalDate.of(it.year, it.month, 1).toString(), it.yearMonth.atEndOfMonth().toString())
             } else {
-                feedVm.getPresentPostsBetween(it.weekDays[0][0].date.toString(), it.weekDays[0][6].date.toString())
+                viewModel.getPresentPostsBetween(it.weekDays[0][0].date.toString(), it.weekDays[0][6].date.toString())
             }
         }
 
@@ -95,7 +95,7 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
 
                 clearPaging()   //리사이클러뷰 페이징 초기화
                 recordShortAdapter.clearData()  //현재 리사이클러뷰에 보이고 있는 content 데이터 모두 삭제
-                feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, null, selectedDate.toString()) //시각 기록 총 개수 조회
+                viewModel.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, null, selectedDate.toString()) //시각 기록 총 개수 조회
                 getPosts(page, selectedDate.toString()) //선택된 날짜의 기록 데이터 불러오는 API 요청
             }
         })
@@ -141,7 +141,7 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
 
         binding.byCalendarRv.adapter = recordShortAdapter
 
-        feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, null, LocalDate.now().toString()) //오늘 날짜에 대한 총 기록 개수 조회
+        viewModel.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, null, LocalDate.now().toString()) //오늘 날짜에 대한 총 기록 개수 조회
         getPosts(page, LocalDate.now().toString())  //오늘 날짜에 대한 기록 조회
     }
 
@@ -154,7 +154,7 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
 
             override fun delete(contentId: Int) {
                 deletedContentId = contentId
-                feedVm.deletePost(contentId)
+                viewModel.deletePost(contentId)
             }
         })
     }
@@ -167,7 +167,7 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
     }
 
     private fun getPosts(page: Int, createDate: String) {
-        feedVm.getPosts(SpfUtils.getIntEncryptedSpf("userId"), page, "id,desc", createDate, null, null)
+        viewModel.getPosts(SpfUtils.getIntEncryptedSpf("userId"), page, "id,desc", createDate, null, null)
     }
 
     private fun clearPaging() {
@@ -194,31 +194,16 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
                     }
                 }
 
-                feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, null, dayViewContainer.getSelectedDate().toString()) //현재 선택된 날짜(=오늘 날짜)에 대한 총 기록 개수 조회
+                viewModel.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, null, dayViewContainer.getSelectedDate().toString()) //현재 선택된 날짜(=오늘 날짜)에 대한 총 기록 개수 조회
                 getPosts(page, dayViewContainer.getSelectedDate().toString())   //현재 선택된 날짜(=오늘 날짜)의 기록 데이터 조회 API 요청
             }
         })
 
-        feedVm.toast.observe(viewLifecycleOwner, Observer {
-            val msg: String? = it.getContentIfNotHandled()
-
-            if (msg!=null)
-                showToast(msg)
-        })
-
-        feedVm.isLoading.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                (requireActivity() as MainActivity).showLoading()
-            } else {
-                (requireActivity() as MainActivity).hideLoading()
-            }
-        })
-
-        feedVm.recordByDate.observe(viewLifecycleOwner, Observer {
+        viewModel.recordByDate.observe(viewLifecycleOwner, Observer {
             dayViewContainer.markRecordedDates(it)
         })
 
-        feedVm.feedCnt.observe(viewLifecycleOwner, Observer {
+        viewModel.feedCnt.observe(viewLifecycleOwner, Observer {
             val feedCnt = it.getContentIfNotHandled()
 
             if (feedCnt!=null) {
@@ -230,7 +215,7 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
             }
         })
 
-        feedVm.posts.observe(viewLifecycleOwner, Observer {
+        viewModel.posts.observe(viewLifecycleOwner, Observer {
             val posts = it.getContentIfNotHandled()
 
             if (posts!=null) {
@@ -240,7 +225,7 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding>(FragmentByCal
             }
         })
 
-        feedVm.deletePostResult.observe(viewLifecycleOwner, Observer {
+        viewModel.deletePostResult.observe(viewLifecycleOwner, Observer {
             when (it) {
                 200 -> recordShortAdapter.removeData(deletedContentId)
                 404 -> showToast("삭제 중 문제가 발생했습니다.")

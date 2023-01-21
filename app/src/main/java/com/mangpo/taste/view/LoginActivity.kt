@@ -11,7 +11,7 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import com.mangpo.domain.model.authorize.AuthorizeReqEntity
+import com.mangpo.domain.model.authorizeNew.AuthorizeNewReqEntity
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseActivity
 import com.mangpo.taste.databinding.ActivityLoginBinding
@@ -22,8 +22,8 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 
 @AndroidEntryPoint
-class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate), TextWatcher {
-    private val loginVm: LoginViewModel by viewModels()
+class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(ActivityLoginBinding::inflate), TextWatcher {
+    override val viewModel: LoginViewModel by viewModels()
 
     var isTouched: Boolean = false
     var isKeyboardVisible: Boolean = false
@@ -100,7 +100,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
         //로그인 버튼 클릭 리스너
         binding.loginLoginBtn.setOnClickListener {
             hideKeyboard(binding.root)
-            loginVm.authorize(AuthorizeReqEntity(binding.loginEmailEt.text.toString(), binding.loginPwEt.text.toString()))
+            viewModel.authorizeNew(AuthorizeNewReqEntity(binding.loginEmailEt.text.toString(), binding.loginPwEt.text.toString()))
         }
     }
 
@@ -115,16 +115,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
     private fun validate(): Boolean = binding.loginEmailEt.text.isNotBlank() && binding.loginPwEt.text.isNotBlank()
 
     private fun observe() {
-        loginVm.toast.observe(this, Observer {
-            val toast = it.getContentIfNotHandled()
-
-            if (toast!=null) {
-                hideKeyboard(binding.root)
-                showToast(toast)
-            }
-        })
-
-        loginVm.loginSuccess.observe(this, Observer {
+        viewModel.loginSuccess.observe(this, Observer {
             if (it) {   //로그인 성공
                 startActivityWithClear(MainActivity::class.java)
             } else {    //로그인 실패

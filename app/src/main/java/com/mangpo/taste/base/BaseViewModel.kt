@@ -16,6 +16,9 @@ open class BaseViewModel(): ViewModel() {
     private val _toast by lazy { MutableLiveData<Event<String>>() }
     val toast: LiveData<Event<String>> by lazy { _toast }
 
+    private val _tokenExpired by lazy { MutableLiveData<Boolean>(false) }
+    val tokenExpired: LiveData<Boolean> by lazy {_tokenExpired }
+
     private fun handleLoading(isLoading: Boolean) {
         _isLoading.postValue(isLoading)
     }
@@ -34,6 +37,13 @@ open class BaseViewModel(): ViewModel() {
                 val response = apiResult.invoke()
 
                 when (response.code) {
+                    401 -> {
+                        if (response.msg=="유효한 액세스 토큰이 없습니다.") {
+                            _tokenExpired.postValue(true)
+                        } else {
+                            callback(response)
+                        }
+                    }
                     500 -> _toast.postValue(Event<String>("서버에 문제가 발생했습니다. 잠시만 기다려주세요."))
                     600 -> _toast.postValue(Event<String>("네트워크를 확인해주세요."))
                     700 -> _toast.postValue(Event<String>("알 수 없는 에러가 발생했습니다."))
@@ -52,12 +62,5 @@ open class BaseViewModel(): ViewModel() {
         handleLoading(true)
         block()
         handleLoading(false)
-    }
-
-    fun cancel() {
-        job.cancel()
-
-        if (_isLoading.value==true)
-            handleLoading(false)
     }
 }

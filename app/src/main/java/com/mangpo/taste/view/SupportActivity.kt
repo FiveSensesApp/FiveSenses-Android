@@ -1,12 +1,12 @@
 package com.mangpo.taste.view
 
 import com.mangpo.taste.R
-import com.mangpo.taste.base.BaseActivity
+import com.mangpo.taste.base.BaseNoVMActivity
 import com.mangpo.taste.databinding.ActivitySupportBinding
 import com.mangpo.taste.util.readTxtFile
 import com.mangpo.taste.view.adpater.SupportersRVAdapter
 
-class SupportActivity : BaseActivity<ActivitySupportBinding>(ActivitySupportBinding::inflate) {
+class SupportActivity : BaseNoVMActivity<ActivitySupportBinding>(ActivitySupportBinding::inflate) {
     private val supporters: ArrayList<String> = arrayListOf()
 
     override fun initAfterBinding() {

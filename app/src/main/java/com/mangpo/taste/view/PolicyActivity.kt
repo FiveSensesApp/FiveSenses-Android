@@ -1,13 +1,13 @@
 package com.mangpo.taste.view
 
 import com.mangpo.taste.R
-import com.mangpo.taste.base.BaseActivity
+import com.mangpo.taste.base.BaseNoVMActivity
 import com.mangpo.taste.databinding.ActivityPolicyBinding
 import com.mangpo.taste.util.readTxtFile
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PolicyActivity : BaseActivity<ActivityPolicyBinding>(ActivityPolicyBinding::inflate) {
+class PolicyActivity : BaseNoVMActivity<ActivityPolicyBinding>(ActivityPolicyBinding::inflate) {
     override fun initAfterBinding() {
         val title: String = intent.getStringExtra("title")!!
         binding.policyTitleTv.text = title

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.viewbinding.ViewBinding
 import com.mangpo.taste.util.Inflate
@@ -15,13 +16,11 @@ import com.mangpo.taste.util.SpfUtils
 import com.mangpo.taste.view.OnBoardingActivity
 import com.mangpo.taste.view.OneBtnDialogFragment
 import com.mangpo.taste.view.model.OneBtnDialog
-import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil.hideKeyboard
 
-abstract class BaseFragment<VB : ViewBinding, K: BaseViewModel>(
+abstract class BaseNoVMFragment<VB : ViewBinding>(
     private val inflate: Inflate<VB>
 ) : Fragment() {
-    abstract val viewModel: K // 뷰모델
-    private val oneBtnDialogFragment: OneBtnDialogFragment = OneBtnDialogFragment()
+    private val baseVm: BaseViewModel by activityViewModels()
 
     private var _binding: VB? = null
     protected val binding get() = _binding!!
@@ -31,17 +30,7 @@ abstract class BaseFragment<VB : ViewBinding, K: BaseViewModel>(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        oneBtnDialogFragment.setMyCallback(object : OneBtnDialogFragment.MyCallback {
-            override fun end() {
-                SpfUtils.clear()
-                SpfUtils.writeSpf("onBoarding", true)
-                goLogin()
-            }
-        })
-
         _binding = inflate.invoke(inflater, container, false)
-
-        observe()
 
         return binding.root
     }
@@ -66,29 +55,20 @@ abstract class BaseFragment<VB : ViewBinding, K: BaseViewModel>(
     }
 
     private fun observe() {
-        viewModel.isLoading.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                (requireActivity() as BaseActivity<*, *>).showLoading()
-            } else {
-                (requireActivity() as BaseActivity<*, *>).hideLoading()
-            }
-        })
-
-        viewModel.toast.observe(viewLifecycleOwner, Observer {
-            val msg = it.getContentIfNotHandled()
-
-            if (msg!=null) {
-                hideKeyboard(requireActivity())
-                showToast(msg)
-            }
-        })
-
-        viewModel.tokenExpired.observe(viewLifecycleOwner, Observer {
+        baseVm.tokenExpired.observe(viewLifecycleOwner, Observer {
             if (it) {
                 val oneBtnDialog: OneBtnDialog = OneBtnDialog("재로그인이 필요합니다.", "토큰에 문제가 발생해 재로그인이 필요합니다.\n로그인 화면으로 이동합니다.", "확인", listOf(46, 10, 46, 12))
                 val bundle: Bundle = Bundle()
                 bundle.putParcelable("data", oneBtnDialog)
 
+                val oneBtnDialogFragment: OneBtnDialogFragment = OneBtnDialogFragment()
+                oneBtnDialogFragment.setMyCallback(object : OneBtnDialogFragment.MyCallback {
+                    override fun end() {
+                        SpfUtils.clear()
+                        SpfUtils.writeSpf("onBoarding", true)
+                        goLogin()
+                    }
+                })
                 oneBtnDialogFragment.arguments = bundle
                 oneBtnDialogFragment.show(requireActivity().supportFragmentManager, null)
             }

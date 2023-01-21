@@ -19,8 +19,8 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 
 @AndroidEntryPoint
-class TempPwActivity : BaseActivity<ActivityTempPwBinding>(ActivityTempPwBinding::inflate) {
-    private val tempPwVm: TempPwViewModel by viewModels()
+class TempPwActivity : BaseActivity<ActivityTempPwBinding, TempPwViewModel>(ActivityTempPwBinding::inflate) {
+    override val viewModel: TempPwViewModel by viewModels()
 
     private lateinit var oneBtnDialogFragment: OneBtnDialogFragment
     private lateinit var twoBtnDialogFragment: TwoBtnDialogFragment
@@ -30,7 +30,7 @@ class TempPwActivity : BaseActivity<ActivityTempPwBinding>(ActivityTempPwBinding
     override fun initAfterBinding() {
         binding.apply {
             activity = this@TempPwActivity
-            vm = tempPwVm
+            vm = viewModel
             lifecycleOwner = this@TempPwActivity
         }
 
@@ -73,22 +73,7 @@ class TempPwActivity : BaseActivity<ActivityTempPwBinding>(ActivityTempPwBinding
     }
 
     private fun observe() {
-        tempPwVm.isLoading.observe(this, Observer {
-            if (it) {
-                showLoading()
-            } else {
-                hideLoading()
-            }
-        })
-
-        tempPwVm.toast.observe(this, Observer {
-            val msg = it.getContentIfNotHandled()
-
-            if (msg!=null)
-                showToast(msg)
-        })
-
-        tempPwVm.lostPasswordResCode.observe(this, Observer {
+        viewModel.lostPasswordResCode.observe(this, Observer {
             if (it==200) {
                 val bundle: Bundle = Bundle()
                 bundle.putParcelable("data", OneBtnDialog(getString(R.string.title_temporary_pw_issued), getString(R.string.msg_reset_pw), getString(R.string.action_confirm), listOf(46, 10, 46, 12)))
@@ -107,7 +92,7 @@ class TempPwActivity : BaseActivity<ActivityTempPwBinding>(ActivityTempPwBinding
         } else if (!matchRegex(email, Patterns.EMAIL_ADDRESS.toRegex())) {  //이메일 형식이 아닐 때
             showToast("이메일 형식이 아닙니다.")
         } else {
-            tempPwVm.lostPassword(binding.tempPwEmailEt.text.toString())
+            viewModel.lostPassword(binding.tempPwEmailEt.text.toString())
         }
     }
 

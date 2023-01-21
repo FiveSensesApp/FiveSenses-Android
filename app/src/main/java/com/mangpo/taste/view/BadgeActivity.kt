@@ -11,8 +11,8 @@ import com.mangpo.taste.viewmodel.BadgeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class BadgeActivity : BaseActivity<ActivityBadgeBinding>(ActivityBadgeBinding::inflate) {
-    private val badgeVm: BadgeViewModel by viewModels()
+class BadgeActivity : BaseActivity<ActivityBadgeBinding, BadgeViewModel>(ActivityBadgeBinding::inflate) {
+    override val viewModel: BadgeViewModel by viewModels()
 
     private lateinit var badgeInfoBottomSheetFragment: BadgeInfoBottomSheetFragment
     private lateinit var badgeRVAdapter: BadgeRVAdapter
@@ -43,7 +43,7 @@ class BadgeActivity : BaseActivity<ActivityBadgeBinding>(ActivityBadgeBinding::i
 
             override fun goReview() {
                 goUrlPage("https://play.google.com/store/apps/details?id=com.mangpo.taste")
-                badgeVm.checkThanks()
+                viewModel.checkThanks()
                 finish()
             }
 

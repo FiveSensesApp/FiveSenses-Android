@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.mangpo.taste.R
-import com.mangpo.taste.base.BaseFragment
+import com.mangpo.taste.base.BaseNoVMFragment
 import com.mangpo.taste.databinding.FragmentOgamSelectBinding
 import com.mangpo.taste.util.SpfUtils
 import com.mangpo.taste.view.model.OgamSelect
@@ -15,7 +15,7 @@ import com.mangpo.taste.viewmodel.MainViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class OgamSelectFragment : BaseFragment<FragmentOgamSelectBinding>(FragmentOgamSelectBinding::inflate) {
+class OgamSelectFragment : BaseNoVMFragment<FragmentOgamSelectBinding>(FragmentOgamSelectBinding::inflate) {
     private val mainVm: MainViewModel by activityViewModels()
 
     override fun initAfterBinding() {

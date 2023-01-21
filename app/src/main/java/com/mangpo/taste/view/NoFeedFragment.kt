@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.mangpo.taste.R
-import com.mangpo.taste.base.BaseFragment
+import com.mangpo.taste.base.BaseNoVMFragment
 import com.mangpo.taste.databinding.FragmentNoFeedBinding
 import com.mangpo.taste.util.SpfUtils.getStrSpf
 import com.mangpo.taste.viewmodel.MainViewModel
@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class NoFeedFragment : BaseFragment<FragmentNoFeedBinding>(FragmentNoFeedBinding::inflate) {
+class NoFeedFragment : BaseNoVMFragment<FragmentNoFeedBinding>(FragmentNoFeedBinding::inflate) {
     private val mainVm: MainViewModel by activityViewModels()
 
     override fun initAfterBinding() {

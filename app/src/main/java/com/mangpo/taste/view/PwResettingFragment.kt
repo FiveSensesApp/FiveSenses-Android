@@ -17,8 +17,8 @@ import com.mangpo.taste.viewmodel.PwResettingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PwResettingFragment : BaseFragment<FragmentPwResettingBinding>(FragmentPwResettingBinding::inflate), TextWatcher {
-    private val pwResettingVm: PwResettingViewModel by viewModels()
+class PwResettingFragment : BaseFragment<FragmentPwResettingBinding, PwResettingViewModel>(FragmentPwResettingBinding::inflate), TextWatcher {
+    override val viewModel: PwResettingViewModel by viewModels()
 
     private lateinit var oneBtnDialogFragment: OneBtnDialogFragment
 
@@ -27,7 +27,7 @@ class PwResettingFragment : BaseFragment<FragmentPwResettingBinding>(FragmentPwR
 
         binding.apply {
             fragment = this@PwResettingFragment
-            vm = this@PwResettingFragment.pwResettingVm
+            vm = this@PwResettingFragment.viewModel
             lifecycleOwner = viewLifecycleOwner
             pwConditionsVisibility = View.VISIBLE
             pwNotMatchVisibility = View.INVISIBLE
@@ -123,23 +123,7 @@ class PwResettingFragment : BaseFragment<FragmentPwResettingBinding>(FragmentPwR
     }
 
     private fun observe() {
-        pwResettingVm.toast.observe(viewLifecycleOwner, Observer {
-            val toast = it.getContentIfNotHandled()
-
-            if (toast!=null) {
-                showToast(toast)
-            }
-        })
-
-        pwResettingVm.isLoading.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                (requireActivity() as SettingActivity).showLoading()
-            } else {
-                (requireActivity() as SettingActivity).hideLoading()
-            }
-        })
-
-        pwResettingVm.changePasswordResult.observe(viewLifecycleOwner, Observer {
+        viewModel.changePasswordResult.observe(viewLifecycleOwner, Observer {
             if (it==200) {
                 val bundle: Bundle = Bundle()
                 bundle.putParcelable("data", OneBtnDialog(getString(R.string.title_pw_resetting_complete), getString(R.string.msg_go_to_login), getString(R.string.action_see_you_again), listOf(26, 10, 26, 12)))
@@ -152,7 +136,7 @@ class PwResettingFragment : BaseFragment<FragmentPwResettingBinding>(FragmentPwR
 
     fun changePassword(oldPw: String, newPw: String) {
         (requireActivity() as SettingActivity).hideKeyboard(requireView())
-        pwResettingVm.changePassword(oldPw, newPw)
+        viewModel.changePassword(oldPw, newPw)
     }
 
     fun back() {

@@ -14,8 +14,8 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 
 @AndroidEntryPoint
-class EmailAuthActivity : BaseActivity<ActivityEmailAuthBinding>(ActivityEmailAuthBinding::inflate), TextWatcher {
-    private val emailAuthVm: EmailAuthViewModel by viewModels()
+class EmailAuthActivity : BaseActivity<ActivityEmailAuthBinding, EmailAuthViewModel>(ActivityEmailAuthBinding::inflate), TextWatcher {
+    override val viewModel: EmailAuthViewModel by viewModels()
 
     var isKeyboardVisible: Boolean = false
     var email: String = ""
@@ -25,7 +25,7 @@ class EmailAuthActivity : BaseActivity<ActivityEmailAuthBinding>(ActivityEmailAu
     override fun initAfterBinding() {
         binding.apply {
             activity = this@EmailAuthActivity
-            vm = emailAuthVm
+            vm = viewModel
             lifecycleOwner = this@EmailAuthActivity
         }
 
@@ -60,14 +60,7 @@ class EmailAuthActivity : BaseActivity<ActivityEmailAuthBinding>(ActivityEmailAu
     }
 
     private fun observe() {
-        emailAuthVm.toast.observe(this, Observer {
-            val msg = it.getContentIfNotHandled()
-
-            if (msg!=null)
-                showToast((msg))
-        })
-
-        emailAuthVm.validateResultCode.observe(this, Observer {
+        viewModel.validateResultCode.observe(this, Observer {
             if (it==200) {
                 val intent = Intent(this, NicknameSettingActivity::class.java)
                 intent.putExtra("newUser", createUserReqEntity)
