@@ -21,8 +21,8 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 
 @AndroidEntryPoint
-class CreateAccountActivity : BaseActivity<ActivityCreateAccountBinding>(ActivityCreateAccountBinding::inflate), TextWatcher {
-    private val createAccountVm: CreateAccountViewModel by viewModels()
+class CreateAccountActivity : BaseActivity<ActivityCreateAccountBinding, CreateAccountViewModel>(ActivityCreateAccountBinding::inflate), TextWatcher {
+    override val viewModel: CreateAccountViewModel by viewModels()
 
     private var isAgree: Boolean = false
     private var miIbCheckState: Boolean = false
@@ -168,14 +168,7 @@ class CreateAccountActivity : BaseActivity<ActivityCreateAccountBinding>(Activit
     }
 
     private fun observe() {
-        createAccountVm.toast.observe(this, Observer {
-            val msg = it.getContentIfNotHandled()
-
-            if (msg!=null)
-                showToast(msg)
-        })
-
-        createAccountVm.validateDuplicateResult.observe(this, Observer {
+        viewModel.validateDuplicateResult.observe(this, Observer {
             if (it) {
                 val createUserReqEntity: CreateUserReqEntity = CreateUserReqEntity(email = binding.createAccountEmailEt.text.toString(), password = binding.createAccountPw1Et.text.toString(), isMarketingAllowed = miIbCheckState)
                 val intent = Intent(this, EmailAuthActivity::class.java)
@@ -204,6 +197,6 @@ class CreateAccountActivity : BaseActivity<ActivityCreateAccountBinding>(Activit
 
     fun validateDuplicate(email: String) {
         hideKeyboard(binding.root)
-        createAccountVm.validateDuplicate(email)
+        viewModel.validateDuplicate(email)
     }
 }

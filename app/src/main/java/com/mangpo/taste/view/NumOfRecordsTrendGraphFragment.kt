@@ -20,10 +20,10 @@ import com.github.mikephil.charting.utils.MPPointF
 import com.mangpo.domain.model.getStat.CountByDayEntity
 import com.mangpo.domain.model.getStat.CountByMonthEntity
 import com.mangpo.taste.R
-import com.mangpo.taste.base.BaseFragment
+import com.mangpo.taste.base.BaseNoVMFragment
 import com.mangpo.taste.databinding.FragmentNumOfRecordsTrendGraphBinding
 
-class NumOfRecordsTrendGraphFragment() : BaseFragment<FragmentNumOfRecordsTrendGraphBinding>(FragmentNumOfRecordsTrendGraphBinding::inflate) {
+class NumOfRecordsTrendGraphFragment() : BaseNoVMFragment<FragmentNumOfRecordsTrendGraphBinding>(FragmentNumOfRecordsTrendGraphBinding::inflate) {
     override fun initAfterBinding() {
         val dayData = arguments?.getParcelableArrayList<CountByDayEntity>("dayData")
         if (dayData!=null) {
@@ -141,31 +141,6 @@ class NumOfRecordsTrendGraphFragment() : BaseFragment<FragmentNumOfRecordsTrendG
 
         initGraph(xAxisValueFormat.toTypedArray(), maxValue)
     }
-
-    /*fun drawStackedBarGraph(data: List<CountByDayEntity>) {
-        val values: ArrayList<BarEntry> = ArrayList()
-        val xAxisValueFormat: MutableList<String> = mutableListOf()
-        val maxValue = data.maxOf { it.count }.toFloat()
-
-        for ((index, d) in data.withIndex()) {
-            values.add(BarEntry(index.toFloat(), floatArrayOf(maxValue, d.count.toFloat())))
-            xAxisValueFormat.add(d.day)
-        }
-
-        val set1: BarDataSet = BarDataSet(values, "")
-        set1.setDrawIcons(false)
-        set1.valueTextColor = Color.TRANSPARENT
-        set1.setColors(ContextCompat.getColor(requireContext(), R.color.GY_01), ContextCompat.getColor(requireContext(), R.color.GY_03))
-
-        val dataSets: ArrayList<IBarDataSet> = ArrayList()
-        dataSets.add(set1)
-
-        val barData = BarData(dataSets)
-        barData.barWidth = 0.55f
-        chart.data = barData
-
-        initGraph(xAxisValueFormat.toTypedArray(), maxValue)
-    }*/
 
     inner class MyXAxisFormatter (private val values: Array<String>) : ValueFormatter(){
         override fun getAxisLabel(value: Float, axis: AxisBase?): String {

@@ -2,7 +2,6 @@ package com.mangpo.taste.view
 
 import android.Manifest
 import android.os.Build
-import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -23,8 +22,8 @@ import com.mangpo.taste.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
-    private val mainVm: MainViewModel by viewModels()
+class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(ActivityMainBinding::inflate) {
+    override val viewModel: MainViewModel by viewModels()
 
     private lateinit var mainNavHostFragment: NavHostFragment
     private lateinit var translateUp: Animation
@@ -36,7 +35,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     override fun initAfterBinding() {
         binding.apply {
             activity = this@MainActivity
-            vm = mainVm
+            vm = viewModel
             lifecycleOwner = this@MainActivity
         }
 
@@ -57,13 +56,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
         observe()
 
-        mainVm.getUserInfo(getIntEncryptedSpf("userId"))    //사용자 정보 조회
+        viewModel.getUserInfo(getIntEncryptedSpf("userId"))    //사용자 정보 조회
     }
 
     override fun onBackPressed() {
         if (binding.mainRecordFcv.visibility==View.VISIBLE) {   //기록하기 바텀 시트가 올라와 있을 때
             if (binding.mainRecordFcv.findNavController().currentDestination?.id == R.id.ogamSelectFragment) {  //바텀 시트 화면에서 오감 선택 화면이면 바텀 시트 내리기
-                mainVm.setIsTasteRecordShown(false)
+                viewModel.setIsTasteRecordShown(false)
             } else {    //바텀 시트 화면에서 오감 선택 화면이 아니면 뒤로가기
                 super.onBackPressed()
             }
@@ -87,7 +86,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     private fun showBottomSheet() {
-        mainVm.setRandomSloganIdx()  //OgamSelectFragment 의 슬로건 idx 를 랜덤하게 뽑기 위해 라이브데이터 사용
+        viewModel.setRandomSloganIdx()  //OgamSelectFragment 의 슬로건 idx 를 랜덤하게 뽑기 위해 라이브데이터 사용
 
         recordFcvVisibility = View.VISIBLE
         binding.invalidateAll()
@@ -95,46 +94,28 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     private fun observe() {
-        mainVm.isLoading.observe(this, Observer {
-            if (it) {
-                showLoading()
-            } else {
-                hideLoading()
-            }
-        })
-
-        mainVm.toast.observe(this, Observer {
-            val msg = it.getContentIfNotHandled()
-
-            if (msg!=null)
-                showToast(msg)
-        })
-
-        mainVm.getUserInfoResult.observe(this, Observer {
+        viewModel.getUserInfoResult.observe(this, Observer {
             //유저 정보 조회 실패 -> 401, 500 ~~~ (대부분 401일걸?)
             if (!it) {
-                Log.d("TOKEN", "getUserInfoResult 실패")
                 clear()    //Spf 초기화
                 writeSpf("onBoarding", true)   //온보딩 화면은 봤었으니까 다시 설정해주기
                 startActivityWithClear(LoginActivity::class.java)   //다시 로그인하라고 로그인 액티비티로 이동
-            } else {
-                Log.d("TOKEN", "getUserInfoResult 성공")
             }
         })
 
-        mainVm.isTasteRecordShown.observe(this, Observer {
+        viewModel.isTasteRecordShown.observe(this, Observer {
             val isTasteRecordShown = it.getContentIfNotHandled()
 
             if (isTasteRecordShown!=null) {
                 if (isTasteRecordShown) {   //기록 화면을 올리고 싶다
                     showBottomSheet()   //기록 화면을 올린다
-                    mainVm.setIsRecordComplete(false)   //기록하러 가는 중이니까 기록 완료 플래그를 false 로 변경
+                    viewModel.setIsRecordComplete(false)   //기록하러 가는 중이니까 기록 완료 플래그를 false 로 변경
                 } else {    //기록 화면을 내리고 싶다
                     hideBottomSheet()   //기록 화면을 내린다
                     if (binding.mainBnv.selectedItemId==R.id.feedFragment) {
-                        mainVm.setCallGetPostsFlag(mainVm.getIsRecordComplete())    //TimelineFragment, ByScoreFragment, BySenseFragment, ByCalendarFragment 에게 getPosts API 를 호출할지 말지 선택할 수 있는 플래그 변수 postValue
+                        viewModel.setCallGetPostsFlag(viewModel.getIsRecordComplete())    //TimelineFragment, ByScoreFragment, BySenseFragment, ByCalendarFragment 에게 getPosts API 를 호출할지 말지 선택할 수 있는 플래그 변수 postValue
                     } else {
-                        mainVm.setCallGetStatFlag(mainVm.getIsRecordComplete()) //AnalysisFragment 에게 getStat API 를 호출할지 결정할 수 있도록 하는 Flag 변수
+                        viewModel.setCallGetStatFlag(viewModel.getIsRecordComplete()) //AnalysisFragment 에게 getStat API 를 호출할지 결정할 수 있도록 하는 Flag 변수
                     }
                 }
             }

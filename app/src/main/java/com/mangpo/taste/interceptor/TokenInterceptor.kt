@@ -18,18 +18,19 @@ class TokenInterceptor @Inject constructor(private val authRepository: AuthRepos
         val request = chain.request().putTokenHeader(SpfUtils.getStrEncryptedSpf("jwt")?: "")
         var response: Response = chain.proceed(request)
 
-        if (response.code()==401 && response.body().toString().contains("유효한 액세스 토큰이 없습니다.")) {
-            val accessToken: String = SpfUtils.getStrEncryptedSpf("jwt")?: ""
-            val refreshToken: String = SpfUtils.getStrEncryptedSpf("refreshToken")?: ""
-
+        if (response.code()==401) {
             runBlocking {
+                val accessToken: String = SpfUtils.getStrEncryptedSpf("jwt")?: ""
+                val refreshToken: String = SpfUtils.getStrEncryptedSpf("refreshToken")?: ""
+
                 val reissueResEntity: BaseResEntity<ReissueResEntity?> = authRepository.reissue(ReissueReqEntity(accessToken = accessToken, refreshToken = refreshToken))
 
                 if (reissueResEntity.data!=null) {
                     SpfUtils.writeEncryptedSpf("jwt", reissueResEntity.data!!.accessToken)
                     SpfUtils.writeEncryptedSpf("refreshToken", reissueResEntity.data!!.refreshToken)
 
-                    val refreshRequest = chain.request().putTokenHeader(SpfUtils.getStrEncryptedSpf("jwt")?: "")
+                    val refreshRequest = chain.request().putTokenHeader(reissueResEntity.data!!.accessToken)
+                    response.close()
                     response = chain.proceed(refreshRequest)
                 }
             }

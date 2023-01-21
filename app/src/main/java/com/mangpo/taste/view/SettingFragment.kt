@@ -16,8 +16,8 @@ import com.mangpo.taste.viewmodel.SettingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBinding::inflate) {
-    private val settingVm: SettingViewModel by viewModels()
+class SettingFragment : BaseFragment<FragmentSettingBinding, SettingViewModel>(FragmentSettingBinding::inflate) {
+    override val viewModel: SettingViewModel by viewModels()
 
     private var dialogType: Int = -1
 
@@ -29,12 +29,6 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
         setAlarmTimeDialogFragment()
         setMyEventListener()
         observe()
-
-        /*binding.settingAlarmSettingSb.setCheckedImmediately(false)  //처음 데이터 바인딩 되면서 변경된 사항은 반영되지 않도록
-        binding.settingAlarmSettingSb.isChecked = SpfUtils.getBooleanSpf("isAlarmOn", false)
-        binding.settingAlarmTimeTv.isEnabled = SpfUtils.getBooleanSpf("isAlarmOn", false)
-        binding.settingAlarmTimeTv.text = SpfUtils.getStrSpf("alarmTime")
-*/
     }
 
     private fun initTwoBtnDialog() {
@@ -54,7 +48,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
                 if (dialogType==0) {    //로그아웃
                     goodBye()
                 } else {    //회원탈퇴
-                    settingVm.deleteUser(SpfUtils.getIntEncryptedSpf("userId"))
+                    viewModel.deleteUser(SpfUtils.getIntEncryptedSpf("userId"))
                 }
             }
         })
@@ -68,8 +62,6 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
             }
 
             override fun complete(time: String) {
-                /*val updateUserReqEntity = UpdateUserReqEntity(time, SpfUtils.getBooleanSpf("isAlarmOn", false), SpfUtils.getStrSpf("nickname")!!, SpfUtils.getIntEncryptedSpf("userId"))
-                settingVm.updateUser(updateUserReqEntity)*/
             }
         })
     }
@@ -86,15 +78,6 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
             intent.putExtra("android.provider.extra.APP_PACKAGE", requireActivity().packageName)
             startActivity(intent)
         }
-
-        //알람 시간 텍스트뷰 클릭 리스너
-        /*binding.settingAlarmTimeTv.setOnClickListener {
-            val bundle: Bundle = Bundle()
-            bundle.putString("time", binding.settingAlarmTimeTv.text.toString())
-
-            alarmTimeDialogFragment.arguments = bundle
-            alarmTimeDialogFragment.show(requireActivity().supportFragmentManager, null)
-        }*/
 
         //비밀번호 재설정 버튼 클릭리스너
         binding.settingPwResettingBtn.setOnClickListener {
@@ -119,7 +102,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
         //앱 리뷰 남기기 텍스트뷰 클릭 리스너
         binding.settingReviewTv.setOnClickListener {
             goUrlPage("https://play.google.com/store/apps/details?id=com.mangpo.taste")
-            settingVm.checkThanks()
+            viewModel.checkThanks()
         }
 
         //공식 SNS 이동 텍스트뷰 클릭 리스너
@@ -177,37 +160,12 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
     }
 
     private fun observe() {
-        settingVm.toast.observe(viewLifecycleOwner, Observer {
-            val msg: String? = it.getContentIfNotHandled()
-
-            if (msg!=null)
-                showToast(msg)
-        })
-
-        settingVm.isLoading.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                (requireActivity() as SettingActivity).showLoading()
-            } else {
-                (requireActivity() as SettingActivity).hideLoading()
-            }
-        })
-
-        settingVm.deleteUserResultCode.observe(viewLifecycleOwner, Observer {
+        viewModel.deleteUserResultCode.observe(viewLifecycleOwner, Observer {
             if (it==200) {
                 goodBye()
             } else {
 
             }
         })
-
-        /*settingVm.updateUserResultCode.observe(viewLifecycleOwner, Observer {
-            val updateUserResultCode = it.getContentIfNotHandled()
-
-            if (updateUserResultCode!=null && updateUserResultCode==200) {
-                binding.settingAlarmSettingSb.isChecked = SpfUtils.getBooleanSpf("isAlarmOn", false)
-                binding.settingAlarmTimeTv.isEnabled = SpfUtils.getBooleanSpf("isAlarmOn", false)
-                binding.settingAlarmTimeTv.text = SpfUtils.getStrSpf("alarmTime")
-            }
-        })*/
     }
 }

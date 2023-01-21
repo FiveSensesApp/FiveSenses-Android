@@ -25,12 +25,12 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
-class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTasteRecordBinding::inflate), TextWatcher {
+class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding, TasteRecordViewModel>(FragmentTasteRecordBinding::inflate), TextWatcher {
     private lateinit var twoBtnDialogFragment: TwoBtnDialogFragment
     private lateinit var onBackPressedCallback: OnBackPressedCallback
 
-    private val navArgs: TasteRecordFragmentArgs by navArgs()
-    private val tasteRecordVm: TasteRecordViewModel by viewModels()
+    private val navArgs: TasteRecordFragmentArgs by navArgs<TasteRecordFragmentArgs>()
+    override val viewModel: TasteRecordViewModel by viewModels()
     private val mainVm: MainViewModel by activityViewModels()
     private val bundle: Bundle = Bundle()
 
@@ -151,15 +151,7 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
     }
 
     private fun observe() {
-        tasteRecordVm.toast.observe(viewLifecycleOwner, Observer {
-            val msg = it.getContentIfNotHandled()
-
-            if (msg!=null) {
-                showToast(msg)
-            }
-        })
-
-        tasteRecordVm.createPostResult.observe(viewLifecycleOwner, Observer {
+        viewModel.createPostResult.observe(viewLifecycleOwner, Observer {
             if (it) {   //기록 저장 성공
                 mainVm.setIsRecordComplete(true)
 
@@ -208,7 +200,7 @@ class TasteRecordFragment : BaseFragment<FragmentTasteRecordBinding>(FragmentTas
             }
 
             val createPostReqEntity: CreatePostReqEntity = CreatePostReqEntity(category, content, binding.tasteRecordKeywordEt.text.toString(), binding.tasteRecordSrb.rating.toInt())
-            tasteRecordVm.createPost(createPostReqEntity)
+            viewModel.createPost(createPostReqEntity)
         }
 
         binding.invalidateAll()

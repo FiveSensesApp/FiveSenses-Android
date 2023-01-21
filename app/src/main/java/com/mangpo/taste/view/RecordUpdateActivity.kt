@@ -26,8 +26,8 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
-class RecordUpdateActivity : BaseActivity<ActivityRecordUpdateBinding>(ActivityRecordUpdateBinding::inflate), TextWatcher {
-    private val recordUpdateVm: RecordUpdateViewModel by viewModels()
+class RecordUpdateActivity : BaseActivity<ActivityRecordUpdateBinding, RecordUpdateViewModel>(ActivityRecordUpdateBinding::inflate), TextWatcher {
+    override val viewModel: RecordUpdateViewModel by viewModels()
 
     private lateinit var oneBtnDialogFragment: OneBtnDialogFragment
 
@@ -130,25 +130,9 @@ class RecordUpdateActivity : BaseActivity<ActivityRecordUpdateBinding>(ActivityR
     }
 
     private fun observe() {
-        recordUpdateVm.toast.observe(this@RecordUpdateActivity, Observer {
-            val msg: String? = it.getContentIfNotHandled()
-
-            if (msg!=null) {
-                showToast(msg)
-            }
-        })
-
-        recordUpdateVm.isLoading.observe(this@RecordUpdateActivity, Observer {
-            if (it) {
-                showLoading()
-            } else {
-                hideLoading()
-            }
-        })
-
-        recordUpdateVm.updatePostResCode.observe(this@RecordUpdateActivity, Observer {
+        viewModel.updatePostResCode.observe(this@RecordUpdateActivity, Observer {
             if (it==200) {
-                setResult(Activity.RESULT_OK, intent.putExtra("updatedPost", recordUpdateVm.getUpdatedPost()))
+                setResult(Activity.RESULT_OK, intent.putExtra("updatedPost", viewModel.getUpdatedPost()))
                 finish()
             }
         })
@@ -168,7 +152,7 @@ class RecordUpdateActivity : BaseActivity<ActivityRecordUpdateBinding>(ActivityR
             }
 
             val updatePostReqEntity: UpdatePostReqEntity = UpdatePostReqEntity(postId, category, content, binding.recordUpdateKeywordEt.text.toString(), binding.recordUpdateSrb.rating.toInt())
-            recordUpdateVm.updatePost(updatePostReqEntity)
+            viewModel.updatePost(updatePostReqEntity)
         }
     }
 }

@@ -3,19 +3,18 @@ package com.mangpo.taste.view
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
-import com.mangpo.taste.base.BaseActivity
+import com.mangpo.taste.base.BaseNoVMActivity
 import com.mangpo.taste.databinding.ActivitySplashBinding
 import com.mangpo.taste.util.SpfUtils
 import com.mangpo.taste.util.SpfUtils.clear
 import com.mangpo.taste.util.SpfUtils.getStrEncryptedSpf
 import com.mangpo.taste.util.SpfUtils.getBooleanSpf
 import com.mangpo.taste.view.model.OneBtnDialog
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding::inflate) {
+class SplashActivity : BaseNoVMActivity<ActivitySplashBinding>(ActivitySplashBinding::inflate) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

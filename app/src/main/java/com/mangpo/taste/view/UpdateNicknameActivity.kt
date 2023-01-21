@@ -12,8 +12,8 @@ import com.mangpo.taste.viewmodel.UpdateNicknameViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class UpdateNicknameActivity : BaseActivity<ActivityUpdateNicknameBinding>(ActivityUpdateNicknameBinding::inflate), TextWatcher {
-    private val updateNicknameVm: UpdateNicknameViewModel by viewModels()
+class UpdateNicknameActivity : BaseActivity<ActivityUpdateNicknameBinding, UpdateNicknameViewModel>(ActivityUpdateNicknameBinding::inflate), TextWatcher {
+    override val viewModel: UpdateNicknameViewModel by viewModels()
 
     override fun initAfterBinding() {
         binding.apply {
@@ -37,22 +37,7 @@ class UpdateNicknameActivity : BaseActivity<ActivityUpdateNicknameBinding>(Activ
     }
 
     private fun observe() {
-        updateNicknameVm.isLoading.observe(this, Observer {
-            if (it) {
-                showLoading()
-            } else {
-                hideLoading()
-            }
-        })
-
-        updateNicknameVm.toast.observe(this, Observer {
-            val msg = it.getContentIfNotHandled()
-
-            if (msg!=null)
-                showToast(msg)
-        })
-
-        updateNicknameVm.updateNicknameResultCode.observe(this, Observer {
+        viewModel.updateNicknameResultCode.observe(this, Observer {
             if (it==200)
                 finish()
         })
@@ -64,6 +49,6 @@ class UpdateNicknameActivity : BaseActivity<ActivityUpdateNicknameBinding>(Activ
 
     fun updateNickname(nickname: String) {
         hideKeyboard(binding.root)
-        updateNicknameVm.updateNickname(nickname)
+        viewModel.updateNickname(nickname)
     }
 }

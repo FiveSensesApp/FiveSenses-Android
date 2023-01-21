@@ -17,9 +17,9 @@ import com.mangpo.taste.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ByScoreFragment : BaseFragment<FragmentByScoreBinding>(FragmentByScoreBinding::inflate) {
+class ByScoreFragment : BaseFragment<FragmentByScoreBinding, FeedViewModel>(FragmentByScoreBinding::inflate) {
     private val mainVm: MainViewModel by activityViewModels()
-    private val feedVm: FeedViewModel by viewModels()
+    override val viewModel: FeedViewModel by viewModels()
 
     private var page: Int = 0
     private var isLast: Boolean = true
@@ -58,7 +58,7 @@ class ByScoreFragment : BaseFragment<FragmentByScoreBinding>(FragmentByScoreBind
             override fun changeFilter(filter: Int) {
                 clearPaging()   //페이징 관련 데이터 초기화
                 recordShortAdapter.clearData()
-                feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, filter, null)  //선택된 감각의 총 기록 개수 조회
+                viewModel.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, filter, null)  //선택된 감각의 총 기록 개수 조회
                 getPosts(page, recordShortAdapter.getScoreFilter())
             }
 
@@ -82,7 +82,7 @@ class ByScoreFragment : BaseFragment<FragmentByScoreBinding>(FragmentByScoreBind
 
         binding.byScoreRv.adapter = recordShortAdapter
 
-        feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, recordShortAdapter.getScoreFilter(), null) //시각 기록 총 개수 조회
+        viewModel.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, recordShortAdapter.getScoreFilter(), null) //시각 기록 총 개수 조회
         getPosts(page, recordShortAdapter.getScoreFilter())
     }
 
@@ -98,13 +98,13 @@ class ByScoreFragment : BaseFragment<FragmentByScoreBinding>(FragmentByScoreBind
 
             override fun delete(contentId: Int) {
                 deletedContentId = contentId
-                feedVm.deletePost(contentId)
+                viewModel.deletePost(contentId)
             }
         })
     }
 
     private fun getPosts(page: Int, star: Int) {
-        feedVm.getPosts(SpfUtils.getIntEncryptedSpf("userId"), page, "id,desc", null, star, null)
+        viewModel.getPosts(SpfUtils.getIntEncryptedSpf("userId"), page, "id,desc", null, star, null)
     }
 
     private fun clearPaging() {
@@ -121,27 +121,12 @@ class ByScoreFragment : BaseFragment<FragmentByScoreBinding>(FragmentByScoreBind
                 clearPaging()   //페이징 관련 데이터 초기화
                 recordShortAdapter.clearData()  //현재 리사이클러뷰에 있는 content 데이터들 지우기
 
-                feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, recordShortAdapter.getScoreFilter(), null) //현재 선택돼 있는 감각 필터에 대한 총 기록 개수 조회
+                viewModel.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, recordShortAdapter.getScoreFilter(), null) //현재 선택돼 있는 감각 필터에 대한 총 기록 개수 조회
                 getPosts(page, recordShortAdapter.getScoreFilter())
             }
         })
 
-        feedVm.toast.observe(viewLifecycleOwner, Observer {
-            val msg: String? = it.getContentIfNotHandled()
-
-            if (msg!=null)
-                showToast(msg)
-        })
-
-        feedVm.isLoading.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                (requireActivity() as MainActivity).showLoading()
-            } else {
-                (requireActivity() as MainActivity).hideLoading()
-            }
-        })
-
-        feedVm.posts.observe(viewLifecycleOwner, Observer {
+        viewModel.posts.observe(viewLifecycleOwner, Observer {
             val posts = it.getContentIfNotHandled()
 
             if (posts!=null) {
@@ -151,7 +136,7 @@ class ByScoreFragment : BaseFragment<FragmentByScoreBinding>(FragmentByScoreBind
             }
         })
 
-        feedVm.feedCnt.observe(viewLifecycleOwner, Observer {
+        viewModel.feedCnt.observe(viewLifecycleOwner, Observer {
             val feedCnt = it.getContentIfNotHandled()
 
             if (feedCnt!=null) {
@@ -159,7 +144,7 @@ class ByScoreFragment : BaseFragment<FragmentByScoreBinding>(FragmentByScoreBind
             }
         })
 
-        feedVm.deletePostResult.observe(viewLifecycleOwner, Observer {
+        viewModel.deletePostResult.observe(viewLifecycleOwner, Observer {
             when (it) {
                 200 -> recordShortAdapter.removeData(deletedContentId)
                 404 -> showToast("삭제 중 문제가 발생했습니다.")

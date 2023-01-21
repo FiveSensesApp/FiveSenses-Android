@@ -2,11 +2,11 @@ package com.mangpo.taste.view
 
 import androidx.navigation.fragment.findNavController
 import com.mangpo.taste.R
-import com.mangpo.taste.base.BaseFragment
+import com.mangpo.taste.base.BaseNoVMFragment
 import com.mangpo.taste.databinding.FragmentOpenSourceBinding
 import com.mangpo.taste.util.readTxtFile
 
-class OpenSourceFragment : BaseFragment<FragmentOpenSourceBinding>(FragmentOpenSourceBinding::inflate) {
+class OpenSourceFragment : BaseNoVMFragment<FragmentOpenSourceBinding>(FragmentOpenSourceBinding::inflate) {
     override fun initAfterBinding() {
         setMyEventListener()
 

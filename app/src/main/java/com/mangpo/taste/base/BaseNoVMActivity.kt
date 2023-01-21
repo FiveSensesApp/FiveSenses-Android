@@ -11,20 +11,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.contains
 import androidx.core.widget.NestedScrollView
-import androidx.lifecycle.Observer
 import androidx.viewbinding.ViewBinding
 import com.mangpo.taste.R
 import com.mangpo.taste.util.NetworkManager
-import com.mangpo.taste.util.SpfUtils
-import com.mangpo.taste.view.OnBoardingActivity
-import com.mangpo.taste.view.OneBtnDialogFragment
-import com.mangpo.taste.view.model.OneBtnDialog
 
-abstract class BaseActivity<T: ViewBinding, K: BaseViewModel>(private val inflate: (LayoutInflater) -> T): AppCompatActivity(){
-    abstract val viewModel: K // 뷰모델
-
-    private val oneBtnDialogFragment: OneBtnDialogFragment = OneBtnDialogFragment()
-
+abstract class BaseNoVMActivity<T: ViewBinding>(private val inflate: (LayoutInflater) -> T): AppCompatActivity(){
     protected lateinit var binding: T
         private set
 
@@ -34,15 +25,6 @@ abstract class BaseActivity<T: ViewBinding, K: BaseViewModel>(private val inflat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        oneBtnDialogFragment.setMyCallback(object : OneBtnDialogFragment.MyCallback {
-            override fun end() {
-                SpfUtils.clear()
-                SpfUtils.writeSpf("onBoarding", true)
-                goLogin()
-            }
-        })
-
         binding = inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -55,47 +37,9 @@ abstract class BaseActivity<T: ViewBinding, K: BaseViewModel>(private val inflat
 
 
         initAfterBinding()
-        observe()
     }
 
     protected abstract fun initAfterBinding()
-
-    private fun goLogin() {
-        val intent: Intent = Intent(this@BaseActivity, OnBoardingActivity::class.java)
-        intent.putExtra("currentItem", 3)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-    }
-
-    private fun observe() {
-        viewModel.isLoading.observe(this, Observer {
-            if (it) {
-                showLoading()
-            } else {
-                hideLoading()
-            }
-        })
-
-        viewModel.toast.observe(this, Observer {
-            val msg = it.getContentIfNotHandled()
-
-            if (msg!=null) {
-                hideKeyboard(binding.root)
-                showToast(msg)
-            }
-        })
-
-        viewModel.tokenExpired.observe(this, Observer {
-            if (it) {
-                val oneBtnDialog: OneBtnDialog = OneBtnDialog("재로그인이 필요합니다.", "토큰에 문제가 발생해 재로그인이 필요합니다.\n로그인 화면으로 이동합니다.", "확인", listOf(46, 10, 46, 12))
-                val bundle: Bundle = Bundle()
-                bundle.putParcelable("data", oneBtnDialog)
-
-                oneBtnDialogFragment.arguments = bundle
-                oneBtnDialogFragment.show(supportFragmentManager, null)
-            }
-        })
-    }
 
     fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
@@ -149,7 +93,7 @@ abstract class BaseActivity<T: ViewBinding, K: BaseViewModel>(private val inflat
         (binding.root as ConstraintLayout).addView(loading)
     }
 
-    fun hideLoading() {
+    private fun hideLoading() {
         if ((binding.root as ConstraintLayout).contains(loading)) {
             (binding.root as ConstraintLayout).removeView(loading)
         }

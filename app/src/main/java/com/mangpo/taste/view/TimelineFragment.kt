@@ -28,9 +28,9 @@ import com.mangpo.taste.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineBinding::inflate) {
+class TimelineFragment : BaseFragment<FragmentTimelineBinding, FeedViewModel>(FragmentTimelineBinding::inflate) {
     private val mainVm: MainViewModel by activityViewModels()
-    private val feedVm: FeedViewModel by viewModels()
+    override val viewModel: FeedViewModel by viewModels()
 
     private var page: Int = 0
     private var isLast: Boolean = true
@@ -67,7 +67,7 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
         twoBtnDialogFragment.setMyCallback(object : TwoBtnDialogFragment.MyCallback {
             override fun leftAction(action: String) { //삭제하기, 이미지 저장
                 when (action) {
-                    getString(R.string.action_delete_long) -> feedVm.deletePost(recordDetailAdapter.getDeletePostId())
+                    getString(R.string.action_delete_long) -> viewModel.deletePost(recordDetailAdapter.getDeletePostId())
                     getString(R.string.action_save_image) -> {
                         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
                             checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "이미지 저장을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 0) }
@@ -121,7 +121,7 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
 
             override fun changeSortFilter(sort: String) {   //정렬 필터(최신순, 오래된순)가 바뀔 때 호출되는 함수
                 clearPaging()   //page, isLast 초기화
-                feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, null, null)
+                viewModel.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, null, null)
                 getPosts(page, sort)    //정렬 필터에 따라 getPosts API 호출
             }
 
@@ -146,13 +146,13 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
         })
 
         binding.timelineRecordRv.adapter = recordDetailAdapter
-        feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, null, null)
+        viewModel.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, null, null)
         getPosts(page, recordDetailAdapter.getFilter())
     }
 
     //기록 목록 조회 API 호출
     private fun getPosts(page: Int, sort: String) {
-        feedVm.getPosts(SpfUtils.getIntEncryptedSpf("userId"), page, "id,$sort", null, null, null)
+        viewModel.getPosts(SpfUtils.getIntEncryptedSpf("userId"), page, "id,$sort", null, null, null)
     }
 
     private fun clearPaging() {
@@ -185,27 +185,12 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
                 clearPaging()   //페이징 관련 데이터 초기화
                 recordDetailAdapter.clearData() //현재 리사이클러뷰에 있는 content 데이터들 지우기
 
-                feedVm.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, null, null)    //전체 개수 조회 API 호출
+                viewModel.findCountByParam(SpfUtils.getIntEncryptedSpf("userId"), null, null, null)    //전체 개수 조회 API 호출
                 getPosts(page, recordDetailAdapter.getFilter()) //기록 조회 API 호출
             }
         })
 
-        feedVm.toast.observe(viewLifecycleOwner, Observer {
-            val msg: String? = it.getContentIfNotHandled()
-
-            if (msg!=null)
-                showToast(msg)
-        })
-
-        feedVm.isLoading.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                (requireActivity() as MainActivity).showLoading()
-            } else {
-                (requireActivity() as MainActivity).hideLoading()
-            }
-        })
-
-        feedVm.posts.observe(viewLifecycleOwner, Observer {
+        viewModel.posts.observe(viewLifecycleOwner, Observer {
             val posts = it.getContentIfNotHandled()
 
             if (posts!=null) {
@@ -218,7 +203,7 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
             }
         })
 
-        feedVm.deletePostResult.observe(viewLifecycleOwner, Observer {
+        viewModel.deletePostResult.observe(viewLifecycleOwner, Observer {
             when (it) {
                 200 -> recordDetailAdapter.removeData()
                 404 -> showToast("삭제 중 문제가 발생했습니다.")
@@ -226,7 +211,7 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding>(FragmentTimelineB
             }
         })
 
-        feedVm.feedCnt.observe(viewLifecycleOwner, Observer {
+        viewModel.feedCnt.observe(viewLifecycleOwner, Observer {
             val feedCnt = it.getContentIfNotHandled()
 
             if (feedCnt!=null) {

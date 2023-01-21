@@ -1,10 +1,10 @@
 package com.mangpo.taste.view
 
 import androidx.navigation.fragment.findNavController
-import com.mangpo.taste.base.BaseFragment
+import com.mangpo.taste.base.BaseNoVMFragment
 import com.mangpo.taste.databinding.FragmentTermsBinding
 
-class TermsFragment : BaseFragment<FragmentTermsBinding>(FragmentTermsBinding::inflate) {
+class TermsFragment : BaseNoVMFragment<FragmentTermsBinding>(FragmentTermsBinding::inflate) {
     override fun initAfterBinding() {
         setMyEventListener()
     }

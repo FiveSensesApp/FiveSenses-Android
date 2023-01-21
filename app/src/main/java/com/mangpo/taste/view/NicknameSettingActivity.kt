@@ -7,13 +7,13 @@ import android.text.TextWatcher
 import androidx.core.content.ContextCompat
 import com.mangpo.domain.model.createUser.CreateUserReqEntity
 import com.mangpo.taste.R
-import com.mangpo.taste.base.BaseActivity
+import com.mangpo.taste.base.BaseNoVMActivity
 import com.mangpo.taste.databinding.ActivityNicknameSettingBinding
 import com.mangpo.taste.util.matchRegex
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 
-class NicknameSettingActivity : BaseActivity<ActivityNicknameSettingBinding>(ActivityNicknameSettingBinding::inflate), TextWatcher {
+class NicknameSettingActivity : BaseNoVMActivity<ActivityNicknameSettingBinding>(ActivityNicknameSettingBinding::inflate), TextWatcher {
     var isKeyboardVisible: Boolean = false
 
     private lateinit var createUserReqEntity: CreateUserReqEntity
