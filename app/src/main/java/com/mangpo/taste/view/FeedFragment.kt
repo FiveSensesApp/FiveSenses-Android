@@ -1,5 +1,6 @@
 package com.mangpo.taste.view
 
+import android.animation.ObjectAnimator
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
@@ -12,6 +13,8 @@ import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentFeedBinding
 import com.mangpo.taste.util.SpfUtils
+import com.mangpo.taste.util.convertDpToPx
+import com.mangpo.taste.util.getDeviceWidth
 import com.mangpo.taste.util.setSpannableText
 import com.mangpo.taste.viewmodel.FeedViewModel
 import com.mangpo.taste.viewmodel.MainViewModel
@@ -125,6 +128,13 @@ class FeedFragment : BaseFragment<FragmentFeedBinding, FeedViewModel>(FragmentFe
 
         if (fm.findFragmentById(binding.feedContentFl.id)?.javaClass!=NoFeedFragment::class.java) {
             changeFragment()
+        }
+    }
+
+    fun showSearchView(view: View) {
+        ObjectAnimator.ofFloat(view, "translationX", -(getDeviceWidth() - convertDpToPx(requireContext(), 86)).toFloat()).apply {
+            duration = 500
+            start()
         }
     }
 

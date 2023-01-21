@@ -26,15 +26,14 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageButton
-                android:id="@+id/feed_info_ib"
+                android:id="@+id/feed_search_ib"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="44dp"
-                android:layout_marginEnd="18dp"
+                android:layout_marginTop="46dp"
+                android:layout_marginEnd="20dp"
                 android:background="@android:color/transparent"
-                android:onClick="@{() -> fragment.goUrlPage(`https://www.notion.so/5gaam/5gaam-3b45d6083ad044ab869f0df6378933de`)}"
-                android:padding="10dp"
-                android:src="@drawable/ic_info_28"
+                android:onClick="@{fragment::showSearchView}"
+                android:src="@drawable/ic_search_44"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
