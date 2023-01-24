@@ -2,6 +2,7 @@ package com.mangpo.taste.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.mangpo.domain.model.getPosts.ContentEntity
 import com.mangpo.domain.model.getPosts.GetPostsResEntity
 import com.mangpo.domain.model.getPresentPostsBetween.GetPresentPostsBetweenResEntity
 import com.mangpo.domain.model.updatePost.UpdatePostReqEntity
@@ -13,18 +14,26 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class FeedViewModel @Inject constructor(private val getUserInfoUseCase: GetUserInfoUseCase, private val getPostsUseCase: GetPostsUseCase, private val deletePostUseCase: DeletePostUseCase, private val updatePostUseCase: UpdatePostUseCase, private val findCountByParamUseCase: FindCountByParamUseCase, private val getPresentPostsBetweenUseCase: GetPresentPostsBetweenUseCase): BaseViewModel() {
+class FeedViewModel @Inject constructor(private val getUserInfoUseCase: GetUserInfoUseCase, private val getPostsUseCase: GetPostsUseCase, private val deletePostUseCase: DeletePostUseCase, private val updatePostUseCase: UpdatePostUseCase, private val findCountByParamUseCase: FindCountByParamUseCase, private val getPresentPostsBetweenUseCase: GetPresentPostsBetweenUseCase, private val searchKeywordLikeUseCase: SearchKeywordLikeUseCase): BaseViewModel() {
     private val _posts: MutableLiveData<Event<GetPostsResEntity>> = MutableLiveData()
     val posts: LiveData<Event<GetPostsResEntity>> get() = _posts
 
-    private val _deletePostResult: MutableLiveData<Int> = MutableLiveData()
-    val deletePostResult: LiveData<Int> get() = _deletePostResult
+    private val _deletePostResult: MutableLiveData<Event<Int>> = MutableLiveData()
+    val deletePostResult: LiveData<Event<Int>> get() = _deletePostResult
 
     private val _feedCnt: MutableLiveData<Event<Int?>> = MutableLiveData()
     val feedCnt: LiveData<Event<Int?>> get() = _feedCnt
 
     private val _recordByDate: MutableLiveData<List<GetPresentPostsBetweenResEntity>> = MutableLiveData()
     val recordByDate: LiveData<List<GetPresentPostsBetweenResEntity>> get() = _recordByDate
+
+    private val _updatePostResCode: MutableLiveData<Int> = MutableLiveData()
+    val updatePostResCode: LiveData<Int> get() = _updatePostResCode
+
+    private var updatedPost: UpdatePostResEntity? = null
+
+    private val _searchResultPosts: MutableLiveData<List<ContentEntity>> = MutableLiveData()
+    val searchResultPosts: LiveData<List<ContentEntity>> get() = _searchResultPosts
 
     fun getPosts(userId: Int, page: Int, sort: String, createDate: String?, star: Int?, category: String?) {
         callApi(
@@ -41,16 +50,10 @@ class FeedViewModel @Inject constructor(private val getUserInfoUseCase: GetUserI
     fun deletePost(postId: Int) {
         callApi(
             { deletePostUseCase.invoke(postId) },
-            { _deletePostResult.postValue(it.code) },
+            { _deletePostResult.postValue(Event(it.code)) },
             true
         )
     }
-
-
-    private val _updatePostResCode: MutableLiveData<Int> = MutableLiveData()
-    val updatePostResCode: LiveData<Int> get() = _updatePostResCode
-
-    private var updatedPost: UpdatePostResEntity? = null
 
     fun updatePost(updatePostReqEntity: UpdatePostReqEntity) {
         callApi(
@@ -84,6 +87,14 @@ class FeedViewModel @Inject constructor(private val getUserInfoUseCase: GetUserI
             {
                 _recordByDate.postValue(it.data)
             },
+            true
+        )
+    }
+
+    fun searchKeywordLike(query: String) {
+        callApi(
+            { searchKeywordLikeUseCase.invoke(query) },
+            { _searchResultPosts.postValue(it.data) },
             true
         )
     }

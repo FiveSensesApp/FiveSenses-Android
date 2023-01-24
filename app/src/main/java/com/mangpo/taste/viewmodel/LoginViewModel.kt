@@ -1,6 +1,5 @@
 package com.mangpo.taste.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.auth0.android.jwt.JWT
@@ -41,7 +40,6 @@ class LoginViewModel @Inject constructor(private val authorizeUseCase: Authorize
         callApi(
             apiResult = { authorizeNewUseCase.invoke(authorizeNewReqEntity) },
             callback = {
-                Log.d("LoginViewModel", "BaseResEntity<AuthorizeNewResEntity>: $it")
                 when (it.code) {
                     200 -> {
                         val jwt = JWT(it.data!!.accessToken)

@@ -1,5 +1,7 @@
 package com.mangpo.taste.util
 
+import android.animation.Animator
+import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
@@ -9,7 +11,6 @@ import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
@@ -17,7 +18,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.mangpo.taste.R
 import com.willy.ratingbar.BaseRatingBar
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import java.io.IOException
@@ -42,16 +42,53 @@ fun getDeviceWidth(): Int = Resources.getSystem().displayMetrics.widthPixels
 
 fun getDeviceHeight(): Int = Resources.getSystem().displayMetrics.heightPixels
 
-fun fadeIn(context: Context, view: View) {
-    val fadeInAnim = AnimationUtils.loadAnimation(context, R.anim.fade_in)
-    view.startAnimation(fadeInAnim)
-    view.visibility = View.VISIBLE
+fun View.translateX(duration: Long, value: Float) {
+    ObjectAnimator.ofFloat(this, "translationX", value).apply {
+        this.duration = duration
+        start()
+    }
 }
 
-fun fadeOut(context: Context, view: View) {
-    val fadeInAnim = AnimationUtils.loadAnimation(context, R.anim.fade_out)
-    view.startAnimation(fadeInAnim)
-    view.visibility = View.GONE
+fun View.fadeIn(duration: Long) {
+    ObjectAnimator.ofFloat(this, "alpha", 0f, 1f).apply {
+        this.duration = duration
+        addListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(p0: Animator) {
+                this@fadeIn.visibility = View.VISIBLE
+            }
+
+            override fun onAnimationEnd(p0: Animator) {
+            }
+
+            override fun onAnimationCancel(p0: Animator) {
+            }
+
+            override fun onAnimationRepeat(p0: Animator) {
+            }
+        })
+        start()
+    }
+}
+
+fun View.fadeOut(duration: Long) {
+    ObjectAnimator.ofFloat(this, "alpha", 1f, 0f).apply {
+        this.duration = duration
+        addListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(p0: Animator) {
+            }
+
+            override fun onAnimationEnd(p0: Animator) {
+                this@fadeOut.visibility = View.INVISIBLE
+            }
+
+            override fun onAnimationCancel(p0: Animator) {
+            }
+
+            override fun onAnimationRepeat(p0: Animator) {
+            }
+        })
+        start()
+    }
 }
 
 //텍스트가 두개의 텍스트색상을 가질 경우 사용

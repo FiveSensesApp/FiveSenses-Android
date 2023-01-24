@@ -25,37 +25,16 @@
             android:elevation="15dp"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageButton
-                android:id="@+id/feed_search_ib"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="46dp"
-                android:layout_marginEnd="20dp"
-                android:background="@android:color/transparent"
-                android:onClick="@{fragment::showSearchView}"
-                android:src="@drawable/ic_search_44"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <!--<ImageView
-                android:id="@+id/feed_search_left_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="46dp"
-                android:src="@drawable/ic_magnifying_glass_44"
-                android:visibility="invisible"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <EditText
                 android:id="@+id/feed_search_et"
                 android:layout_width="0dp"
                 android:layout_height="44dp"
+                android:layout_marginStart="64dp"
                 android:layout_marginEnd="20dp"
                 android:backgroundTint="@color/GY_03"
                 android:gravity="center_vertical"
                 android:hint="@string/msg_input_keyword"
+                android:imeOptions="actionSearch"
                 android:inputType="text"
                 android:lines="1"
                 android:paddingStart="8dp"
@@ -64,20 +43,22 @@
                 android:textColor="@color/GY_03"
                 android:textColorHint="@color/GY_03"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="@+id/feed_search_left_iv"
+                app:layout_constraintBottom_toBottomOf="@+id/feed_search_ib"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/feed_search_left_iv"
-                app:layout_constraintTop_toTopOf="@+id/feed_search_left_iv" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/feed_search_ib" />
 
-            <ImageView
-                android:id="@+id/feed_search_right_iv"
+            <ImageButton
+                android:id="@+id/feed_search_ib"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="46dp"
                 android:layout_marginEnd="20dp"
-                android:src="@drawable/ic_magnifying_glass_44"
+                android:background="@android:color/transparent"
+                android:onClick="@{() -> fragment.showSearchView(true)}"
+                android:src="@drawable/ic_search_44"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />-->
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/feed_my_taste_tv"
@@ -107,6 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_toggle_44"
+                android:visibility="@{fragment.selectedType.equals(@string/title_search_result)? View.INVISIBLE: View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="@+id/feed_type_select_touch_view"
                 app:layout_constraintStart_toEndOf="@+id/feed_my_taste_tv"
                 app:layout_constraintTop_toTopOf="@+id/feed_type_select_touch_view" />
@@ -117,6 +99,7 @@
                 android:layout_height="44dp"
                 android:layout_marginTop="92dp"
                 android:onClick="@{(ConstraintLayout) -> fragment.onClickTypeSelectTouchView(feedTypeSelectLayout.getVisibility())}"
+                android:visibility="@{fragment.selectedType.equals(@string/title_search_result)? View.INVISIBLE: View.VISIBLE}"
                 app:layout_constraintBottom_toTopOf="@+id/feed_hide_frame_layout"
                 app:layout_constraintEnd_toEndOf="@+id/feed_toggle_iv"
                 app:layout_constraintStart_toStartOf="@+id/feed_my_taste_tv"
@@ -262,13 +245,16 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <FrameLayout
-            android:id="@+id/feed_content_fl"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/feed_fcv"
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="136dp"
+            app:defaultNavHost="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:navGraph="@navigation/navigation_feed" />
 
         <View
             android:id="@+id/feed_blurred_view"

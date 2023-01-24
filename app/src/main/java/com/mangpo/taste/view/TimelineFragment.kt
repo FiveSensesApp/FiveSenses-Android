@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -194,17 +193,14 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding, FeedViewModel>(Fr
             val posts = it.getContentIfNotHandled()
 
             if (posts!=null) {
-                Log.d("TOKEN", "posts 성공")
                 page = posts.pageNumber
                 isLast = posts.isLast
                 recordDetailAdapter.addData(posts.content)
-            } else {
-                Log.d("TOKEN", "posts 실패")
             }
         })
 
         viewModel.deletePostResult.observe(viewLifecycleOwner, Observer {
-            when (it) {
+            when (it.getContentIfNotHandled()) {
                 200 -> recordDetailAdapter.removeData()
                 404 -> showToast("삭제 중 문제가 발생했습니다.")
                 else -> {}

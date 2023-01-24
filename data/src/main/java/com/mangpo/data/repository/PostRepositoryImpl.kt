@@ -7,6 +7,7 @@ import com.mangpo.data.model.createPost.CreatePostReqDTO
 import com.mangpo.data.model.updatePost.UpdatePostReqDTO
 import com.mangpo.domain.model.base.BaseResEntity
 import com.mangpo.domain.model.createPost.CreatePostReqEntity
+import com.mangpo.domain.model.getPosts.ContentEntity
 import com.mangpo.domain.model.getPosts.GetPostsResEntity
 import com.mangpo.domain.model.getPresentPostsBetween.GetPresentPostsBetweenResEntity
 import com.mangpo.domain.model.updatePost.UpdatePostReqEntity
@@ -45,6 +46,12 @@ class PostRepositoryImpl @Inject constructor(private val dataSource: PostRemoteD
         val response = dataSource.getPresentPostsBetween(startDate, endDate)
 
         return sendData(response) { PostMapper.mapperToGetPresentPostsBetweenResEntities(response) }
+    }
+
+    override suspend fun searchKeywordLike(query: String): BaseResEntity<List<ContentEntity>> {
+        val response = dataSource.searchKeywordLike(query)
+
+        return sendData(response) { PostMapper.mapperToContentEntities(response) }
     }
 
     override suspend fun createPost(createPostReqEntity: CreatePostReqEntity): BaseResEntity<Nothing> {

@@ -192,7 +192,7 @@ class RecordDialogFragment : DialogFragment() {
         })
 
         feedVm.deletePostResult.observe(viewLifecycleOwner, Observer {
-            when (it) {
+            when (it.getContentIfNotHandled()) {
                 200 -> {
                     eventListener.delete(binding.content!!.id)
                     dialog?.dismiss()
@@ -214,13 +214,13 @@ class RecordDialogFragment : DialogFragment() {
 
     fun clickMoreIv() {
         if (binding.recordDialogMenuCl.visibility==View.VISIBLE)    //더보기 이미지뷰 VISIBLE 이면
-            fadeOut(requireContext(), binding.recordDialogMenuCl)   //메뉴 레이아웃 fadeOut
+            binding.recordDialogMenuCl.fadeOut(300) //메뉴 레이아웃 fadeOut
         else    //더보기 이미지뷰 INVISIBLE 이면
-            fadeIn(requireContext(), binding.recordDialogMenuCl)    //메뉴 레이아웃 fadeIn
+            binding.recordDialogMenuCl.fadeIn(300)  //메뉴 레이아웃 fadeIn
     }
 
     fun clickUpdateClickView(contentEntity: ContentEntity) {
-        fadeOut(requireContext(), binding.recordDialogMenuCl)   //메뉴 레이아웃 fadeOut
+        binding.recordDialogMenuCl.fadeOut(300) //메뉴 레이아웃 fadeOut
 
         val intent = Intent(requireContext(), RecordUpdateActivity::class.java)
         intent.putExtra("content", contentEntity)
@@ -233,7 +233,7 @@ class RecordDialogFragment : DialogFragment() {
         else
             binding.recordDialogBlurredView.setBackgroundResource(R.drawable.ic_delete_bg_big)
 
-        fadeOut(requireContext(), binding.recordDialogMenuCl)   //메뉴 레이아웃 fadeOut
+        binding.recordDialogMenuCl.fadeOut(300) //메뉴 레이아웃 fadeOut
         binding.recordDialogBlurredView.visibility = View.VISIBLE   //블러처리 화면 VISIBLE
 
         val bundle: Bundle = Bundle()

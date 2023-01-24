@@ -8,10 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mangpo.domain.model.getPosts.ContentEntity
 import com.mangpo.taste.R
-import com.mangpo.taste.databinding.ItemByScoreFilterBinding
-import com.mangpo.taste.databinding.ItemBySenseFilterBinding
-import com.mangpo.taste.databinding.ItemRecordCntBinding
-import com.mangpo.taste.databinding.ItemRecordShortBinding
+import com.mangpo.taste.databinding.*
 import com.mangpo.taste.view.model.Record
 
 class RecordShortAdapter constructor(private val records: MutableList<Record>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -26,12 +23,11 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
     private lateinit var byScoreFilterBinding: ItemByScoreFilterBinding
     private lateinit var recordCntBinding: ItemRecordCntBinding
     private lateinit var contentBinding: ItemRecordShortBinding
-    private lateinit var baseRecords: MutableList<Record>
     private lateinit var myClickListener: MyClickListener
-    private lateinit var recordShortViewHolder: RecordShortViewHolder
     private lateinit var recordCntViewHolder: RecordCntViewHolder
-    private lateinit var bySenseFilterViewHolder: BySenseFilterViewHolder
     private lateinit var byScoreFilterViewHolder: ByScoreFilterViewHolder
+    private lateinit var searchCntBinding: ItemSearchCntBinding
+    private lateinit var searchCntViewHolder: SearchCntViewHolder
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -52,6 +48,11 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
                 recordCntViewHolder = RecordCntViewHolder(recordCntBinding)
                 recordCntViewHolder
             }
+            ContentViewType.SEARCH_CNT.num -> {
+                searchCntBinding = ItemSearchCntBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                searchCntViewHolder = SearchCntViewHolder(searchCntBinding)
+                searchCntViewHolder
+            }
             else -> {
                 contentBinding = ItemRecordShortBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 RecordShortViewHolder(contentBinding)
@@ -65,6 +66,7 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
             ContentViewType.BY_SCORE_FILTER.num -> (holder as ByScoreFilterViewHolder).bind()
             ContentViewType.RECORD_CNT.num -> holder as RecordCntViewHolder
             ContentViewType.CONTENT.num -> (holder as RecordShortViewHolder).bind(this.records[position], position)
+            ContentViewType.SEARCH_CNT.num -> (holder as SearchCntViewHolder).bind()
             else -> return
         }
     }
@@ -74,7 +76,8 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
             0 -> ContentViewType.BY_SENSE_FILTER.num
             1 -> ContentViewType.BY_SCORE_FILTER.num
             2 -> ContentViewType.RECORD_CNT.num
-            else -> ContentViewType.CONTENT.num
+            3 -> ContentViewType.CONTENT.num
+            else -> ContentViewType.SEARCH_CNT.num
         }
     }
 
@@ -157,8 +160,16 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
         }
     }
 
+    inner class SearchCntViewHolder(binding: ItemSearchCntBinding): RecyclerView.ViewHolder(binding.root) {
+        private val cntTv: TextView = binding.root
+
+        fun bind() {
+            cntTv.text = "총 ${records.count { it.viewType==3 }}개의 키워드가 존재합니다."
+        }
+    }
+
     enum class ContentViewType(val num: Int) {
-        BY_SENSE_FILTER(0), BY_SCORE_FILTER(1), RECORD_CNT(2), CONTENT(3)
+        BY_SENSE_FILTER(0), BY_SCORE_FILTER(1), RECORD_CNT(2), CONTENT(3), SEARCH_CNT(4)
     }
 
     private fun mapperToRecord(contentEntities: List<ContentEntity>): List<Record> {
@@ -202,11 +213,6 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
         this.records.addAll(mapperToRecord(contentEntities))
         notifyItemRangeInserted(this.records.size-contentEntities.size, contentEntities.size)
     }
-
-    fun addData2(contentEntities: List<ContentEntity>) {
-        this.records.addAll(mapperToRecord(contentEntities))
-        notifyDataSetChanged()
-    }
     
     fun clearData() {
         this.records.removeAll { it.viewType==3 }
@@ -218,9 +224,11 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
         this.records.removeAt(position)
         notifyItemRemoved(position) //삭제된 내역 반영
 
-        //(총 개수) - 1
-        val cnt = recordCntViewHolder.getCnt() - 1
-        recordCntViewHolder.setCnt(cnt)
+        if (this.records.any { it.viewType==2 }) {
+            //(총 개수) - 1
+            val cnt = recordCntViewHolder.getCnt() - 1
+            recordCntViewHolder.setCnt(cnt)
+        }
     }
 
     fun setCnt(cnt: Int) {

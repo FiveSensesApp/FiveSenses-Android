@@ -226,7 +226,7 @@ class ByCalendarFragment : BaseFragment<FragmentByCalendarBinding, FeedViewModel
         })
 
         viewModel.deletePostResult.observe(viewLifecycleOwner, Observer {
-            when (it) {
+            when (it.getContentIfNotHandled()) {
                 200 -> recordShortAdapter.removeData(deletedContentId)
                 404 -> showToast("삭제 중 문제가 발생했습니다.")
                 else -> {}
