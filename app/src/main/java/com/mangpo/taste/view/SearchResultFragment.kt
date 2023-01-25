@@ -28,6 +28,11 @@ class SearchResultFragment : BaseFragment<FragmentSearchResultBinding, FeedViewM
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.apply {
+            vm = viewModel
+            lifecycleOwner = viewLifecycleOwner
+        }
+
         initAdapter()
         initRecordDialog()
         observe()
