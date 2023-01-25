@@ -149,25 +149,25 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         fun clickedMoreIv(menuCl: ConstraintLayout) {
             if (menuCl.visibility==View.VISIBLE)
-                fadeOut(context, menuCl)
+                menuCl.fadeOut(300)
             else
-                fadeIn(context, menuCl)
+                menuCl.fadeIn(300)
         }
 
         fun deleteFeed(id: Int) {
-            fadeOut(context, menuCl)
+            menuCl.fadeOut(300)
             deletePostId = id
             myClickListener.delete()
         }
 
         fun updateFeed(id: Int) {
-            fadeOut(context, menuCl)
+            menuCl.fadeOut(300)
             updatePostId = id
             myClickListener.update(getContentById(id))
         }
 
         fun shareFeed(id: Int) {
-            fadeOut(context, menuCl)
+            menuCl.fadeOut(300)
             sharedPostId = id
             myClickListener.share()
         }

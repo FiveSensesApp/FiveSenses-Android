@@ -67,7 +67,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(ActivityMa
                 super.onBackPressed()
             }
         } else {    //기록하기 바텀 시트가 올라와 있지 않을 때 앱 종료
-            finishAffinity()
+            super.onBackPressed()
         }
     }
 

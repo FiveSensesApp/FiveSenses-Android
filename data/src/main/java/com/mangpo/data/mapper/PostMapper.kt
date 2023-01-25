@@ -5,6 +5,7 @@ import com.mangpo.data.model.createPost.CreatePostReqDTO
 import com.mangpo.data.model.getPosts.Content
 import com.mangpo.data.model.getPosts.GetPostsResDTO
 import com.mangpo.data.model.getPresentPostsBetween.GetPresentPostsBetweenResDTO
+import com.mangpo.data.model.searchKeywordLike.SearchKeywordLikeResDTO
 import com.mangpo.data.model.updatePost.UpdatePostReqDTO
 import com.mangpo.data.model.updatePost.UpdatePostResDTO
 import com.mangpo.domain.model.base.BaseResEntity
@@ -55,7 +56,7 @@ object PostMapper {
             if (data==null) {
                 BaseResEntity(meta.code, meta.msg, null)
             } else {
-                BaseResEntity(meta.code, meta.msg, data.run { UpdatePostResEntity(id, category, keyword, star, content, createdDate) })
+                BaseResEntity(meta.code, meta.msg, data.run { UpdatePostResEntity(id, category, keyword, star, content, createdDate.split("T")[0].replace("-", ".")) })
             }
         }
     }
@@ -69,6 +70,24 @@ object PostMapper {
 
         return getPresentPostsBetweenResDTOs.run {
             BaseResEntity(meta.code, meta.msg, getPresentPostsBetweenResEntities)
+        }
+    }
+
+    fun mapperToContentEntities(searchKeywordLikeResDTOs: BaseResDTO<List<SearchKeywordLikeResDTO>?>): BaseResEntity<List<ContentEntity>> {
+        val contentEntities: MutableList<ContentEntity> = mutableListOf()
+
+        return if (searchKeywordLikeResDTOs.data==null) {
+            searchKeywordLikeResDTOs.run {
+                BaseResEntity(meta.code, meta.msg, contentEntities)
+            }
+        } else {
+            for (dto in searchKeywordLikeResDTOs.data) {
+                contentEntities.add(dto.run { ContentEntity(id, category, keyword, star, content, createdDate.split("T")[0].replace("-", ".")) })
+            }
+
+            searchKeywordLikeResDTOs.run {
+                BaseResEntity(meta.code, meta.msg, contentEntities)
+            }
         }
     }
 }

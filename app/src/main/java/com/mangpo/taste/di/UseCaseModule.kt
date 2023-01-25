@@ -114,4 +114,9 @@ class UseCaseModule {
     fun provideAuthorizeNewUseCase (authRepository: AuthRepository): AuthorizeNewUseCase {
         return AuthorizeNewUseCase(authRepository)
     }
+
+    @Provides
+    fun provideSearchKeywordLikeUseCase (postRepository: PostRepository): SearchKeywordLikeUseCase {
+        return SearchKeywordLikeUseCase(postRepository)
+    }
 }

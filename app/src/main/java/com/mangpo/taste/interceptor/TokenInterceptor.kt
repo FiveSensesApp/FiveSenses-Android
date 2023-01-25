@@ -22,7 +22,6 @@ class TokenInterceptor @Inject constructor(private val authRepository: AuthRepos
             runBlocking {
                 val accessToken: String = SpfUtils.getStrEncryptedSpf("jwt")?: ""
                 val refreshToken: String = SpfUtils.getStrEncryptedSpf("refreshToken")?: ""
-
                 val reissueResEntity: BaseResEntity<ReissueResEntity?> = authRepository.reissue(ReissueReqEntity(accessToken = accessToken, refreshToken = refreshToken))
 
                 if (reissueResEntity.data!=null) {
