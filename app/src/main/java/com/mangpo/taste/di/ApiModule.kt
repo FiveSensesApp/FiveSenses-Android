@@ -2,16 +2,14 @@ package com.mangpo.taste.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.mangpo.taste.interceptor.TokenInterceptor
 import com.mangpo.data.service.*
 import com.mangpo.domain.repository.AuthRepository
 import com.mangpo.taste.BuildConfig
-import com.mangpo.taste.util.SpfUtils
+import com.mangpo.taste.interceptor.TokenInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -40,16 +38,6 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun getInterceptor(): Interceptor {
-        return Interceptor {
-            val request = it.request().newBuilder().addHeader("Authorization", "Bearer ${SpfUtils.getStrEncryptedSpf("jwt")}")
-            val actualRequest = request.build()
-            it.proceed(actualRequest)
-        }
-    }
-
-    @Provides
-    @Singleton
     fun getTokenInterceptor(authRepository: AuthRepository): TokenInterceptor {
         return TokenInterceptor(authRepository)
     }
@@ -67,11 +55,10 @@ class ApiModule {
     @InterceptorOkHttpClient
     @Provides
     @Singleton
-    fun provideInterceptorOkHttpClient(interceptor: Interceptor, tokenInterceptor: TokenInterceptor): OkHttpClient {
+    fun provideInterceptorOkHttpClient(tokenInterceptor: TokenInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .readTimeout(30000, TimeUnit.MILLISECONDS)
             .connectTimeout(30000, TimeUnit.MILLISECONDS)
-            /*.addInterceptor(interceptor)*/
             .addInterceptor(tokenInterceptor)
             .build()
     }
