@@ -47,6 +47,9 @@ dependencies {
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
+    //OKHttp
+    implementation "com.squareup.okhttp3:okhttp:4.10.0"
+
     //hilt
     implementation 'com.google.dagger:hilt-android:2.42'
     kapt 'com.google.dagger:hilt-compiler:2.42'
