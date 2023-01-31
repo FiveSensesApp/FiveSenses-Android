@@ -20,7 +20,7 @@ import com.mangpo.taste.util.fadeOut
 import com.mangpo.taste.view.model.Record
 import com.mangpo.taste.view.model.RecordDetailResource
 
-class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RecordDetailAdapter(records: MutableList<Record>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     interface MyClickListener {
         fun update(content: ContentEntity)
         fun delete()
@@ -32,8 +32,7 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var deletePostId: Int = -1
     private var updatePostId: Int = -1
     private var sharedPostId: Int = -1
-    private var selectedPosition: Int = 0
-    private var records: MutableList<Record> = mutableListOf(Record(0, null), Record(1, null))
+    private var records: MutableList<Record> = records
 
     private lateinit var byTimelineFilterBinding: ItemByTimelineFilterBinding
     private lateinit var recordCntBinding: ItemRecordCntBinding
@@ -222,6 +221,12 @@ class RecordDetailAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         notifyItemRemoved(position) //삭제된 내역 반영
         recordCntViewHolder.minusCnt()  //전체 개수 - 1
+    }
+
+    fun removeData(deletePostId: Int) {
+        val position: Int = getPositionByPostId(deletePostId)
+        this.records.removeAt(position)
+        notifyItemRemoved(position) //삭제된 내역 반영
     }
 
     fun clearData() {

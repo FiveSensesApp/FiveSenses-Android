@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
+
         <import type="android.view.View" />
+
+        <variable
+            name="keyword"
+            type="String" />
+
+        <variable
+            name="fragment"
+            type="com.mangpo.taste.view.SearchResultFragment" />
 
         <variable
             name="vm"
@@ -15,21 +25,109 @@
         android:layout_height="match_parent"
         tools:context=".view.SearchResultFragment">
 
+        <ImageView
+            android:id="@+id/search_result_search_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="46dp"
+            android:src="@drawable/ic_search_44"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/search_result_search_et"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="@color/GY_03"
+            android:gravity="center_vertical"
+            android:hint="@string/msg_enter_search_term"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:lines="1"
+            android:paddingStart="8dp"
+            android:paddingEnd="109dp"
+            android:paddingBottom="6dp"
+            android:text="@{keyword}"
+            android:textAppearance="@style/Body0_SB_16"
+            android:textColor="@color/GY_03"
+            android:textColorHint="@color/GY_03"
+            app:layout_constraintBottom_toBottomOf="@+id/search_result_search_iv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/search_result_search_iv" />
+
+        <ImageButton
+            android:id="@+id/search_result_delete_keyword_ib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="69dp"
+            android:background="@android:color/transparent"
+            android:onClick="@{() -> fragment.deleteSearchKeyword()}"
+            android:src="@drawable/ic_close_circle_40"
+            app:layout_constraintBottom_toBottomOf="@+id/search_result_search_iv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/search_result_search_iv" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/search_result_cancel_btn"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="20dp"
+            android:background="@android:color/transparent"
+            android:onClick="@{() -> fragment.popBackStack()}"
+            android:text="@string/action_cancel"
+            android:textAppearance="@style/Body0_SB_16"
+            android:textColor="@color/GY_04"
+            app:layout_constraintBottom_toBottomOf="@+id/search_result_search_iv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/search_result_search_iv" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="98dp"
+            android:text="@string/title_search_result"
+            android:textAppearance="@style/Head_B_26"
+            android:textColor="@color/BK"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/search_result_cnt_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="148dp"
+            android:background="@drawable/bg_gy01_18"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="8dp"
+            android:textAppearance="@style/Sub_Head_B_16"
+            android:textColor="@color/GY_04"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/search_result_rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="7dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="18dp"
             android:clipToPadding="false"
             android:overScrollMode="never"
             android:scrollbars="none"
             android:visibility="@{vm.searchResultPosts.empty? View.INVISIBLE: View.VISIBLE}"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_result_cnt_tv" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="@{vm.searchResultPosts.empty? View.VISIBLE: View.INVISIBLE}">
+            android:layout_height="0dp"
+            android:visibility="@{vm.searchResultPosts.empty? View.VISIBLE: View.INVISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_result_cnt_tv">
 
             <ImageView
                 android:id="@+id/no_search_iv"
@@ -40,7 +138,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.3" />
 
             <TextView
                 android:layout_width="wrap_content"

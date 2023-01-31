@@ -59,6 +59,10 @@ object SpfUtils {
         return encryptedSpf.getInt(key, -1)
     }
 
+    fun removeSpf(key: String) {
+        spf.edit().remove(key).apply()
+    }
+
     fun clear() {
         spf.edit().clear().apply()
         encryptedSpf.edit().clear().apply()

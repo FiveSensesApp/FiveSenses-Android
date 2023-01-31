@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.mangpo.taste.view.SearchFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.SearchFragment">
+
+        <ImageView
+            android:id="@+id/search_search_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="46dp"
+            android:src="@drawable/ic_search_44"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/search_search_et"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="@color/GY_03"
+            android:gravity="center_vertical"
+            android:hint="@string/msg_enter_search_term"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:lines="1"
+            android:paddingStart="8dp"
+            android:paddingEnd="44dp"
+            android:paddingBottom="6dp"
+            android:textAppearance="@style/Body0_SB_16"
+            android:textColor="@color/GY_03"
+            android:textColorHint="@color/GY_03"
+            app:layout_constraintBottom_toBottomOf="@+id/search_search_iv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/search_search_iv" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/search_cancel_btn"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="20dp"
+            android:background="@android:color/transparent"
+            android:onClick="@{() -> fragment.popBackStack()}"
+            android:text="@string/action_cancel"
+            android:textAppearance="@style/Body0_SB_16"
+            android:textColor="@color/GY_04"
+            app:layout_constraintBottom_toBottomOf="@+id/search_search_iv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/search_search_iv" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="110dp"
+            android:text="@string/title_recent_search"
+            android:textAppearance="@style/Sub_Head_B_12"
+            android:textColor="@color/GY_04"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/search_delete_all_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_marginTop="92dp"
+            android:background="@android:color/transparent"
+            android:onClick="@{() -> fragment.allDelete()}"
+            android:text="@string/action_delete_all"
+            android:textAppearance="@style/Body0_SB_12"
+            android:textColor="@color/RD_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="136dp"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:paddingHorizontal="30dp"
+            android:scrollbars="none"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_recent_search_term" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

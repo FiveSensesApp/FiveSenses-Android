@@ -9,7 +9,13 @@
         android:id="@+id/feedFragment"
         android:name="com.mangpo.taste.view.FeedFragment"
         android:label="fragment_feed"
-        tools:layout="@layout/fragment_feed" />
+        tools:layout="@layout/fragment_feed">
+        <action
+            android:id="@+id/action_feedFragment_to_searchFragment"
+            app:destination="@id/searchFragment"
+            app:popUpTo="@id/feedFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
     <fragment
         android:id="@+id/analysisFragment"
         android:name="com.mangpo.taste.view.AnalysisFragment"
@@ -39,4 +45,22 @@
         android:id="@+id/badgeActivity"
         android:name="com.mangpo.taste.view.BadgeActivity"
         android:label="BadgeActivity" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.mangpo.taste.view.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_searchFragment_to_searchResultFragment"
+            app:destination="@id/searchResultFragment"
+            app:popUpTo="@id/feedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchResultFragment"
+        android:name="com.mangpo.taste.view.SearchResultFragment"
+        android:label="SearchResultFragment">
+        <argument
+            android:name="keyword"
+            app:argType="string" />
+    </fragment>
 </navigation>

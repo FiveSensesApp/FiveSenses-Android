@@ -21,6 +21,7 @@ import com.mangpo.taste.databinding.FragmentTimelineBinding
 import com.mangpo.taste.util.SpfUtils
 import com.mangpo.taste.util.checkPermission
 import com.mangpo.taste.view.adpater.RecordDetailAdapter
+import com.mangpo.taste.view.model.Record
 import com.mangpo.taste.view.model.TwoBtnDialog
 import com.mangpo.taste.viewmodel.FeedViewModel
 import com.mangpo.taste.viewmodel.MainViewModel
@@ -95,7 +96,7 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding, FeedViewModel>(Fr
     }
 
     private fun initAdapter() {
-        recordDetailAdapter = RecordDetailAdapter()
+        recordDetailAdapter = RecordDetailAdapter(mutableListOf(Record(0, null), Record(1, null)))
 
         recordDetailAdapter.setMyClickListener(object : RecordDetailAdapter.MyClickListener {
             override fun update(content: ContentEntity) {
