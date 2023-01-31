@@ -66,8 +66,12 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(ActivityMa
             } else {    //바텀 시트 화면에서 오감 선택 화면이 아니면 뒤로가기
                 super.onBackPressed()
             }
-        } else {    //기록하기 바텀 시트가 올라와 있지 않을 때 앱 종료
-            super.onBackPressed()
+        } else {
+            if (binding.mainFcv.findNavController().currentDestination?.id==R.id.searchFragment || binding.mainFcv.findNavController().currentDestination?.id==R.id.searchResultFragment) {
+                binding.mainFcv.findNavController().popBackStack()
+            } else {
+                super.onBackPressed()
+            }
         }
     }
 

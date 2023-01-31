@@ -4,11 +4,11 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
-import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.*
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentFeedBinding
@@ -43,11 +43,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding, FeedViewModel>(FragmentFe
         typeTextList = listOf(getString(R.string.title_timeline), getString(R.string.title_by_sense), getString(R.string.title_by_score), getString(R.string.title_by_calendar))
         removedTypeTextList = listOf(getString(R.string.title_by_sense), getString(R.string.title_by_score), getString(R.string.title_by_calendar))
 
-        if (selectedType!=getString(R.string.title_search_result)) {
-            setSpannableText(selectedType, requireContext(), R.color.GY_03, 6, selectedType.length, binding.feedMyTasteTv)   //나의 취향 뒷부분 텍스트 색상 변경
-        } else {
-            showSearchView(false)
-        }
+        setSpannableText(selectedType, requireContext(), R.color.GY_03, 6, selectedType.length, binding.feedMyTasteTv)   //나의 취향 뒷부분 텍스트 색상 변경
 
         setMyEventListener()
         observe()
@@ -57,28 +53,6 @@ class FeedFragment : BaseFragment<FragmentFeedBinding, FeedViewModel>(FragmentFe
     }
 
     override fun initAfterBinding() {
-        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (binding.feedFcv.findNavController().currentDestination?.id==R.id.searchResultFragment) {
-                    binding.feedFcv.findNavController().popBackStack()
-
-                    when (binding.feedFcv.findNavController().currentDestination?.id) {
-                        R.id.timelineFragment -> selectedType = "나의 취향 ${getString(R.string.title_timeline)}"
-                        R.id.bySenseFragment -> selectedType = "나의 취향 ${getString(R.string.title_by_sense)}"
-                        R.id.byScoreFragment -> selectedType = "나의 취향 ${getString(R.string.title_by_score)}"
-                        R.id.byCalendarFragment -> selectedType = "나의 취향 ${getString(R.string.title_by_calendar)}"
-                    }
-
-                    setSpannableText(selectedType, requireContext(), R.color.GY_03, 6, selectedType.length, binding.feedMyTasteTv)   //나의 취향 뒷부분 텍스트 색상 변경
-                    binding.invalidateAll()
-
-                    binding.feedSearchIb.translateX(200, 0f)
-                    binding.feedSearchEt.fadeOut(300)
-                } else {
-                    requireActivity().finish()
-                }
-            }
-        })
     }
 
     override fun onStop() {
@@ -93,8 +67,6 @@ class FeedFragment : BaseFragment<FragmentFeedBinding, FeedViewModel>(FragmentFe
 
                 selectedType = getString(R.string.title_search_result)
                 binding.invalidateAll()
-
-                goSearchResultFrag(binding.feedFcv.findNavController().currentDestination?.id)
             }
 
             false
@@ -107,23 +79,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding, FeedViewModel>(FragmentFe
             "나의 취향 ${getString(R.string.title_by_sense)}" -> binding.feedFcv.findNavController().navigate(R.id.action_global_bySenseFragment)
             "나의 취향 ${getString(R.string.title_by_score)}" -> binding.feedFcv.findNavController().navigate(R.id.action_global_byScoreFragment)
             "나의 취향 ${getString(R.string.title_by_calendar)}" -> binding.feedFcv.findNavController().navigate(R.id.action_global_byCalendarFragment)
-            else -> goSearchResultFrag(binding.feedFcv.findNavController().currentDestination?.id)
         }
-    }
-
-    private fun goSearchResultFrag(currentFrag: Int?) {
-        val keyword: String = binding.feedSearchEt.text.toString()
-        val action = when (currentFrag) {
-            R.id.timelineFragment -> TimelineFragmentDirections.actionTimelineFragmentToSearchResultFragment(keyword)
-            R.id.bySenseFragment -> BySenseFragmentDirections.actionBySenseFragmentToSearchResultFragment(keyword)
-            R.id.byScoreFragment -> ByScoreFragmentDirections.actionByScoreFragmentToSearchResultFragment(keyword)
-            R.id.byCalendarFragment -> ByCalendarFragmentDirections.actionByCalendarFragmentToSearchResultFragment(keyword)
-            else -> {
-                binding.feedFcv.findNavController().currentBackStackEntry?.savedStateHandle?.set("keyword", keyword)
-                null
-            }
-        }
-        action?.let { binding.feedFcv.findNavController().navigate(action) }
     }
 
     private fun observe() {
@@ -188,23 +144,8 @@ class FeedFragment : BaseFragment<FragmentFeedBinding, FeedViewModel>(FragmentFe
         }
     }
 
-    fun showSearchView(focusable: Boolean) {
-        if (binding.feedSearchEt.visibility==View.INVISIBLE) {
-            if (binding.feedTypeSelectLayout.visibility==View.VISIBLE) {
-                onClickTypeSelectTouchView(binding.feedTypeSelectLayout.visibility)
-            }
-
-            binding.feedSearchIb.translateX(300, -(getDeviceWidth() - convertDpToPx(requireContext(), 86)).toFloat())
-
-            binding.feedSearchEt.apply {
-                text.clear()
-                fadeIn(300)
-
-                if (focusable) {
-                    requestFocus()
-                    (requireActivity() as MainActivity).showKeyboard(this)
-                }
-            }
-        }
+    fun showSearchView() {
+        val action = FeedFragmentDirections.actionFeedFragmentToSearchFragment()
+        findNavController().navigate(action)
     }
 }

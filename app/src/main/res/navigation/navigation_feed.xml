@@ -9,46 +9,21 @@
         android:id="@+id/timelineFragment"
         android:name="com.mangpo.taste.view.TimelineFragment"
         android:label="fragment_timeline"
-        tools:layout="@layout/fragment_timeline">
-        <action
-            android:id="@+id/action_timelineFragment_to_searchResultFragment"
-            app:destination="@id/searchResultFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_timeline" />
     <fragment
         android:id="@+id/bySenseFragment"
         android:name="com.mangpo.taste.view.BySenseFragment"
         android:label="fragment_by_sense"
-        tools:layout="@layout/fragment_by_sense">
-        <action
-            android:id="@+id/action_bySenseFragment_to_searchResultFragment"
-            app:destination="@id/searchResultFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_by_sense" />
     <fragment
         android:id="@+id/byScoreFragment"
         android:name="com.mangpo.taste.view.ByScoreFragment"
         android:label="fragment_by_score"
-        tools:layout="@layout/fragment_by_score">
-        <action
-            android:id="@+id/action_byScoreFragment_to_searchResultFragment"
-            app:destination="@id/searchResultFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_by_score" />
     <fragment
         android:id="@+id/byCalendarFragment"
         android:name="com.mangpo.taste.view.ByCalendarFragment"
-        android:label="ByCalendarFragment">
-        <action
-            android:id="@+id/action_byCalendarFragment_to_searchResultFragment"
-            app:destination="@id/searchResultFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/searchResultFragment"
-        android:name="com.mangpo.taste.view.SearchResultFragment"
-        android:label="fragment_search_result"
-        tools:layout="@layout/fragment_search_result">
-        <argument
-            android:name="keyword"
-            app:argType="string" />
-    </fragment>
+        android:label="ByCalendarFragment" />
     <fragment
         android:id="@+id/noFeedFragment"
         android:name="com.mangpo.taste.view.NoFeedFragment"

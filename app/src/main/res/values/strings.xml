@@ -89,6 +89,7 @@
     <string name="title_5gaam_character">오감 캐릭터</string>
     <string name="title_emoji">이모지</string>
     <string name="title_only_text">텍스트만</string>
+    <string name="title_recent_search">최근검색어</string>
 
     <string name="action_logout">로그아웃</string>
     <string name="action_withdrawal">계정 탈퇴</string>
@@ -120,6 +121,7 @@
     <string name="action_share_SNS">SNS 공유</string>
     <string name="action_customizing">커스텀하기</string>
     <string name="action_add_background">+ 배경 추가</string>
+    <string name="action_delete_all">전체 삭제</string>
 
     <string name="msg_logout">정말 로그아웃 하시겠습니까?</string>
     <string name="msg_really_withdrawal">정말 탈퇴하실 건가요?</string>
@@ -135,7 +137,7 @@
     <string name="msg_indicate_taste_preference">취향을 얼마나 좋아하는지 표시해주세요!</string>
     <string name="msg_hello">님의 취향,\n어떤 감각으로 기록할까요?</string>
     <string name="msg_how_to_use">어떻게 쓰는지 모르겠다면?</string>
-    <string name="msg_input_keyword">검색할 키워드를 입력해주세요.</string>
+    <string name="msg_enter_search_term">검색어를 입력해 주세요.</string>
     <string name="msg_update_complete">취향 수정이 완료되었어요.</string>
     <string name="msg_really_delete">정말 삭제하시겠어요?</string>
     <string name="msg_cannot_recover">삭제한 취향은 복구할 수 없어요.</string>

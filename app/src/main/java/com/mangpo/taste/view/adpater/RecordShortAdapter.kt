@@ -26,8 +26,6 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
     private lateinit var myClickListener: MyClickListener
     private lateinit var recordCntViewHolder: RecordCntViewHolder
     private lateinit var byScoreFilterViewHolder: ByScoreFilterViewHolder
-    private lateinit var searchCntBinding: ItemSearchCntBinding
-    private lateinit var searchCntViewHolder: SearchCntViewHolder
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -48,11 +46,6 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
                 recordCntViewHolder = RecordCntViewHolder(recordCntBinding)
                 recordCntViewHolder
             }
-            ContentViewType.SEARCH_CNT.num -> {
-                searchCntBinding = ItemSearchCntBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                searchCntViewHolder = SearchCntViewHolder(searchCntBinding)
-                searchCntViewHolder
-            }
             else -> {
                 contentBinding = ItemRecordShortBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 RecordShortViewHolder(contentBinding)
@@ -66,7 +59,6 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
             ContentViewType.BY_SCORE_FILTER.num -> (holder as ByScoreFilterViewHolder).bind()
             ContentViewType.RECORD_CNT.num -> holder as RecordCntViewHolder
             ContentViewType.CONTENT.num -> (holder as RecordShortViewHolder).bind(this.records[position], position)
-            ContentViewType.SEARCH_CNT.num -> (holder as SearchCntViewHolder).bind()
             else -> return
         }
     }
@@ -76,8 +68,7 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
             0 -> ContentViewType.BY_SENSE_FILTER.num
             1 -> ContentViewType.BY_SCORE_FILTER.num
             2 -> ContentViewType.RECORD_CNT.num
-            3 -> ContentViewType.CONTENT.num
-            else -> ContentViewType.SEARCH_CNT.num
+            else -> ContentViewType.CONTENT.num
         }
     }
 
@@ -160,16 +151,8 @@ class RecordShortAdapter constructor(private val records: MutableList<Record>): 
         }
     }
 
-    inner class SearchCntViewHolder(binding: ItemSearchCntBinding): RecyclerView.ViewHolder(binding.root) {
-        private val cntTv: TextView = binding.root
-
-        fun bind() {
-            cntTv.text = "총 ${records.count { it.viewType==3 }}개의 키워드가 존재합니다."
-        }
-    }
-
     enum class ContentViewType(val num: Int) {
-        BY_SENSE_FILTER(0), BY_SCORE_FILTER(1), RECORD_CNT(2), CONTENT(3), SEARCH_CNT(4)
+        BY_SENSE_FILTER(0), BY_SCORE_FILTER(1), RECORD_CNT(2), CONTENT(3)
     }
 
     private fun mapperToRecord(contentEntities: List<ContentEntity>): List<Record> {
