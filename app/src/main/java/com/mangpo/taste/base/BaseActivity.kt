@@ -23,10 +23,10 @@ import com.mangpo.taste.view.model.OneBtnDialog
 abstract class BaseActivity<T: ViewBinding, K: BaseViewModel>(private val inflate: (LayoutInflater) -> T): AppCompatActivity(){
     abstract val viewModel: K // 뷰모델
 
-    private val oneBtnDialogFragment: OneBtnDialogFragment = OneBtnDialogFragment()
-
     protected lateinit var binding: T
         private set
+
+    private val refreshTokenErrorDialog: OneBtnDialogFragment = OneBtnDialogFragment()
 
     private var imm : InputMethodManager? = null
 
@@ -34,14 +34,6 @@ abstract class BaseActivity<T: ViewBinding, K: BaseViewModel>(private val inflat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        oneBtnDialogFragment.setMyCallback(object : OneBtnDialogFragment.MyCallback {
-            override fun end() {
-                SpfUtils.clear()
-                SpfUtils.writeSpf("onBoarding", true)
-                goLogin()
-            }
-        })
 
         binding = inflate(layoutInflater)
         setContentView(binding.root)
@@ -55,10 +47,26 @@ abstract class BaseActivity<T: ViewBinding, K: BaseViewModel>(private val inflat
 
 
         initAfterBinding()
+        initRefreshTokenErrorDialog()
         observe()
     }
 
     protected abstract fun initAfterBinding()
+
+    private fun initRefreshTokenErrorDialog() {
+        refreshTokenErrorDialog.setMyCallback(object : OneBtnDialogFragment.MyCallback {
+            override fun end() {
+                SpfUtils.clear()
+                SpfUtils.writeSpf("onBoarding", true)
+                goLogin()
+            }
+        })
+
+        val oneBtnDialog: OneBtnDialog = OneBtnDialog("재로그인이 필요합니다.", "토큰에 문제가 발생해 재로그인이 필요합니다.\n로그인 화면으로 이동합니다.", "확인", listOf(46, 10, 46, 12))
+        val bundle: Bundle = Bundle()
+        bundle.putParcelable("data", oneBtnDialog)
+        refreshTokenErrorDialog.arguments = bundle
+    }
 
     private fun goLogin() {
         val intent: Intent = Intent(this@BaseActivity, OnBoardingActivity::class.java)
@@ -86,13 +94,8 @@ abstract class BaseActivity<T: ViewBinding, K: BaseViewModel>(private val inflat
         })
 
         viewModel.tokenExpired.observe(this, Observer {
-            if (it) {
-                val oneBtnDialog: OneBtnDialog = OneBtnDialog("재로그인이 필요합니다.", "토큰에 문제가 발생해 재로그인이 필요합니다.\n로그인 화면으로 이동합니다.", "확인", listOf(46, 10, 46, 12))
-                val bundle: Bundle = Bundle()
-                bundle.putParcelable("data", oneBtnDialog)
-
-                oneBtnDialogFragment.arguments = bundle
-                oneBtnDialogFragment.show(supportFragmentManager, null)
+            if (it && !refreshTokenErrorDialog.isAdded) {
+                refreshTokenErrorDialog.show(supportFragmentManager, null)
             }
         })
     }

@@ -93,7 +93,7 @@ abstract class BaseNoVMActivity<T: ViewBinding>(private val inflate: (LayoutInfl
         (binding.root as ConstraintLayout).addView(loading)
     }
 
-    private fun hideLoading() {
+    fun hideLoading() {
         if ((binding.root as ConstraintLayout).contains(loading)) {
             (binding.root as ConstraintLayout).removeView(loading)
         }

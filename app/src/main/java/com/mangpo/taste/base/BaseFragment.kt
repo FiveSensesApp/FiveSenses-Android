@@ -21,7 +21,8 @@ abstract class BaseFragment<VB : ViewBinding, K: BaseViewModel>(
     private val inflate: Inflate<VB>
 ) : Fragment() {
     abstract val viewModel: K // 뷰모델
-    private val oneBtnDialogFragment: OneBtnDialogFragment = OneBtnDialogFragment()
+
+    private val refreshTokenErrorDialog: OneBtnDialogFragment = OneBtnDialogFragment()
 
     private var _binding: VB? = null
     protected val binding get() = _binding!!
@@ -31,16 +32,9 @@ abstract class BaseFragment<VB : ViewBinding, K: BaseViewModel>(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        oneBtnDialogFragment.setMyCallback(object : OneBtnDialogFragment.MyCallback {
-            override fun end() {
-                SpfUtils.clear()
-                SpfUtils.writeSpf("onBoarding", true)
-                goLogin()
-            }
-        })
-
         _binding = inflate.invoke(inflater, container, false)
 
+        initRefreshTokenErrorDialog()
         observe()
 
         return binding.root
@@ -58,6 +52,21 @@ abstract class BaseFragment<VB : ViewBinding, K: BaseViewModel>(
 
     protected abstract fun initAfterBinding()
 
+    private fun initRefreshTokenErrorDialog() {
+        refreshTokenErrorDialog.setMyCallback(object : OneBtnDialogFragment.MyCallback {
+            override fun end() {
+                SpfUtils.clear()
+                SpfUtils.writeSpf("onBoarding", true)
+                goLogin()
+            }
+        })
+
+        val oneBtnDialog: OneBtnDialog = OneBtnDialog("재로그인이 필요합니다.", "토큰에 문제가 발생해 재로그인이 필요합니다.\n로그인 화면으로 이동합니다.", "확인", listOf(46, 10, 46, 12))
+        val bundle: Bundle = Bundle()
+        bundle.putParcelable("data", oneBtnDialog)
+        refreshTokenErrorDialog.arguments = bundle
+    }
+
     private fun goLogin() {
         val intent: Intent = Intent(requireContext(), OnBoardingActivity::class.java)
         intent.putExtra("currentItem", 3)
@@ -67,10 +76,18 @@ abstract class BaseFragment<VB : ViewBinding, K: BaseViewModel>(
 
     private fun observe() {
         viewModel.isLoading.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                (requireActivity() as BaseActivity<*, *>).showLoading()
+            if (requireActivity() is BaseNoVMActivity<*>) {
+                if (it) {
+                    (requireActivity() as BaseNoVMActivity<*>).showLoading()
+                } else {
+                    (requireActivity() as BaseNoVMActivity<*>).hideLoading()
+                }
             } else {
-                (requireActivity() as BaseActivity<*, *>).hideLoading()
+                if (it) {
+                    (requireActivity() as BaseActivity<*, *>).showLoading()
+                } else {
+                    (requireActivity() as BaseActivity<*, *>).hideLoading()
+                }
             }
         })
 
@@ -84,13 +101,8 @@ abstract class BaseFragment<VB : ViewBinding, K: BaseViewModel>(
         })
 
         viewModel.tokenExpired.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                val oneBtnDialog: OneBtnDialog = OneBtnDialog("재로그인이 필요합니다.", "토큰에 문제가 발생해 재로그인이 필요합니다.\n로그인 화면으로 이동합니다.", "확인", listOf(46, 10, 46, 12))
-                val bundle: Bundle = Bundle()
-                bundle.putParcelable("data", oneBtnDialog)
-
-                oneBtnDialogFragment.arguments = bundle
-                oneBtnDialogFragment.show(requireActivity().supportFragmentManager, null)
+            if (it && !refreshTokenErrorDialog.isAdded) {
+                refreshTokenErrorDialog.show(requireActivity().supportFragmentManager, null)
             }
         })
     }
