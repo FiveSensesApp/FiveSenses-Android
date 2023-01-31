@@ -19,7 +19,7 @@ class TokenInterceptor @Inject constructor(private val authRepository: AuthRepos
         val request = chain.request().putTokenHeader(accessToken)
         var response: Response = chain.proceed(request)
 
-        if (response.code ==401) {
+        if (response.code == 401) {
             synchronized(this) {
                 val newAccessToken: String = SpfUtils.getStrEncryptedSpf("jwt")?: ""
                 if (accessToken==newAccessToken) {  //같으면 reissue API 호출.
