@@ -21,8 +21,6 @@ class TokenInterceptor @Inject constructor(private val authRepository: AuthRepos
 
         if (response.code ==401) {
             synchronized(this) {
-                response.close()
-
                 val newAccessToken: String = SpfUtils.getStrEncryptedSpf("jwt")?: ""
                 if (accessToken==newAccessToken) {  //같으면 reissue API 호출.
                     val refreshToken: String = SpfUtils.getStrEncryptedSpf("refreshToken")?: ""
@@ -34,11 +32,13 @@ class TokenInterceptor @Inject constructor(private val authRepository: AuthRepos
                         SpfUtils.writeEncryptedSpf("jwt", reissueResEntity.data!!.accessToken)
                         SpfUtils.writeEncryptedSpf("refreshToken", reissueResEntity.data!!.refreshToken)
 
+                        response.close()
                         chain.proceed(chain.request().putTokenHeader(reissueResEntity.data!!.accessToken))
                     } else {
                         response
                     }
                 } else {    //다르면 방금 전에 reissue API 가 호출된 상태. newAccessToken 으로 현재 API 재호출.
+                    response.close()
                     return chain.proceed(chain.request().putTokenHeader(newAccessToken))
                 }
             }
