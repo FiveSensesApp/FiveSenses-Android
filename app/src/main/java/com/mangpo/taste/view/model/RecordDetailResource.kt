@@ -8,4 +8,5 @@ data class RecordDetailResource(
     val moreIcon: Drawable? = null,
     val emptyStar: Drawable? = null,
     val filledStar: Drawable? = null,
+    val shareIcon: Drawable? = null
 )
