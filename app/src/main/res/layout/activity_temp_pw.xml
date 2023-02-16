@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
+
         <import type="android.view.View" />
 
         <variable
@@ -21,9 +23,9 @@
 
         <ImageView
             android:id="@+id/temp_pw_characters_iv"
+            marginTop="@{activity.isKeyboardShown? 43: 81}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            marginTop="@{activity.isKeyboardShown? 43: 81}"
             android:src="@drawable/ic_characters"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -71,11 +73,11 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/temp_pw_send_mail_btn"
+            marginBottom="@{activity.isKeyboardShown? 15: 122}"
             android:layout_width="189dp"
             android:layout_height="46dp"
-            android:onClick="@{(EditText) -> activity.lostPassword(tempPwEmailEt.getText().toString())}"
-            marginBottom="@{activity.isKeyboardShown? 15: 122}"
             android:background="@drawable/bg_bk_23"
+            android:onClick="@{(EditText) -> activity.lostPassword(tempPwEmailEt.getText().toString())}"
             android:stateListAnimator="@null"
             android:text="@string/action_send_mail"
             android:textAppearance="@style/Sub_Head_B_18"
@@ -86,13 +88,15 @@
 
         <TextView
             android:id="@+id/temp_pw_dont_know_email_tv"
+            endUnderline="@{3}"
+            startUnderline="@{0}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="85dp"
+            android:onClick="@{() -> activity.showTwoBtnDialog()}"
             android:text="@string/msg_dont_know_email"
             android:textAppearance="@style/Sub_Head_B_16"
             android:textColor="@color/GY_03"
-            android:onClick="@{() -> activity.showTwoBtnDialog()}"
             android:visibility="@{activity.isKeyboardShown? View.INVISIBLE: View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

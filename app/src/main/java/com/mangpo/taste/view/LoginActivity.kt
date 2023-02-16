@@ -3,10 +3,8 @@ package com.mangpo.taste.view
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
-import android.text.SpannableString
 import android.text.TextWatcher
 import android.text.method.PasswordTransformationMethod
-import android.text.style.UnderlineSpan
 import android.view.MotionEvent
 import android.view.View
 import androidx.activity.viewModels
@@ -32,10 +30,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(Activit
 
     override fun initAfterBinding() {
         binding.data = this //데이터 바인딩 설정
-
-        val pwTvText = SpannableString(binding.loginPwTv.text.toString())
-        pwTvText.setSpan(UnderlineSpan(), 0, 4, 0)
-        binding.loginPwTv.text = pwTvText
 
         //키보드 감지해서 뷰 바꾸기
         KeyboardVisibilityEvent.setEventListener(

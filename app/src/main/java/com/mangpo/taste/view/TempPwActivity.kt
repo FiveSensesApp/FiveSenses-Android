@@ -2,8 +2,6 @@ package com.mangpo.taste.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.style.UnderlineSpan
 import android.util.Patterns
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
@@ -33,10 +31,6 @@ class TempPwActivity : BaseActivity<ActivityTempPwBinding, TempPwViewModel>(Acti
             vm = viewModel
             lifecycleOwner = this@TempPwActivity
         }
-
-        val dontKnowEmailTvText = SpannableString(binding.tempPwDontKnowEmailTv.text.toString())
-        dontKnowEmailTvText.setSpan(UnderlineSpan(), 0, 3, 0)
-        binding.tempPwDontKnowEmailTv.text = dontKnowEmailTvText
 
         //키보드 감지해서 뷰 바꾸기
         KeyboardVisibilityEvent.setEventListener(
