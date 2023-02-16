@@ -2,7 +2,9 @@ package com.mangpo.taste.view.adpater
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.mangpo.taste.R
 import com.mangpo.taste.databinding.ItemSupportersBinding
 import com.mangpo.taste.util.convertDpToPx
 import com.mangpo.taste.util.getDeviceWidth
@@ -10,13 +12,11 @@ import com.mangpo.taste.util.getDeviceWidth
 class SupportersRVAdapter(): RecyclerView.Adapter<SupportersRVAdapter.SupportersViewHolder>() {
     private val supporters: MutableList<String> = mutableListOf()
 
-    private lateinit var binding: ItemSupportersBinding
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): SupportersRVAdapter.SupportersViewHolder {
-        binding = ItemSupportersBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = DataBindingUtil.inflate<ItemSupportersBinding>(LayoutInflater.from(parent.context), R.layout.item_supporters, parent, false)
         return SupportersViewHolder(binding)
     }
 

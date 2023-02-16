@@ -2,9 +2,12 @@ package com.mangpo.taste.view.databinding
 
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.text.SpannableString
+import android.text.style.UnderlineSpan
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
@@ -114,4 +117,11 @@ fun setHeightPercentage(view: View, heightPercentage: Float) {
 @BindingAdapter("imgUri")
 fun setImgUri(view: ImageView, uri: Uri?) {
     view.setImageURI(uri)
+}
+
+@BindingAdapter(value = ["startUnderline", "endUnderline"])
+fun setUnderline(view: TextView, startUnderline: Int, endUnderline: Int) {
+    val text = SpannableString(view.text.toString())
+    text.setSpan(UnderlineSpan(), startUnderline, endUnderline, 0)
+    view.text = text
 }

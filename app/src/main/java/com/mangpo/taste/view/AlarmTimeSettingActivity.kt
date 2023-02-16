@@ -4,11 +4,12 @@ import android.Manifest
 import android.content.Intent
 import androidx.lifecycle.lifecycleScope
 import com.mangpo.domain.model.createUser.CreateUserReqEntity
-import com.mangpo.taste.base.BaseNoVMActivity
+import com.mangpo.taste.R
+import com.mangpo.taste.base2.BaseActivity
 import com.mangpo.taste.databinding.ActivityAlarmTimeSettingBinding
 import com.mangpo.taste.util.checkPermission
 
-class AlarmTimeSettingActivity : BaseNoVMActivity<ActivityAlarmTimeSettingBinding>(ActivityAlarmTimeSettingBinding::inflate) {
+class AlarmTimeSettingActivity : BaseActivity<ActivityAlarmTimeSettingBinding>(R.layout.activity_alarm_time_setting) {
     private lateinit var alarmTimeDialogFragment: AlarmTimeDialogFragment
     private lateinit var createUserReqEntity: CreateUserReqEntity
 

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,16 +10,14 @@
             type="com.mangpo.taste.view.NicknameSettingActivity" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.NicknameSettingActivity">
 
         <ImageView
             android:id="@+id/nickname_setting_step_iv"
-            marginTop="@{activity.isKeyboardVisible? 36 : 74}"
+            marginTop="@{activity.isKeyboardVisible? 36 : 74, default=74}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_sign_up3"
@@ -76,13 +76,13 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/nickname_setting_next_btn"
-            marginBottom="@{activity.isKeyboardVisible? 15: 122}"
+            marginBottom="@{activity.isKeyboardVisible? 15: 122, default=122}"
             android:layout_width="189dp"
             android:layout_height="46dp"
             android:background="@drawable/selector_sign_up_btn"
             android:enabled="false"
             android:gravity="center"
-            android:onClick="@{(EditText)->activity.goNextActivity(nicknameSettingNicknameEt.getText().toString())}"
+            android:onClick="@{(view) -> activity.goNextActivity(nicknameSettingNicknameEt)}"
             android:stateListAnimator="@null"
             android:text="@string/action_next"
             android:textAppearance="@style/Sub_Head_B_18"

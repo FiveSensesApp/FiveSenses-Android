@@ -1,49 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.PolicyActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageButton
-        android:id="@+id/policy_back_ib"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="44dp"
-        android:background="@null"
-        android:src="@drawable/ic_back_bk_38"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
 
-    <TextView
-        android:id="@+id/policy_title_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="107dp"
-        android:textAppearance="@style/Head_B_26"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <variable
+            name="activity"
+            type="com.mangpo.taste.view.PolicyActivity" />
 
-    <androidx.core.widget.NestedScrollView
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="content"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginVertical="24dp"
-        android:clipToPadding="false"
-        android:paddingHorizontal="20dp"
-        android:stateListAnimator="@null"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/policy_title_tv">
+        android:layout_height="match_parent"
+        tools:context=".view.PolicyActivity">
+
+        <ImageButton
+            android:id="@+id/policy_back_ib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="44dp"
+            android:background="@null"
+            android:onClick="@{() -> activity.finish()}"
+            android:src="@drawable/ic_back_bk_38"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/policy_content_tv"
+            android:id="@+id/policy_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="107dp"
+            android:text="@{title}"
+            android:textAppearance="@style/Head_B_26"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textAppearance="@style/Body2_R_14"
-            android:textColor="@color/GY_04" />
+            android:layout_height="0dp"
+            android:layout_marginVertical="24dp"
+            android:clipToPadding="false"
+            android:paddingHorizontal="20dp"
+            android:stateListAnimator="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/policy_title_tv">
 
-    </androidx.core.widget.NestedScrollView>
+            <TextView
+                android:id="@+id/policy_content_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@{content}"
+                android:textAppearance="@style/Body2_R_14"
+                android:textColor="@color/GY_04" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

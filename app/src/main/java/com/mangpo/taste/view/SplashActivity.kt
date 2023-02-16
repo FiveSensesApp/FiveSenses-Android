@@ -3,7 +3,8 @@ package com.mangpo.taste.view
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
-import com.mangpo.taste.base.BaseNoVMActivity
+import com.mangpo.taste.R
+import com.mangpo.taste.base2.BaseActivity
 import com.mangpo.taste.databinding.ActivitySplashBinding
 import com.mangpo.taste.util.SpfUtils
 import com.mangpo.taste.util.SpfUtils.clear
@@ -14,14 +15,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class SplashActivity : BaseNoVMActivity<ActivitySplashBinding>(ActivitySplashBinding::inflate) {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        showStatusBarText()
-    }
-
+class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash) {
     override fun initAfterBinding() {
+        showStatusBarText()
+
         when {
             !getBooleanSpf("onBoarding", false) -> goNextActivity(OnBoardingActivity::class.java)   //onBoarding 화면이 열렸던 데이터가 없음 -> 최초 실행
             getStrEncryptedSpf("jwt")==null -> {    //accessToken 이 없음 -> 로그인 화면 이동

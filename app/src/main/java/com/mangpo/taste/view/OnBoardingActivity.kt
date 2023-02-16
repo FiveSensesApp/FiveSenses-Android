@@ -1,31 +1,31 @@
 package com.mangpo.taste.view
 
-import android.content.Intent
 import android.os.Build
-import android.os.Bundle
-import android.text.SpannableString
-import android.text.style.UnderlineSpan
 import android.view.View
 import android.view.WindowInsetsController
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.doOnAttach
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.MutableLiveData
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.mangpo.taste.R
+import com.mangpo.taste.base2.BaseActivity
 import com.mangpo.taste.databinding.ActivityOnBoardingBinding
 import com.mangpo.taste.util.SpfUtils.writeSpf
 
-class OnBoardingActivity : FragmentActivity() {
-    private lateinit var binding: ActivityOnBoardingBinding
+class OnBoardingActivity : BaseActivity<ActivityOnBoardingBinding>(R.layout.activity_on_boarding) {
+    val vpPosition: MutableLiveData<Int> = MutableLiveData<Int>(0)
     private lateinit var onBoardingVPAdapter: OnBoardingVPAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityOnBoardingBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun initAfterBinding() {
+        binding.apply {
+            this.activity = this@OnBoardingActivity
+        }
 
+        //상태바 설정
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.insetsController?.setSystemBarsAppearance(
                 WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
@@ -41,30 +41,20 @@ class OnBoardingActivity : FragmentActivity() {
         }
 
         initVP(intent.getIntExtra("currentItem", 0))
-        setEventListener()
-
-        val dontKnowEmailTvText = SpannableString(binding.onBoardingLoginTv.text.toString())
-        dontKnowEmailTvText.setSpan(UnderlineSpan(), 11, 14, 0)
-        binding.onBoardingLoginTv.text = dontKnowEmailTvText
     }
 
     private fun initVP(currentItem: Int) {
         onBoardingVPAdapter = OnBoardingVPAdapter(this)
+
         binding.onBoardingPiv.count = onBoardingVPAdapter.itemCount
+
         binding.onBoardingVp.adapter = onBoardingVPAdapter
         binding.onBoardingVp.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
 
                 binding.onBoardingPiv.setSelected(position)
-
-                if (position==3) {
-                    binding.onBoardingBtn.text = getString(R.string.title_sign_up)
-                    binding.onBoardingLoginTv.visibility = View.VISIBLE
-                } else {
-                    binding.onBoardingBtn.text = getString(R.string.action_next)
-                    binding.onBoardingLoginTv.visibility = View.INVISIBLE
-                }
+                vpPosition.postValue(position)
             }
         })
         binding.onBoardingVp.doOnAttach  {
@@ -72,26 +62,17 @@ class OnBoardingActivity : FragmentActivity() {
         }
     }
 
-    private fun setEventListener() {
-        binding.onBoardingBtn.setOnClickListener {
-            if ((it as AppCompatButton).text.toString()==getString(R.string.action_next)) {
-                binding.onBoardingVp.currentItem++
-            } else {
-                goNextActivity(CreateAccountActivity::class.java)
-            }
-        }
-
-        binding.onBoardingLoginTv.setOnClickListener {
-            goNextActivity(LoginActivity::class.java)
-        }
+    fun goLoginActivity(view: TextView) {
+        writeSpf("onBoarding", true)
+        startActivityWithClear(LoginActivity::class.java)
     }
 
-    private fun goNextActivity(activity: Class<*>) {
-        writeSpf("onBoarding", true)
-
-        val intent: Intent = Intent(this@OnBoardingActivity, activity)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
+    fun onClickBtn(view: AppCompatButton) {
+        if (view.text.toString()==getString(R.string.action_next)) {
+            binding.onBoardingVp.currentItem++
+        } else {
+            startNextActivity(CreateAccountActivity::class.java)
+        }
     }
 
     inner class OnBoardingVPAdapter(fa: FragmentActivity): FragmentStateAdapter(fa) {

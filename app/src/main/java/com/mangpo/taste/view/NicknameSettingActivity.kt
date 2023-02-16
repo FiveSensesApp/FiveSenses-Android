@@ -4,17 +4,18 @@ import android.content.Intent
 import android.os.Build
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.EditText
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.MutableLiveData
 import com.mangpo.domain.model.createUser.CreateUserReqEntity
 import com.mangpo.taste.R
-import com.mangpo.taste.base.BaseNoVMActivity
+import com.mangpo.taste.base2.BaseActivity
 import com.mangpo.taste.databinding.ActivityNicknameSettingBinding
 import com.mangpo.taste.util.matchRegex
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
-import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 
-class NicknameSettingActivity : BaseNoVMActivity<ActivityNicknameSettingBinding>(ActivityNicknameSettingBinding::inflate), TextWatcher {
-    var isKeyboardVisible: Boolean = false
+class NicknameSettingActivity : BaseActivity<ActivityNicknameSettingBinding>(R.layout.activity_nickname_setting), TextWatcher {
+    val isKeyboardVisible: MutableLiveData<Boolean> = MutableLiveData<Boolean>(false)
 
     private lateinit var createUserReqEntity: CreateUserReqEntity
 
@@ -24,13 +25,9 @@ class NicknameSettingActivity : BaseNoVMActivity<ActivityNicknameSettingBinding>
         }
 
         //키보드 감지해서 뷰 바꾸기
-        KeyboardVisibilityEvent.setEventListener(
-            this@NicknameSettingActivity,
-            KeyboardVisibilityEventListener {
-                isKeyboardVisible = it
-                binding.invalidateAll()
-            }
-        )
+        KeyboardVisibilityEvent.setEventListener(this@NicknameSettingActivity) {
+            isKeyboardVisible.postValue(it)
+        }
 
         createUserReqEntity = intent.getParcelableExtra<CreateUserReqEntity>("newUser")!!
 
@@ -67,8 +64,8 @@ class NicknameSettingActivity : BaseNoVMActivity<ActivityNicknameSettingBinding>
         binding.nicknameSettingInfoTv.text = getString(text)
     }
 
-    fun goNextActivity(nickname: String) {
-        createUserReqEntity.nickname = nickname
+    fun goNextActivity(view: EditText) {
+        createUserReqEntity.nickname = view.text.toString()
 
         //알람 권한 체크(Android 13 Version 이상)
         var intent: Intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
