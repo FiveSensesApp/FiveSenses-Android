@@ -12,6 +12,10 @@
         <variable
             name="activity"
             type="com.mangpo.taste.view.CreateAccountActivity" />
+
+        <variable
+            name="createAccountVm"
+            type="com.mangpo.taste.viewmodel.CreateAccountViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -203,6 +207,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/create_account_line_view" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#66000000"
+            android:padding="100dp"
+            android:visibility="@{createAccountVm.isLoading()? View.VISIBLE: View.INVISIBLE}"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

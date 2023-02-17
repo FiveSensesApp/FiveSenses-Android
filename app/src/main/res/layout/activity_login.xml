@@ -10,8 +10,12 @@
         <import type="com.mangpo.taste.R" />
 
         <variable
-            name="data"
+            name="activity"
             type="com.mangpo.taste.view.LoginActivity" />
+
+        <variable
+            name="loginVm"
+            type="com.mangpo.taste.viewmodel.LoginViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -22,7 +26,7 @@
 
         <ImageView
             android:id="@+id/login_characters_iv"
-            marginTop="@{data.isKeyboardVisible? 36 : 122}"
+            marginTop="@{activity.isKeyboardVisible? 36 : 122}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_characters"
@@ -68,7 +72,7 @@
             android:paddingStart="22dp"
             android:paddingEnd="35dp"
             android:textAppearance='@style/Sub_Head_B_16'
-            android:textColor="@{data.isTouched? context.getColor(R.color.RD_2) : context.getColor(R.color.GY_04)}"
+            android:textColor="@{activity.eyeTouchedStatus? context.getColor(R.color.RD_2) : context.getColor(R.color.GY_04)}"
             android:textColorHint="@color/GY_03"
             app:layout_constraintTop_toBottomOf="@+id/login_email_et" />
 
@@ -79,7 +83,7 @@
             android:layout_marginEnd="10dp"
             android:background="@android:color/transparent"
             android:padding="0dp"
-            android:src="@{data.isTouched? context.getDrawable(R.drawable.ic_eye_rd2_30) : context.getDrawable(R.drawable.ic_eye_gy04_30)}"
+            android:src="@{activity.eyeTouchedStatus? context.getDrawable(R.drawable.ic_eye_rd2_30) : context.getDrawable(R.drawable.ic_eye_gy04_30)}"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/login_pw_et"
             app:layout_constraintEnd_toEndOf="@+id/login_pw_et"
@@ -91,6 +95,7 @@
             android:layout_height="46dp"
             android:background="@drawable/selector_login_btn"
             android:enabled="false"
+            android:onClick="@{(view) -> activity.login(loginLoginBtn)}"
             android:stateListAnimator="@null"
             android:text="@string/title_login"
             android:textAppearance="@style/Sub_Head_B_18"
@@ -107,14 +112,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="17dp"
-            android:onClick="@{() -> data.goFindPwActivity()}"
+            android:onClick="@{(view) -> activity.goFindPwActivity(loginPwTv)}"
             android:text="@string/msg_dont_know_pw"
             android:textAppearance="@style/Sub_Head_B_16"
             android:textColor="@color/GY_03"
-            android:visibility="@{data.isKeyboardVisible? View.INVISIBLE : View.VISIBLE}"
+            android:visibility="@{activity.isKeyboardVisible? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/login_login_btn" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#66000000"
+            android:padding="100dp"
+            android:visibility="@{loginVm.isLoading()? View.VISIBLE: View.INVISIBLE}"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

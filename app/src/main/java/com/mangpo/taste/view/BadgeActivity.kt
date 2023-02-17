@@ -4,15 +4,17 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.mangpo.domain.model.getUserBadgesByUser.GetUserBadgesByUserResEntity
-import com.mangpo.taste.base.BaseActivity
+import com.mangpo.taste.R
+import com.mangpo.taste.base2.BaseActivity
 import com.mangpo.taste.databinding.ActivityBadgeBinding
+import com.mangpo.taste.util.goUrlPage
 import com.mangpo.taste.view.adpater.BadgeRVAdapter
 import com.mangpo.taste.viewmodel.BadgeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class BadgeActivity : BaseActivity<ActivityBadgeBinding, BadgeViewModel>(ActivityBadgeBinding::inflate) {
-    override val viewModel: BadgeViewModel by viewModels()
+class BadgeActivity : BaseActivity<ActivityBadgeBinding>(R.layout.activity_badge) {
+    private val badgeVm: BadgeViewModel by viewModels()
 
     private lateinit var badgeInfoBottomSheetFragment: BadgeInfoBottomSheetFragment
     private lateinit var badgeRVAdapter: BadgeRVAdapter
@@ -23,10 +25,12 @@ class BadgeActivity : BaseActivity<ActivityBadgeBinding, BadgeViewModel>(Activit
 
         binding.apply {
             activity = this@BadgeActivity
+            this.badgeVm = this@BadgeActivity.badgeVm
             representativeBadge = intent.getParcelableExtra("representativeBadge")
             size = badges?.filter { !it.isBefore }?.size
         }
 
+        setCommonObserver(listOf(badgeVm))
         initBottomSheetFragment()
         initAdapter(badges!!)
     }
@@ -42,8 +46,8 @@ class BadgeActivity : BaseActivity<ActivityBadgeBinding, BadgeViewModel>(Activit
             }
 
             override fun goReview() {
-                goUrlPage("https://play.google.com/store/apps/details?id=com.mangpo.taste")
-                viewModel.checkThanks()
+                goUrlPage(baseContext, "https://play.google.com/store/apps/details?id=com.mangpo.taste")
+                badgeVm.checkThanks()
                 finish()
             }
 

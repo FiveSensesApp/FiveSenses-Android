@@ -2,8 +2,10 @@ package com.mangpo.taste.view.adpater
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mangpo.domain.model.getUserBadgesByUser.GetUserBadgesByUserResEntity
+import com.mangpo.taste.R
 import com.mangpo.taste.databinding.ItemBadgeBinding
 import com.mangpo.taste.util.convertDpToPx
 import com.mangpo.taste.util.getDeviceWidth
@@ -15,12 +17,11 @@ class BadgeRVAdapter(): RecyclerView.Adapter<BadgeRVAdapter.BadgeViewHolder>() {
 
     private var badges: MutableList<GetUserBadgesByUserResEntity> = mutableListOf()
 
-    private lateinit var binding: ItemBadgeBinding
     private lateinit var badgeViewHolder: BadgeViewHolder
     private lateinit var eventListener: EventListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BadgeRVAdapter.BadgeViewHolder {
-        binding = ItemBadgeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = DataBindingUtil.inflate<ItemBadgeBinding>(LayoutInflater.from(parent.context), R.layout.item_badge, parent, false)
         badgeViewHolder = BadgeViewHolder(binding)
         return badgeViewHolder
     }

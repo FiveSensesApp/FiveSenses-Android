@@ -7,38 +7,41 @@ import android.text.TextWatcher
 import android.text.method.PasswordTransformationMethod
 import android.view.MotionEvent
 import android.view.View
+import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.appcompat.widget.AppCompatButton
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.mangpo.domain.model.authorizeNew.AuthorizeNewReqEntity
 import com.mangpo.taste.R
-import com.mangpo.taste.base.BaseActivity
+import com.mangpo.taste.base2.BaseActivity
 import com.mangpo.taste.databinding.ActivityLoginBinding
 import com.mangpo.taste.view.model.OneBtnDialog
 import com.mangpo.taste.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
-import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 
 @AndroidEntryPoint
-class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(ActivityLoginBinding::inflate), TextWatcher {
-    override val viewModel: LoginViewModel by viewModels()
+class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login), TextWatcher {
+    val viewModel: LoginViewModel by viewModels()
 
-    var isTouched: Boolean = false
-    var isKeyboardVisible: Boolean = false
+    var eyeTouchedStatus: MutableLiveData<Boolean> = MutableLiveData(false)
+    var isKeyboardVisible: MutableLiveData<Boolean> = MutableLiveData(false)
 
     private lateinit var oneBtnDialogFragment: OneBtnDialogFragment
 
     override fun initAfterBinding() {
-        binding.data = this //데이터 바인딩 설정
+        binding.apply {
+            activity = this@LoginActivity
+            loginVm = viewModel
+        }
+        setCommonObserver(listOf(viewModel))
 
         //키보드 감지해서 뷰 바꾸기
-        KeyboardVisibilityEvent.setEventListener(
-            this@LoginActivity,
-            KeyboardVisibilityEventListener {
-                isKeyboardVisible = it
-                binding.invalidateAll()
-                binding.loginPwEt.transformationMethod = PasswordTransformationMethod.getInstance()
-            })
+        KeyboardVisibilityEvent.setEventListener(this@LoginActivity) {
+            isKeyboardVisible.postValue(it)
+            binding.loginPwEt.transformationMethod = PasswordTransformationMethod.getInstance()
+        }
 
         setEventListener()
         setOneBtnDialogFragment()
@@ -77,24 +80,16 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(Activit
             when (motionEvent?.action) {
                 MotionEvent.ACTION_DOWN -> {
                     binding.loginPwEt.inputType = InputType.TYPE_CLASS_TEXT
-                    isTouched = true
+                    eyeTouchedStatus.postValue(true)
                 }
                 MotionEvent.ACTION_UP -> {
                     binding.loginPwEt.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-                    isTouched = false
+                    eyeTouchedStatus.postValue(false)
                 }
                 else -> {}
             }
 
-            binding.invalidateAll()
-
             false
-        }
-
-        //로그인 버튼 클릭 리스너
-        binding.loginLoginBtn.setOnClickListener {
-            hideKeyboard(binding.root)
-            viewModel.authorizeNew(AuthorizeNewReqEntity(binding.loginEmailEt.text.toString(), binding.loginPwEt.text.toString()))
         }
     }
 
@@ -122,7 +117,13 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(Activit
         })
     }
 
-    fun goFindPwActivity() {
+    //로그인 버튼 클릭 리스너
+    fun login(view: AppCompatButton) {
+        hideKeyboard(binding.root)
+        viewModel.authorizeNew(AuthorizeNewReqEntity(binding.loginEmailEt.text.toString(), binding.loginPwEt.text.toString()))
+    }
+
+    fun goFindPwActivity(view: TextView) {
         startNextActivity(TempPwActivity::class.java)
     }
 }

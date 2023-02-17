@@ -85,11 +85,11 @@ class BadgeInfoBottomSheetFragment : BottomSheetDialogFragment() {
         })
 
         vm.isLoading.observe(viewLifecycleOwner, Observer {
-            if (it) {
+            /*if (it) {
                 (requireActivity() as BadgeActivity).showLoading()
             } else {
                 (requireActivity() as BadgeActivity).hideLoading()
-            }
+            }*/
         })
 
         vm.updateBadgeResult.observe(viewLifecycleOwner, Observer {

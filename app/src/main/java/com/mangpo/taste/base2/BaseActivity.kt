@@ -10,10 +10,18 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Observer
+import com.mangpo.taste.base.BaseViewModel
+import com.mangpo.taste.util.SpfUtils
+import com.mangpo.taste.view.OnBoardingActivity
+import com.mangpo.taste.view.OneBtnDialogFragment
+import com.mangpo.taste.view.model.OneBtnDialog
 
 abstract class BaseActivity<T: ViewDataBinding>(private val layoutResId: Int): AppCompatActivity() {
     protected lateinit var binding: T
     private lateinit var imm: InputMethodManager
+    private lateinit var loading: View
+    private lateinit var refreshTokenErrorDialog: OneBtnDialogFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +35,26 @@ abstract class BaseActivity<T: ViewDataBinding>(private val layoutResId: Int): A
     }
 
     protected abstract fun initAfterBinding()
+
+    private fun initRefreshTokenErrorDialog() {
+        refreshTokenErrorDialog = OneBtnDialogFragment()
+        refreshTokenErrorDialog.setMyCallback(object : OneBtnDialogFragment.MyCallback {
+            override fun end() {
+                SpfUtils.clear()
+                SpfUtils.writeSpf("onBoarding", true)
+
+                val intent: Intent = Intent(this@BaseActivity, OnBoardingActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                intent.putExtra("currentItem", 3)
+                startActivity(intent)
+            }
+        })
+
+        val oneBtnDialog: OneBtnDialog = OneBtnDialog("재로그인이 필요합니다.", "토큰에 문제가 발생해 재로그인이 필요합니다.\n로그인 화면으로 이동합니다.", "확인", listOf(46, 10, 46, 12))
+        val bundle: Bundle = Bundle()
+        bundle.putParcelable("data", oneBtnDialog)
+        refreshTokenErrorDialog.arguments = bundle
+    }
 
     fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
@@ -68,5 +96,26 @@ abstract class BaseActivity<T: ViewDataBinding>(private val layoutResId: Int): A
             }
 
         }
+    }
+
+    fun setCommonObserver(vmList: List<BaseViewModel>) {
+        vmList.forEach { vm ->
+            vm.toast.observe(this, Observer {
+                val msg = it.getContentIfNotHandled()
+
+                if (msg!=null) {
+                    hideKeyboard(binding.root)
+                    showToast(msg)
+                }
+            })
+
+            vm.tokenExpired.observe(this, Observer {
+                if (it && !refreshTokenErrorDialog.isAdded) {
+                    refreshTokenErrorDialog.show(supportFragmentManager, null)
+                }
+            })
+        }
+
+        initRefreshTokenErrorDialog()
     }
 }

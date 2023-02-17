@@ -4,7 +4,9 @@ import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
+import android.net.Uri
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
@@ -146,4 +148,9 @@ fun readTxtFile(context: Context, raw: Int): String? {
 
 fun formatDate(date: String, format: String): String {
     return LocalDate.parse(date).format(DateTimeFormatter.ofPattern(format))
+}
+
+fun goUrlPage(context: Context, url: String) {
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+    context.startActivity(intent)
 }

@@ -3,9 +3,15 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="activity"
             type="com.mangpo.taste.view.BadgeActivity" />
+
+        <variable
+            name="badgeVm"
+            type="com.mangpo.taste.viewmodel.BadgeViewModel" />
 
         <variable
             name="representativeBadge"
@@ -21,123 +27,138 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="20dp"
-        android:paddingTop="20dp"
         tools:context=".view.BadgeActivity">
 
-        <ImageButton
-            android:layout_width="38dp"
-            android:layout_height="38dp"
-            android:onClick="@{() -> activity.finish()}"
-            android:src="@drawable/ic_back_bk_38"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:layout_width="162dp"
-            android:layout_height="162dp"
-            android:layout_marginTop="39dp"
-            app:defaultDrawable="@{@drawable/ic_no_representative_badge_162}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:svg="@{representativeBadge.imgUrl}" />
-
-        <TextView
-            android:id="@+id/badge_representative_badge_title_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="18dp"
-            android:layout_marginTop="216dp"
-            android:gravity="center"
-            android:includeFontPadding="false"
-            android:text="@string/title_representative_badge"
-            android:textAppearance="@style/Sub_Head_B_16"
-            android:textColor="@color/GY_04"
-            app:layout_constraintEnd_toStartOf="@+id/badge_representative_badge_tv"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/badge_representative_badge_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="18dp"
-            android:layout_marginTop="216dp"
-            android:gravity="center"
-            android:includeFontPadding="false"
-            android:text="@{representativeBadge==null? ` ` + @string/msg_empty: ` ` + representativeBadge.name}"
-            android:textAppearance="@style/Sub_Head_B_16"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/badge_representative_badge_title_tv"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="21dp"
-            android:layout_marginTop="241dp"
-            android:gravity="center"
-            android:includeFontPadding="false"
-            android:text="@{representativeBadge==null? @string/msg_setup_signature_badge: representativeBadge.reqConditionShort}"
-            android:textAppearance="@style/Body1_M_14"
-            android:textColor="@color/GY_04"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="21dp"
-            android:layout_marginTop="262dp"
-            android:gravity="center"
-            android:includeFontPadding="false"
-            android:text="@{representativeBadge==null? @string/msg_acquisition_conditions_in_advance: representativeBadge.description}"
-            android:textAppearance="@style/Body1_M_14"
-            android:textColor="@color/GY_04"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <View
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="305dp"
-            android:background="@color/GY_02"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"
+            android:padding="20dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="24dp"
-            android:layout_marginTop="332dp"
-            android:gravity="center"
-            android:includeFontPadding="false"
-            android:text="@string/title_acquired_badge"
-            android:textAppearance="@style/Head_B_20"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageButton
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:onClick="@{() -> activity.finish()}"
+                android:src="@drawable/ic_back_bk_38"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="16dp"
-            android:layout_marginTop="337dp"
-            android:gravity="center"
-            android:includeFontPadding="false"
-            android:text="@{`(` + size + `/15)`}"
-            android:textAppearance="@style/Body0_SB_16"
-            android:textColor="@color/GY_04"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:layout_width="162dp"
+                android:layout_height="162dp"
+                android:layout_marginTop="39dp"
+                app:defaultDrawable="@{@drawable/ic_no_representative_badge_162}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:svg="@{representativeBadge.imgUrl}" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/badge_rv"
+            <TextView
+                android:id="@+id/badge_representative_badge_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                android:layout_marginTop="216dp"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="@string/title_representative_badge"
+                android:textAppearance="@style/Sub_Head_B_16"
+                android:textColor="@color/GY_04"
+                app:layout_constraintEnd_toStartOf="@+id/badge_representative_badge_tv"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/badge_representative_badge_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                android:layout_marginTop="216dp"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="@{representativeBadge==null? ` ` + @string/msg_empty: ` ` + representativeBadge.name}"
+                android:textAppearance="@style/Sub_Head_B_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/badge_representative_badge_title_tv"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="21dp"
+                android:layout_marginTop="241dp"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="@{representativeBadge==null? @string/msg_setup_signature_badge: representativeBadge.reqConditionShort}"
+                android:textAppearance="@style/Body1_M_14"
+                android:textColor="@color/GY_04"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="21dp"
+                android:layout_marginTop="262dp"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="@{representativeBadge==null? @string/msg_acquisition_conditions_in_advance: representativeBadge.description}"
+                android:textAppearance="@style/Body1_M_14"
+                android:textColor="@color/GY_04"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="305dp"
+                android:background="@color/GY_02"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_marginTop="332dp"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="@string/title_acquired_badge"
+                android:textAppearance="@style/Head_B_20"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                android:layout_marginTop="337dp"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="@{`(` + size + `/15)`}"
+                android:textAppearance="@style/Body0_SB_16"
+                android:textColor="@color/GY_04"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/badge_rv"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="385dp"
+                android:paddingHorizontal="4dp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:spanCount="3"
+                tools:listitem="@layout/item_badge" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <com.airbnb.lottie.LottieAnimationView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="385dp"
-            android:paddingHorizontal="4dp"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:spanCount="3"
-            tools:listitem="@layout/item_badge" />
+            android:layout_height="match_parent"
+            android:background="#66000000"
+            android:padding="100dp"
+            android:visibility="@{badgeVm.isLoading()? View.VISIBLE: View.INVISIBLE}"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
