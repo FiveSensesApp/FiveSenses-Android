@@ -16,7 +16,7 @@
             type="com.mangpo.taste.view.EmailAuthActivity" />
 
         <variable
-            name="vm"
+            name="emailAuthVm"
             type="com.mangpo.taste.viewmodel.EmailAuthViewModel" />
     </data>
 
@@ -89,11 +89,11 @@
             android:layout_height="51dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
-            android:background="@{vm.isSendBtnClicked? @drawable/bg_gy03_12 : @drawable/bg_bk_12}"
+            android:background="@{emailAuthVm.isSendBtnClicked? @drawable/bg_gy03_12 : @drawable/bg_bk_12}"
             android:gravity="center"
-            android:onClick="@{()->vm.validateEmail(activity.email)}"
+            android:onClick="@{()->emailAuthVm.validateEmail(activity.email)}"
             android:stateListAnimator="@null"
-            android:text="@{vm.isSendBtnClicked? @string/action_resend : @string/action_send_code}"
+            android:text="@{emailAuthVm.isSendBtnClicked? @string/action_resend : @string/action_send_code}"
             android:textAppearance="@style/Sub_Head_B_16"
             android:textColor="@color/WH"
             app:layout_constraintStart_toStartOf="parent"
@@ -123,10 +123,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@{vm.validateErrMsg}"
+            android:text="@{emailAuthVm.validateErrMsg}"
             android:textAppearance="@style/Body2_R_12"
             android:textColor="@color/RD_2"
-            android:visibility="@{TextUtils.isEmpty(vm.validateErrMsg)? View.INVISIBLE : View.VISIBLE}"
+            android:visibility="@{TextUtils.isEmpty(emailAuthVm.validateErrMsg)? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="@+id/email_auth_authentication_code_et"
             app:layout_constraintStart_toStartOf="@+id/email_auth_authentication_code_et"
             app:layout_constraintTop_toBottomOf="@+id/email_auth_authentication_code_et" />
@@ -139,7 +139,7 @@
             android:background="@drawable/selector_sign_up_btn"
             android:enabled="false"
             android:gravity="center"
-            android:onClick="@{(EditText)->vm.validateEmailSendCode(activity.email, Integer.parseInt(emailAuthAuthenticationCodeEt.getText().toString()))}"
+            android:onClick="@{(EditText)->emailAuthVm.validateEmailSendCode(activity.email, Integer.parseInt(emailAuthAuthenticationCodeEt.getText().toString()))}"
             android:stateListAnimator="@null"
             android:text="@string/action_next"
             android:textAppearance="@style/Sub_Head_B_18"
@@ -147,6 +147,16 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#66000000"
+            android:padding="100dp"
+            android:visibility="@{emailAuthVm.isLoading()? View.VISIBLE: View.INVISIBLE}"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

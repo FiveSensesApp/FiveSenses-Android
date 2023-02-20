@@ -3,9 +3,15 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="activity"
             type="com.mangpo.taste.view.RecordUpdateActivity" />
+
+        <variable
+            name="recordUpdateVm"
+            type="com.mangpo.taste.viewmodel.RecordUpdateViewModel" />
 
         <variable
             name="content"
@@ -56,15 +62,16 @@
             android:layout_marginStart="21dp"
             android:layout_marginTop="25dp"
             android:textAppearance="@style/Head_B_26"
+            android:visibility="@{activity.isKeyboardVisible()? View.GONE: View.VISIBLE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/record_update_back_iv" />
 
         <EditText
             android:id="@+id/record_update_keyword_et"
+            marginTop="@{activity.isKeyboardVisible()? 25: 134}"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="134dp"
             android:background="@drawable/bg_gy01_10"
             android:hint="@string/msg_taste_keyword_hint"
             android:inputType="text"
@@ -147,5 +154,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/taste_record_content_et" />
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#66000000"
+            android:padding="100dp"
+            android:visibility="@{recordUpdateVm.isLoading()? View.VISIBLE: View.INVISIBLE}"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

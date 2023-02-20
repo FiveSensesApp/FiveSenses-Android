@@ -3,12 +3,14 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="activity"
             type="com.mangpo.taste.view.MainActivity" />
 
         <variable
-            name="vm"
+            name="mainVm"
             type="com.mangpo.taste.viewmodel.MainViewModel" />
     </data>
 
@@ -91,7 +93,7 @@
                 android:layout_width="67dp"
                 android:layout_height="67dp"
                 android:clickable="true"
-                android:onClick="@{() -> vm.setIsTasteRecordShown(true)}"
+                android:onClick="@{() -> mainVm.setIsTasteRecordShown(true)}"
                 android:src="@drawable/ic_plus_28"
                 app:backgroundTint="@color/BK"
                 app:borderWidth="0dp"
@@ -101,6 +103,16 @@
                 app:rippleColor="@android:color/transparent"
                 app:tint="@color/WH" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#66000000"
+            android:padding="100dp"
+            android:visibility="@{mainVm.isLoading()? View.VISIBLE: View.INVISIBLE}"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

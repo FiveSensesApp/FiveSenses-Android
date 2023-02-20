@@ -77,7 +77,6 @@ class CreateAccountActivity : BaseActivity<ActivityCreateAccountBinding>(R.layou
             }
         }
 
-        showToast(validate().toString())
         nextBtnEnable.postValue(validate())
     }
 
@@ -91,10 +90,9 @@ class CreateAccountActivity : BaseActivity<ActivityCreateAccountBinding>(R.layou
         checkPoliciesBottomSheetFragment.setMyListener(object : CheckPoliciesBottomSheetFragment.Listener {
             override fun finish(allChecked: Boolean, agree: Boolean, miIbCheckState: Boolean) {
                 isAllChecked.postValue(allChecked)
-                showToast(validate().toString())
-                nextBtnEnable.postValue(validate())
                 isAgree = agree
                 this@CreateAccountActivity.miIbCheckState = miIbCheckState
+                nextBtnEnable.postValue(validate())
             }
         })
     }
@@ -140,7 +138,7 @@ class CreateAccountActivity : BaseActivity<ActivityCreateAccountBinding>(R.layou
 
     //다음 버튼 활성화/비활성화 여부를 위한 유효성 검사 함수
     private fun validate(): Boolean {
-        return binding.createAccountEmailEt.text.isNotBlank() &&
+       return binding.createAccountEmailEt.text.isNotBlank() &&
                 binding.createAccountPw1Et.text.isNotBlank() &&
                 binding.createAccountPw2Et.text.isNotBlank() &&
                 matchRegex(binding.createAccountEmailEt.text.toString(), Patterns.EMAIL_ADDRESS.toRegex()) &&
@@ -176,19 +174,11 @@ class CreateAccountActivity : BaseActivity<ActivityCreateAccountBinding>(R.layou
 
     //가입 약관 동의 체크 이벤트 함수
     fun changeCheckIb() {
-        isAllChecked.postValue(!(isAllChecked.value?: false))
-        isAgree = isAllChecked.value?: false
+        isAllChecked.postValue(!(isAllChecked.value?: true))
+        isAgree = !(isAllChecked.value?: true)
         miIbCheckState = true
         nextBtnEnable.postValue(validate())
-        showToast(validate().toString())
     }
-    /*fun changeCheckIb() {
-        isAllChecked.postValue(!(isAllChecked.value?: false))
-        showToast(validate().toString())
-        nextBtnEnable.postValue(validate())
-        isAgree = isAllChecked.value?: false
-        miIbCheckState = true
-    }*/
 
     fun showPoliciesBottomSheet() {
         val bundle: Bundle = Bundle()
@@ -203,183 +193,3 @@ class CreateAccountActivity : BaseActivity<ActivityCreateAccountBinding>(R.layou
         createAccountVm.validateDuplicate(email)
     }
 }
-/*
-class CreateAccountActivity : BaseActivity<ActivityCreateAccountBinding, CreateAccountViewModel>(ActivityCreateAccountBinding::inflate), TextWatcher {
-    override val viewModel: CreateAccountViewModel by viewModels()
-
-    private var isAgree: Boolean = false
-    private var miIbCheckState: Boolean = false
-
-    private lateinit var checkPoliciesBottomSheetFragment: CheckPoliciesBottomSheetFragment
-
-    var pw1EyeTouched: Boolean = false
-    var pw1EyeIbVisibility: Int = View.INVISIBLE
-    var pw2EyeTouched: Boolean = false
-    var pw2EyeIbVisibility: Int = View.INVISIBLE
-    var isKeyboardVisible: Boolean = false
-    var nextBtnEnable: Boolean = false
-    var isAllChecked: Boolean = false
-
-    override fun initAfterBinding() {
-        binding.apply {
-            binding.activity = this@CreateAccountActivity
-        }
-
-        initCheckPoliciesBottomSheetFragment()
-
-        //키보드 감지해서 뷰 바꾸기
-        KeyboardVisibilityEvent.setEventListener(
-            this@CreateAccountActivity,
-            KeyboardVisibilityEventListener {
-                isKeyboardVisible = it
-                binding.invalidateAll()
-
-                binding.createAccountPw1Et.transformationMethod = PasswordTransformationMethod.getInstance()
-                binding.createAccountPw2Et.transformationMethod = PasswordTransformationMethod.getInstance()
-            })
-        setEventListener()
-
-        observe()
-    }
-
-    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-    }
-
-    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-        if (binding.createAccountPw1Et.hasFocus()) {
-            pw1EyeIbVisibility = if (p0!!.isBlank()) {
-                View.INVISIBLE
-            } else {
-                View.VISIBLE
-            }
-        } else {
-            pw2EyeIbVisibility = if (p0!!.isBlank()) {
-                View.INVISIBLE
-            } else {
-                View.VISIBLE
-            }
-        }
-        nextBtnEnable = validate()
-
-        binding.invalidateAll()
-    }
-
-    override fun afterTextChanged(p0: Editable?) {
-        binding.createAccountPw1Et.typeface = binding.createAccountEmailEt.typeface //패스워드 EditText 글꼴이 계속 풀리는 문제 해결
-        binding.createAccountPw2Et.typeface = binding.createAccountEmailEt.typeface //패스워드 EditText 글꼴이 계속 풀리는 문제 해결
-    }
-
-    private fun initCheckPoliciesBottomSheetFragment() {
-        checkPoliciesBottomSheetFragment = CheckPoliciesBottomSheetFragment()
-        checkPoliciesBottomSheetFragment.setMyListener(object : CheckPoliciesBottomSheetFragment.Listener {
-            override fun finish(allChecked: Boolean, agree: Boolean, miIbCheckState: Boolean) {
-                isAllChecked = allChecked
-                isAgree = agree
-                this@CreateAccountActivity.miIbCheckState = miIbCheckState
-                nextBtnEnable = validate()
-                binding.invalidateAll()
-            }
-        })
-    }
-
-    private fun setEventListener() {
-        binding.createAccountPw1Et.addTextChangedListener(this)
-        binding.createAccountPw2Et.addTextChangedListener(this)
-
-        //눈 이미지 누르고 있으면 비밀번호 보여주고 아니면 가리기
-        binding.createAccountPw1EyeIb.setOnTouchListener { view, motionEvent ->
-            when (motionEvent?.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    binding.createAccountPw1Et.inputType = InputType.TYPE_CLASS_TEXT
-                    pw1EyeTouched = true
-                }
-                MotionEvent.ACTION_UP -> {
-                    binding.createAccountPw1Et.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-                    pw1EyeTouched = false
-                }
-                else -> {}
-            }
-
-            binding.invalidateAll()
-
-            false
-        }
-
-        //눈 이미지 누르고 있으면 비밀번호 보여주고 아니면 가리기
-        binding.createAccountPw2EyeIb.setOnTouchListener { view, motionEvent ->
-            when (motionEvent?.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    binding.createAccountPw2Et.inputType = InputType.TYPE_CLASS_TEXT
-                    pw2EyeTouched = true
-                }
-                MotionEvent.ACTION_UP -> {
-                    binding.createAccountPw2Et.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-                    pw2EyeTouched = false
-                }
-                else -> {}
-            }
-
-            binding.invalidateAll()
-
-            false
-        }
-    }
-
-    //다음 버튼 활성화/비활성화 여부를 위한 유효성 검사 함수
-    private fun validate(): Boolean {
-        return binding.createAccountEmailEt.text.isNotBlank() &&
-                binding.createAccountPw1Et.text.isNotBlank() &&
-                binding.createAccountPw2Et.text.isNotBlank() &&
-                matchRegex(binding.createAccountEmailEt.text.toString(), Patterns.EMAIL_ADDRESS.toRegex()) &&
-                validatePw(binding.createAccountPw1Et.text.toString()) &&
-                binding.createAccountPw1Et.text.toString()==binding.createAccountPw2Et.text.toString() &&
-                isAgree
-    }
-
-    private fun validatePw(pw: String): Boolean {
-        if (pw.length < 10) {
-            return false
-        }
-
-        //특수문자는 !@#$&* 만 가능
-        val notPermitChar = pw.replace("[\\da-zA-Z!@#\$&*]".toRegex(), "")
-        if (notPermitChar.isNotBlank()) {
-            return false
-        }
-
-        return matchRegex(pw, "^(?=.+[a-zA-Z0-9])(?=.+[a-zA-Z!@#\$&*])(?=.+[0-9!@#\$&*])(?=.+[0-9a-zA-Z!@#\$&*]).{10,}\$".toRegex())
-    }
-
-    private fun observe() {
-        viewModel.validateDuplicateResult.observe(this, Observer {
-            if (it) {
-                val createUserReqEntity: CreateUserReqEntity = CreateUserReqEntity(email = binding.createAccountEmailEt.text.toString(), password = binding.createAccountPw1Et.text.toString(), isMarketingAllowed = miIbCheckState)
-                val intent = Intent(this, EmailAuthActivity::class.java)
-                intent.putExtra("newUser", createUserReqEntity)
-                startActivity(intent)
-            }
-        })
-    }
-
-    //가입 약관 동의 체크 이벤트 함수
-    fun changeCheckIb() {
-        isAllChecked = !isAllChecked
-        isAgree = isAllChecked
-        miIbCheckState = true
-        nextBtnEnable = validate()
-        binding.invalidateAll()
-    }
-
-    fun showPoliciesBottomSheet() {
-        val bundle: Bundle = Bundle()
-        bundle.putBoolean("isAllChecked", isAllChecked)
-        bundle.putBoolean("isAgree", isAgree)
-        checkPoliciesBottomSheetFragment.arguments = bundle
-        checkPoliciesBottomSheetFragment.show(supportFragmentManager, null)
-    }
-
-    fun validateDuplicate(email: String) {
-        hideKeyboard(binding.root)
-        viewModel.validateDuplicate(email)
-    }
-}*/

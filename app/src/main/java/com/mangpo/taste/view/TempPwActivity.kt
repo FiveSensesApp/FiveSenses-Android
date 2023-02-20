@@ -4,9 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import androidx.activity.viewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.mangpo.taste.R
-import com.mangpo.taste.base.BaseActivity
+import com.mangpo.taste.base2.BaseActivity
 import com.mangpo.taste.databinding.ActivityTempPwBinding
 import com.mangpo.taste.util.matchRegex
 import com.mangpo.taste.view.model.OneBtnDialog
@@ -14,31 +15,27 @@ import com.mangpo.taste.view.model.TwoBtnDialog
 import com.mangpo.taste.viewmodel.TempPwViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
-import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 
 @AndroidEntryPoint
-class TempPwActivity : BaseActivity<ActivityTempPwBinding, TempPwViewModel>(ActivityTempPwBinding::inflate) {
-    override val viewModel: TempPwViewModel by viewModels()
+class TempPwActivity : BaseActivity<ActivityTempPwBinding>(R.layout.activity_temp_pw) {
+    val isKeyboardShown: MutableLiveData<Boolean> = MutableLiveData<Boolean>(false)
+
+    private val tempPwVm: TempPwViewModel by viewModels()
 
     private lateinit var oneBtnDialogFragment: OneBtnDialogFragment
     private lateinit var twoBtnDialogFragment: TwoBtnDialogFragment
 
-    var isKeyboardShown: Boolean = false
-
     override fun initAfterBinding() {
         binding.apply {
             activity = this@TempPwActivity
-            vm = viewModel
-            lifecycleOwner = this@TempPwActivity
+            this.tempPwVm = this@TempPwActivity.tempPwVm
         }
+        setCommonObserver(listOf(tempPwVm))
 
         //키보드 감지해서 뷰 바꾸기
-        KeyboardVisibilityEvent.setEventListener(
-            this@TempPwActivity,
-            KeyboardVisibilityEventListener {
-                isKeyboardShown = it
-                binding.invalidateAll()
-            })
+        KeyboardVisibilityEvent.setEventListener(this@TempPwActivity) {
+            isKeyboardShown.postValue(it)
+        }
 
         initDialog()
         observe()
@@ -67,7 +64,7 @@ class TempPwActivity : BaseActivity<ActivityTempPwBinding, TempPwViewModel>(Acti
     }
 
     private fun observe() {
-        viewModel.lostPasswordResCode.observe(this, Observer {
+        tempPwVm.lostPasswordResCode.observe(this, Observer {
             if (it==200) {
                 val bundle: Bundle = Bundle()
                 bundle.putParcelable("data", OneBtnDialog(getString(R.string.title_temporary_pw_issued), getString(R.string.msg_reset_pw), getString(R.string.action_confirm), listOf(46, 10, 46, 12)))
@@ -86,7 +83,7 @@ class TempPwActivity : BaseActivity<ActivityTempPwBinding, TempPwViewModel>(Acti
         } else if (!matchRegex(email, Patterns.EMAIL_ADDRESS.toRegex())) {  //이메일 형식이 아닐 때
             showToast("이메일 형식이 아닙니다.")
         } else {
-            viewModel.lostPassword(binding.tempPwEmailEt.text.toString())
+            tempPwVm.lostPassword(binding.tempPwEmailEt.text.toString())
         }
     }
 

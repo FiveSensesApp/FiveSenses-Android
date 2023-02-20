@@ -79,6 +79,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/bg_gy01_12"
             android:hint="@string/msg_enter_pw"
+            android:inputType="textPassword"
             android:paddingStart="21dp"
             android:paddingEnd="48dp"
             android:textAppearance='@style/Sub_Head_B_16'
@@ -107,6 +108,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/bg_gy01_12"
             android:hint="@string/msg_enter_pw_again"
+            android:inputType="textPassword"
             android:paddingStart="21dp"
             android:paddingEnd="48dp"
             android:textAppearance='@style/Sub_Head_B_16'

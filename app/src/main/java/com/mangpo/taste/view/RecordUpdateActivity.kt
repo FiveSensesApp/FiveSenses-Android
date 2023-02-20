@@ -4,38 +4,39 @@ import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import androidx.activity.viewModels
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.mangpo.domain.model.getPosts.ContentEntity
 import com.mangpo.domain.model.updatePost.UpdatePostReqEntity
 import com.mangpo.taste.R
-import com.mangpo.taste.base.BaseActivity
+import com.mangpo.taste.base2.BaseActivity
 import com.mangpo.taste.databinding.ActivityRecordUpdateBinding
-import com.mangpo.taste.util.convertDpToPx
 import com.mangpo.taste.util.setSpannableText
 import com.mangpo.taste.view.model.OneBtnDialog
 import com.mangpo.taste.view.model.RecordUpdateResource
 import com.mangpo.taste.viewmodel.RecordUpdateViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
-import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
-class RecordUpdateActivity : BaseActivity<ActivityRecordUpdateBinding, RecordUpdateViewModel>(ActivityRecordUpdateBinding::inflate), TextWatcher {
-    override val viewModel: RecordUpdateViewModel by viewModels()
+class RecordUpdateActivity : BaseActivity<ActivityRecordUpdateBinding>(R.layout.activity_record_update), TextWatcher {
+    val isKeyboardVisible: MutableLiveData<Boolean> = MutableLiveData<Boolean>(false)
+
+    private val recordUpdateVm: RecordUpdateViewModel by viewModels()
 
     private lateinit var oneBtnDialogFragment: OneBtnDialogFragment
 
     override fun initAfterBinding() {
         binding.apply {
             activity = this@RecordUpdateActivity
+            this.recordUpdateVm = this@RecordUpdateActivity.recordUpdateVm
             content = intent.getParcelableExtra<ContentEntity>("content")!!
         }
+        setCommonObserver(listOf(recordUpdateVm))
 
         bind(binding.content!!) //인텐트를 통해 얻어낸 record 데이터 UI 바인딩
         setMyEventListener()
@@ -90,25 +91,9 @@ class RecordUpdateActivity : BaseActivity<ActivityRecordUpdateBinding, RecordUpd
         binding.tasteRecordContentEt.addTextChangedListener(this)
 
         //키보드 감지해서 뷰 바꾸기
-        KeyboardVisibilityEvent.setEventListener(
-            this@RecordUpdateActivity,
-            KeyboardVisibilityEventListener {
-                if (it) {   //키보드 올라와 있을 때
-                    binding.recordUpdateTitleTv.visibility = View.GONE  //타이틀 GONE
-
-                    //키워드 EditText TopMargin 25dp
-                    val layoutParams = binding.recordUpdateKeywordEt.layoutParams
-                    (layoutParams as ConstraintLayout.LayoutParams).topMargin = convertDpToPx(applicationContext, 25)
-                    binding.recordUpdateKeywordEt.layoutParams = layoutParams
-                } else {    //키보드 내려와 있을 때
-                    binding.recordUpdateTitleTv.visibility = View.VISIBLE   //타이틀 VISIBLE
-
-                    //키워드 EditText TopMargin 134dp
-                    val layoutParams = binding.recordUpdateKeywordEt.layoutParams
-                    (layoutParams as ConstraintLayout.LayoutParams).topMargin = convertDpToPx(applicationContext, 134)
-                    binding.recordUpdateKeywordEt.layoutParams = layoutParams
-                }
-            })
+        KeyboardVisibilityEvent.setEventListener(this@RecordUpdateActivity) {
+            isKeyboardVisible.postValue(it)
+        }
 
         //완료 버튼 클릭 리스너 등록
         binding.recordUpdateCompleteBtn.setOnClickListener {
@@ -130,9 +115,9 @@ class RecordUpdateActivity : BaseActivity<ActivityRecordUpdateBinding, RecordUpd
     }
 
     private fun observe() {
-        viewModel.updatePostResCode.observe(this@RecordUpdateActivity, Observer {
+        recordUpdateVm.updatePostResCode.observe(this@RecordUpdateActivity, Observer {
             if (it==200) {
-                setResult(Activity.RESULT_OK, intent.putExtra("updatedPost", viewModel.getUpdatedPost()))
+                setResult(Activity.RESULT_OK, intent.putExtra("updatedPost", recordUpdateVm.getUpdatedPost()))
                 finish()
             }
         })
@@ -152,7 +137,7 @@ class RecordUpdateActivity : BaseActivity<ActivityRecordUpdateBinding, RecordUpd
             }
 
             val updatePostReqEntity: UpdatePostReqEntity = UpdatePostReqEntity(postId, category, content, binding.recordUpdateKeywordEt.text.toString(), binding.recordUpdateSrb.rating.toInt())
-            viewModel.updatePost(updatePostReqEntity)
+            recordUpdateVm.updatePost(updatePostReqEntity)
         }
     }
 }
