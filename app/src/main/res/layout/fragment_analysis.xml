@@ -14,40 +14,40 @@
             type="com.mangpo.taste.view.AnalysisFragment" />
 
         <variable
-            name="vm"
+            name="analysisVm"
             type="com.mangpo.taste.viewmodel.AnalysisViewModel" />
 
         <variable
             name="userInfo"
             type="com.mangpo.taste.view.model.AnalysisUserInfo" />
 
-        <variable
+        <!--<variable
             name="percentageOfCategory"
-            type="java.util.List&lt;com.mangpo.taste.view.model.PercentageOfCategory&gt;" />
+            type="java.util.List&lt;com.mangpo.taste.view.model.PercentageOfCategory&gt;" />-->
 
-        <variable
+        <!--<variable
             name="stat"
-            type="com.mangpo.domain.model.getStat.GetStatResEntity" />
+            type="com.mangpo.domain.model.getStat.GetStatResEntity" />-->
 
-        <variable
+        <!--<variable
             name="monthlyCategoryMain"
-            type="com.mangpo.taste.view.model.MonthlyCategory" />
+            type="com.mangpo.taste.view.model.MonthlyCategory" />-->
 
-        <variable
+        <!--<variable
             name="monthlyCategories"
-            type="List&lt;com.mangpo.taste.view.model.MonthlyCategory&gt;" />
+            type="List&lt;com.mangpo.taste.view.model.MonthlyCategory&gt;" />-->
 
-        <variable
+        <!--<variable
             name="leftArrowEnableStatus"
-            type="Boolean" />
+            type="Boolean" />-->
 
-        <variable
+        <!--<variable
             name="rightArrowEnableStatus"
-            type="Boolean" />
+            type="Boolean" />-->
 
-        <variable
+        <!--<variable
             name="monthlyCategoryCurrentIndex"
-            type="Integer" />
+            type="Integer" />-->
     </data>
 
     <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -164,7 +164,7 @@
                     android:layout_marginStart="4dp"
                     android:gravity="center_vertical"
                     android:includeFontPadding="false"
-                    android:text="@{`기록갯수   ` + stat.totalPost + `개`}"
+                    android:text="@{`기록갯수   ` + fragment.stat.totalPost + `개`}"
                     android:textAppearance="@style/Body1_M_14"
                     android:textColor="@color/GY_04"
                     app:layout_constraintBottom_toBottomOf="@+id/analysis_locker_iv"
@@ -227,7 +227,7 @@
                     app:layout_constraintEnd_toStartOf="@+id/analysis_badge3_iv"
                     app:layout_constraintStart_toEndOf="@+id/analysis_badge1_iv"
                     app:layout_constraintTop_toTopOf="@+id/analysis_badge1_iv"
-                    app:svg="@{vm.acquiredBadges[1].imgUrl}" />
+                    app:svg="@{analysisVm.acquiredBadges[1].imgUrl}" />
 
                 <ImageView
                     android:id="@+id/analysis_badge3_iv"
@@ -238,7 +238,7 @@
                     app:layout_constraintEnd_toStartOf="@+id/analysis_badge4_iv"
                     app:layout_constraintStart_toEndOf="@+id/analysis_badge2_iv"
                     app:layout_constraintTop_toTopOf="@+id/analysis_badge1_iv"
-                    app:svg="@{vm.acquiredBadges[2].imgUrl}" />
+                    app:svg="@{analysisVm.acquiredBadges[2].imgUrl}" />
 
                 <ImageView
                     android:id="@+id/analysis_badge4_iv"
@@ -250,7 +250,7 @@
                     app:layout_constraintEnd_toEndOf="@+id/analysis_badge_view"
                     app:layout_constraintStart_toEndOf="@+id/analysis_badge3_iv"
                     app:layout_constraintTop_toTopOf="@+id/analysis_badge1_iv"
-                    app:svg="@{vm.acquiredBadges[3].imgUrl}" />
+                    app:svg="@{analysisVm.acquiredBadges[3].imgUrl}" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -276,7 +276,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_distribution_by_sensory_sample"
-                    android:visibility="@{stat.totalPost&lt;10? View.VISIBLE: View.GONE}"
+                    android:visibility="@{fragment.stat.totalPost&lt;10? View.VISIBLE: View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -299,9 +299,9 @@
                     android:layout_marginTop="47dp"
                     android:gravity="center"
                     android:includeFontPadding="false"
-                    android:text="@{stat.totalPost&lt;10? @string/msg_can_analyze_more_10_records: @string/msg_can_find_out_proportion_of_each_sense}"
+                    android:text="@{fragment.stat.totalPost&lt;10? @string/msg_can_analyze_more_10_records: @string/msg_can_find_out_proportion_of_each_sense}"
                     android:textAppearance="@style/Body1_M_12"
-                    android:textColor="@{stat.totalPost&lt;10? @color/RD_2: @color/GY_04}"
+                    android:textColor="@{fragment.stat.totalPost&lt;10? @color/RD_2: @color/GY_04}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -317,14 +317,14 @@
                         android:id="@+id/analysis_distribution_by_sensory_bar_graph1"
                         lb="@{15}"
                         lt="@{15}"
-                        rb="@{percentageOfCategory[0].percentage==100f? 15: 0}"
-                        rt="@{percentageOfCategory[0].percentage==100f? 15: 0}"
-                        widthPercentage="@{percentageOfCategory[0].percentage / 100}"
+                        rb="@{fragment.percentageOfCategory[0].percentage==100f? 15: 0}"
+                        rt="@{fragment.percentageOfCategory[0].percentage==100f? 15: 0}"
+                        widthPercentage="@{fragment.percentageOfCategory[0].percentage / 100}"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:scaleType="fitXY"
-                        android:src="@{percentageOfCategory[0].graph}"
-                        android:visibility="@{stat.totalPost&lt;10 || percentageOfCategory[0].percentage==0f? View.GONE: View.VISIBLE}"
+                        android:src="@{fragment.percentageOfCategory[0].graph}"
+                        android:visibility="@{fragment.stat.totalPost&lt;10 || fragment.percentageOfCategory[0].percentage==0f? View.GONE: View.VISIBLE}"
                         app:layout_constraintEnd_toStartOf="@+id/analysis_distribution_by_sensory_bar_graph2"
                         app:layout_constraintHorizontal_chainStyle="packed"
                         app:layout_constraintStart_toStartOf="parent"
@@ -336,24 +336,24 @@
                         android:layout_marginTop="5dp"
                         android:gravity="center"
                         android:includeFontPadding="false"
-                        android:text="@{Math.round(percentageOfCategory[0].percentage) + `%`}"
+                        android:text="@{Math.round(fragment.percentageOfCategory[0].percentage) + `%`}"
                         android:textAppearance="@style/Body2_R_10"
-                        android:textColor="@{percentageOfCategory[0].color}"
-                        android:visibility="@{stat.totalPost&lt;10 || percentageOfCategory[0].percentage==0? View.GONE: View.VISIBLE}"
+                        android:textColor="@{fragment.percentageOfCategory[0].color}"
+                        android:visibility="@{fragment.stat.totalPost&lt;10 || fragment.percentageOfCategory[0].percentage==0? View.GONE: View.VISIBLE}"
                         app:layout_constraintEnd_toEndOf="@+id/analysis_distribution_by_sensory_bar_graph1"
                         app:layout_constraintStart_toStartOf="@+id/analysis_distribution_by_sensory_bar_graph1"
                         app:layout_constraintTop_toBottomOf="@+id/analysis_distribution_by_sensory_bar_graph1" />
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/analysis_distribution_by_sensory_bar_graph2"
-                        rb="@{percentageOfCategory[2].percentage==0? 15: 0}"
-                        rt="@{percentageOfCategory[2].percentage==0? 15: 0}"
-                        widthPercentage="@{percentageOfCategory[1].percentage / 100}"
+                        rb="@{fragment.percentageOfCategory[2].percentage==0? 15: 0}"
+                        rt="@{fragment.percentageOfCategory[2].percentage==0? 15: 0}"
+                        widthPercentage="@{fragment.percentageOfCategory[1].percentage / 100}"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:scaleType="fitXY"
-                        android:src="@{percentageOfCategory[1].graph}"
-                        android:visibility="@{stat.totalPost&lt;10 || percentageOfCategory[1].percentage==0? View.GONE: View.VISIBLE}"
+                        android:src="@{fragment.percentageOfCategory[1].graph}"
+                        android:visibility="@{fragment.stat.totalPost&lt;10 || fragment.percentageOfCategory[1].percentage==0? View.GONE: View.VISIBLE}"
                         app:layout_constraintEnd_toStartOf="@+id/analysis_distribution_by_sensory_bar_graph3"
                         app:layout_constraintStart_toEndOf="@+id/analysis_distribution_by_sensory_bar_graph1"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -364,24 +364,24 @@
                         android:layout_marginTop="5dp"
                         android:gravity="center"
                         android:includeFontPadding="false"
-                        android:text="@{Math.round(percentageOfCategory[1].percentage) + `%`}"
+                        android:text="@{Math.round(fragment.percentageOfCategory[1].percentage) + `%`}"
                         android:textAppearance="@style/Body2_R_10"
-                        android:textColor="@{percentageOfCategory[1].color}"
-                        android:visibility="@{stat.totalPost&lt;10 || percentageOfCategory[1].percentage==0? View.GONE: View.VISIBLE}"
+                        android:textColor="@{fragment.percentageOfCategory[1].color}"
+                        android:visibility="@{fragment.stat.totalPost&lt;10 || fragment.percentageOfCategory[1].percentage==0? View.GONE: View.VISIBLE}"
                         app:layout_constraintEnd_toEndOf="@+id/analysis_distribution_by_sensory_bar_graph2"
                         app:layout_constraintStart_toStartOf="@+id/analysis_distribution_by_sensory_bar_graph2"
                         app:layout_constraintTop_toBottomOf="@+id/analysis_distribution_by_sensory_bar_graph2" />
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/analysis_distribution_by_sensory_bar_graph3"
-                        rb="@{percentageOfCategory[3].percentage==0? 15: 0}"
-                        rt="@{percentageOfCategory[3].percentage==0? 15: 0}"
-                        widthPercentage="@{percentageOfCategory[2].percentage / 100}"
+                        rb="@{fragment.percentageOfCategory[3].percentage==0? 15: 0}"
+                        rt="@{fragment.percentageOfCategory[3].percentage==0? 15: 0}"
+                        widthPercentage="@{fragment.percentageOfCategory[2].percentage / 100}"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:scaleType="fitXY"
-                        android:src="@{percentageOfCategory[2].graph}"
-                        android:visibility="@{stat.totalPost&lt;10 || percentageOfCategory[2].percentage==0? View.GONE: View.VISIBLE}"
+                        android:src="@{fragment.percentageOfCategory[2].graph}"
+                        android:visibility="@{fragment.stat.totalPost&lt;10 || fragment.percentageOfCategory[2].percentage==0? View.GONE: View.VISIBLE}"
                         app:layout_constraintEnd_toStartOf="@+id/analysis_distribution_by_sensory_bar_graph4"
                         app:layout_constraintStart_toEndOf="@+id/analysis_distribution_by_sensory_bar_graph2"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -392,24 +392,24 @@
                         android:layout_marginTop="5dp"
                         android:gravity="center"
                         android:includeFontPadding="false"
-                        android:text="@{Math.round(percentageOfCategory[2].percentage) + `%`}"
+                        android:text="@{Math.round(fragment.percentageOfCategory[2].percentage) + `%`}"
                         android:textAppearance="@style/Body2_R_10"
-                        android:textColor="@{percentageOfCategory[2].color}"
-                        android:visibility="@{stat.totalPost&lt;10 || percentageOfCategory[2].percentage==0? View.GONE: View.VISIBLE}"
+                        android:textColor="@{fragment.percentageOfCategory[2].color}"
+                        android:visibility="@{fragment.stat.totalPost&lt;10 || fragment.percentageOfCategory[2].percentage==0? View.GONE: View.VISIBLE}"
                         app:layout_constraintEnd_toEndOf="@+id/analysis_distribution_by_sensory_bar_graph3"
                         app:layout_constraintStart_toStartOf="@+id/analysis_distribution_by_sensory_bar_graph3"
                         app:layout_constraintTop_toBottomOf="@+id/analysis_distribution_by_sensory_bar_graph3" />
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/analysis_distribution_by_sensory_bar_graph4"
-                        rb="@{percentageOfCategory[4].percentage==0? 15: 0}"
-                        rt="@{percentageOfCategory[4].percentage==0? 15: 0}"
-                        widthPercentage="@{percentageOfCategory[3].percentage / 100}"
+                        rb="@{fragment.percentageOfCategory[4].percentage==0? 15: 0}"
+                        rt="@{fragment.percentageOfCategory[4].percentage==0? 15: 0}"
+                        widthPercentage="@{fragment.percentageOfCategory[3].percentage / 100}"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:scaleType="fitXY"
-                        android:src="@{percentageOfCategory[3].graph}"
-                        android:visibility="@{stat.totalPost&lt;10 || percentageOfCategory[3].percentage==0? View.GONE: View.VISIBLE}"
+                        android:src="@{fragment.percentageOfCategory[3].graph}"
+                        android:visibility="@{fragment.stat.totalPost&lt;10 || fragment.percentageOfCategory[3].percentage==0? View.GONE: View.VISIBLE}"
                         app:layout_constraintEnd_toStartOf="@+id/analysis_distribution_by_sensory_bar_graph5"
                         app:layout_constraintStart_toEndOf="@+id/analysis_distribution_by_sensory_bar_graph3"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -420,24 +420,24 @@
                         android:layout_marginTop="5dp"
                         android:gravity="center"
                         android:includeFontPadding="false"
-                        android:text="@{Math.round(percentageOfCategory[3].percentage) + `%`}"
+                        android:text="@{Math.round(fragment.percentageOfCategory[3].percentage) + `%`}"
                         android:textAppearance="@style/Body2_R_10"
-                        android:textColor="@{percentageOfCategory[3].color}"
-                        android:visibility="@{stat.totalPost&lt;10 || percentageOfCategory[3].percentage==0? View.GONE: View.VISIBLE}"
+                        android:textColor="@{fragment.percentageOfCategory[3].color}"
+                        android:visibility="@{fragment.stat.totalPost&lt;10 || fragment.percentageOfCategory[3].percentage==0? View.GONE: View.VISIBLE}"
                         app:layout_constraintEnd_toEndOf="@+id/analysis_distribution_by_sensory_bar_graph4"
                         app:layout_constraintStart_toStartOf="@+id/analysis_distribution_by_sensory_bar_graph4"
                         app:layout_constraintTop_toBottomOf="@+id/analysis_distribution_by_sensory_bar_graph4" />
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/analysis_distribution_by_sensory_bar_graph5"
-                        rb="@{percentageOfCategory[5].percentage==0? 15: 0}"
-                        rt="@{percentageOfCategory[5].percentage==0? 15: 0}"
-                        widthPercentage="@{percentageOfCategory[4].percentage / 100}"
+                        rb="@{fragment.percentageOfCategory[5].percentage==0? 15: 0}"
+                        rt="@{fragment.percentageOfCategory[5].percentage==0? 15: 0}"
+                        widthPercentage="@{fragment.percentageOfCategory[4].percentage / 100}"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:scaleType="fitXY"
-                        android:src="@{percentageOfCategory[4].graph}"
-                        android:visibility="@{stat.totalPost&lt;10 || percentageOfCategory[4].percentage==0? View.GONE: View.VISIBLE}"
+                        android:src="@{fragment.percentageOfCategory[4].graph}"
+                        android:visibility="@{fragment.stat.totalPost&lt;10 || fragment.percentageOfCategory[4].percentage==0? View.GONE: View.VISIBLE}"
                         app:layout_constraintEnd_toStartOf="@+id/analysis_distribution_by_sensory_bar_graph6"
                         app:layout_constraintStart_toEndOf="@+id/analysis_distribution_by_sensory_bar_graph4"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -448,10 +448,10 @@
                         android:layout_marginTop="5dp"
                         android:gravity="center"
                         android:includeFontPadding="false"
-                        android:text="@{Math.round(percentageOfCategory[4].percentage) + `%`}"
+                        android:text="@{Math.round(fragment.percentageOfCategory[4].percentage) + `%`}"
                         android:textAppearance="@style/Body2_R_10"
-                        android:textColor="@{percentageOfCategory[4].color}"
-                        android:visibility="@{stat.totalPost&lt;10 || percentageOfCategory[4].percentage==0? View.GONE: View.VISIBLE}"
+                        android:textColor="@{fragment.percentageOfCategory[4].color}"
+                        android:visibility="@{fragment.stat.totalPost&lt;10 || fragment.percentageOfCategory[4].percentage==0? View.GONE: View.VISIBLE}"
                         app:layout_constraintEnd_toEndOf="@+id/analysis_distribution_by_sensory_bar_graph5"
                         app:layout_constraintStart_toStartOf="@+id/analysis_distribution_by_sensory_bar_graph5"
                         app:layout_constraintTop_toBottomOf="@+id/analysis_distribution_by_sensory_bar_graph5" />
@@ -460,12 +460,12 @@
                         android:id="@+id/analysis_distribution_by_sensory_bar_graph6"
                         rb="@{15}"
                         rt="@{15}"
-                        widthPercentage="@{percentageOfCategory[5].percentage / 100}"
+                        widthPercentage="@{fragment.percentageOfCategory[5].percentage / 100}"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:scaleType="fitXY"
-                        android:src="@{percentageOfCategory[5].graph}"
-                        android:visibility="@{stat.totalPost&lt;10 || percentageOfCategory[5].percentage==0? View.GONE: View.VISIBLE}"
+                        android:src="@{fragment.percentageOfCategory[5].graph}"
+                        android:visibility="@{fragment.stat.totalPost&lt;10 || fragment.percentageOfCategory[5].percentage==0? View.GONE: View.VISIBLE}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/analysis_distribution_by_sensory_bar_graph5"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -476,10 +476,10 @@
                         android:layout_marginTop="5dp"
                         android:gravity="center"
                         android:includeFontPadding="false"
-                        android:text="@{Math.round(percentageOfCategory[5].percentage) + `%`}"
+                        android:text="@{Math.round(fragment.percentageOfCategory[5].percentage) + `%`}"
                         android:textAppearance="@style/Body2_R_10"
-                        android:textColor="@{percentageOfCategory[5].color}"
-                        android:visibility="@{stat.totalPost&lt;10 || percentageOfCategory[5].percentage==0? View.GONE: View.VISIBLE}"
+                        android:textColor="@{fragment.percentageOfCategory[5].color}"
+                        android:visibility="@{fragment.stat.totalPost&lt;10 || fragment.percentageOfCategory[5].percentage==0? View.GONE: View.VISIBLE}"
                         app:layout_constraintEnd_toEndOf="@+id/analysis_distribution_by_sensory_bar_graph6"
                         app:layout_constraintStart_toStartOf="@+id/analysis_distribution_by_sensory_bar_graph6"
                         app:layout_constraintTop_toBottomOf="@+id/analysis_distribution_by_sensory_bar_graph6" />
@@ -492,7 +492,7 @@
                     android:layout_marginHorizontal="10dp"
                     android:layout_marginBottom="71dp"
                     android:background="@color/GY_01"
-                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    android:visibility="@{fragment.stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -503,7 +503,7 @@
                     android:layout_marginHorizontal="22dp"
                     android:layout_marginBottom="19dp"
                     android:orientation="horizontal"
-                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    android:visibility="@{fragment.stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -517,9 +517,9 @@
                             android:layout_height="17dp"
                             android:gravity="center"
                             android:includeFontPadding="false"
-                            android:text="@{Integer.toString(percentageOfCategory[0].cnt)}"
+                            android:text="@{Integer.toString(fragment.percentageOfCategory[0].cnt)}"
                             android:textAppearance="@style/Sub_Head_B_14"
-                            android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                            android:visibility="@{fragment.stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -528,7 +528,7 @@
                             android:id="@+id/analysis_distribution_character_iv1"
                             android:layout_width="12dp"
                             android:layout_height="12dp"
-                            android:src="@{percentageOfCategory[0].character}"
+                            android:src="@{fragment.percentageOfCategory[0].character}"
                             app:layout_constraintBottom_toBottomOf="@+id/analysis_distribution_sense_tv1"
                             app:layout_constraintEnd_toStartOf="@+id/analysis_distribution_sense_tv1"
                             app:layout_constraintHorizontal_chainStyle="packed"
@@ -541,9 +541,9 @@
                             android:layout_height="18dp"
                             android:gravity="center"
                             android:includeFontPadding="false"
-                            android:text="@{percentageOfCategory[0].sense}"
+                            android:text="@{fragment.percentageOfCategory[0].sense}"
                             android:textAppearance="@style/Body1_M_12"
-                            android:textColor="@{percentageOfCategory[0].color}"
+                            android:textColor="@{fragment.percentageOfCategory[0].color}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/analysis_distribution_character_iv1" />
@@ -562,7 +562,7 @@
                             android:layout_height="17dp"
                             android:gravity="center"
                             android:includeFontPadding="false"
-                            android:text="@{Integer.toString(percentageOfCategory[1].cnt)}"
+                            android:text="@{Integer.toString(fragment.percentageOfCategory[1].cnt)}"
                             android:textAppearance="@style/Sub_Head_B_14"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -572,7 +572,7 @@
                             android:id="@+id/analysis_distribution_character_iv2"
                             android:layout_width="12dp"
                             android:layout_height="12dp"
-                            android:src="@{percentageOfCategory[1].character}"
+                            android:src="@{fragment.percentageOfCategory[1].character}"
                             app:layout_constraintBottom_toBottomOf="@+id/analysis_distribution_sense_tv2"
                             app:layout_constraintEnd_toStartOf="@+id/analysis_distribution_sense_tv2"
                             app:layout_constraintHorizontal_chainStyle="packed"
@@ -585,9 +585,9 @@
                             android:layout_height="18dp"
                             android:gravity="center"
                             android:includeFontPadding="false"
-                            android:text="@{percentageOfCategory[1].sense}"
+                            android:text="@{fragment.percentageOfCategory[1].sense}"
                             android:textAppearance="@style/Body1_M_12"
-                            android:textColor="@{percentageOfCategory[1].color}"
+                            android:textColor="@{fragment.percentageOfCategory[1].color}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/analysis_distribution_character_iv2" />
@@ -606,7 +606,7 @@
                             android:layout_height="17dp"
                             android:gravity="center"
                             android:includeFontPadding="false"
-                            android:text="@{Integer.toString(percentageOfCategory[2].cnt)}"
+                            android:text="@{Integer.toString(fragment.percentageOfCategory[2].cnt)}"
                             android:textAppearance="@style/Sub_Head_B_14"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -616,7 +616,7 @@
                             android:id="@+id/analysis_distribution_character_iv3"
                             android:layout_width="12dp"
                             android:layout_height="12dp"
-                            android:src="@{percentageOfCategory[2].character}"
+                            android:src="@{fragment.percentageOfCategory[2].character}"
                             app:layout_constraintBottom_toBottomOf="@+id/analysis_distribution_sense_tv3"
                             app:layout_constraintEnd_toStartOf="@+id/analysis_distribution_sense_tv3"
                             app:layout_constraintHorizontal_chainStyle="packed"
@@ -629,9 +629,9 @@
                             android:layout_height="18dp"
                             android:gravity="center"
                             android:includeFontPadding="false"
-                            android:text="@{percentageOfCategory[2].sense}"
+                            android:text="@{fragment.percentageOfCategory[2].sense}"
                             android:textAppearance="@style/Body1_M_12"
-                            android:textColor="@{percentageOfCategory[2].color}"
+                            android:textColor="@{fragment.percentageOfCategory[2].color}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/analysis_distribution_character_iv3" />
@@ -650,7 +650,7 @@
                             android:layout_height="17dp"
                             android:gravity="center"
                             android:includeFontPadding="false"
-                            android:text="@{Integer.toString(percentageOfCategory[3].cnt)}"
+                            android:text="@{Integer.toString(fragment.percentageOfCategory[3].cnt)}"
                             android:textAppearance="@style/Sub_Head_B_14"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -660,7 +660,7 @@
                             android:id="@+id/analysis_distribution_character_iv4"
                             android:layout_width="12dp"
                             android:layout_height="12dp"
-                            android:src="@{percentageOfCategory[3].character}"
+                            android:src="@{fragment.percentageOfCategory[3].character}"
                             app:layout_constraintBottom_toBottomOf="@+id/analysis_distribution_sense_tv4"
                             app:layout_constraintEnd_toStartOf="@+id/analysis_distribution_sense_tv4"
                             app:layout_constraintHorizontal_chainStyle="packed"
@@ -673,9 +673,9 @@
                             android:layout_height="18dp"
                             android:gravity="center"
                             android:includeFontPadding="false"
-                            android:text="@{percentageOfCategory[3].sense}"
+                            android:text="@{fragment.percentageOfCategory[3].sense}"
                             android:textAppearance="@style/Body1_M_12"
-                            android:textColor="@{percentageOfCategory[3].color}"
+                            android:textColor="@{fragment.percentageOfCategory[3].color}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/analysis_distribution_character_iv4" />
@@ -694,7 +694,7 @@
                             android:layout_height="17dp"
                             android:gravity="center"
                             android:includeFontPadding="false"
-                            android:text="@{Integer.toString(percentageOfCategory[4].cnt)}"
+                            android:text="@{Integer.toString(fragment.percentageOfCategory[4].cnt)}"
                             android:textAppearance="@style/Sub_Head_B_14"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -704,7 +704,7 @@
                             android:id="@+id/analysis_distribution_character_iv5"
                             android:layout_width="12dp"
                             android:layout_height="12dp"
-                            android:src="@{percentageOfCategory[4].character}"
+                            android:src="@{fragment.percentageOfCategory[4].character}"
                             app:layout_constraintBottom_toBottomOf="@+id/analysis_distribution_sense_tv5"
                             app:layout_constraintEnd_toStartOf="@+id/analysis_distribution_sense_tv5"
                             app:layout_constraintHorizontal_chainStyle="packed"
@@ -717,9 +717,9 @@
                             android:layout_height="18dp"
                             android:gravity="center"
                             android:includeFontPadding="false"
-                            android:text="@{percentageOfCategory[4].sense}"
+                            android:text="@{fragment.percentageOfCategory[4].sense}"
                             android:textAppearance="@style/Body1_M_12"
-                            android:textColor="@{percentageOfCategory[4].color}"
+                            android:textColor="@{fragment.percentageOfCategory[4].color}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/analysis_distribution_character_iv5" />
@@ -738,7 +738,7 @@
                             android:layout_height="17dp"
                             android:gravity="center"
                             android:includeFontPadding="false"
-                            android:text="@{Integer.toString(percentageOfCategory[5].cnt)}"
+                            android:text="@{Integer.toString(fragment.percentageOfCategory[5].cnt)}"
                             android:textAppearance="@style/Sub_Head_B_14"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -748,7 +748,7 @@
                             android:id="@+id/analysis_distribution_character_iv6"
                             android:layout_width="12dp"
                             android:layout_height="12dp"
-                            android:src="@{percentageOfCategory[5].character}"
+                            android:src="@{fragment.percentageOfCategory[5].character}"
                             app:layout_constraintBottom_toBottomOf="@+id/analysis_distribution_sense_tv6"
                             app:layout_constraintEnd_toStartOf="@+id/analysis_distribution_sense_tv6"
                             app:layout_constraintHorizontal_chainStyle="packed"
@@ -761,9 +761,9 @@
                             android:layout_height="18dp"
                             android:gravity="center"
                             android:includeFontPadding="false"
-                            android:text="@{percentageOfCategory[5].sense}"
+                            android:text="@{fragment.percentageOfCategory[5].sense}"
                             android:textAppearance="@style/Body1_M_12"
-                            android:textColor="@{percentageOfCategory[5].color}"
+                            android:textColor="@{fragment.percentageOfCategory[5].color}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/analysis_distribution_character_iv6" />
@@ -787,7 +787,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_sense_of_month_sample"
-                    android:visibility="@{stat.totalPost&lt;10? View.VISIBLE: View.GONE}"
+                    android:visibility="@{fragment.stat.totalPost&lt;10? View.VISIBLE: View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -810,9 +810,9 @@
                     android:layout_marginTop="47dp"
                     android:gravity="center"
                     android:includeFontPadding="false"
-                    android:text="@{stat.totalPost&lt;10? @string/msg_can_analyze_more_10_records: @string/msg_can_see_senses_most_by_month}"
+                    android:text="@{fragment.stat.totalPost&lt;10? @string/msg_can_analyze_more_10_records: @string/msg_can_see_senses_most_by_month}"
                     android:textAppearance="@style/Body1_M_12"
-                    android:textColor="@{stat.totalPost&lt;10? @color/RD_2: @color/GY_04}"
+                    android:textColor="@{fragment.stat.totalPost&lt;10? @color/RD_2: @color/GY_04}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -822,8 +822,8 @@
                     android:layout_height="134dp"
                     android:layout_marginHorizontal="37dp"
                     android:layout_marginTop="75dp"
-                    android:src="@{monthlyCategoryMain.character}"
-                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    android:src="@{fragment.monthlyCategoryMain.character}"
+                    android:visibility="@{fragment.stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -833,10 +833,10 @@
                     android:layout_marginTop="216dp"
                     android:gravity="center"
                     android:includeFontPadding="false"
-                    android:text="@{monthlyCategoryMain.sense==null? ``: monthlyCategoryMain.sense + ` | `}"
+                    android:text="@{fragment.monthlyCategoryMain.sense==null? ``: fragment.monthlyCategoryMain.sense + ` | `}"
                     android:textAppearance="@style/Sub_Head_B_14"
-                    android:textColor="@{monthlyCategoryMain.textColor}"
-                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    android:textColor="@{fragment.monthlyCategoryMain.textColor}"
+                    android:visibility="@{fragment.stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                     app:layout_constraintEnd_toStartOf="@+id/analysis_sense_of_the_month_cnt_tv"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toStartOf="parent"
@@ -849,10 +849,10 @@
                     android:layout_marginTop="216dp"
                     android:gravity="center"
                     android:includeFontPadding="false"
-                    android:text="@{monthlyCategoryMain.cnt==0? `아직 이번 달에 작성한 기록이 없어요`: `신규 기록 ` + monthlyCategoryMain.cnt + `개!`}"
+                    android:text="@{fragment.monthlyCategoryMain.cnt==0? `아직 이번 달에 작성한 기록이 없어요`: `신규 기록 ` + fragment.monthlyCategoryMain.cnt + `개!`}"
                     android:textAppearance="@style/Sub_Head_B_14"
                     android:textColor="@color/GY_04"
-                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    android:visibility="@{fragment.stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/analysis_sense_of_the_month_sense_tv"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -863,7 +863,7 @@
                     android:layout_marginHorizontal="14dp"
                     android:layout_marginTop="243dp"
                     android:background="@color/GY_01"
-                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    android:visibility="@{fragment.stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageButton
@@ -872,10 +872,10 @@
                     android:layout_marginStart="3dp"
                     android:layout_marginBottom="58dp"
                     android:background="@null"
-                    android:clickable="@{leftArrowEnableStatus}"
-                    android:onClick="@{() -> fragment.clickedAtLeftArrowIb(stat.monthlyCategoryEntities, monthlyCategoryCurrentIndex)}"
-                    android:src="@{leftArrowEnableStatus? @drawable/ic_left_arrow_gy04_44: @drawable/ic_left_arrow_gy02_44}"
-                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    android:clickable="@{fragment.leftArrowEnableStatus}"
+                    android:onClick="@{() -> fragment.clickedAtLeftArrowIb(fragment.stat.monthlyCategoryEntities, fragment.monthlyCategoryCurrentIndex)}"
+                    android:src="@{fragment.leftArrowEnableStatus? @drawable/ic_left_arrow_gy04_44: @drawable/ic_left_arrow_gy02_44}"
+                    android:visibility="@{fragment.stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -885,8 +885,8 @@
                     android:layout_height="76dp"
                     android:layout_marginStart="52dp"
                     android:layout_marginBottom="42dp"
-                    android:src="@{monthlyCategories.size()&lt;=2? @drawable/bg_gy01_8: monthlyCategories[2].character}"
-                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    android:src="@{fragment.monthlyCategories.size()&lt;=2? @drawable/bg_gy01_8: fragment.monthlyCategories[2].character}"
+                    android:visibility="@{fragment.stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/analysis_sense_of_month_card_iv2"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -897,10 +897,10 @@
                     android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:includeFontPadding="false"
-                    android:text="@{monthlyCategories.size()&lt;=2? `-`: monthlyCategories[2].month}"
+                    android:text="@{fragment.monthlyCategories.size()&lt;=2? `-`: fragment.monthlyCategories[2].month}"
                     android:textAppearance="@style/Sub_Head_B_14"
                     android:textColor="@color/GY_04"
-                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    android:visibility="@{fragment.stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="@+id/analysis_sense_of_month_card_iv1"
                     app:layout_constraintStart_toStartOf="@+id/analysis_sense_of_month_card_iv1"
                     app:layout_constraintTop_toBottomOf="@+id/analysis_sense_of_month_card_iv1" />
@@ -910,8 +910,8 @@
                     android:layout_width="63dp"
                     android:layout_height="76dp"
                     android:layout_marginBottom="42dp"
-                    android:src="@{monthlyCategories.size()&lt;=1? @drawable/bg_gy01_8: monthlyCategories[1].character}"
-                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    android:src="@{fragment.monthlyCategories.size()&lt;=1? @drawable/bg_gy01_8: fragment.monthlyCategories[1].character}"
+                    android:visibility="@{fragment.stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/analysis_sense_of_month_card_iv3"
                     app:layout_constraintStart_toEndOf="@+id/analysis_sense_of_month_card_iv1" />
@@ -922,10 +922,10 @@
                     android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:includeFontPadding="false"
-                    android:text="@{monthlyCategories.size()&lt;=1? `-`: monthlyCategories[1].month}"
+                    android:text="@{fragment.monthlyCategories.size()&lt;=1? `-`: fragment.monthlyCategories[1].month}"
                     android:textAppearance="@style/Sub_Head_B_14"
                     android:textColor="@color/GY_04"
-                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    android:visibility="@{fragment.stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="@+id/analysis_sense_of_month_card_iv2"
                     app:layout_constraintStart_toStartOf="@+id/analysis_sense_of_month_card_iv2"
                     app:layout_constraintTop_toBottomOf="@+id/analysis_sense_of_month_card_iv2" />
@@ -936,8 +936,8 @@
                     android:layout_height="76dp"
                     android:layout_marginEnd="52dp"
                     android:layout_marginBottom="42dp"
-                    android:src="@{monthlyCategories.size()==0? @drawable/bg_gy01_8: monthlyCategories[0].character}"
-                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    android:src="@{fragment.monthlyCategories.size()==0? @drawable/bg_gy01_8: fragment.monthlyCategories[0].character}"
+                    android:visibility="@{fragment.stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/analysis_sense_of_month_card_iv2" />
@@ -948,10 +948,10 @@
                     android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:includeFontPadding="false"
-                    android:text="@{monthlyCategories.size()==0? `-`: monthlyCategories[0].month}"
+                    android:text="@{fragment.monthlyCategories.size()==0? `-`: fragment.monthlyCategories[0].month}"
                     android:textAppearance="@style/Sub_Head_B_14"
                     android:textColor="@color/GY_04"
-                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    android:visibility="@{fragment.stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="@+id/analysis_sense_of_month_card_iv3"
                     app:layout_constraintStart_toStartOf="@+id/analysis_sense_of_month_card_iv3"
                     app:layout_constraintTop_toBottomOf="@+id/analysis_sense_of_month_card_iv3" />
@@ -962,10 +962,10 @@
                     android:layout_marginEnd="3dp"
                     android:layout_marginBottom="58dp"
                     android:background="@null"
-                    android:clickable="@{rightArrowEnableStatus}"
-                    android:onClick="@{() -> fragment.clickedAtRightArrowIb(stat.monthlyCategoryEntities, monthlyCategoryCurrentIndex)}"
-                    android:src="@{rightArrowEnableStatus? @drawable/ic_right_arrow_gy04_44: @drawable/ic_right_arrow_gy02_44}"
-                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    android:clickable="@{fragment.rightArrowEnableStatus}"
+                    android:onClick="@{() -> fragment.clickedAtRightArrowIb(fragment.stat.monthlyCategoryEntities, fragment.monthlyCategoryCurrentIndex)}"
+                    android:src="@{fragment.rightArrowEnableStatus? @drawable/ic_right_arrow_gy04_44: @drawable/ic_right_arrow_gy02_44}"
+                    android:visibility="@{fragment.stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 
@@ -986,7 +986,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_number_of_records_trend_sample"
-                    android:visibility="@{stat.totalPost&lt;10? View.VISIBLE: View.GONE}"
+                    android:visibility="@{fragment.stat.totalPost&lt;10? View.VISIBLE: View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -1010,9 +1010,9 @@
                     android:layout_marginTop="47dp"
                     android:gravity="center"
                     android:includeFontPadding="false"
-                    android:text="@{stat.totalPost&lt;10? @string/msg_can_analyze_more_10_records: @string/msg_can_see_trend_number_of_keywords}"
+                    android:text="@{fragment.stat.totalPost&lt;10? @string/msg_can_analyze_more_10_records: @string/msg_can_see_trend_number_of_keywords}"
                     android:textAppearance="@style/Body1_M_12"
-                    android:textColor="@{stat.totalPost&lt;10? @color/RD_2: @color/GY_04}"
+                    android:textColor="@{fragment.stat.totalPost&lt;10? @color/RD_2: @color/GY_04}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -1038,7 +1038,7 @@
                     android:layout_height="0dp"
                     android:layout_marginTop="131dp"
                     android:layout_marginBottom="10dp"
-                    android:visibility="@{stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
+                    android:visibility="@{fragment.stat.totalPost&lt;10? View.GONE: View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

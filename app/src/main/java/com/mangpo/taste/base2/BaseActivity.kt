@@ -16,11 +16,11 @@ import com.mangpo.taste.util.SpfUtils
 import com.mangpo.taste.view.OnBoardingActivity
 import com.mangpo.taste.view.OneBtnDialogFragment
 import com.mangpo.taste.view.model.OneBtnDialog
+import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil.hideKeyboard
 
 abstract class BaseActivity<T: ViewDataBinding>(private val layoutResId: Int): AppCompatActivity() {
     protected lateinit var binding: T
     private lateinit var imm: InputMethodManager
-    private lateinit var loading: View
     private lateinit var refreshTokenErrorDialog: OneBtnDialogFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,9 +77,9 @@ abstract class BaseActivity<T: ViewDataBinding>(private val layoutResId: Int): A
     }
 
     // 키보드 숨기기
-    fun hideKeyboard(v: View){
+    /*fun hideKeyboard(v: View){
         imm?.hideSoftInputFromWindow(v.windowToken, 0)
-    }
+    }*/
 
     //상태바 텍스트 보여주기
     fun showStatusBarText() {
@@ -104,7 +104,8 @@ abstract class BaseActivity<T: ViewDataBinding>(private val layoutResId: Int): A
                 val msg = it.getContentIfNotHandled()
 
                 if (msg!=null) {
-                    hideKeyboard(binding.root)
+//                    hideKeyboard(binding.root)
+                    hideKeyboard(this)
                     showToast(msg)
                 }
             })
