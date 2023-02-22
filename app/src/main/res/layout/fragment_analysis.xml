@@ -65,7 +65,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/analysis_profile_cl"
                 android:layout_width="match_parent"
-                android:layout_height="397dp"
+                android:layout_height="311dp"
                 android:background="@drawable/bg_wh_bottom30"
                 android:paddingHorizontal="20dp"
                 android:paddingTop="44dp"
@@ -174,7 +174,7 @@
                 <View
                     android:id="@+id/analysis_badge_view"
                     android:layout_width="match_parent"
-                    android:layout_height="142dp"
+                    android:layout_height="56dp"
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/bg_transparent_12_gy01_2"
                     android:onClick="@{() -> fragment.goBadgeActivity(vm.representativeBadge)}"
@@ -184,12 +184,12 @@
                     android:id="@+id/analysis_acquired_badge_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="22dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="17dp"
                     android:gravity="center"
                     android:includeFontPadding="false"
                     android:text="@string/title_acquired_badge"
                     android:textAppearance="@style/Sub_Head_B_18"
-                    app:layout_constraintEnd_toEndOf="@+id/analysis_badge_view"
                     app:layout_constraintStart_toStartOf="@+id/analysis_badge_view"
                     app:layout_constraintTop_toTopOf="@+id/analysis_badge_view" />
 
@@ -197,60 +197,13 @@
                     android:id="@+id/analysis_acquired_badge_more_ib"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
                     android:layout_marginEnd="2dp"
                     android:background="@null"
                     android:onClick="@{() -> fragment.goBadgeActivity(vm.representativeBadge)}"
                     android:src="@drawable/ic_right_arrow_gy04_44"
+                    app:layout_constraintBottom_toBottomOf="@+id/analysis_badge_view"
                     app:layout_constraintEnd_toEndOf="@+id/analysis_badge_view"
                     app:layout_constraintTop_toTopOf="@+id/analysis_badge_view" />
-
-                <ImageView
-                    android:id="@+id/analysis_badge1_iv"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="13.5dp"
-                    android:layout_marginTop="21dp"
-                    android:layout_marginBottom="17dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/analysis_badge_view"
-                    app:layout_constraintEnd_toStartOf="@+id/analysis_badge2_iv"
-                    app:layout_constraintStart_toStartOf="@+id/analysis_badge_view"
-                    app:layout_constraintTop_toBottomOf="@+id/analysis_acquired_badge_tv"
-                    app:svg="@{vm.acquiredBadges[0].imgUrl}" />
-
-                <ImageView
-                    android:id="@+id/analysis_badge2_iv"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="11dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/analysis_badge1_iv"
-                    app:layout_constraintEnd_toStartOf="@+id/analysis_badge3_iv"
-                    app:layout_constraintStart_toEndOf="@+id/analysis_badge1_iv"
-                    app:layout_constraintTop_toTopOf="@+id/analysis_badge1_iv"
-                    app:svg="@{vm.acquiredBadges[1].imgUrl}" />
-
-                <ImageView
-                    android:id="@+id/analysis_badge3_iv"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="11dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/analysis_badge1_iv"
-                    app:layout_constraintEnd_toStartOf="@+id/analysis_badge4_iv"
-                    app:layout_constraintStart_toEndOf="@+id/analysis_badge2_iv"
-                    app:layout_constraintTop_toTopOf="@+id/analysis_badge1_iv"
-                    app:svg="@{vm.acquiredBadges[2].imgUrl}" />
-
-                <ImageView
-                    android:id="@+id/analysis_badge4_iv"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="11dp"
-                    android:layout_marginEnd="13.5dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/analysis_badge1_iv"
-                    app:layout_constraintEnd_toEndOf="@+id/analysis_badge_view"
-                    app:layout_constraintStart_toEndOf="@+id/analysis_badge3_iv"
-                    app:layout_constraintTop_toTopOf="@+id/analysis_badge1_iv"
-                    app:svg="@{vm.acquiredBadges[3].imgUrl}" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
