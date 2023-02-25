@@ -139,22 +139,22 @@ class RecordDialogFragment : DialogFragment() {
 
         return when (contentEntity.category) {
             "SIGHT" -> {  //시각
-                RecordDetailResource(ContextCompat.getColor(context, R.color.RD_2), ContextCompat.getDrawable(context, R.drawable.ic_sight_character_72), ContextCompat.getDrawable(context, R.drawable.ic_more_rd2_44), ContextCompat.getDrawable(context, R.drawable.ic_star_empty_rd2_23), ContextCompat.getDrawable(context, R.drawable.ic_star_fill_rd2_23))
+                RecordDetailResource(ContextCompat.getColor(context, R.color.RD_2), ContextCompat.getDrawable(context, R.drawable.ic_sight_character_72), ContextCompat.getDrawable(context, R.drawable.ic_more_rd2_44), ContextCompat.getDrawable(context, R.drawable.ic_share_44_rd2), ContextCompat.getDrawable(context, R.drawable.ic_star_empty_rd2_23), ContextCompat.getDrawable(context, R.drawable.ic_star_fill_rd2_23))
             }
             "HEARING" -> {  //청각
-                RecordDetailResource(ContextCompat.getColor(context, R.color.BU_2), ContextCompat.getDrawable(context, R.drawable.ic_ear_character_72), ContextCompat.getDrawable(context, R.drawable.ic_more_bu2_44), ContextCompat.getDrawable(context, R.drawable.ic_star_empty_bu2_23), ContextCompat.getDrawable(context, R.drawable.ic_star_fill_bu2_23))
+                RecordDetailResource(ContextCompat.getColor(context, R.color.BU_2), ContextCompat.getDrawable(context, R.drawable.ic_ear_character_72), ContextCompat.getDrawable(context, R.drawable.ic_more_bu2_44), ContextCompat.getDrawable(context, R.drawable.ic_share_44_bu2), ContextCompat.getDrawable(context, R.drawable.ic_star_empty_bu2_23), ContextCompat.getDrawable(context, R.drawable.ic_star_fill_bu2_23))
             }
             "SMELL" -> {  //후각
-                RecordDetailResource(ContextCompat.getColor(context, R.color.GN_3), ContextCompat.getDrawable(context, R.drawable.ic_smell_character_72), ContextCompat.getDrawable(context, R.drawable.ic_more_gn3_44), ContextCompat.getDrawable(context, R.drawable.ic_star_empty_gn2_23), ContextCompat.getDrawable(context, R.drawable.ic_star_fill_gn2_23))
+                RecordDetailResource(ContextCompat.getColor(context, R.color.GN_3), ContextCompat.getDrawable(context, R.drawable.ic_smell_character_72), ContextCompat.getDrawable(context, R.drawable.ic_more_gn3_44), ContextCompat.getDrawable(context, R.drawable.ic_share_44_gn3), ContextCompat.getDrawable(context, R.drawable.ic_star_empty_gn2_23), ContextCompat.getDrawable(context, R.drawable.ic_star_fill_gn2_23))
             }
             "TASTE" -> {  //미각
-                RecordDetailResource(ContextCompat.getColor(context, R.color.YE_2), ContextCompat.getDrawable(context, R.drawable.ic_taste_character_72), ContextCompat.getDrawable(context, R.drawable.ic_more_ye2_44), ContextCompat.getDrawable(context, R.drawable.ic_star_empty_ye2_23), ContextCompat.getDrawable(context, R.drawable.ic_star_fill_ye2_23))
+                RecordDetailResource(ContextCompat.getColor(context, R.color.YE_2), ContextCompat.getDrawable(context, R.drawable.ic_taste_character_72), ContextCompat.getDrawable(context, R.drawable.ic_more_ye2_44), ContextCompat.getDrawable(context, R.drawable.ic_share_44_ye2), ContextCompat.getDrawable(context, R.drawable.ic_star_empty_ye2_23), ContextCompat.getDrawable(context, R.drawable.ic_star_fill_ye2_23))
             }
             "TOUCH" -> {  //촉각
-                RecordDetailResource(ContextCompat.getColor(context, R.color.PU_2), ContextCompat.getDrawable(context, R.drawable.ic_touch_character_72), ContextCompat.getDrawable(context, R.drawable.ic_more_pu2_44), ContextCompat.getDrawable(context, R.drawable.ic_star_empty_pu2_23), ContextCompat.getDrawable(context, R.drawable.ic_star_fill_pu2_23))
+                RecordDetailResource(ContextCompat.getColor(context, R.color.PU_2), ContextCompat.getDrawable(context, R.drawable.ic_touch_character_72), ContextCompat.getDrawable(context, R.drawable.ic_more_pu2_44), ContextCompat.getDrawable(context, R.drawable.ic_share_44_pu2), ContextCompat.getDrawable(context, R.drawable.ic_star_empty_pu2_23), ContextCompat.getDrawable(context, R.drawable.ic_star_fill_pu2_23))
             }
             else -> {   //모르겠어요
-                RecordDetailResource(ContextCompat.getColor(context, R.color.GY_04), ContextCompat.getDrawable(context, R.drawable.ic_question_character_72), ContextCompat.getDrawable(context, R.drawable.ic_more_gy04_44), ContextCompat.getDrawable(context, R.drawable.ic_star_empty_gy04_23), ContextCompat.getDrawable(context, R.drawable.ic_star_fill_gy04_23))
+                RecordDetailResource(ContextCompat.getColor(context, R.color.GY_04), ContextCompat.getDrawable(context, R.drawable.ic_question_character_72), ContextCompat.getDrawable(context, R.drawable.ic_more_gy04_44), ContextCompat.getDrawable(context, R.drawable.ic_share_44_gy04), ContextCompat.getDrawable(context, R.drawable.ic_star_empty_gy04_23), ContextCompat.getDrawable(context, R.drawable.ic_star_fill_gy04_23))
             }
         }
     }
