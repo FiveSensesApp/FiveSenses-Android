@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+
+        <variable
+            name="fragment"
+            type="com.mangpo.taste.view.Preview1_1Fragment" />
+
+        <variable
+            name="content"
+            type="com.mangpo.domain.model.getPosts.ContentEntity" />
+
+        <variable
+            name="resource"
+            type="com.mangpo.taste.view.model.PreviewResource" />
+
+        <variable
+            name="nickname"
+            type="String" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.Preview1_1Fragment">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/preview1_1_cv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:cardElevation="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/preview1_1_cl"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/GY_01">
+
+                <ImageView
+                    android:id="@+id/preview1_1_5gaam_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@{resource.textImg}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/preview1_1_character_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@{resource.characterImg}"
+                    android:visibility="@{fragment.type==0? View.VISIBLE: View.GONE}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/preview1_1_emoji_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_icon_custom_emoji_default"
+                    android:cursorVisible="false"
+                    android:gravity="center"
+                    android:inputType="textShortMessage"
+                    android:lines="1"
+                    android:maxLength="1"
+                    android:textSize="45dp"
+                    android:visibility="@{fragment.type==1? View.VISIBLE: View.GONE}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/preview1_1_keyword_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@{fragment.type==2? @drawable/bg_wh_10: @drawable/ic_keyword_speech_bubble}"
+                    android:gravity="center"
+                    android:paddingStart="13dp"
+                    android:text="@{content.keyword}"
+                    android:textAppearance="@style/Head_B_10"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/preview1_1_content_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@drawable/bg_wh_10"
+                    android:gravity="start"
+                    android:padding="9dp"
+                    android:text="@{content.content}"
+                    android:textAppearance="@style/Body1_M_9"
+                    android:textColor="@color/GY_04"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/preview1_1_created_date_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@{content.createdDate}"
+                    android:textAppearance="@style/Body1_M_7"
+                    android:textColor="@{resource.textColor}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/preview1_1_info_tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@{nickname}"
+                    android:textAppearance="@style/Body1_M_7"
+                    android:textColor="@color/GY_04"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/preview1_1_info_tv2" />
+
+                <TextView
+                    android:id="@+id/preview1_1_info_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="님의"
+                    android:textAppearance="@style/Body2_R_7"
+                    android:textColor="@color/GY_04"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/preview1_1_info_tv3" />
+
+                <TextView
+                    android:id="@+id/preview1_1_info_tv3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@{resource.category}"
+                    android:textAppearance="@style/Body2_R_7"
+                    android:textColor="@{resource.textColor}"
+                    android:visibility="@{content.category.equals(`AMBIGUOUS`)? View.GONE: View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/preview1_1_info_tv4" />
+
+                <TextView
+                    android:id="@+id/preview1_1_info_tv4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@{content.category.equals(`AMBIGUOUS`)? ` 감각이 정해지기 전 취향`: `으로 감각한 취향`}"
+                    android:textAppearance="@style/Body2_R_7"
+                    android:textColor="@color/GY_04"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

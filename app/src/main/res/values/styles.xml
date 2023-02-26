@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="Body2_R_7" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:textSize">7dp</item>
+    </style>
+
     <style name="Body2_R_10" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/pretendard_regular</item>
         <item name="android:textSize">10dp</item>
@@ -14,6 +19,16 @@
     <style name="Body2_R_14" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/pretendard_regular</item>
         <item name="android:textSize">14dp</item>
+    </style>
+
+    <style name="Body1_M_7" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">7dp</item>
+    </style>
+
+    <style name="Body1_M_9" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">9dp</item>
     </style>
 
     <style name="Body1_M_12" parent="TextAppearance.AppCompat">
@@ -59,6 +74,11 @@
     <style name="Sub_Head_B_18" parent="TextAppearance.AppCompat">
         <item name="fontFamily">@font/pretendard_bold</item>
         <item name="android:textSize">18dp</item>
+    </style>
+
+    <style name="Head_B_10" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/pretendard_bold</item>
+        <item name="android:textSize">10dp</item>
     </style>
 
     <style name="Head_B_20" parent="TextAppearance.AppCompat">
