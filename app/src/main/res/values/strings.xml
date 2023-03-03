@@ -2,7 +2,7 @@
     <string name="app_name">5gaam</string>
     <string name="app_email">hi.mangpo@gmail.com</string>
     <string name="app_mangpo">©MANGPO</string>
-    <string name="app_version">ver 1.1.0</string>
+    <string name="app_version">ver 1.3.0</string>
 
     <string name="title_setting">설정</string>
     <string name="title_alarm_setting">알림 설정</string>
@@ -186,6 +186,7 @@
     <string name="msg_share_your_preferences">취향을 널리 공유해보세요!</string>
     <string name="msg_success_save_image">이미지가 저장되었습니다.</string>
     <string name="msg_no_search">검색 결과가 없습니다!</string>
+    <string name="msg_change_icon">취향에 맞게 아이콘을 변경해 보세요.</string>
 
     <string name="error_check_old_pw">기존 비밀번호를 확인해주세요.</string>
     <string name="error_not_match_pw">비밀번호가 일치하지 않습니다!</string>

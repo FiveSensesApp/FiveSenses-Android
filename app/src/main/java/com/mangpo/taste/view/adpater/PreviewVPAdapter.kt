@@ -9,15 +9,16 @@ import com.mangpo.taste.view.Preview1_1Fragment
 import com.mangpo.taste.view.model.PreviewResource
 
 class PreviewVPAdapter(fragmentActivity: FragmentActivity, private val content: ContentEntity, private val resource: PreviewResource): FragmentStateAdapter(fragmentActivity) {
-    private val fragments: List<Fragment> = listOf(Preview1_1Fragment(content, resource), Preview16_9Fragment())
+    private val fragments: List<Fragment> = listOf(Preview1_1Fragment(content, resource), Preview16_9Fragment(content, resource))
 
     override fun getItemCount(): Int = fragments.size
 
-    override fun createFragment(position: Int): Fragment = return fragments[position]
+    override fun createFragment(position: Int): Fragment = fragments[position]
 
     fun share(position: Int) {
         when (position) {
             0 -> (fragments[position] as Preview1_1Fragment).share()
+            1 -> (fragments[position] as Preview16_9Fragment).share()
         }
     }
 
@@ -25,7 +26,9 @@ class PreviewVPAdapter(fragmentActivity: FragmentActivity, private val content: 
         if (position==0) {
             (fragments[position] as Preview1_1Fragment).changeUI(type)
         } else {
-
+            (fragments[position] as Preview16_9Fragment).changeUI(type)
         }
     }
+
+    fun isBgSelected(): Boolean = (fragments[1] as Preview16_9Fragment).isBgSelected()
 }

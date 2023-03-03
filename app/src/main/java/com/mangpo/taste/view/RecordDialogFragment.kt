@@ -227,7 +227,7 @@ class RecordDialogFragment : DialogFragment() {
         updateCompleteLauncher.launch(intent)
     }
 
-    fun clickShareAndDeleteClickView(contentEntity: ContentEntity, type: String) {
+    fun delete(contentEntity: ContentEntity) {
         if (contentEntity.content==null)
             binding.recordDialogBlurredView.setBackgroundResource(R.drawable.ic_delete_bg_small)
         else
@@ -237,13 +237,16 @@ class RecordDialogFragment : DialogFragment() {
         binding.recordDialogBlurredView.visibility = View.VISIBLE   //블러처리 화면 VISIBLE
 
         val bundle: Bundle = Bundle()
-        if (type=="share") {    //공유 관련 TwoBtnDialog 띄우기
-            bundle.putParcelable("data", TwoBtnDialog(getString(R.string.action_sharing), getString(R.string.msg_share_your_preferences), getString(R.string.action_save_image), getString(R.string.action_share_SNS), null))
-        } else {    //삭제 관련 TwoBtnDialog 띄우기
-            bundle.putParcelable("data", TwoBtnDialog(getString(R.string.msg_really_delete), getString(R.string.msg_cannot_recover), getString(R.string.action_delete_long), getString(R.string.action_go_back), null))
-        }
-
+        bundle.putParcelable("data", TwoBtnDialog(getString(R.string.msg_really_delete), getString(R.string.msg_cannot_recover), getString(R.string.action_delete_long), getString(R.string.action_go_back), null))
         twoBtnDialogFragment.arguments = bundle
         twoBtnDialogFragment.show(requireActivity().supportFragmentManager, null)
+    }
+
+    fun share() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "공유하기 기능을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 1) }
+        } else {
+            checkPermission(lifecycleScope, Manifest.permission.READ_MEDIA_IMAGES, "공유하기 기능을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 1) }
+        }
     }
 }

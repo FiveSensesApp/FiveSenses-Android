@@ -3,12 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="android.text.TextUtils" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="fragment"
+            type="com.mangpo.taste.view.Preview16_9Fragment" />
+
+        <variable
+            name="content"
+            type="com.mangpo.domain.model.getPosts.ContentEntity" />
+
+        <variable
+            name="resource"
+            type="com.mangpo.taste.view.model.PreviewResource" />
+
+        <variable
+            name="nickname"
+            type="String" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.Preview16_9Fragment">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/preview16_9_cv"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="15dp"
@@ -21,10 +46,177 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/preview16_9_cl"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/ic_monun">
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/preview16_9_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_monun" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/preview16_9_cl"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/GY_01"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/preview16_9_5gaam_iv"
+                        android:layout_width="25dp"
+                        android:layout_height="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="5dp"
+                        android:src="@{resource.textImg}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/preview16_9_character_iv"
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:layout_marginStart="3dp"
+                        android:src="@{resource.characterImg}"
+                        android:visibility="@{fragment.type==0? View.VISIBLE: View.GONE}"
+                        app:layout_constraintBottom_toBottomOf="@+id/preview16_9_keyword_tv"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/preview16_9_keyword_tv" />
+
+                    <EditText
+                        android:id="@+id/preview16_9_emoji_et"
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:layout_marginStart="3dp"
+                        android:background="@drawable/ic_icon_custom_emoji_default"
+                        android:cursorVisible="false"
+                        android:gravity="center"
+                        android:inputType="textShortMessage"
+                        android:lines="1"
+                        android:maxLength="1"
+                        android:textSize="15dp"
+                        android:visibility="@{fragment.type==1? View.VISIBLE: View.GONE}"
+                        app:layout_constraintBottom_toBottomOf="@+id/preview16_9_keyword_tv"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/preview16_9_keyword_tv" />
+
+                    <TextView
+                        android:id="@+id/preview16_9_keyword_tv"
+                        marginStart="@{fragment.type==2? 5: 27}"
+                        android:layout_width="0dp"
+                        android:layout_height="17dp"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginEnd="5dp"
+                        android:background="@{fragment.type==2? @drawable/bg_wh_3: @drawable/ic_keyword_speech_bubble}"
+                        android:gravity="center"
+                        android:paddingStart="13dp"
+                        android:text="@{content.keyword}"
+                        android:textAppearance="@style/Head_B_6"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/preview16_9_content_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginHorizontal="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="25dp"
+                        android:background="@drawable/bg_wh_3"
+                        android:gravity="start"
+                        android:padding="5dp"
+                        android:text="@{content.content}"
+                        android:textAppearance="@style/Body1_M_5"
+                        android:textColor="@color/GY_04"
+                        android:visibility="@{content.content==null || TextUtils.isEmpty(content.content)? View.GONE: View.VISIBLE}"
+                        app:layout_constraintTop_toBottomOf="@+id/preview16_9_keyword_tv" />
+
+                    <TextView
+                        android:id="@+id/preview16_9_created_date_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
+                        android:layout_marginStart="5dp"
+                        android:gravity="center"
+                        android:text="@{content.createdDate}"
+                        android:textAppearance="@style/Body1_M_5"
+                        android:textColor="@{resource.textColor}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/preview16_9_content_tv" />
+
+                    <TextView
+                        android:id="@+id/preview16_9_info_tv1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
+                        android:gravity="center"
+                        android:text="@{nickname}"
+                        android:textAppearance="@style/Body1_M_5"
+                        android:textColor="@color/GY_04"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/preview16_9_info_tv2"
+                        app:layout_constraintTop_toBottomOf="@+id/preview16_9_content_tv" />
+
+                    <TextView
+                        android:id="@+id/preview16_9_info_tv2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
+                        android:gravity="center"
+                        android:text="님의"
+                        android:textAppearance="@style/Body2_R_5"
+                        android:textColor="@color/GY_04"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/preview16_9_info_tv3"
+                        app:layout_constraintTop_toBottomOf="@+id/preview16_9_content_tv" />
+
+                    <TextView
+                        android:id="@+id/preview16_9_info_tv3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
+                        android:gravity="center"
+                        android:text="@{resource.category}"
+                        android:textAppearance="@style/Body2_R_5"
+                        android:textColor="@{resource.textColor}"
+                        android:visibility="@{content.category.equals(`AMBIGUOUS`)? View.GONE: View.VISIBLE}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/preview16_9_info_tv4"
+                        app:layout_constraintTop_toBottomOf="@+id/preview16_9_content_tv" />
+
+                    <TextView
+                        android:id="@+id/preview16_9_info_tv4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
+                        android:layout_marginEnd="5dp"
+                        android:gravity="center"
+                        android:text="@{content.category.equals(`AMBIGUOUS`)? ` 감각이 정해지기 전 취향`: `으로 감각한 취향`}"
+                        android:textAppearance="@style/Body2_R_5"
+                        android:textColor="@color/GY_04"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/preview16_9_content_tv" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <ImageButton
+                    android:id="@+id/preview16_9_plus_ib"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="13dp"
+                    android:background="@null"
+                    android:onClick="@{() -> fragment.addBackground()}"
+                    android:src="@drawable/ic_plus_40"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

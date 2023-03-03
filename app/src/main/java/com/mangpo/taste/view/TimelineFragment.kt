@@ -113,10 +113,11 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding, FeedViewModel>(Fr
             }
 
             override fun share() {
-                val bundle: Bundle = Bundle()
-                bundle.putParcelable("data", TwoBtnDialog(getString(R.string.action_sharing), getString(R.string.msg_share_your_preferences), getString(R.string.action_save_image), getString(R.string.action_share_SNS), R.drawable.bg_gy01_12))
-                twoBtnDialogFragment.arguments = bundle
-                twoBtnDialogFragment.show(requireActivity().supportFragmentManager, null)
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+                    checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "공유하기 기능을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 1) }
+                } else {
+                    checkPermission(lifecycleScope, Manifest.permission.READ_MEDIA_IMAGES, "공유하기 기능을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 1) }
+                }
             }
 
             override fun changeSortFilter(sort: String) {   //정렬 필터(최신순, 오래된순)가 바뀔 때 호출되는 함수
