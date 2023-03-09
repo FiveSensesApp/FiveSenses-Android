@@ -152,7 +152,7 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     //GlideToVectorYou
-    implementation 'com.github.corouteam:GlideToVectorYou:v2.0.0'
+    implementation 'com.github.2coffees1team:GlideToVectorYou:v2.0.0'
 
     //TedPermission
     implementation 'io.github.ParkSangGwon:tedpermission-coroutine:3.3.0'

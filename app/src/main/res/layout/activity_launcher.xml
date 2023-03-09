@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="activity"
+            type="com.mangpo.taste.view.LauncherActivity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.LauncherActivity">
+
+        <TextView
+            android:id="@+id/launcher_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="99dp"
+            android:gravity="center"
+            android:lineSpacingExtra="5dp"
+            android:text="오감으로 느낀 당신의 취향을\n지금 수집해보세요."
+            android:textAppearance="@style/Body1_M_16"
+            android:textColor="@color/GY_04"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="41dp"
+            android:layout_marginBottom="53dp"
+            android:src="@drawable/ic_launcher"
+            app:layout_constraintBottom_toTopOf="@+id/launcher_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/launcher_title_tv" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/launcher_btn"
+            android:layout_width="189dp"
+            android:layout_height="46dp"
+            android:layout_marginBottom="122dp"
+            android:background="@drawable/bg_bk_23"
+            android:onClick="@{() -> activity.goSignInActivity()}"
+            android:stateListAnimator="@null"
+            android:text="@string/title_sign_up"
+            android:textAppearance="@style/Sub_Head_B_18"
+            android:textColor="@color/WH"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/launcher_login_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="85dp"
+            android:onClick="@{() -> activity.goLoginActivity()}"
+            android:textAppearance="@style/Sub_Head_B_16"
+            android:textColor="@color/GY_03"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

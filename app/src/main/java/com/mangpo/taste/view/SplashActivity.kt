@@ -55,8 +55,7 @@ class SplashActivity : BaseNoVMActivity<ActivitySplashBinding>(ActivitySplashBin
     }
 
     private fun goLogin() {
-        val intent: Intent = Intent(this@SplashActivity, OnBoardingActivity::class.java)
-        intent.putExtra("currentItem", 3)
+        val intent: Intent = Intent(this@SplashActivity, LauncherActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
     }
