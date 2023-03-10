@@ -19,6 +19,7 @@ import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseFragment
 import com.mangpo.taste.databinding.FragmentTimelineBinding
 import com.mangpo.taste.util.SpfUtils
+import com.mangpo.taste.util.SpfUtils.getBooleanSpf
 import com.mangpo.taste.util.checkPermission
 import com.mangpo.taste.view.adpater.RecordDetailAdapter
 import com.mangpo.taste.view.model.Record
@@ -70,9 +71,9 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding, FeedViewModel>(Fr
                     getString(R.string.action_delete_long) -> viewModel.deletePost(recordDetailAdapter.getDeletePostId())
                     getString(R.string.action_save_image) -> {
                         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-                            checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "이미지 저장을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 0) }
+                            checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "이미지 저장을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it) }
                         } else {
-                            checkPermission(lifecycleScope, Manifest.permission.READ_MEDIA_IMAGES, "이미지 저장을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 0) }
+                            checkPermission(lifecycleScope, Manifest.permission.READ_MEDIA_IMAGES, "이미지 저장을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it) }
                         }
                     }
                 }
@@ -85,9 +86,9 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding, FeedViewModel>(Fr
                     }
                     getString(R.string.action_share_SNS) -> {
                         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-                            checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "공유하기 기능을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 1) }
+                            checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "공유하기 기능을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it) }
                         } else {
-                            checkPermission(lifecycleScope, Manifest.permission.READ_MEDIA_IMAGES, "공유하기 기능을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 1) }
+                            checkPermission(lifecycleScope, Manifest.permission.READ_MEDIA_IMAGES, "공유하기 기능을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it) }
                         }
                     }
                 }
@@ -114,9 +115,9 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding, FeedViewModel>(Fr
 
             override fun share() {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-                    checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "공유하기 기능을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 1) }
+                    checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "공유하기 기능을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it) }
                 } else {
-                    checkPermission(lifecycleScope, Manifest.permission.READ_MEDIA_IMAGES, "공유하기 기능을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 1) }
+                    checkPermission(lifecycleScope, Manifest.permission.READ_MEDIA_IMAGES, "공유하기 기능을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it) }
                 }
             }
 
@@ -161,20 +162,20 @@ class TimelineFragment : BaseFragment<FragmentTimelineBinding, FeedViewModel>(Fr
         isLast = true
     }
 
-    private fun afterCheckPermission(isGranted: Boolean, action: Int) {
-        if (isGranted) {
-            goPreviewActivity(action)
-        }
-    }
-
-    private fun goPreviewActivity(action: Int) {
+    private fun afterCheckPermission(isGranted: Boolean) {
         val content: ContentEntity = recordDetailAdapter.getContentById(recordDetailAdapter.getSharedPostId())
 
-        val intent: Intent = Intent(requireContext(), PreviewActivity::class.java)
-        intent.putExtra("content", content)
-        intent.putExtra("action", action)
-
-        startActivity(intent)
+        if (isGranted) {
+            if (getBooleanSpf("shareGuide", false)) {
+                val intent: Intent = Intent(requireContext(), PreviewActivity::class.java)
+                intent.putExtra("content", content)
+                startActivity(intent)
+            } else {
+                val intent: Intent = Intent(requireContext(), ShareGuideActivity::class.java)
+                intent.putExtra("content", content)
+                startActivity(intent)
+            }
+        }
     }
 
     private fun observe() {

@@ -23,10 +23,7 @@ import com.mangpo.domain.model.getPosts.ContentEntity
 import com.mangpo.domain.model.updatePost.UpdatePostResEntity
 import com.mangpo.taste.R
 import com.mangpo.taste.databinding.FragmentRecordDialogBinding
-import com.mangpo.taste.util.DialogFragmentUtils
-import com.mangpo.taste.util.checkPermission
-import com.mangpo.taste.util.fadeIn
-import com.mangpo.taste.util.fadeOut
+import com.mangpo.taste.util.*
 import com.mangpo.taste.view.model.RecordDetailResource
 import com.mangpo.taste.view.model.TwoBtnDialog
 import com.mangpo.taste.viewmodel.FeedViewModel
@@ -111,9 +108,9 @@ class RecordDialogFragment : DialogFragment() {
                     }
                     getString(R.string.action_save_image) -> {
                         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-                            checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "이미지 저장을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 0) }
+                            checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "이미지 저장을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it) }
                         } else {
-                            checkPermission(lifecycleScope, Manifest.permission.READ_MEDIA_IMAGES, "이미지 저장을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 0) }
+                            checkPermission(lifecycleScope, Manifest.permission.READ_MEDIA_IMAGES, "이미지 저장을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it) }
                         }
                     }
                 }
@@ -124,9 +121,9 @@ class RecordDialogFragment : DialogFragment() {
                     getString(R.string.action_go_back) -> binding.recordDialogBlurredView.visibility = View.INVISIBLE
                     getString(R.string.action_share_SNS) -> {
                         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-                            checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "공유하기 기능을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 1) }
+                            checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "공유하기 기능을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it) }
                         } else {
-                            checkPermission(lifecycleScope, Manifest.permission.READ_MEDIA_IMAGES, "공유하기 기능을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 1) }
+                            checkPermission(lifecycleScope, Manifest.permission.READ_MEDIA_IMAGES, "공유하기 기능을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it) }
                         }
                     }
                 }
@@ -159,20 +156,20 @@ class RecordDialogFragment : DialogFragment() {
         }
     }
 
-    private fun afterCheckPermission(isGranted: Boolean, action: Int) {
+    private fun afterCheckPermission(isGranted: Boolean) {
         if (isGranted) {
-            goPreviewActivity(action)
+            if (SpfUtils.getBooleanSpf("shareGuide", false)) {
+                val intent: Intent = Intent(requireContext(), PreviewActivity::class.java)
+                intent.putExtra("content", binding.content)
+                startActivity(intent)
+            } else {
+                val intent: Intent = Intent(requireContext(), ShareGuideActivity::class.java)
+                intent.putExtra("content", binding.content)
+                startActivity(intent)
+            }
         }
 
         dismiss()   //프래그먼트 종료
-    }
-
-    private fun goPreviewActivity(action: Int) {
-        val intent: Intent = Intent(requireContext(), PreviewActivity::class.java)
-        intent.putExtra("content", binding.content)
-        intent.putExtra("action", action)
-
-        startActivity(intent)
     }
 
     private fun observe() {
@@ -244,9 +241,9 @@ class RecordDialogFragment : DialogFragment() {
 
     fun share() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "공유하기 기능을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 1) }
+            checkPermission(lifecycleScope, Manifest.permission.WRITE_EXTERNAL_STORAGE, "공유하기 기능을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it) }
         } else {
-            checkPermission(lifecycleScope, Manifest.permission.READ_MEDIA_IMAGES, "공유하기 기능을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it, 1) }
+            checkPermission(lifecycleScope, Manifest.permission.READ_MEDIA_IMAGES, "공유하기 기능을 위해 저장소 접근 권한이 필요합니다. 권한을 허용해주세요.") { afterCheckPermission(it) }
         }
     }
 }

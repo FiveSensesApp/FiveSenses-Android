@@ -37,6 +37,7 @@ class PreviewActivity : BaseNoVMActivity<ActivityPreviewBinding>(ActivityPreview
         } else {
             intent.getParcelableExtra("content")
         }
+
         if (content!=null) {
             previewVPAdapter = PreviewVPAdapter(this, content, getResource(content!!.category))
             binding.previewVp.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {

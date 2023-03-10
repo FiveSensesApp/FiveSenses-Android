@@ -19,6 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Taste">
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/noti" />
@@ -31,6 +32,9 @@
             </intent-filter>
         </service>
 
+        <activity
+            android:name=".view.ShareGuideActivity"
+            android:exported="false" />
         <activity
             android:name=".view.LauncherActivity"
             android:exported="false" />
