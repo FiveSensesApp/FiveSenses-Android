@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="activity"
+            type="com.mangpo.taste.view.UpdateEventActivity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.UpdateEventActivity">
+
+        <ImageButton
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="44dp"
+            android:onClick="@{() -> activity.onBackPressed()}"
+            android:src="@drawable/ic_back_bk_38"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginTop="51dp"
+            android:includeFontPadding="false"
+            android:text="@string/title_update_event"
+            android:textAppearance="@style/Head_B_20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="98dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/event_popup2" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="189dp"
+            android:layout_height="46dp"
+            android:layout_marginBottom="22dp"
+            android:background="@drawable/bg_bk_23"
+            android:onClick="@{() -> activity.goInstagram()}"
+            android:text="@string/action_follow_5gaam"
+            android:textAppearance="@style/Sub_Head_B_18"
+            android:textColor="@color/WH"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

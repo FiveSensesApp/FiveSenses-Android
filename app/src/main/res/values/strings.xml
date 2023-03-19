@@ -90,6 +90,7 @@
     <string name="title_emoji">이모지</string>
     <string name="title_only_text">텍스트만</string>
     <string name="title_recent_search">최근검색어</string>
+    <string name="title_update_event">업데이트 이벤트</string>
 
     <string name="action_logout">로그아웃</string>
     <string name="action_withdrawal">계정 탈퇴</string>
@@ -123,6 +124,8 @@
     <string name="action_add_background">+ 배경 추가</string>
     <string name="action_delete_all">전체 삭제</string>
     <string name="action_skip">건너뛰기</string>
+    <string name="action_join_now">지금 바로 참여하기</string>
+    <string name="action_follow_5gaam">오감 팔로우하기</string>
 
     <string name="msg_logout">정말 로그아웃 하시겠습니까?</string>
     <string name="msg_really_withdrawal">정말 탈퇴하실 건가요?</string>

@@ -16,6 +16,7 @@ import com.mangpo.taste.R
 import com.mangpo.taste.base.BaseActivity
 import com.mangpo.taste.databinding.ActivityMainBinding
 import com.mangpo.taste.util.SpfUtils.clear
+import com.mangpo.taste.util.SpfUtils.getBooleanSpf
 import com.mangpo.taste.util.SpfUtils.getIntEncryptedSpf
 import com.mangpo.taste.util.SpfUtils.writeSpf
 import com.mangpo.taste.viewmodel.MainViewModel
@@ -57,6 +58,13 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(ActivityMa
         observe()
 
         viewModel.getUserInfo(getIntEncryptedSpf("userId"))    //사용자 정보 조회
+
+        if (!getBooleanSpf("popup", false)) {
+            val eventDialogFragment: EventDialogFragment = EventDialogFragment()
+            eventDialogFragment.show(supportFragmentManager, null)
+
+            writeSpf("popup", true)
+        }
     }
 
     override fun onBackPressed() {

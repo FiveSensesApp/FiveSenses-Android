@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="fragment"
+            type="com.mangpo.taste.view.EventDialogFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_wh_23"
+        tools:context=".view.EventDialogFragment">
+
+        <ImageView
+            android:id="@+id/event_iv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/event_popup1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="180dp"
+            android:layout_height="44dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/bg_bk_23"
+            android:onClick="@{() -> fragment.goUpdateEventActivity()}"
+            android:text="@string/action_join_now"
+            android:textAppearance="@style/Sub_Head_B_18"
+            android:textColor="@color/WH"
+            app:layout_constraintBottom_toBottomOf="@+id/event_iv"
+            app:layout_constraintEnd_toEndOf="@+id/event_iv"
+            app:layout_constraintStart_toStartOf="@+id/event_iv" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
